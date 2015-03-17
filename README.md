@@ -33,14 +33,19 @@ Ahora ya se puede compilar así
 Instalar Box2D
 
 ```bash
-wget https://box2d.googlecode.com/files/Box2D_v2.3.0.7z
-7zr x Box2D_v2.3.0.7z 
-cd Box2D_v2.3.0/Box2D/Build
-sudo cmake -DBOX2D_INSTALL=ON -DBOX2D_BUILD_SHARED=ON ..
-sudo make
-sudo make install
-export LD_LIBRARY_PATH
-$ ./my_app
+	linux$: wget https://box2d.googlecode.com/files/Box2D_v2.3.0.7z
+	linux$: 7zr x Box2D_v2.3.0.7z 
+	linux$: cd Box2D_v2.3.0/Box2D/Build
+	linux$: sudo cmake -DBOX2D_INSTALL=ON -DBOX2D_BUILD_SHARED=ON ..
+	linux$: sudo make
+	linux$: sudo make install
+	linux$: export LD_LIBRARY_PATH
 ```
 
 El export de ahí hay que ponerlo cada vez que se reinicia la computadora, después veo si tego un comando definitivo
+
+luego para compilar:
+
+```bash
+	linux$: g++ test_box.c -L/usr/local/lib  -lBox2D
+```
