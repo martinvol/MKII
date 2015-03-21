@@ -1,11 +1,12 @@
 CFLAGS=-g -Wall -std=c++11 -pedantic
 SDLFLAGS= -w -lSDL2
+IMGFLAGS = -lSDL2_image
 CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
 
 testScreen:
-	$(CC) "pruebas/test_grafico.c" $(SDLFLAGS) -o testScreen
+	$(CC) "pruebas/Lesson3.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
 	./testScreen
 	
 clean:
