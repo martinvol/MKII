@@ -52,3 +52,9 @@ luego para compilar:
 ```bash
 	linux$: g++ test_box.c -L/usr/local/lib  -lBox2D
 ```
+
+Para agregar la librería de SDL2 inherente a imágenes:
+```bash
+	linux$: sudo apt-get install libsdl2-image-2.0-0
+```
+Para usar esa librería no olvidarse de compilar con -lSDL2_image, además de hacer los includes necesarios
