@@ -1,4 +1,7 @@
-installar SDL
+Configurar git:
+
+http://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
+
 Instalar SDL2
 
 Installar g++ y make
