@@ -105,8 +105,8 @@ int main() {
     //dibujo en pantalla
     SDL_RenderClear(renderer);
     renderTexture(under, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    renderTexture(background, renderer, 0, 0);
-    renderTexture(floor, renderer, derecha, SCREEN_HEIGHT - 46);
+    renderTexture(background, renderer, 1, 46*1.6 + 1, 400*1.6, 208*1.6);
+    renderTexture(floor, renderer, derecha, SCREEN_HEIGHT - 46*1.6, 1216*1.6, 46*1.6);
     SDL_RenderPresent(renderer);	
     }
     
