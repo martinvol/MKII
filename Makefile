@@ -13,11 +13,16 @@ testDraw:
 	$(CC) "pruebas/PruebaDibujar/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testDraw
 	./testDraw
 	
+testFloor:
+	$(CC) "pruebas/Lesson5.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testFloor
+	./testFloor
+	
 clean:
 	find . -name "*.o" -type f -delete
 	find . -name "*~" -type f -delete
 	rm -f testScreen
 	rm -f testDraw
+	rm -f testFloor
 
 	
 	
