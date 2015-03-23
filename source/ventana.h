@@ -9,11 +9,11 @@ class Ventana {
         //SDL_Texture *colorDeFondo;
         //SDL_Window* ventana;
         unsigned int anchoPx, altoPx;
-        unsigned int ancho, alto;
+        unsigned float ancho, alto;
         Coordenada coordEsquinaInferiorIzq;
         
     public:
-        Ventana(unsigned int alto, unsigned int ancho, unsigned int altoPx, unsigned int anchoPx, string titulo);
+        Ventana(unsigned float alto, unsigned float ancho, unsigned int altoPx, unsigned int anchoPx, string titulo);
         Coordenada obtenerCoordEsquinaInferiorIzq(); // Deberia poder moverse
         ~Ventana;
 };
