@@ -4,7 +4,7 @@ http://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 
 Instalar SDL2
 
-Installar g++ y make
+Installar g++ y cmake
 
 ```bash    
     linux$: sudo apt-get install g++ cmake libglu-dev libxi-dev p7zip-full
@@ -58,7 +58,7 @@ Para agregar la librería de SDL2 inherente a imágenes:
 	linux$: sudo apt-get install libsdl2-image-2.0-0
 ```
 Para usar esa librería no olvidarse de compilar con -lSDL2_image, además de hacer los includes necesarios
-En el caso de no compilar por esa lib, bajarse el .zip y proceder como se explicó más arriba:
+En el caso de no compilar por esa lib, bajarse el .zip o .tar.gz, descomprimirlo y proceder como se explicó más arriba:
 ```bash
 ./configure
 sudo make
