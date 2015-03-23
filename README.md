@@ -58,3 +58,23 @@ Para agregar la librería de SDL2 inherente a imágenes:
 	linux$: sudo apt-get install libsdl2-image-2.0-0
 ```
 Para usar esa librería no olvidarse de compilar con -lSDL2_image, además de hacer los includes necesarios
+
+
+
+
+Para que funcione el OpenGL si no funciona de primera:
+```bash
+	linux$: sudo apt-get install libegl1-mesa-drivers libglapi-mesa freeglut3 freeglut3-dbg
+```
+Con esto ya debería funcionar:
+```bash
+	linux$: sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev libglu-dev
+```
+y lo de Box2D:
+```bash
+	linux$: cd Box2D_v2.3.0/Box2D/Build
+	linux$: sudo cmake -DBOX2D_INSTALL=ON -DBOX2D_BUILD_SHARED=ON ..
+	linux$: sudo make
+	linux$: sudo make install
+	linux$: export LD_LIBRARY_PATH
+```
