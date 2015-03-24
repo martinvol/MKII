@@ -15,6 +15,7 @@ class Conf {
         int ventana_anchopx, ventana_altopx, ventana_ancho;
         int escenario_ancho, escenario_alto, escenario_ypiso;
         bool valido = false; // Si este valor es falso el archivo se cargó mal
+        
 };
 
 
@@ -42,6 +43,16 @@ void Conf::set_values (char* file_name) {
         escenario_ancho = escenario.get("ancho", 0).asInt();
         escenario_alto = escenario.get("alto", 0).asInt();
         escenario_ypiso = escenario.get("ypiso", 0).asInt();
+
+        const Json::Value capas = root["capas"];
+        
+        for ( int index = 0; index < capas.size(); ++index ){
+            std::cout << capas[index].get("imagen_fondo", "default").asString();
+            std::cout << "\n";
+            printf("capa: %d \n", capas[index].get("ancho", 0).asInt());
+        }
+
+   
 
     } else {
         puts("Problema con el archivo, probablemente no existe");
