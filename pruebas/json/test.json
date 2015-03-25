@@ -24,7 +24,8 @@
       "alto":35,
       "zindex":1,
       "sprites":{
-
+            "personaje1":"personaje1.png",
+            "personaje2":"personaje2.png"
       }
    }
 }
