@@ -66,6 +66,9 @@ int main(int argc, char* args[]){
                 if(evento.key.keysym.sym == SDLK_RIGHT){
                     derecha+= 5;
                 }
+                if(evento.key.keysym.sym == SDLK_LEFT){
+                    derecha-= 5;
+                }
                 break;
 
        }
@@ -90,7 +93,7 @@ int main(int argc, char* args[]){
 
       rectanguloSZ.y = int(ALTO_FISICO/2)-92;
 
-    SDL_Rect columnasLejosRCT = {0, 0 ,ANCHO_FISICO,ALTO_FISICO/2};
+    SDL_Rect floorRCT = {0, 0 ,ANCHO_FISICO,ALTO_FISICO/2};
     columnasLejosRCT.x -= derecha;
     columnasLejosRCT.y  = (ALTO_FISICO/2.5);
 

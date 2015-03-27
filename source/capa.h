@@ -11,7 +11,6 @@ class Capa {
     
     Coordenada coord;
     public:
-        int z-index;
         //string obtenerPath();
         //SDL_Texture* obtenerTexturaDeCapa();
         Capa(unsigned float alto, unsigned float ancho);

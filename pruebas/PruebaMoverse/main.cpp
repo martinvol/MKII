@@ -128,7 +128,8 @@ if (setUP() != 0) return 1;
     renderTexture(under, renderer, 0, 0, ANCHO_FISICO, ALTO_FISICO);
     renderTexture(fondo,renderer,0 ,0 ,ANCHO_FISICO,ALTO_FISICO-altoDelPiso);
 
-    renderTexture(textureColumnasMUYLejos,renderer,0.5*mover ,(ALTO_FISICO/2.5));
+    renderTexture(textureColumnasMUYLejos,renderer,0.5*mover ,0);
+    //renderTexture(textureColumnasMUYLejos,renderer,0.5*mover ,0, ANCHO_FISICO, ALTO_FISICO );
     renderTexture(textureColumnasMUYLejos,renderer,0.5*mover+anchoColumnasMUYLejos+(anchoColumnasMUYLejos/5) ,(ALTO_FISICO/2.5));
     renderTexture(textureColumnasLejos,renderer,2*mover ,(ALTO_FISICO/2.5));
     renderTexture(textureColumnasLejos,renderer,2*mover +anchoColumnasLejos +(anchoColumnasLejos/10),(ALTO_FISICO/2.5));
