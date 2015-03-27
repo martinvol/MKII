@@ -1,2 +1,0 @@
-g++ main.cpp cargadorDeEscenario.cpp funcionesDibujar.cpp -lSDL2 -lSDL2_image
-
