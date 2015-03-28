@@ -19,6 +19,11 @@ testFloor: clean
 	$(CC) "pruebas/Lesson5.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testFloor
 	./testFloor
 	make clean
+
+testVida: clean
+	$(CC) "pruebas/barrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testVida
+	./testVida
+	make clean
 	
 juego: clean
 	$(CC) "juego/main.cpp" "juego/cargadorDeEscenario.cpp" "juego/funcionesDibujar.cpp" $(SDLFLAGS) $(IMGFLAGS) -o juego_ejecutable
