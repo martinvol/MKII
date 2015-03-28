@@ -40,6 +40,7 @@ clean:
 	rm -f testScreen
 	rm -f testDraw
 	rm -f testFloor
+	rm -f testVida
 
 	
 	
