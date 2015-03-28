@@ -1,6 +1,7 @@
 CFLAGS=-g -Wall -std=c++11 -pedantic
 SDLFLAGS= -w -lSDL2
 IMGFLAGS = -lSDL2_image
+FONTFLAGS = -lSDL2_ttf
 CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
@@ -21,7 +22,7 @@ testFloor: clean
 	make clean
 
 testVida: clean
-	$(CC) "pruebas/barrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testVida
+	$(CC) "pruebas/barrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testVida
 	./testVida
 	make clean
 	

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <cstdlib>
 
@@ -8,6 +9,7 @@ using namespace std;
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+#define NAME_CHAR "Mileena"
 
 // Funciones auxiliares
 
@@ -17,7 +19,7 @@ void logSDLError(ostream &os, const string &msg){
 
 SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
-	if (texture == nullptr){
+	if (texture == NULL){
 		logSDLError(cout, "LoadTexture");
 	}
 	return texture;
@@ -39,6 +41,42 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
 	renderTexture(tex, ren, x, y, w, h);
 }
 
+/**
+* Render the message we want to display to a texture for drawing
+* @param message The message we want to display
+* @param fontFile The font we want to use to render the text
+* @param color The color we want the text to be
+* @param fontSize The size we want the font to be
+* @param renderer The renderer to load the texture in
+* @return An SDL_Texture containing the rendered message, or NULL if something went wrong
+*/
+SDL_Texture* renderText(const string &message, const string &fontFile,
+	SDL_Color color, int fontSize, SDL_Renderer *renderer)
+{
+	//Open the font
+	TTF_Font *font = TTF_OpenFont(fontFile.c_str(), fontSize);
+	if (font == NULL){
+		logSDLError(cout, "TTF_OpenFont");
+		return NULL;
+	}	
+	//We need to first render to a surface as that's what TTF_RenderText
+	//returns, then load that surface into a texture
+	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
+	if (surf == NULL){
+		TTF_CloseFont(font);
+		logSDLError(cout, "TTF_RenderText");
+		return NULL;
+	}
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+	if (texture == NULL){
+		logSDLError(cout, "CreateTexture");
+	}
+	//Clean up the surface and font
+	SDL_FreeSurface(surf);
+	TTF_CloseFont(font);
+	return texture;
+}
+
 int setUP() {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		logSDLError(cout, "SDLInitError");
@@ -49,6 +87,12 @@ int setUP() {
 	    SDL_Quit();
 	    return 1; 
 	}
+	
+	if (TTF_Init() != 0){
+	    logSDLError(std::cout, "TTF_Init");
+	    SDL_Quit();
+	    return 1;
+    }
 	return 0;
 }	
 
@@ -59,19 +103,30 @@ int main() {
 	
 	SDL_Window *win = SDL_CreateWindow("MK7542", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     
-    if (win == nullptr){
+    if (win == NULL){
 	    cout << "SDL_CreateWindow Error: " << SDL_GetError() << endl;
 	    SDL_Quit();
 	    return 1;
     }
     
     SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == nullptr){
+    if (renderer == NULL){
 	    SDL_DestroyWindow(win);
 	    cout << "SDL_CreateRenderer Error: " << SDL_GetError() << endl;
 	    SDL_Quit();
 	    return 1;
     }
+    
+    
+    SDL_Color color = { 255, 255, 255, 255 };
+    SDL_Texture *image = renderText(NAME_CHAR, "resources/miscelaneo/Mk3.ttf", color, 9, renderer);
+	
+    //if (image == nullptr){
+	//    cleanup(renderer, window);
+	//    TTF_Quit();
+	//    SDL_Quit();
+	//    return 1;
+	//}
     
     SDL_Texture *background = loadTexture("resources/background/p_bg.png", renderer);
     SDL_Texture *floor= loadTexture("resources/background/p_1.png", renderer);
@@ -80,7 +135,7 @@ int main() {
     SDL_Texture *lifeBack = loadTexture("resources/miscelaneo/03.gif", renderer);
     //renderTexture(under, renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
-    if (background == nullptr || floor == nullptr || under == nullptr){
+    if (background == NULL || floor == NULL || under == NULL){
         SDL_DestroyRenderer(renderer); 
         SDL_DestroyWindow(win);
 	    IMG_Quit();
@@ -114,9 +169,10 @@ int main() {
         renderTexture(background, renderer, 1, 46*1.6 + 1, 400*1.6, 208*1.6);
         renderTexture(floor, renderer, derecha, SCREEN_HEIGHT - 46*1.6, 1216*1.6, 46*1.6);
         renderTexture(lifeBack, renderer, 0, 0);
-        renderTexture(lifeBar, renderer, 0, 0, w, h);   
+        renderTexture(lifeBar, renderer, 0, 0, w, h);
+        renderTexture(image, renderer, 0, 0);   
         SDL_RenderPresent(renderer);
-        SDL_Delay(1);	
+        SDL_Delay(5);	
     }
     
 	SDL_DestroyTexture(floor);
@@ -124,6 +180,7 @@ int main() {
     SDL_DestroyTexture(under);
     SDL_DestroyTexture(lifeBar);
     SDL_DestroyTexture(lifeBack);
+    SDL_DestroyTexture(image);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(win);
     IMG_Quit();
