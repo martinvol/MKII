@@ -18,6 +18,9 @@ class Capa{
         }
 };
 
+// Validaciones
+// guarda que el tamaño sea menor que el tamaño de toda la ventana
+
 
 class Conf {
 

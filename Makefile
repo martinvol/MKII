@@ -21,8 +21,8 @@ testFloor: clean
 	make clean
 	
 juego: clean
-	$(CC) "Demo 01/main.cpp" "Demo 01/cargadorDeEscenario.cpp" "Demo 01/funcionesDibujar.cpp" $(SDLFLAGS) $(IMGFLAGS) -o juego
-	./juego
+	$(CC) "juego/main.cpp" "juego/cargadorDeEscenario.cpp" "juego/funcionesDibujar.cpp" $(SDLFLAGS) $(IMGFLAGS) -o juego_ejecutable
+	./juego_ejecutable
 	make clean
 
 	
@@ -31,7 +31,7 @@ clean:
 	find . -name "*~" -type f -delete
 	find . -name "a.out" -type f -delete
 	find . -name "main" -type f -delete
-	rm -f juego
+	rm -f juego_ejecutable
 	rm -f testScreen
 	rm -f testDraw
 	rm -f testFloor

@@ -41,12 +41,12 @@ int main(int argc, char* args[]){
         CargarEscenarioDefault(texturas, renderer);
     }
 
-    SDL_Texture *under = CargarTextura("Demo 01/p_under.png", renderer);
-    SDL_Texture * fondo = CargarTextura("Demo 01/fondo.png", renderer);
-    SDL_Texture * textureSubZero = CargarTextura("Demo 01/subZeroFeliz0.png", renderer);
-    SDL_Texture *textureColumnasLejos = CargarTextura("Demo 01/columnasLejosFinal.png",renderer);
-    SDL_Texture *textureColumnasMUYLejos = CargarTextura("Demo 01/columnasMUYLejos.png",renderer);
-    SDL_Texture *floor= CargarTextura("Demo 01/p_1.png", renderer);
+    SDL_Texture *under = CargarTextura("juego/p_under.png", renderer);
+    SDL_Texture * fondo = CargarTextura("juego/fondo.png", renderer);
+    SDL_Texture * textureSubZero = CargarTextura("juego/subZeroFeliz0.png", renderer);
+    SDL_Texture *textureColumnasLejos = CargarTextura("juego/columnasLejosFinal.png",renderer);
+    SDL_Texture *textureColumnasMUYLejos = CargarTextura("juego/columnasMUYLejos.png",renderer);
+    SDL_Texture *floor= CargarTextura("juego/p_1.png", renderer);
 
     //ESTO NO SE PUEDE--> MODIFICAR LAS IMAGENES.
     /*int altoDelPiso, anchoDelPiso =0;
