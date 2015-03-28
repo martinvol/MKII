@@ -8,9 +8,10 @@
 class barraDeVida {
         string path;
         string nombreDelJugador;
+        unsigned char cantidadDeVida;
     public:
         barraDeVida(unsigned char cantidadDeVida, string path, string nombreDelJugador);
-        unsigned char cantidadDeVida;    
+        restarVida(unsigned char unaCantidad);
 }
 
 #endif
