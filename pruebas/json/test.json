@@ -11,15 +11,31 @@
    },
    "capas":[
       {
-         "imagen_fondo":"fondo1.png",
-         "anchoLogico":500,
-         "xlogico": 0.5
+         "imagen_fondo":"juego/fondo.png",
+         "anchoLogico":0,
+         "xlogico": 0
       },
       {
-         "imagen_fondo":"fondo2.png",
-         "anchoLogico":1000.5,
-         "xlogico": 0.6
+         "imagen_fondo":"juego/columnasMUYLejos.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/columnasLejosFinal.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/p_1.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/subZeroFeliz0.png",
+         "anchoLogico":0,
+         "xlogico": 0
       }
+
    ],
    "personaje":{
       "ancho":20,

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <unordered_map>
 #include "Capa.h"
+#include "parser.h"
 
 // This is the JSON header
 #include "jsoncpp/json/json.h"
@@ -23,7 +24,7 @@ using namespace std;
 // guarda que el tamaño sea menor que el tamaño de toda la ventana
 
 
-class Conf {
+/*class Conf {
 
     public:
         void set_values (char* file_name);
@@ -35,7 +36,7 @@ class Conf {
         unordered_map <string, string> sprites_map;
 
         bool valido = false; // Si este valor es falso el archivo se cargó mal
-};
+};*/
 
 
 void Conf::set_values (char* file_name) {
@@ -85,8 +86,11 @@ void Conf::set_values (char* file_name) {
             std::cout << "\n";
             printf("capa: %f \n", capas[index].get("ancho", 0).asFloat());
 */
-            Capa temp(capas[index].get("imagen_fondo", "default").asString(), capas[index].get("anchoLogico", 0).asFloat(),
-                capas[index].get("xlogico", 0).asFloat(), NULL);
+            Capa *temp = new Capa(
+                capas[index].get("imagen_fondo", "default").asString(), 
+                capas[index].get("anchoLogico", 0).asFloat(),
+                capas[index].get("xlogico", 0).asFloat(), 
+                NULL);
 
             capas_vector.push_back(temp);
         }

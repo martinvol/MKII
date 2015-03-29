@@ -73,22 +73,36 @@ int main(int argc, char* argv[]){
     }
 
     Escenario escenario;
-    /*
+    
+    /* Volpe editó esto 
         Martin: Necesito el vector resultadoJson con las Capas cargadas
         Fijate en Capa.h
         Necesito ubicacion, anchologico y x_logico
         crea c/capa (con new) y metela en el vector resultadoJson
+    */
 
+        for (unsigned int i = 0; i < conf.capas_vector.size(); i++){
+            conf.capas_vector[i]->ren = renderer;
+            
 
-        for (unsigned int i = 0; i <= resultadoJson.size(); i++){
-            escenario.AgregarCapa(resultadoJson[i]);
+            // escenario.AgregarCapa(conf.capas_vector[i]); Por algún motivo esto no anda
+
+            escenario.AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
+                new Capa (conf.capas_vector[i]->ubicacion,
+                conf.capas_vector[i]->anchoLogico,
+                conf.capas_vector[i]->x_logico,
+                conf.capas_vector[i]->ren
+                )
+            );
         }
+
+    /*     
         Con esto se reemplazaria el bloque de lineas que sigue.
         Nota: subZeroFeliz0 es una Capa conceptual en realidad.
         Va a ser Personaje despues, charlalo con Mile :P.
     */
 
-    Capa *fondo = new Capa(string("juego/fondo.png"),0.0, 0,renderer);
+/*    Capa *fondo = new Capa(string("juego/fondo.png"),0.0, 0,renderer);
     Capa *Sz = new Capa("juego/subZeroFeliz0.png",0, 0, renderer);
     Capa *ColumnasLejos = new Capa("juego/columnasLejosFinal.png",0,0, renderer);
     Capa *columnasMuyLejos = new Capa("juego/columnasMUYLejos.png",0,0, renderer);
@@ -98,11 +112,10 @@ int main(int argc, char* argv[]){
     escenario.AgregarCapa(ColumnasLejos); // 2
     escenario.AgregarCapa(piso);// 3
     escenario.AgregarCapa(Sz); // 4 -CONCEPTUAL-
-
+*/
 
     int mover = 1;
     int moverSZ= 1;
-
     SDL_Event evento;
     while (!salir){
         SDL_PollEvent( &evento );

@@ -7,9 +7,9 @@
 using namespace std;
 
 class Capa{
-private:
-    SDL_Renderer *ren;
+// private:
 public:
+    SDL_Renderer *ren;
     string ubicacion;
     float anchoLogico;
     float x_logico;
