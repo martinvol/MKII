@@ -28,7 +28,7 @@ testVida: clean
 	make clean
 	
 juego: clean
-	$(CC) "juego/main.cpp" "juego/cargadorDeEscenario.cpp" "juego/funcionesDibujar.cpp" "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(JSONFLAFS) $(IMGFLAGS) -o juego_ejecutable
+	$(CC) "juego/main.cpp" "juego/Capa.cpp" "juego/Escenario.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
 	make clean
 

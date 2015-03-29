@@ -6,7 +6,7 @@
 //#include "cargadorDeEscenario.h"
 #include "Capa.h"
 #include "Escenario.h"
-#include "parser.h"
+//#include "parser.h"
 using namespace std;
 
 void ImprimirError(ostream &os, const string &mensaje){
@@ -40,9 +40,9 @@ SDL_Renderer * renderer = NULL;
 //---------------------------------------------------
 
 int main(int argc, char* args[]){
-    Conf conf;
+   // Conf conf;
     // puts(argv[1]);
-    conf.set_values(argv[1]);
+    //conf.set_values(argv[1]);
     // Martin
     if (InicializarSDL() != 0) return 1;
 
