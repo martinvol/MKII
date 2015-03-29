@@ -28,11 +28,6 @@ int InicializarSDL() {
 }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
-//Pantalla
-unsigned int ANCHO_FISICO = 800; //800
-unsigned int ALTO_FISICO = 416; //416
-//Mundo
-double AnchoLogico, AltoLogico;
 SDL_Renderer * renderer = NULL;
 
 //---------------------------------------------------
@@ -40,11 +35,23 @@ SDL_Renderer * renderer = NULL;
 //---------------------------------------------------
 
 int main(int argc, char* argv[]){
+
+    // Se settean configuraciones (con el json)
+    // Esto tiene que cambiarse cuando se aprieta la letra R
+
     Conf conf;
     puts(argv[1]);
     conf.set_values(argv[1]);
+
+    //Pantalla
+    unsigned int ANCHO_FISICO = conf.ventana_anchopx; //800
+    unsigned int ALTO_FISICO = conf.ventana_altopx; //416
+    //Mundo
+    double AnchoLogico, AltoLogico;
     // Martin
 
+
+    // fin de las configuraciones
 
 
 
