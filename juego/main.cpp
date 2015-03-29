@@ -122,7 +122,7 @@ public:
 
         // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
-        game_loop(this->escenario);
+        game_loop();
 
        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
         columnasMuyLejos->Dibujarse(0.5*mover ,0);
@@ -140,8 +140,7 @@ public:
 
     };
 
-    void game_loop(Escenario *escenario){
-
+    void game_loop(){
 
         SDL_Event evento;
         while (!salir){
