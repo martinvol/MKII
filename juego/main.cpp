@@ -45,16 +45,16 @@ public:
     
     Escenario *escenario;
 
-    int mover = 1;
-    int moverSZ= 1;
-
     unsigned int ANCHO_FISICO;
     unsigned int ALTO_FISICO;
+
+    int mover ;
+    int moverSZ;
 
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
-        escenario = new Escenario();        
+        this->escenario = new Escenario();        
     };
     int jugar(){
 
@@ -66,8 +66,8 @@ public:
     conf.set_values(argv[1]);
 
     //Pantalla
-    unsigned int ANCHO_FISICO = conf.ventana_anchopx; //800
-    unsigned int ALTO_FISICO = conf.ventana_altopx; //416
+    ANCHO_FISICO = conf.ventana_anchopx; //800
+    ALTO_FISICO = conf.ventana_altopx; //416
     //Mundo
     double AnchoLogico, AltoLogico;
     // Martin
@@ -83,7 +83,7 @@ public:
 
     bool salir = false;
     SDL_Window * window = SDL_CreateWindow("Mortal Kombat 3 Ultimate", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ANCHO_FISICO, ALTO_FISICO, SDL_WINDOW_MAXIMIZED);
-    SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
     //Nombre por parametro de consola
     //Busca archivo sii hay UN SOLO parametro.
@@ -113,51 +113,16 @@ public:
         );
     }
 
-    int mover = 1;
-    int moverSZ= 1;
-    SDL_Event evento;
-    while (!salir){
-        SDL_PollEvent( &evento );
-        switch(evento.type){
-            case SDL_QUIT:
-                salir = true;
-                break;
-            case SDL_KEYDOWN:
-                if (evento.key.keysym.sym == SDLK_RIGHT)  {
-                    if (abs(mover)<450) mover-= 5;
-                    if (abs(-moverSZ)<450) moverSZ +=5;
-                    /*cout<<"der "<<mover<<endl;
-                    cout<<"ancho del piso: "<< anchoDelPiso<<endl;*/
-                }
-                if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
-                    //cout<<"izq "<<mover<<endl;
-                    mover+= 5;
-                    moverSZ-=5;
-                }
-                if (evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
-                if (evento.key.keysym.sym == SDLK_r){
-                    puts("Tengo que cambiar las configuraciones");
-                }
-                break;
-       }
+    mover = 1;
+    moverSZ= 1;
 
-        //Limpio y dibujo
-        SDL_RenderClear(renderer);
+
 //Dibujarse(int x, int y, int alto, int ancho){
 
 
-        //fondo
-        (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
-        //CML
-        (escenario->capas[1])->Dibujarse(0.5*mover ,0);
-        //CL
-        (escenario->capas[2])->Dibujarse(mover,0);
-        //piso
-        (escenario->capas[3])->Dibujarse(0,ALTO_FISICO-46);
-        //Sz
-        (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
+        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
-        game_loop();
+        game_loop(this->escenario);
 
        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
         columnasMuyLejos->Dibujarse(0.5*mover ,0);
@@ -165,8 +130,6 @@ public:
         piso->Dibujarse(0,ALTO_FISICO-46);
         Sz->Dibujarse(15+moverSZ ,ALTO_FISICO-170);*/
 
-        SDL_RenderPresent(renderer);
-    }
     // LIBERAR RECURSOS
     escenario->Borrar();
 
@@ -177,9 +140,54 @@ public:
 
     };
 
-    void game_loop(){
-        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
-        // SI MUEVO ESTA LINEA ACÁ NO ANDA!!!!!
+    void game_loop(Escenario *escenario){
+
+
+        SDL_Event evento;
+        while (!salir){
+            SDL_PollEvent( &evento );
+            switch(evento.type){
+                case SDL_QUIT:
+                    salir = true;
+                    break;
+                case SDL_KEYDOWN:
+                    if (evento.key.keysym.sym == SDLK_RIGHT)  {
+                        if (abs(mover)<450) mover-= 5;
+                        if (abs(-moverSZ)<450) moverSZ +=5;
+                        /*cout<<"der "<<mover<<endl;
+                        cout<<"ancho del piso: "<< anchoDelPiso<<endl;*/
+                    }
+                    if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
+                        //cout<<"izq "<<mover<<endl;
+                        mover+= 5;
+                        moverSZ-=5;
+                    }
+                    if (evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
+                    if (evento.key.keysym.sym == SDLK_r){
+                        puts("Tengo que cambiar las configuraciones");
+                    }
+                    break;
+           }
+
+            //Limpio y dibujo
+            SDL_RenderClear(renderer);
+
+
+            //fondo
+            (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
+            //CML
+            (escenario->capas[1])->Dibujarse(0.5*mover ,0);
+            //CL
+            (escenario->capas[2])->Dibujarse(mover,0);
+            //piso
+            (escenario->capas[3])->Dibujarse(0,ALTO_FISICO-46);
+            //Sz
+
+            (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
+            // SI MUEVO ESTA LINEA ACÁ NO ANDA!!!!!
+            
+            SDL_RenderPresent(renderer);
+        }
     };
     
 };

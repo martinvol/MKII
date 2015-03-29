@@ -27,10 +27,23 @@ testVida: clean
 	./testVida
 	make clean
 	
-juego: clean
-	$(CC) "juego/main.cpp" "juego/Capa.cpp" "juego/Escenario.cpp" "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -o juego_ejecutable
+
+main.o:
+	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+
+Capa.o:
+	$(CC) "juego/Capa.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+
+Escenario.o:
+	$(CC) "juego/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+
+parser.o:
+	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+
+juego: main.o Capa.o Escenario.o parser.o
+	$(CC) main.o Capa.o Escenario.o parser.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -lm -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
-	make clean
+	# make clean
 
 	
 clean:
@@ -44,5 +57,7 @@ clean:
 	rm -f testFloor
 	rm -f testVida
 
-	
-	
+commit: clean
+	git add -u
+	git commit
+	git push
