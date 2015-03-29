@@ -4,6 +4,9 @@
 #include <vector>
 #include "funcionesDibujar.h"
 #include "cargadorDeEscenario.h"
+#include "parser.h"
+
+
 using namespace std;
 
 //Pantalla
@@ -20,7 +23,12 @@ vector<SDL_Texture*> texturas;
 //---------------------------------------------------
 //-----------------------MAIN------------------------
 //---------------------------------------------------
-int main(int argc, char* args[]){
+int main(int argc, char* argv[]){
+    Conf conf;
+
+    // puts(argv[1]);
+    conf.set_values(argv[1]);
+    
     if (InicializarSDL() != 0) return 1;
 
 
@@ -35,7 +43,7 @@ int main(int argc, char* args[]){
     //Nombre por parametro de consola
     //Busca archivo sii hay UN SOLO parametro.
     if (argc == 2){
-        CargarEscenario(args[1], texturas,renderer);
+        CargarEscenario(argv[1], texturas,renderer);
 
     }else{
         CargarEscenarioDefault(texturas, renderer);

@@ -1,4 +1,5 @@
 CFLAGS=-g -Wall -std=c++11 -pedantic
+JSONFLAFS = -ljsoncpp
 SDLFLAGS= -w -lSDL2
 IMGFLAGS = -lSDL2_image
 CC=g++
@@ -21,8 +22,8 @@ testFloor: clean
 	make clean
 	
 juego: clean
-	$(CC) "juego/main.cpp" "juego/cargadorDeEscenario.cpp" "juego/funcionesDibujar.cpp" $(SDLFLAGS) $(IMGFLAGS) -o juego_ejecutable
-	./juego_ejecutable
+	$(CC) "juego/main.cpp" "juego/cargadorDeEscenario.cpp" "juego/funcionesDibujar.cpp" "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(JSONFLAFS) $(IMGFLAGS) -o juego_ejecutable
+	./juego_ejecutable ${jsonpath}
 	make clean
 
 	
