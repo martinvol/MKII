@@ -6,7 +6,7 @@
 //#include "cargadorDeEscenario.h"
 #include "Capa.h"
 #include "Escenario.h"
-//#include "parser.h"
+#include "parser.h"
 using namespace std;
 
 void ImprimirError(ostream &os, const string &mensaje){
@@ -39,11 +39,20 @@ SDL_Renderer * renderer = NULL;
 //-----------------------MAIN------------------------
 //---------------------------------------------------
 
-int main(int argc, char* args[]){
-   // Conf conf;
-    // puts(argv[1]);
-    //conf.set_values(argv[1]);
+int main(int argc, char* argv[]){
+    Conf conf;
+    puts(argv[1]);
+    conf.set_values(argv[1]);
     // Martin
+
+
+
+
+
+
+
+
+
     if (InicializarSDL() != 0) return 1;
 
 	SDL_Window* ventana = NULL;
@@ -57,7 +66,7 @@ int main(int argc, char* args[]){
     //Busca archivo sii hay UN SOLO parametro.
     //Martin
     if (argc == 2){
-        //CargarEscenario(args[1], texturas,renderer);
+        //CargarEscenario(argv[1], texturas,renderer);
 
     }else{
         //CargarEscenarioDefault(texturas, renderer);
