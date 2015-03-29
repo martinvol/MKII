@@ -157,6 +157,8 @@ public:
         //Sz
         (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
+        game_loop();
+
        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
         columnasMuyLejos->Dibujarse(0.5*mover ,0);
         ColumnasLejos->Dibujarse(mover,0);
@@ -176,7 +178,7 @@ public:
     };
 
     void game_loop(){
-        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); 
+        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
         // SI MUEVO ESTA LINEA ACÁ NO ANDA!!!!!
     };
     
