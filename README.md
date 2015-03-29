@@ -1,8 +1,8 @@
-IMPORTANTE: CORRER EL PROYECTO ASÍ: clear;
+IMPORTANTE: CORRER EL PROYECTO ASÍ:
 ==========================================
 
 ```bash
-	sudo make juego jsonpath='pruebas/json/test.json'
+	clear; sudo make juego jsonpath='pruebas/json/test.json'
 ```
 
 Configurar git:
