@@ -8,12 +8,12 @@ using namespace std;
 
 class Capa{
 private:
-    string ubicacion;
-    double anchoLogico;
     SDL_Renderer *ren;
-    double x_logico;
 public:
-    Capa (string ubicacionParam, double anchoLogicoParam, double x_logicoParam, SDL_Renderer *rendererParam);
+    string ubicacion;
+    float anchoLogico;
+    float x_logico;
+    Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam);
     ~Capa ();
     void Dibujarse(int x, int y);
     void Dibujarse(int x, int y, int alto, int ancho);

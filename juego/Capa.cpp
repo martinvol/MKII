@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-Capa::Capa (string ubicacionParam, double anchoLogicoParam,  double x_logicoParam, SDL_Renderer *rendererParam){
+Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;

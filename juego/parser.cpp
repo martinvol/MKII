@@ -2,13 +2,14 @@
 #include <cstring>
 #include <fstream>
 #include <unordered_map>
+#include "Capa.h"
 
 // This is the JSON header
 #include "jsoncpp/json/json.h"
 
 using namespace std;
 
-class Capa{
+/*class Capa{
     public:
         string str1;
         float ancho;
@@ -16,7 +17,7 @@ class Capa{
             str1 = str1_;
             ancho = ancho_;
         }
-};
+};*/
 
 // Validaciones
 // guarda que el tamaño sea menor que el tamaño de toda la ventana
@@ -84,7 +85,8 @@ void Conf::set_values (char* file_name) {
             std::cout << "\n";
             printf("capa: %f \n", capas[index].get("ancho", 0).asFloat());
 */
-            Capa temp(capas[index].get("imagen_fondo", "default").asString(), capas[index].get("ancho", 0).asFloat());
+            Capa temp(capas[index].get("imagen_fondo", "default").asString(), capas[index].get("anchoLogico", 0).asFloat(),
+                capas[index].get("xlogico", 0).asFloat(), NULL);
 
             capas_vector.push_back(temp);
         }
@@ -97,9 +99,10 @@ void Conf::set_values (char* file_name) {
 }
 
 
-int main_(int argc, char* argv[]) {
+/*int main_(int argc, char* argv[]) {
     Conf conf;
     conf.set_values(argv[1]);
+
     printf ("conf.ventana_anchopx: %f \n", conf.ventana_anchopx);
     printf ("conf.ventana_altopx: %f \n", conf.ventana_altopx);
     printf ("conf.ventana_ancho: %f \n", conf.ventana_ancho);
@@ -120,14 +123,14 @@ int main_(int argc, char* argv[]) {
 
     for (std::vector<Capa>::iterator it = conf.capas_vector.begin() ; it != conf.capas_vector.end(); ++it){
         // std::cout << ' ' << conf.capas_vector.;
-        std::cout << it->str1 << '\n';
-        std::cout << it->ancho << '\n';
+        std::cout << it->ubicacion << '\n';
+        std::cout << it->anchoLogico << '\n';
+        std::cout << it->x_logico << '\n';
     }
 
     for(auto it : conf.sprites_map) {
         std::cout << it.first << '\n';
         std::cout << it.second << '\n';  
     } 
-
     return 0;
-}
+}*/

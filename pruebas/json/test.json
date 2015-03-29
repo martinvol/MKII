@@ -12,11 +12,13 @@
    "capas":[
       {
          "imagen_fondo":"fondo1.png",
-         "ancho":500
+         "anchoLogico":500,
+         "xlogico": 0.5
       },
       {
          "imagen_fondo":"fondo2.png",
-         "ancho":1000.5
+         "anchoLogico":1000.5,
+         "xlogico": 0.6
       }
    ],
    "personaje":{

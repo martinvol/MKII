@@ -1,5 +1,5 @@
 #include <unordered_map>
-#include "capa.h"
+#include "Capa.h"
 
 class Conf {
 
