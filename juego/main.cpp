@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 //#include "funcionesDibujar.h"
-//#include "cargadorDeEscenario.h"
+//#include "cargadorDeescenario->h"
 #include "Capa.h"
 #include "Escenario.h"
 #include "parser.h"
@@ -24,17 +24,39 @@ int InicializarSDL() {
 	    SDL_Quit();
 	    return 1;
 	}
-	return 0;
+    return 0;
 }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
-SDL_Renderer * renderer = NULL;
 
 //---------------------------------------------------
 //-----------------------MAIN------------------------
 //---------------------------------------------------
 
-int main(int argc, char* argv[]){
+
+class Juego
+{
+public:
+     int argc;   
+     char** argv;
+    
+    bool salir = false;
+    SDL_Renderer * renderer = NULL;
+    
+    Escenario *escenario;
+
+    int mover = 1;
+    int moverSZ= 1;
+
+    unsigned int ANCHO_FISICO;
+    unsigned int ALTO_FISICO;
+
+    Juego(int argc_, char* argv_[]){
+        argc = argc_;
+        argv = argv_;
+        escenario = new Escenario();        
+    };
+    int jugar(){
 
     // Se settean configuraciones (con el json)
     // Esto tiene que cambiarse cuando se aprieta la letra R
@@ -56,10 +78,10 @@ int main(int argc, char* argv[]){
 
     if (InicializarSDL() != 0) return 1;
 
-	SDL_Window* ventana = NULL;
-	renderer = SDL_CreateRenderer(ventana, -1, 0);
+    SDL_Window* ventana = NULL;
+    renderer = SDL_CreateRenderer(ventana, -1, 0);
 
-	bool salir = false;
+    bool salir = false;
     SDL_Window * window = SDL_CreateWindow("Mortal Kombat 3 Ultimate", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ANCHO_FISICO, ALTO_FISICO, SDL_WINDOW_MAXIMIZED);
     SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
@@ -73,16 +95,16 @@ int main(int argc, char* argv[]){
         //CargarEscenarioDefault(texturas, renderer);
     }
 
-    Escenario escenario;
+    //Escenario escenario;
 
 
     for (unsigned int i = 0; i < conf.capas_vector.size(); i++){
         conf.capas_vector[i]->ren = renderer;
         
 
-        // escenario.AgregarCapa(conf.capas_vector[i]); Por algún motivo esto no anda
+        // escenario->AgregarCapa(conf.capas_vector[i]); Por algún motivo esto no anda
 
-        escenario.AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
+        escenario->AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
             new Capa (conf.capas_vector[i]->ubicacion,
             conf.capas_vector[i]->anchoLogico,
             conf.capas_vector[i]->x_logico,
@@ -123,17 +145,17 @@ int main(int argc, char* argv[]){
         SDL_RenderClear(renderer);
 //Dibujarse(int x, int y, int alto, int ancho){
 
-        //fondo
-        escenario.capas[0]->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
-        //CML
-        escenario.capas[1]->Dibujarse(0.5*mover ,0);
-        //CL
-        escenario.capas[2]->Dibujarse(mover,0);
-        //piso
-        escenario.capas[3]->Dibujarse(0,ALTO_FISICO-46);
-        //Sz
-        escenario.capas[4]->Dibujarse(15+moverSZ ,ALTO_FISICO-170);
 
+        //fondo
+        (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
+        //CML
+        (escenario->capas[1])->Dibujarse(0.5*mover ,0);
+        //CL
+        (escenario->capas[2])->Dibujarse(mover,0);
+        //piso
+        (escenario->capas[3])->Dibujarse(0,ALTO_FISICO-46);
+        //Sz
+        (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
         columnasMuyLejos->Dibujarse(0.5*mover ,0);
@@ -144,10 +166,28 @@ int main(int argc, char* argv[]){
         SDL_RenderPresent(renderer);
     }
     // LIBERAR RECURSOS
-    escenario.Borrar();
+    escenario->Borrar();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit(); SDL_Quit();
     return 0;
+
+    };
+
+    void game_loop(){
+        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); 
+        // SI MUEVO ESTA LINEA ACÁ NO ANDA!!!!!
+    };
+    
+};
+
+
+
+int main(int argc, char* argv[]){
+    Juego juego(argc, argv);
+    return juego.jugar();
+    /*Hola hola;
+    return 0;*/
+
 }
