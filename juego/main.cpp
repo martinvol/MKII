@@ -54,12 +54,6 @@ int main(int argc, char* argv[]){
     // fin de las configuraciones
 
 
-
-
-
-
-
-
     if (InicializarSDL() != 0) return 1;
 
 	SDL_Window* ventana = NULL;
@@ -82,20 +76,20 @@ int main(int argc, char* argv[]){
     Escenario escenario;
 
 
-        for (unsigned int i = 0; i < conf.capas_vector.size(); i++){
-            conf.capas_vector[i]->ren = renderer;
-            
+    for (unsigned int i = 0; i < conf.capas_vector.size(); i++){
+        conf.capas_vector[i]->ren = renderer;
+        
 
-            // escenario.AgregarCapa(conf.capas_vector[i]); Por algún motivo esto no anda
+        // escenario.AgregarCapa(conf.capas_vector[i]); Por algún motivo esto no anda
 
-            escenario.AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
-                new Capa (conf.capas_vector[i]->ubicacion,
-                conf.capas_vector[i]->anchoLogico,
-                conf.capas_vector[i]->x_logico,
-                conf.capas_vector[i]->ren
-                )
-            );
-        }
+        escenario.AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
+            new Capa (conf.capas_vector[i]->ubicacion,
+            conf.capas_vector[i]->anchoLogico,
+            conf.capas_vector[i]->x_logico,
+            conf.capas_vector[i]->ren
+            )
+        );
+    }
 
     int mover = 1;
     int moverSZ= 1;
@@ -107,18 +101,21 @@ int main(int argc, char* argv[]){
                 salir = true;
                 break;
             case SDL_KEYDOWN:
-                if(evento.key.keysym.sym == SDLK_RIGHT)  {
+                if (evento.key.keysym.sym == SDLK_RIGHT)  {
                     if (abs(mover)<450) mover-= 5;
                     if (abs(-moverSZ)<450) moverSZ +=5;
                     /*cout<<"der "<<mover<<endl;
                     cout<<"ancho del piso: "<< anchoDelPiso<<endl;*/
                 }
-                if((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
+                if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
                     //cout<<"izq "<<mover<<endl;
                     mover+= 5;
                     moverSZ-=5;
                 }
-                if(evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
+                if (evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
+                if (evento.key.keysym.sym == SDLK_r){
+                    puts("Tengo que cambiar las configuraciones");
+                }
                 break;
        }
 
