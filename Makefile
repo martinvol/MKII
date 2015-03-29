@@ -2,6 +2,7 @@ CFLAGS=-g -Wall -std=c++11 -pedantic
 JSONFLAFS = -ljsoncpp
 SDLFLAGS= -w -lSDL2
 IMGFLAGS = -lSDL2_image
+FONTFLAGS = -lSDL2_ttf
 CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
@@ -20,6 +21,11 @@ testFloor: clean
 	$(CC) "pruebas/Lesson5.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testFloor
 	./testFloor
 	make clean
+
+testVida: clean
+	$(CC) "pruebas/barrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testVida
+	./testVida
+	make clean
 	
 juego: clean
 	$(CC) "juego/main.cpp" "juego/cargadorDeEscenario.cpp" "juego/funcionesDibujar.cpp" "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(JSONFLAFS) $(IMGFLAGS) -o juego_ejecutable
@@ -36,6 +42,7 @@ clean:
 	rm -f testScreen
 	rm -f testDraw
 	rm -f testFloor
+	rm -f testVida
 
 	
 	
