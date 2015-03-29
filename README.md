@@ -1,3 +1,10 @@
+IMPORTANTE: CORRER EL PROYECTO ASÍ: clear;
+==========================================
+
+```bash
+	sudo make juego jsonpath='pruebas/json/test.json'
+```
+
 Configurar git:
 
 http://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
