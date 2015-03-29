@@ -28,16 +28,16 @@ testVida: clean
 	make clean
 	
 
-main.o:
+main.o: juego/main.cpp
 	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
 
-Capa.o:
+Capa.o: juego/Capa.cpp
 	$(CC) "juego/Capa.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
 
-Escenario.o:
+Escenario.o: juego/Escenario.cpp
 	$(CC) "juego/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
 
-parser.o:
+parser.o: juego/parser.cpp
 	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
 
 juego: main.o Capa.o Escenario.o parser.o

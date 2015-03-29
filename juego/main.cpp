@@ -50,6 +50,9 @@ public:
 
     int mover ;
     int moverSZ;
+    SDL_Window * window = NULL;
+
+    Conf *conf;
 
     Juego(int argc_, char* argv_[]){
         argc = argc_;
@@ -58,71 +61,15 @@ public:
     };
     int jugar(){
 
-    // Se settean configuraciones (con el json)
-    // Esto tiene que cambiarse cuando se aprieta la letra R
-
-    Conf conf;
-    puts(argv[1]);
-    conf.set_values(argv[1]);
-
-    //Pantalla
-    ANCHO_FISICO = conf.ventana_anchopx; //800
-    ALTO_FISICO = conf.ventana_altopx; //416
-    //Mundo
-    double AnchoLogico, AltoLogico;
-    // Martin
-
-
-    // fin de las configuraciones
-
-
-    if (InicializarSDL() != 0) return 1;
-
-    SDL_Window* ventana = NULL;
-    renderer = SDL_CreateRenderer(ventana, -1, 0);
-
-    bool salir = false;
-    SDL_Window * window = SDL_CreateWindow("Mortal Kombat 3 Ultimate", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ANCHO_FISICO, ALTO_FISICO, SDL_WINDOW_MAXIMIZED);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-
-    //Nombre por parametro de consola
-    //Busca archivo sii hay UN SOLO parametro.
-    //Martin
-    if (argc == 2){
-        //CargarEscenario(argv[1], texturas,renderer);
-
-    }else{
-        //CargarEscenarioDefault(texturas, renderer);
-    }
-
-    //Escenario escenario;
-
-
-    for (unsigned int i = 0; i < conf.capas_vector.size(); i++){
-        conf.capas_vector[i]->ren = renderer;
-        
-
-        // escenario->AgregarCapa(conf.capas_vector[i]); Por algún motivo esto no anda
-
-        escenario->AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
-            new Capa (conf.capas_vector[i]->ubicacion,
-            conf.capas_vector[i]->anchoLogico,
-            conf.capas_vector[i]->x_logico,
-            conf.capas_vector[i]->ren
-            )
-        );
-    }
-
-    mover = 1;
-    moverSZ= 1;
-
-
+        if (InicializarSDL() != 0) return 1;
+        renderer = SDL_CreateRenderer(NULL, -1, 0);
+        configurar();
 //Dibujarse(int x, int y, int alto, int ancho){
 
 
         // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
-        game_loop();
+    game_loop();
 
        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
         columnasMuyLejos->Dibujarse(0.5*mover ,0);
@@ -131,17 +78,63 @@ public:
         Sz->Dibujarse(15+moverSZ ,ALTO_FISICO-170);*/
 
     // LIBERAR RECURSOS
-    escenario->Borrar();
+    terminar_juego();
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    IMG_Quit(); SDL_Quit();
+    terminar_sdl();
     return 0;
 
     };
 
-    void game_loop(){
+    void cargar_configuracion(){
+        this->conf = new Conf();
+        puts(argv[1]);
+        conf->set_values(argv[1]);
+        // Se settean configuraciones (con el json)
+        // Esto tiene que cambiarse cuando se aprieta la letra R
 
+
+        //Pantalla
+        ANCHO_FISICO = conf->ventana_anchopx; //800
+        ALTO_FISICO = conf->ventana_altopx; //416
+        //Mundo
+        double AnchoLogico, AltoLogico;
+        // Martin
+
+
+        // fin de las configuraciones
+
+    };
+    void configurar(){
+
+        cargar_configuracion();
+
+        //SDL_Window* ventana = NULL;
+
+        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ANCHO_FISICO, ALTO_FISICO, SDL_WINDOW_MAXIMIZED);
+        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+
+        cargar_capas();
+    }
+    void cargar_capas(){
+        for (unsigned int i = 0; i < conf->capas_vector.size(); i++){
+            conf->capas_vector[i]->ren = renderer;
+            
+
+            // escenario->AgregarCapa(conf->capas_vector[i]); Por algún motivo esto no anda
+
+            escenario->AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
+                new Capa (conf->capas_vector[i]->ubicacion,
+                conf->capas_vector[i]->anchoLogico,
+                conf->capas_vector[i]->x_logico,
+                conf->capas_vector[i]->ren
+                )
+            );
+        }
+
+    }
+    void game_loop(){
+        mover = 1;
+        moverSZ= 1;
         SDL_Event evento;
         while (!salir){
             SDL_PollEvent( &evento );
@@ -163,7 +156,7 @@ public:
                     }
                     if (evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
                     if (evento.key.keysym.sym == SDLK_r){
-                        puts("Tengo que cambiar las configuraciones");
+                        reiniciarJuego();
                     }
                     break;
            }
@@ -187,6 +180,23 @@ public:
             
             SDL_RenderPresent(renderer);
         }
+    };
+    void reiniciarJuego(){
+        puts("Tengo que cambiar las configuraciones");
+        terminar_juego();
+        cargar_configuracion();
+        cargar_capas();
+        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO);
+
+    };
+    void terminar_juego(){
+        escenario->Borrar();
+    };
+    void terminar_sdl(){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        IMG_Quit();
+        SDL_Quit();
     };
     
 };

@@ -20,7 +20,10 @@ void Escenario::Dibujar(CoordenadasFisicas coordenadas){
 void Escenario::Borrar(){
 //elimino cada objeto dinamico 'capa'
 //que llama a su destructor, eliminando su propio obj. dinamico (la SDL_texture)
+
     for (unsigned int i = 0; i <= capas.size() -1; i++){
         delete capas[i];
     }
+    capas.clear();
+
 }
