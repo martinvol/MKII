@@ -71,7 +71,7 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
 
 
 int main(int argc, char* args[]) {
-    
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0){
 	    cout << "SDL_Init Error: " << SDL_GetError() << endl;
 	    return 1;
@@ -91,7 +91,7 @@ int main(int argc, char* args[]) {
 	    return 1;
     }
     
-    SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED & SDL_RENDERER_PRESENTVSYNC);
     if (renderer == nullptr){
 	    SDL_DestroyWindow(win);
 	    cout << "SDL_CreateRenderer Error: " << SDL_GetError() << endl;

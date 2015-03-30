@@ -35,7 +35,7 @@ Installar g++ y cmake
 Ahora ya se puede compilar así
 
 ```bash    
-	linux$: g++ test_grafico.c -w -lSDL2 -o prueba.bin
+	linux$: g++ pruebas/test_grafico.c -w -lSDL2 -o prueba.bin
 	linux$: ./prueba.bin
 ```
 
@@ -87,4 +87,15 @@ y lo de Box2D:
 	linux$: sudo make
 	linux$: sudo make install
 	linux$: export LD_LIBRARY_PATH
+```
+
+Para la librería TFF:
+```bash
+	linux$: sudo apt-get install libsdl2-ttf-2.0-0
+```
+Y si esto no funciona, bajar el SDL2_ttf-2.0.12, extraerlo y hacer:
+```bash
+./configure
+sudo make
+sudo make install
 ```

@@ -53,11 +53,7 @@ clean:
 	find . -name "*~" -type f -delete
 	find . -name "a.out" -type f -delete
 	find . -name "main" -type f -delete
-	rm -f juego_ejecutable
-	rm -f testScreen
-	rm -f testDraw
-	rm -f testFloor
-	rm -f testVida
+	rm -f juego_ejecutable testScreen testDraw testFloor testVida
 
 commit: clean
 	git add -u
