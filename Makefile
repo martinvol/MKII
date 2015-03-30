@@ -45,6 +45,8 @@ juego: main.o Capa.o Escenario.o parser.o
 	./juego_ejecutable ${jsonpath}
 	# make clean
 
+prueba_personaje:
+	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -o juego_ejecutable
 	
 clean:
 	find . -name "*.o" -type f -delete
