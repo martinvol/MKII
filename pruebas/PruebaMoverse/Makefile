@@ -9,4 +9,4 @@ VFLAGS=--leak-check=full --show-reachable=yes
 
 prueba_personaje:
 	$(CC) "prueba_Personaje.cpp" "Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -o juego_ejecutable
-
+	./juego_ejecutable

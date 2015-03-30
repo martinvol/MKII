@@ -177,6 +177,7 @@ int main(int argc, char* args[]){
 		renderTexture(textureSubZero,renderer,15+moverSZ ,ALTO_FISICO-170);
 
 		SDL_RenderPresent(renderer);
+		SDL_Delay(1000/40.);
     }
     // LIBERAR RECURSOS
     SDL_DestroyTexture(under);
