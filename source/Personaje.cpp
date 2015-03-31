@@ -2,7 +2,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <Personaje.h>
+#include "Personaje.h"
 using namespace std;
 const ANCHO_SPRITE 100;
 const ALTO_SPRITE 100;

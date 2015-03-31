@@ -1,3 +1,5 @@
+#include "ConversorDeCoordenadas.h"
+
 ConversorDeCoordenadas::ConversorDeCoordenadas(float f_ancho, float f_alto, float x, float y){
 	this->x_logico = x;
 	this->y_logico = y;
@@ -5,12 +7,12 @@ ConversorDeCoordenadas::ConversorDeCoordenadas(float f_ancho, float f_alto, floa
 	this->factor_alto = f_alto;
 }
 
-CoordenadasFisicas* ConversorDeCoordenadas::convertirAFisicas(CoordenadasLogicas coord){
-	return new CoordenadasFisicas((coord.coord_x-x_logico)*f_x, (coord.coord_y-y_logico)*f_y);
+CoordenadaFisica* ConversorDeCoordenadas::convertirAFisicas(CoordenadaLogica* coord){
+	return new CoordenadaFisica((coord->x - x_logico)*factor_ancho, (coord->y - y_logico)*factor_alto);
 }
 
-CoordenadasLogicas* ConversorDeCoordenadas::convertirALogicas(CoordenadasFisicas coord){
-	return new CoordenadasFisicas(x_logico + coord.x_fisico * 1.0 / factor_ancho, y_logico + coord.y_fisico * 1.0 / factor_alto);
+CoordenadaLogica* ConversorDeCoordenadas::convertirALogicas(CoordenadaFisica* coord){
+	return new CoordenadaLogica(x_logico + coord->x_fisico * 1.0 / factor_ancho, y_logico + coord->y_fisico * 1.0 / factor_alto);
 }
 
 void ConversorDeCoordenadas::seMovioVentana(int pixeles){

@@ -1,6 +1,7 @@
-#ifndef COORD_H_INCLUDED
-#define COORD_H_INCLUDED
-class Coordenada{
+#ifndef COORD_FIS_H_INCLUDED
+#define COORD_FIS_H_INCLUDED
+class CoordenadaFisica{
+
 public:
 
     // Coordenadas en el mundo, en metros.

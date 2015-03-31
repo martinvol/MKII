@@ -1,6 +1,11 @@
 #ifndef CONVERSOR_H_INCLUDED
 #define CONVERSOR_H_INCLUDED
+
+#include "CoordenadaLogica.h"
+#include "CoordenadaFisica.h"
+
 class ConversorDeCoordenadas{
+
 public:
 
 	// Coordenadas del mundo real que ocupan actualmente el extremo izquierdo inferior de la ventana.
@@ -14,8 +19,8 @@ public:
 	ConversorDeCoordenadas(float f_ancho, float f_alto, float x, float y);
 
 	// Conversiones que crean nuevas coordenadas,y no destruyen viejas.
-	CoordenadasFisicas* convertirAFisicas(CoordenadasLogicas coord);
-	CoordenadasLogicas* convertirALogicas(CoordenadasFisicas coord);
+	CoordenadaFisica* convertirAFisicas(CoordenadaLogica* coord);
+	CoordenadaLogica* convertirALogicas(CoordenadaFisica* coord);
 
 	//Para avisarle que se movió la ventana dentro del mundo.
 	void seMovioVentana(int pixeles);

@@ -41,6 +41,11 @@ Escenario.o: juego/Escenario.cpp
 parser.o: juego/parser.cpp
 	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+coordenadas.o: source/CoordenadaLogica.cpp source/CoordenadaFisica.cpp source/ConversorDeCoordenadas.cpp
+	$(CC) "source/CoordenadaLogica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	$(CC) "source/CoordenadaFisica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	$(CC) "source/ConversorDeCoordenadas.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
 juego: main.o Capa.o Escenario.o parser.o
 	$(CC) main.o Capa.o Escenario.o parser.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
