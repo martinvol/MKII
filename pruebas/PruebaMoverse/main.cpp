@@ -120,6 +120,7 @@ if (setUP() != 0) return 1;
                 //if(evento.key.keysym.sym == SDLK_LEFT)  derecha-= 5;
                 if(evento.key.keysym.sym == SDLK_ESCAPE)  quit = true;
                 break;
+         SDL_Delay(10);
        }
 
     //dibujo en pantalla

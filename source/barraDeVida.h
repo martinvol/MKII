@@ -5,13 +5,14 @@
 #include <SDL2/SDL2_image.h>
 #include <string>
 
-class barraDeVida {
+class BarraDeVida {
         string path;
         string nombreDelJugador;
-        unsigned char cantidadDeVida;
+        int cantidadDeVida;
     public:
-        barraDeVida(unsigned char cantidadDeVida, string path, string nombreDelJugador);
-        restarVida(unsigned char unaCantidad);
+        BarraDeVida(int cantidadDeVida, string path, string nombreDelJugador);
+        void restarVida(int unaCantidad);
+        //SDL_Texture* dibujar();
 }
 
 #endif
