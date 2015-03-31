@@ -28,6 +28,10 @@ testVida: clean
 	./testVida
 	make clean
 	
+testTiempo: clean
+	$(CC) "pruebas/testTiempo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testTiempo
+	./testTiempo
+	make clean	
 
 main.o: juego/main.cpp
 	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -63,7 +67,7 @@ clean:
 	find . -name "*~" -type f -delete
 	find . -name "a.out" -type f -delete
 	find . -name "main" -type f -delete
-	rm -f juego_ejecutable testScreen testDraw testFloor testVida
+	rm -f juego_ejecutable testScreen testDraw testFloor testVida testTiempo
 
 commit: clean
 	git add -u
