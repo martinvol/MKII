@@ -4,9 +4,12 @@
 #include <SDL2/SDL_image.h>
 using namespace std;
 
-void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam){
+void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
+    this->izquierda = izquierdaParam;
     this->muerto = false;
     this->vidaNumerica = 1000;
+    this->staminaNumerica = 100;
+
     //this->anchoRectanguloInterior = x_fin - x_ini;
     this->renderer = rendererParam;
 
@@ -45,6 +48,14 @@ void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_
     this->vacio.h = (y_fin - y_ini);
 
     this->anchoRectanguloInterior = this->vida.w;
+
+    //La barra derecha carga el danio al reves
+    if (izquierda == false){
+        this->danio.x = x_fin;
+        this->danio.y = y_ini;
+        this->danio.w = 0;
+        this->danio.h = (y_fin - y_ini);
+    }
 }
 
 void BarraDeVida::Dibujarse(){
@@ -61,14 +72,14 @@ void BarraDeVida::Dibujarse(){
         SDL_RenderFillRect(renderer, &(this->vacio));
         return;
     }
+        //Barra de vida (Azul)
+        SDL_SetRenderDrawColor( renderer, 0, 0, 255, 200 );
+        SDL_RenderFillRect( renderer, &(this->vida) );
 
-    //Barra de vida (Azul)
-    SDL_SetRenderDrawColor( renderer, 0, 0, 255, 200 );
-    SDL_RenderFillRect( renderer, &(this->vida) );
+        //Barra de danio (Rojo)
+        SDL_SetRenderDrawColor( renderer, 255, 0, 0, 200 );
+        SDL_RenderFillRect( renderer, &(this->danio) );
 
-    //Barra de danio (Rojo)
-    SDL_SetRenderDrawColor( renderer, 255, 0, 0, 200 );
-    SDL_RenderFillRect( renderer, &(this->danio) );
 }
 
 void BarraDeVida::Lastimar(int porcentaje){
@@ -79,21 +90,34 @@ void BarraDeVida::Lastimar(int porcentaje){
         Dibujarse();
    }else
         vidaNumerica -= porcentaje;
-    cout<<"Vida ="<<vidaNumerica<<endl;
-
 }
 
 void BarraDeVida::ActualizarAnchos(){
     int anchoDeVidaEsperado = int((vidaNumerica* anchoRectanguloInterior)/1000);
     int diferencia = (vida.w -anchoDeVidaEsperado);
+    //asi no permite vidas negativas con anchos de danio
+    //mayores a los de anchoRectanguloInterior.
+    if (vidaNumerica <0){
+        muerto = true;
+        return;
+    }
 
     if (anchoDeVidaEsperado <= vida.w){
-        //desplazo el azul a la derecha
-        //y lo achico para no salir del borde
-        vida.x +=2;
-        vida.w -=2;
 
-        // crece el danio
-        danio.w +=2;
+        if (izquierda == true){
+            //desplazo el azul a la derecha
+            //y lo achico para no salir del borde
+            vida.x +=2;
+            vida.w -=2;
+            // crece el danio
+            danio.w +=2;
+        }else{
+            //se corre el danio para izq
+            //y crece
+            danio.x -=2;
+            danio.w +=2;
+            // se achica la vida.
+            vida.w -=2;
+        }
     }
 }
