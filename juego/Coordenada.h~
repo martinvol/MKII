@@ -1,0 +1,13 @@
+#ifndef COORDFISICA_H_INCLUDED
+#define COORDFISICA_H_INCLUDED
+class CoordenadaFisica{
+public:
+
+    // Coordenadas en el mundo, en metros.
+    float x_fisico;
+    float y_fisico;
+
+	CoordenadaFisica(float x, float y);
+
+};
+#endif // COORDFISICA_H_INCLUDED

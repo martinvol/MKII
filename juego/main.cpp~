@@ -8,7 +8,6 @@
 #include "Escenario.h"
 #include "parser.h"
 #include "ConversorDeCoordenadas.h"
-
 using namespace std;
 
 void ImprimirError(ostream &os, const string &mensaje){

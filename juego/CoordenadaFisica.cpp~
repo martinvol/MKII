@@ -1,0 +1,6 @@
+#include "CoordenadaFisica.h"
+
+CoordenadaLogica(int x, int y){
+	this->x_fisico = x;
+	this->x_fisico = y;
+};
