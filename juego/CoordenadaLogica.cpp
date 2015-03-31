@@ -14,3 +14,11 @@ void CoordenadaLogica::sumar(CoordenadaLogica* coord){
 	this->x += coord.x;
 	this->y += coord.y;
 }
+
+void CoordenadaLogica::desplazarX(float x){
+	this->x += x;
+}
+
+void CoordenadaLogica::desplazarY(float y){
+	this->y += y;
+}
