@@ -2,8 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-//#include "funcionesDibujar.h"
-//#include "cargadorDeescenario->h"
+#include "BarrasDeVida.h"
 #include "Capa.h"
 #include "Escenario.h"
 #include "parser.h"
@@ -47,6 +46,7 @@ public:
     SDL_Renderer * renderer = NULL;
     
     Escenario *escenario;
+    BarraDeVida barraDeVida1, barraDeVida2;
 
     unsigned int ANCHO_FISICO;
     unsigned int ALTO_FISICO;
@@ -117,6 +117,12 @@ public:
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
         cargar_capas();
+	
+        //Izquierda
+        barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer);
+       //Derecha
+        barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer);
+
     }
     void cargar_capas(){
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++){
@@ -136,6 +142,7 @@ public:
 
     }
     void game_loop(){
+	bool golpeandoPJ = false;
         mover = 1;
         moverSZ= 1;
         SDL_Event evento;
@@ -157,11 +164,23 @@ public:
                         mover+= 5;
                         moverSZ-=5;
                     }
+		    if((evento.key.keysym.sym == SDLK_d))  {
+                    	if (golpeandoPJ == false){
+                    	    barraDeVida1.Lastimar(100);
+                    	    golpeandoPJ = true;
+	                    }
+                        break;
+                    }
                     if (evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
                     if (evento.key.keysym.sym == SDLK_r){
                         reiniciarJuego();
                     }
                     break;
+		case SDL_KEYUP:
+	                if((evento.key.keysym.sym == SDLK_d))  {
+	                    golpeandoPJ = false;
+	                }
+                break;
            }
 
             //Limpio y dibujo
@@ -177,9 +196,10 @@ public:
             //piso
             (escenario->capas[3])->Dibujarse(0,ALTO_FISICO-46);
             //Sz
-
-            (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
-            // SI MUEVO ESTA LINEA ACÁ NO ANDA!!!!!
+            (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); 
+	
+	    barraDeVida1.Dibujarse();
+	    barraDeVida2.Dibujarse();
             
             SDL_RenderPresent(renderer);
         }
