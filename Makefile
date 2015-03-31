@@ -62,12 +62,18 @@ juegoJsonTest: main.o Capa.o Escenario.o parser.o
 prueba_personaje:
 	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
 	
+prueba_integracionI: clean Capa.o Escenario.o parser.o coordenadas.o
+	$(CC) "pruebas/IntegracionI.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
+	./integracionI
+	make clean
+	
 clean:
 	find . -name "*.o" -type f -delete
 	find . -name "*~" -type f -delete
 	find . -name "a.out" -type f -delete
 	find . -name "main" -type f -delete
-	rm -f juego_ejecutable testScreen testDraw testFloor testVida testTiempo
+	rm -f juego_ejecutable testScreen testDraw testFloor testVida testTiempo integracionI
 
 commit: clean
 	git add -u
