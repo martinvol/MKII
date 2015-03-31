@@ -1,8 +1,9 @@
 CFLAGS=-g -Wall -std=c++11 -pedantic
-JSONFLAFS = -ljsoncpp
+JSONFLAGS = -ljsoncpp
 SDLFLAGS= -w -lSDL2
 IMGFLAGS = -lSDL2_image
 FONTFLAGS = -lSDL2_ttf
+JSONTEST = "pruebas/json/test.json"
 CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
@@ -29,24 +30,28 @@ testVida: clean
 	
 
 main.o: juego/main.cpp
-	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 Capa.o: juego/Capa.cpp
-	$(CC) "juego/Capa.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+	$(CC) "juego/Capa.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 Escenario.o: juego/Escenario.cpp
-	$(CC) "juego/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+	$(CC) "juego/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 parser.o: juego/parser.cpp
-	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -c
+	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 juego: main.o Capa.o Escenario.o parser.o
-	$(CC) main.o Capa.o Escenario.o parser.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -lm -o juego_ejecutable
+	$(CC) main.o Capa.o Escenario.o parser.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
 	# make clean
+	
+juegoJsonTest: main.o Capa.o Escenario.o parser.o
+	$(CC) main.o Capa.o Escenario.o parser.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+	./juego_ejecutable $(JSONTEST)
 
 prueba_personaje:
-	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAFS) -o juego_ejecutable
+	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
 	
 clean:
 	find . -name "*.o" -type f -delete
