@@ -13,11 +13,13 @@ public:
 
 	ConversorDeCoordenadas(float f_ancho, float f_alto, float x, float y);
 
-	CoordenadasFisicas convertirAFisicas(CoordenadasLogicas coord);
-	CoordenadasLogicas convertirALogicas(CoordenadasFisicas coord);
+	// Conversiones que crean nuevas coordenadas,y no destruyen viejas.
+	CoordenadasFisicas* convertirAFisicas(CoordenadasLogicas coord);
+	CoordenadasLogicas* convertirALogicas(CoordenadasFisicas coord);
 
 	//Para avisarle que se movió la ventana dentro del mundo.
-	void seMovioVentana();
+	void seMovioVentana(int pixeles);
+	void seMovioVentana(float metros);
 };
 #endif // CONVERSOR_H_INCLUDED
 
@@ -30,4 +32,6 @@ public:
 // X_FISICA = (ANCHO_FISICO / ANCHO_LOGICO) * (X - x_logico)
 // Y_FISICA = (ALTO_FISICO / ALTO_LOGICO) * (X - y_logico)
 // Por como hacemos, (ANCHO_FISICO / ANCHO_LOGICO) = (ALTO_FISICO / ALTO_LOGICO).
+
+// Los atributos x e y lógicos se pueden inicializar en 0 para estar al principio del mundo o 0 y la mitad del ancho, como se desee.
 

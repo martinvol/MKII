@@ -4,10 +4,12 @@ class CoordenadaLogica{
 public:
 
     // Coordenadas en el mundo, en metros.
-    float coord_x;
-    float coord_y;
+    float x;
+    float y;
 
 	CoordenadaLogica(float x, float y);
+	void multiplicarPor(float f_x, float f_y);
+	void sumar(CoordenadaLogica* coord);
 
 };
 #endif // COORDLOGICA_H_INCLUDED
