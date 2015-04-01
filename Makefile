@@ -59,7 +59,7 @@ juego: main.o Capa.o Escenario.o parser.o BarrasDeVida.o
 	# make clean
 	
 juegoJsonTest: main.o Capa.o Escenario.o parser.o
-	$(CC) main.o Capa.o Escenario.o parser.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable $(JSONTEST)
 
 prueba_personaje:

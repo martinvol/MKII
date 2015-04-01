@@ -53,18 +53,18 @@ int main() {
                                            SDL_WINDOW_MAXIMIZED);
                                            
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-    //Escenario* escenario = new Escenario();
+    Escenario* escenario = new Escenario();
     
-    for (unsigned int i = 0; i < conf->capas_vector.size(); i++) conf->capas_vector[i]->ren = renderer;  
+    for (unsigned int i = 0; i < conf->capas_vector.size(); i++) { // conf->capas_vector[i]->ren = renderer;  
         
-        /*escenario->AgregarCapa(conf->capas_vector[i]); 
+        //escenario->AgregarCapa(conf->capas_vector[i]); 
         escenario->AgregarCapa(
                 new Capa (conf->capas_vector[i]->ubicacion,
                 conf->capas_vector[i]->anchoLogico,
                 conf->capas_vector[i]->x_logico,
                 renderer)
             );
-    }*/
+    }
     
     int mover = 1;
     int moverSZ= 1;
@@ -95,7 +95,20 @@ int main() {
 
        SDL_RenderClear(renderer);
        
-       SDL_RenderCopy(renderer, under, NULL,&r);
+       SDL_RenderCopy(renderer, under, NULL, &r);
+       (escenario->capas[0])->Dibujarse(ANCHO_FISICO/2 - 200, ALTO_FISICO/2 - 104);
+       (escenario->capas[1])->Dibujarse(ANCHO_FISICO/2 - 504/2,ALTO_FISICO/4);
+       (escenario->capas[2])->Dibujarse(ANCHO_FISICO/2 - 776/2,ALTO_FISICO/4);
+       (escenario->capas[3])->Dibujarse(0,ALTO_FISICO/4);
+       (escenario->capas[4])->Dibujarse(200,ALTO_FISICO/4);
+       (escenario->capas[5])->Dibujarse(400,ALTO_FISICO/4);
+       (escenario->capas[6])->Dibujarse(600,ALTO_FISICO/4);
+       (escenario->capas[7])->Dibujarse(800,ALTO_FISICO/4);
+       (escenario->capas[8])->Dibujarse(escenario->capas[8]->x_logico,ALTO_FISICO/2 + 104);
+       (escenario->capas[9])->Dibujarse(escenario->capas[9]->x_logico,ALTO_FISICO/4);
+       (escenario->capas[10])->Dibujarse(0,ALTO_FISICO/2);   
+        
+       //(conf->capas_vector[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
        /*
        (conf->capas_vector[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
        (escenario->capas[1])->Dibujarse(0.5*mover ,0);
@@ -107,7 +120,7 @@ int main() {
        SDL_Delay(10);
     }
     
-    //escenario->Borrar();
+    escenario->Borrar();
     for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
     SDL_DestroyTexture(under);  
     SDL_DestroyRenderer(renderer);
