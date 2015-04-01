@@ -10,22 +10,6 @@
 
 using namespace std;
 
-/*class Capa{
-    public:
-        string str1;
-        float ancho;
-        Capa(string str1_, float ancho_){
-            str1 = str1_;
-            ancho = ancho_;
-        }
-};*/
-
-// Validaciones
-// guarda que el tamaño sea menor que el tamaño de toda la ventana
-
-
-
-
 void Conf::set_values (char* file_name) {
     Json::Value root;
     Json::Reader reader;
@@ -45,6 +29,7 @@ void Conf::set_values (char* file_name) {
         ventana_anchopx = ventana.get("anchopx", 0).asFloat();
         ventana_altopx = ventana.get("altopx", 0).asFloat();
         ventana_ancho = ventana.get("ancho", 0).asFloat();
+        margen = ventana.get("margen", 0).asFloat();
 
         const Json::Value escenario = root["escenario"];
         escenario_ancho = escenario.get("ancho", 0).asFloat();
@@ -63,8 +48,6 @@ void Conf::set_values (char* file_name) {
             //std::cout << id << std::endl;
             sprites_map[id] = sprites.get(id, "Esto nunca se va a mostrar").asString();
         }
-
-        personaje_sprites;
 
         const Json::Value capas = root["capas"];
         

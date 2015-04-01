@@ -2,7 +2,8 @@
    "ventana":{
       "anchopx":800,
       "altopx":416,
-      "ancho":200
+      "ancho":200,
+      "margen":80
    },
    "escenario":{
       "ancho":1000.5,
