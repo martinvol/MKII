@@ -6,25 +6,30 @@
 #include "Capa.h"
 #include "Escenario.h"
 #include "parser.h"
+
+#include "logger.h"
+
 #include "ConversorDeCoordenadas.h"
 
 using namespace std;
 
-void ImprimirError(ostream &os, const string &mensaje){
-	os << mensaje <<endl;
-}
+
+Logger *logger = Logger::instance();
+
+
 //----------------------------------------------------------------
 
 int InicializarSDL() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		ImprimirError(cout, "Error al iniciar SDL");
+		logger->log_error("Error al iniciar SDL");
 		return 1;
 	}
 	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG){
-	    ImprimirError(cout, "Error con inicializacion de imagenes");
+	    logger->log_error("Error con inicializacion de imagenes");
 	    SDL_Quit();
 	    return 1;
 	}
+    logger->log_debug("SDL cargada correctamente");
     return 0;
 }
 //----------------------------------------------------------------
@@ -48,8 +53,8 @@ public:
     Escenario *escenario;
     BarraDeVida barraDeVida1, barraDeVida2;
 
-    unsigned int ANCHO_FISICO;
-    unsigned int ALTO_FISICO;
+    unsigned int ANCHO_FISICO, ALTO_FISICO;
+    unsigned int AnchoLogico, AltoLogico;
 
     int mover;
     int moverSZ;
@@ -90,7 +95,6 @@ public:
 
     void cargar_configuracion(){
         this->conf = new Conf();
-        puts(argv[1]);
         conf->set_values(argv[1]);
         // Se settean configuraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
@@ -100,7 +104,8 @@ public:
         ANCHO_FISICO = conf->ventana_anchopx; //800
         ALTO_FISICO = conf->ventana_altopx; //416
         //Mundo
-        double AnchoLogico, AltoLogico;
+        AnchoLogico = conf->escenario_ancho;
+        AltoLogico = conf->escenario_alto;
         // Martin
 
 
@@ -243,6 +248,12 @@ public:
 
 
 int main(int argc, char* argv[]){
+    logger->set_debug(true);
+    logger->set_warning(true);
+    logger->set_error(true);
+
+    logger->log_debug("Empieza el juego");
+
     Juego juego(argc, argv);
     return juego.jugar();
     /*Hola hola;

@@ -53,8 +53,11 @@ coordenadas.o: source/CoordenadaLogica.cpp source/CoordenadaFisica.cpp source/Co
 	$(CC) "source/CoordenadaFisica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	$(CC) "source/ConversorDeCoordenadas.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-juego: main.o Capa.o Escenario.o parser.o BarrasDeVida.o
-	$(CC) main.o Capa.o Escenario.o parser.o  BarrasDeVida.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+logger.o: juego/logger.c
+	$(CC) "juego/logger.c" $(CFLAGS) -c
+
+juego: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
+	$(CC) main.o Capa.o Escenario.o parser.o  BarrasDeVida.o logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
 	# make clean
 	

@@ -4,71 +4,86 @@
 #include <unordered_map>
 #include "Capa.h"
 #include "parser.h"
-
+#include "logger.h"
 // This is the JSON header
 #include "jsoncpp/json/json.h"
 
 using namespace std;
 
-void Conf::set_values (char* file_name) {
+
+void Conf::set_values (char* my_file) {
+    Logger *logger = Logger::instance();
+    logger->log_debug("Parser inicializado");
+
+    logger->log_debug(std::string("Intenta cargar configuraciones desde ") +  my_file);
+
     Json::Value root;
     Json::Reader reader;
 
-    if (file_name == NULL){
+    if (my_file == NULL){
             puts("No hay archivo");
             return;
     }
     
-    std::ifstream test(file_name, std::ifstream::binary);
-    bool parsingSuccessful = reader.parse(test, root, false);
+    std::ifstream test(my_file, std::ifstream::binary);
 
-    if (parsingSuccessful){
+    if (!test.is_open()){
+        logger->log_error("Problema con el archivo, probablemente no existe");
+    }
 
-        const Json::Value ventana = root["ventana"];
-        
-        ventana_anchopx = ventana.get("anchopx", 0).asFloat();
-        ventana_altopx = ventana.get("altopx", 0).asFloat();
-        ventana_ancho = ventana.get("ancho", 0).asFloat();
-        margen = ventana.get("margen", 0).asFloat();
+    else {
 
-        const Json::Value escenario = root["escenario"];
-        escenario_ancho = escenario.get("ancho", 0).asFloat();
-        escenario_alto = escenario.get("alto", 0).asFloat();
-        escenario_ypiso = escenario.get("ypiso", 0).asFloat();
+        bool parsingSuccessful = reader.parse(test, root, false);
+
+        if (parsingSuccessful){
+
+            const Json::Value ventana = root["ventana"];
+            
+            ventana_anchopx = ventana.get("anchopx", 0).asFloat();
+            ventana_altopx = ventana.get("altopx", 0).asFloat();
+            ventana_ancho = ventana.get("ancho", 0).asFloat();
+            margen = ventana.get("margen", 0).asFloat();
+
+            const Json::Value escenario = root["escenario"];
+            escenario_ancho = escenario.get("ancho", 0).asFloat();
+            escenario_alto = escenario.get("alto", 0).asFloat();
+            escenario_ypiso = escenario.get("ypiso", 0).asFloat();
 
 
-        const Json::Value personaje = root["personaje"];
-        personaje_ancho = personaje.get("ancho", 0).asFloat();
-        personaje_alto = personaje.get("alto", 0).asFloat();
-        personaje_zindex = personaje.get("zindex", 0).asFloat();
+            const Json::Value personaje = root["personaje"];
+            personaje_ancho = personaje.get("ancho", 0).asFloat();
+            personaje_alto = personaje.get("alto", 0).asFloat();
+            personaje_zindex = personaje.get("zindex", 0).asFloat();
 
-        const Json::Value sprites = personaje["sprites"];
+            const Json::Value sprites = personaje["sprites"];
 
-        for (auto const& id : sprites.getMemberNames()) {
-            //std::cout << id << std::endl;
-            sprites_map[id] = sprites.get(id, "Esto nunca se va a mostrar").asString();
+            for (auto const& id : sprites.getMemberNames()) {
+                //std::cout << id << std::endl;
+                sprites_map[id] = sprites.get(id, "Esto nunca se va a mostrar").asString();
+            }
+
+            const Json::Value capas = root["capas"];
+            
+            for ( int index = 0; index < capas.size(); ++index ){
+    /*            std::cout << capas[index].get("imagen_fondo", "default").asString();
+                std::cout << "\n";
+                printf("capa: %f \n", capas[index].get("ancho", 0).asFloat());
+    */
+                Capa *temp = new Capa(
+                    capas[index].get("imagen_fondo", "default").asString(), 
+                    capas[index].get("anchoLogico", 0).asFloat(),
+                    capas[index].get("xlogico", 0).asFloat(), 
+                    NULL);
+
+                capas_vector.push_back(temp);
+            }
+
+       
+            valido = true;
+        } else {
+            puts("Error de sytaxis en el archivo");
+            cout << reader.getFormatedErrorMessages() << endl;
         }
-
-        const Json::Value capas = root["capas"];
-        
-        for ( int index = 0; index < capas.size(); ++index ){
-/*            std::cout << capas[index].get("imagen_fondo", "default").asString();
-            std::cout << "\n";
-            printf("capa: %f \n", capas[index].get("ancho", 0).asFloat());
-*/
-            Capa *temp = new Capa(
-                capas[index].get("imagen_fondo", "default").asString(), 
-                capas[index].get("anchoLogico", 0).asFloat(),
-                capas[index].get("xlogico", 0).asFloat(), 
-                NULL);
-
-            capas_vector.push_back(temp);
-        }
-
-   
-        valido = true;
-    } else {
-        puts("Problema con el archivo, probablemente no existe");
     }
 }
 
