@@ -143,6 +143,7 @@ public:
     }
     void game_loop(){
 	bool golpeandoPJ = false;
+	bool cansandoPJ = false;
         mover = 1;
         moverSZ= 1;
         SDL_Event evento;
@@ -164,10 +165,21 @@ public:
                         mover+= 5;
                         moverSZ-=5;
                     }
+		    if(evento.key.keysym.sym == SDLK_a)  {
+                    	barraDeVida1.Aliviar(20);
+	                    barraDeVida2.Aliviar(20);
+                    }
+                    if(evento.key.keysym.sym == SDLK_c)  {
+    	                if (cansandoPJ == false){
+    	                    barraDeVida1.Cansar(50);
+    	                    barraDeVida2.Cansar(50);
+    	                    cansandoPJ = true;
+                    }
+                }
 		    if((evento.key.keysym.sym == SDLK_d))  {
                     	if (golpeandoPJ == false){
-                    	    barraDeVida1.Lastimar(100);
-			    barraDeVida2.Lastimar(50);
+                    	    barraDeVida1.Lastimar(90);
+			    barraDeVida2.Lastimar(750);
                     	    golpeandoPJ = true;
 	                    }
                         break;
@@ -180,6 +192,9 @@ public:
 		case SDL_KEYUP:
 	                if((evento.key.keysym.sym == SDLK_d))  {
 	                    golpeandoPJ = false;
+	                }
+			if((evento.key.keysym.sym == SDLK_c))  {
+	                    cansandoPJ = false;
 	                }
                 break;
            }
