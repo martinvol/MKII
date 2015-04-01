@@ -119,9 +119,9 @@ public:
         cargar_capas();
 	
         //Izquierda
-        barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer);
+        barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
        //Derecha
-        barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer);
+        barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
 
     }
     void cargar_capas(){
@@ -167,6 +167,7 @@ public:
 		    if((evento.key.keysym.sym == SDLK_d))  {
                     	if (golpeandoPJ == false){
                     	    barraDeVida1.Lastimar(100);
+			    barraDeVida2.Lastimar(50);
                     	    golpeandoPJ = true;
 	                    }
                         break;
