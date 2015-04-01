@@ -84,7 +84,7 @@ int main() {
                if (abs(mover)<450) mover-= 5;
                if (abs(-moverSZ)<450) moverSZ +=5;
             }
-            if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0))  {        
+            if ((evento.key.keysym.sym == SDLK_LEFT) && (mover<0))  {        
                 mover+= 5;
                 moverSZ-=5;
             }
@@ -97,16 +97,16 @@ int main() {
        
        SDL_RenderCopy(renderer, under, NULL, &r);
        (escenario->capas[0])->Dibujarse(0,0);
-       (escenario->capas[1])->Dibujarse(0,40);
-       (escenario->capas[2])->Dibujarse(0,0);
-       (escenario->capas[3])->Dibujarse(0,0);
-       (escenario->capas[4])->Dibujarse(200,0);
-       (escenario->capas[5])->Dibujarse(400,0);
-       (escenario->capas[6])->Dibujarse(600,0);
-       (escenario->capas[7])->Dibujarse(800,0);
-       (escenario->capas[8])->Dibujarse(escenario->capas[8]->x_logico,208);
-       (escenario->capas[9])->Dibujarse(escenario->capas[9]->x_logico,0);
-       (escenario->capas[10])->Dibujarse(0,125);   
+       (escenario->capas[1])->Dibujarse(0 + mover/4,40);
+       (escenario->capas[2])->Dibujarse(0 + mover/2,0);
+       (escenario->capas[3])->Dibujarse(0 + mover,0);
+       (escenario->capas[4])->Dibujarse(200 + mover,0);
+       (escenario->capas[5])->Dibujarse(400 + mover,0);
+       (escenario->capas[6])->Dibujarse(600 + mover,0);
+       (escenario->capas[7])->Dibujarse(800 + mover,0);
+       (escenario->capas[8])->Dibujarse(escenario->capas[8]->x_logico + mover,208);
+       (escenario->capas[9])->Dibujarse(escenario->capas[9]->x_logico + mover,0);
+       (escenario->capas[10])->Dibujarse(moverSZ,125);   
         
        //(conf->capas_vector[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
        /*
