@@ -61,7 +61,7 @@ juego: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
 	./juego_ejecutable ${jsonpath}
 	# make clean
 	
-juegoJsonTest: main.o Capa.o Escenario.o parser.o BarrasDeVida.o
+juegoJsonTest: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable $(JSONTEST)
 
