@@ -5,6 +5,12 @@ IMPORTANTE: CORRER EL PROYECTO ASÍ:
 	clear; sudo make juego jsonpath='pruebas/json/test.json'
 ```
 
+Para los más vagos como Manuel:
+```bash
+	make juegoJsonTest
+```
+Que tiene como default el json de 'pruebas/json/test.json'
+
 Configurar git:
 
 http://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
