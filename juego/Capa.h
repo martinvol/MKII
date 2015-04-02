@@ -1,3 +1,4 @@
+
 #ifndef CAPA_H_INCLUDED
 #define CAPA_H_INCLUDED
 #include <iostream>
@@ -17,6 +18,7 @@ public:
     ~Capa ();
     void Dibujarse(int x, int y);
     void Dibujarse(int x, int y, int alto, int ancho);
+    void Dibujarse2(int x, int y);
     SDL_Texture* CargarTextura();
 
     SDL_Texture* textura;

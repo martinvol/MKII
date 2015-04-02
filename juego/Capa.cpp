@@ -42,6 +42,16 @@ void Capa::Dibujarse(int x, int y, int alto, int ancho){
 }
 
 //----------------------------------------------------------------
+void Capa::Dibujarse2(int x, int y){
+	int ancho, alto;
+	SDL_QueryTexture(this->textura, NULL, NULL, &ancho, &alto);
+    SDL_Rect loQueSeCorta = {x, y, ancho*0.5, alto};
+
+
+	SDL_RenderCopyEx(ren, textura, &loQueSeCorta, NULL, 0.0, NULL, SDL_FLIP_NONE);
+}
+
+//----------------------------------------------------------------
 Capa::~Capa(){
     // Martin ver si imprimo algo en un logger.
     SDL_DestroyTexture(this->textura);
