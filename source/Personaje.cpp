@@ -1,96 +1,144 @@
 #include <stdio.h>
 #include <iostream>
+#include "Personaje.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "Personaje.h"
+#include <string>
+
+
 using namespace std;
-const ANCHO_SPRITE 100;
-const ALTO_SPRITE 100;
-const int ESTADO_CAMINAR 1;
-const int ESTADO_PARADO 0;
-const int TEMPO 80;
+
+/***********************************************************************
+ * 
+ * 							CONSTANTES
+ *
+ **********************************************************************/  
+
+#define TEMPO 30
+
+/***********************************************************************
+ * 
+ * 							AUXILIAR
+ *
+ **********************************************************************/  
+
+void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
+	os << msg << " : " << num << std::endl;
+}
 
 
+/***********************************************************************
+ * 
+ * 							CONSTRUCTOR
+ *
+ **********************************************************************/  
 
-void Personaje::crear(std::string url, posicion_x, posicion_y,){
+/**Recibe por parametro la posicion inicial del personaje, representado
+ * por dos enteros: 
+ * uno) marca la posicion en el eje x,
+ * dos) marcla la posicion en el eje y.
+ * El nombre del personaje, que coincide con el nombre de la carpeta donde
+ * se guardan las imagenes de las acciones.
+ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
+ * */
+Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren){
+
+	this->posicion_x = posicion_x;
+	this->posicion_y = posicion_y;
+	this->accionActual = NULL;
+	this->imagenActual = NULL;
+	this->lastTime = 0;
+	this->nombrePersonaje = nombre;
+
+}
+
+/***********************************************************************
+ * 
+ * 							DEMAS
+ *
+ **********************************************************************/  
+/**Cuando se espera que el personaje represente una nueva accion, 
+ * se destruye la Accion guardada
+ * y se inicializa una nueva.
+ * El tiempo se setea nuevamente en 0.
+ * Recibe por parametro el numero que representa la nueva accion
+ * un booleano que indica si la accion puede ser interrumpida.
+ * y un puntero de tipo SDL_Renderer que indica el renderer.
+ * */
+void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion,SDL_Renderer* ren){
 	
-	Personaje.posicion_x = posicion_x;
-	Personaje.posicion_y = posicion_y;
-	Personaje.estado = 0;
-	Personaje.modo = 0;
-	Personaje.lastTime = 0;
-	Personaje.url = url;
-	Personaje.imagenes = NULL;
+	this->accionActual->destruirAccion();
+	this->accionActual = new Accion(nroAccion, ruta, permiteInterrupcion,ren);
+	this->lastTime = 0;	
 	
 }
- 
-
-void Personaje::inicializar_movimiento_personaje(int estado){
+/**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
+ * se debe mostrar por pantalla.
+ * Recibe por parametro la nueva Accion que el loop del juego
+ * quiere que el Personaje represente, 
+ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
+ */ 
+SDL_Texture* Personaje::definir_imagen(int nuevaAccion,SDL_Renderer* ren){
 		
-	Personaje.estado = estado; 
-	Personaje.modo = 0;
-	Personaje.lastTime = SDL_GetTicks();
-
-	Personaje.imagenes[0] = IMG_Load ("01.png");
-	Personaje.imagenes[1] = IMG_Load ("02.png");
-	Personaje.imagenes[2] = IMG_Load ("03.png");
-	Personaje.imagenes[3] = IMG_Load ("04.png");
-	Personaje.imagenes[4] = IMG_Load ("05.png");
-	Personaje.imagenes[5] = IMG_Load ("06.png");
-	Personaje.imagenes[6] = IMG_Load ("07.png");
-	Personaje.imagenes[7] = IMG_Load ("08.png");
-	Personaje.imagenes[8] = IMG_Load ("09.png");
+	int currentTime,tiempoTranscurrido;
+	SDL_Texture* imagen_actual;
+	string ruta = to_string(nuevaAccion);
 	
-}
-Personaje::reiniciar(){
+	/*La accion que se esta representando no coincide con la nuevaAccion
+	 * pasada por parametro
+	 * El loop del juego esperaba que representara una nuevaAccion
+	 * Si el juego recien se inicia, incluso entonces la nuevaAccion no coincide con el estado 
+	 * inicial del Personaje
+	 */
+	 
+	if (this->accionActual == NULL){
+		this->accionActual = new Accion(0,"0",true,ren);	//Accion default;
 	
-	Personaje.modo = 0;
-	Personaje.estado = 0;
-	Personaje.lastTime = 0;
-	for (int i = 0; i < MAX_NUM_CUADROS; i++){
-		freeSurface(imagenes[i]);
-	}	
-	
-}
-
-SDL_Surface* Personaje::dibujar_imagen(int estado){
-	
-	unsigned int currentTime,tiempoTranscurrido;
-	SDL_Surface* imagen_actual;
-	
-	if (Personaje.estado == 0){
-	
-		Personaje::inicializar_movimiento_personaje(estado);
-		imagen_actual = Personaje.imagenes[0];
+	}
+	else if (this->accionActual->esDistintaA(nuevaAccion)){
+		/*Se deben inicializar el vector de imagenes correspondientes a la secuencia
+		 */
+		cambiarAccionA(nuevaAccion,ruta,true,ren);
+		this->imagenActual = this->accionActual->getImagenActual();
 		
 	}
+	/*Se desea continuar con el mismo movimiento
+	 */
 	else{
 		currentTime = SDL_GetTicks();
-		tiempoTranscurrido = currentTime - Personaje.lastTime;
-		
+		tiempoTranscurrido = currentTime - this->lastTime;
+		/*Debo actualizar la imagen a mostrar
+		 */ 
 		if (tiempoTranscurrido > TEMPO){
 				
-				if (Personaje.modo < 8){
-					
-					Personaje.modo = Personaje.modo + 1;
-					Personaje.lastTime = Personaje.lastTime + Tempo;
-					imagen_actual = Personaje.imagenes[Personaje.modo];
-					Personaje::cambiar_posicion(posicion_x,posicion_y);
-					
-					if (Personaje.modo == 8){
-						Personaje::reiniciar();
-					}
-				}
-				
+				this->accionActual->cambiarModo();
+				this->imagenActual = this->accionActual->getImagenActual();
+				this->lastTime = this->lastTime + TEMPO;
+		}
+		else{
+			this->imagenActual = this->accionActual->getImagenActual();
+			/*Mantengo la imagen
+			 * ergo: no hago nada
+			 */ 
 		}
 	}
-	return imagen_actual;
+	
+				
+	return (this->imagenActual);
+}
+
+void Personaje::destruirPersonaje(){
+	
+	this->accionActual->destruirAccion();
+	
 }
 
 void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	
-	if (Director.puedoCambiarPosicion(Personaje.posicion_x,cant_pasos_x){
-		Personaje.posicion_x += cant_pasos_x;
-		Personaje.posicion_y += cant_pasos_y;
-	}
+	
+}
+	
+void Personaje::mirar_al_otro_lado(){
+	
+	
 }

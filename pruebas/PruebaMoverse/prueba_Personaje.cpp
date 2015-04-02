@@ -4,34 +4,22 @@
 #include <SDL2/SDL_image.h>
 #include <thread>         
 #include <chrono> 
+
 #include "Personaje.hpp"
 using namespace std;
 
-#define MAX_NUM_CUADROS 9
-#define QUIETO 0
-#define CAMINAR_DERECHA 1
-#define CAMINAR_IZQUIERDA 2
-#define SALTAR 3
 
-/****************************************************************************************
+/***********************************************************************
  * 
- * 							Auxiliar
+ * 							AUXILIAR
  *
- ****************************************************************************************/  
+ **********************************************************************/  
 
 void imprimirMensajeE (std::ostream &os, const std::string &msg, int num = NULL){
 	os << msg << " : " << num << std::endl;
 }
 
-/****************************************************************************************
- * 
- * 							Auxiliar
- *
- ****************************************************************************************/  
 
-
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------
 void logSDLError(ostream &os, const string &msg){
 	os << msg << " error: " << SDL_GetError() << endl;
 }
@@ -71,13 +59,21 @@ int setUP() {
 	}
 	return 0;
 }
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------
 
-
+/***********************************************************************
+ * 
+ * 							CONSTANTES
+ *
+ **********************************************************************/  
+//Acciones
+#define MAX_NUM_CUADROS 9
+#define QUIETO 0
+#define CAMINAR_DERECHA 1
+#define CAMINAR_IZQUIERDA 2
+#define SALTAR 3
 //Pantalla
-unsigned int ANCHO_FISICO = 800; //800
-unsigned int ALTO_FISICO = 416; //416
+#define ANCHO_FISICO  800
+#define ALTO_FISICO  416
 //Mundo
 double AnchoLogico, AltoLogico;
 SDL_Renderer * renderer = NULL;
@@ -94,7 +90,7 @@ int main(int argc, char* args[]){
 	
    
 	
-	Personaje personaje;
+	Personaje* personaje;
 	
 	bool quit = false;
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -104,12 +100,12 @@ int main(int argc, char* args[]){
 
     SDL_Texture *under = loadTexture("p_under.png", renderer);
     SDL_Texture * fondo = loadTexture("fondo.png", renderer);
-    SDL_Texture * textureSubZero = loadTexture("0/01.png", renderer);
-    //SDL_Texture * textureSubZero;
+    //SDL_Texture * textureSubZero = loadTexture("0/1.png", renderer);
+    SDL_Texture * textureSubZero;
     SDL_Texture *textureColumnasLejos = loadTexture("columnasLejosFinal.png",renderer);
     SDL_Texture *textureColumnasMUYLejos = loadTexture("columnasMUYLejos.png",renderer);
     SDL_Texture *floor= loadTexture("p_1.png", renderer);
-    int altoDelPiso, anchoDelPiso =0;
+    int altoDelPiso, anchoDelPiso = 0;
     int anchoColumnasLejos, anchoColumnasMUYLejos =0;
     SDL_QueryTexture(floor, NULL, NULL, &anchoDelPiso, &altoDelPiso);
     SDL_QueryTexture(textureColumnasLejos, NULL, NULL, &anchoColumnasLejos, NULL);
@@ -118,7 +114,7 @@ int main(int argc, char* args[]){
 
     int mover = 1;
     int moverSZ= 1;
-	personaje.personaje(1,1);
+	personaje = new Personaje(1,1,"SubZero",renderer);
 	int i = 0;
     SDL_Event evento;
     
@@ -127,39 +123,39 @@ int main(int argc, char* args[]){
     while (!quit){
         
         imprimirMensajeE(std::cout,"-----------------------------------------------------------");
-        //std::this_thread::sleep_for (std::chrono::seconds(1));
-        
+//std::this_thread::sleep_for (std::chrono::seconds(4));
+      
         while(SDL_PollEvent( &evento )){
-        
+         
 			if (evento.type == SDL_QUIT){
 					imprimirMensajeE(std::cout,"QUIT");
+//					personaje->destruirPersonaje();
 					quit = true;
-					
-			}
+				
+			}	
 			else if (evento.type == SDL_KEYDOWN){
 					/**MOVIMIENTO A LA DERECHA**/
 					if(evento.key.keysym.sym == SDLK_RIGHT)  {
 						imprimirMensajeE(std::cout,"DERECHA");
-						textureSubZero = personaje.definir_imagen(CAMINAR_DERECHA,renderer); 
+						textureSubZero = personaje->definir_imagen(CAMINAR_DERECHA,renderer); 
 					}
 					/**MOVIMIENTO A LA IZQUIERDA**/
+				
 					else if(evento.key.keysym.sym == SDLK_LEFT) {
-						textureSubZero = personaje.definir_imagen(CAMINAR_IZQUIERDA,renderer);
+						textureSubZero = personaje->definir_imagen(CAMINAR_IZQUIERDA,renderer);
 						}
 					
 					else if(evento.key.keysym.sym == SDLK_ESCAPE) { 
 						imprimirMensajeE(std::cout,"ESCAPE");
+						//personaje->destruirPersonaje();
 						quit = true;
 					}
 			}
-			/*else{
-						imprimirMensajeE(std::cout,"DEFAULT");
-						textureSubZero = personaje.definir_imagen(QUIETO,renderer);
-			}*/	
-       }
+	   }
 	
 		imprimirMensajeE(std::cout,"DEFAULT");
-		textureSubZero = personaje.definir_imagen(QUIETO,renderer);
+		textureSubZero = personaje->definir_imagen(SALTAR,renderer);
+		
 		//dibujo en pantalla
 	
 		SDL_RenderClear(renderer);
@@ -174,17 +170,19 @@ int main(int argc, char* args[]){
 		renderTexture(textureColumnasLejos,renderer,2*mover +anchoColumnasLejos +(anchoColumnasLejos/10),(ALTO_FISICO/2.5));
 		renderTexture(floor, renderer, mover, ALTO_FISICO - altoDelPiso);
 		//SubZero se OPONE al movimiento del fondo
-		renderTexture(textureSubZero,renderer,15+moverSZ ,ALTO_FISICO-170);
+		if(textureSubZero != NULL){
+			renderTexture(textureSubZero,renderer,15+moverSZ ,ALTO_FISICO-170);
+		}
 
 		SDL_RenderPresent(renderer);
-		SDL_Delay(1000/40.);
+		SDL_Delay(50);
     }
     // LIBERAR RECURSOS
     SDL_DestroyTexture(under);
     SDL_DestroyTexture(fondo);
-    SDL_DestroyTexture(textureSubZero);
+   // SDL_DestroyTexture(textureSubZero);
     SDL_DestroyTexture(textureColumnasLejos);
-
+	personaje->destruirPersonaje();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();

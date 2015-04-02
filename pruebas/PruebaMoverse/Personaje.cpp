@@ -3,145 +3,134 @@
 #include "Personaje.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <string>
 
 
 using namespace std;
 
-#define ANCHO_SPRITE 100
-#define ALTO_SPRITE 100
-#define TEMPO 30
-/****************************************************************************************
+/***********************************************************************
  * 
- * 							Auxiliar
+ * 							CONSTANTES
  *
- ****************************************************************************************/  
+ **********************************************************************/  
+
+#define TEMPO 30
+
+/***********************************************************************
+ * 
+ * 							AUXILIAR
+ *
+ **********************************************************************/  
 
 void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
 	os << msg << " : " << num << std::endl;
 }
 
 
-
-
-/****************************************************************************************
+/***********************************************************************
  * 
- * 							Auxiliar
+ * 							CONSTRUCTOR
  *
- ****************************************************************************************/  
+ **********************************************************************/  
 
-void Personaje::personaje(int posicion_x, int posicion_y){
-	
+/**Recibe por parametro la posicion inicial del personaje, representado
+ * por dos enteros: 
+ * uno) marca la posicion en el eje x,
+ * dos) marcla la posicion en el eje y.
+ * El nombre del personaje, que coincide con el nombre de la carpeta donde
+ * se guardan las imagenes de las acciones.
+ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
+ * */
+Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren){
+
 	this->posicion_x = posicion_x;
 	this->posicion_y = posicion_y;
-	this->estado = -1;
-	this->modo = 0;
+	this->accionActual = NULL;
+	this->imagenActual = NULL;
 	this->lastTime = 0;
-	//this->url = url;
-	//this->imagenes = NULL;
+	this->nombrePersonaje = nombre;
 
+}
+
+/***********************************************************************
+ * 
+ * 							DEMAS
+ *
+ **********************************************************************/  
+/**Cuando se espera que el personaje represente una nueva accion, 
+ * se destruye la Accion guardada
+ * y se inicializa una nueva.
+ * El tiempo se setea nuevamente en 0.
+ * Recibe por parametro el numero que representa la nueva accion
+ * un booleano que indica si la accion puede ser interrumpida.
+ * y un puntero de tipo SDL_Renderer que indica el renderer.
+ * */
+void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion,SDL_Renderer* ren){
 	
+	this->accionActual->destruirAccion();
+	this->accionActual = new Accion(nroAccion, ruta, permiteInterrupcion,ren);
+	this->lastTime = 0;	
 	
 }
- 
-/**Cada vez que se comience una nueva accion, se carga en un vector de punteros a SDL_Texture, 
- * las imagenes correspondientes a la misma.
- */
-void Personaje::inicializar_movimiento_personaje(int estado, SDL_Renderer* ren){
-		
-	this->estado = estado; 
-	this->modo = 0;
-	this->lastTime = SDL_GetTicks();
-	
-	const std::string nombreCarpeta = std::to_string(estado);
-	
-	this->imagenes[0] = IMG_LoadTexture (ren, (nombreCarpeta+"/01.png").c_str());
-	this->imagenes[1] = IMG_LoadTexture (ren, (nombreCarpeta+"/02.png").c_str());
-	this->imagenes[2] = IMG_LoadTexture (ren, (nombreCarpeta+"/03.png").c_str());
-	this->imagenes[3] = IMG_LoadTexture (ren, (nombreCarpeta+"/04.png").c_str());
-	this->imagenes[4] = IMG_LoadTexture (ren, (nombreCarpeta+"/05.png").c_str());
-	this->imagenes[5] = IMG_LoadTexture (ren, (nombreCarpeta+"/06.png").c_str());
-	this->imagenes[6] = IMG_LoadTexture (ren, (nombreCarpeta+"/07.png").c_str());
-	this->imagenes[7] = IMG_LoadTexture (ren, (nombreCarpeta+"/08.png").c_str());
-	this->imagenes[8] = IMG_LoadTexture (ren, (nombreCarpeta+"/09.png").c_str());
-	imprimirMensaje(std::cout, "Se cargaron las imagenes");	
-}
-void Personaje::reiniciar(){
-	
-	this->modo = 0;
-	this->estado = -1;
-	this->lastTime = 0;
-	for (int i = 0; i < MAX_NUM_CUADROS; i++){
-	//	SDL_DestroyTexture(imagenes[i]);
-	}	
-	
-}
-/**Se encarga de determinar segun el tiempo transcurrido, qué imagen corresponde
- * de la secuencia y la devuelve
+/**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
+ * se debe mostrar por pantalla.
+ * Recibe por parametro la nueva Accion que el loop del juego
+ * quiere que el Personaje represente, 
+ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  */ 
 SDL_Texture* Personaje::definir_imagen(int nuevaAccion,SDL_Renderer* ren){
-	
 		
 	int currentTime,tiempoTranscurrido;
 	SDL_Texture* imagen_actual;
+	string ruta = to_string(nuevaAccion);
 	
 	/*La accion que se esta representando no coincide con la nuevaAccion
 	 * pasada por parametro
 	 * El loop del juego esperaba que representara una nuevaAccion
 	 * Si el juego recien se inicia, incluso entonces la nuevaAccion no coincide con el estado 
-	 * inicil del Personaje
+	 * inicial del Personaje
 	 */
-	if (this->estado != nuevaAccion){
+	 
+	if (this->accionActual == NULL){
+		this->accionActual = new Accion(0,"0",true,ren);	//Accion default;
+	
+	}
+	else if (this->accionActual->esDistintaA(nuevaAccion)){
 		/*Se deben inicializar el vector de imagenes correspondientes a la secuencia
 		 */
-		Personaje::reiniciar();
-		Personaje::inicializar_movimiento_personaje(nuevaAccion,ren);
-		imagen_actual = this->imagenes[0];
+		cambiarAccionA(nuevaAccion,ruta,true,ren);
+		this->imagenActual = this->accionActual->getImagenActual();
 		
 	}
 	/*Se desea continuar con el mismo movimiento
 	 */
 	else{
-		imprimirMensaje(std::cout,"Continuo con la accion");
 		currentTime = SDL_GetTicks();
-		imprimirMensaje(std::cout,"Modo",this->modo);
-		imprimirMensaje(std::cout,"Tiempo actual",currentTime);
-		imprimirMensaje(std::cout,"Tiempo pasado",this->lastTime);
-		
 		tiempoTranscurrido = currentTime - this->lastTime;
-		imprimirMensaje(std::cout,"Tiempo transcurrido",tiempoTranscurrido);
 		/*Debo actualizar la imagen a mostrar
 		 */ 
 		if (tiempoTranscurrido > TEMPO){
 				
-				if (this->modo < 8){
-					
-					this->modo = this->modo + 1;
-					this->lastTime = this->lastTime + TEMPO;
-					imagen_actual = this->imagenes[this->modo];
-					//Personaje::cambiar_posicion(posicion_x,posicion_y);
-					
-				}
-				/*Estoy en la misma accion que antes
-				 *pero llegue al final de la secuencia de imagenes
-				 * Debo volver al principio y mostrar la imagen 01
-				 */ 
-				else if (this->modo == 8){
-				
-						imprimirMensaje(std::cout, "LLegue al octavo estado");
-						this->modo = 0;
-						this->lastTime = this->lastTime + TEMPO;
-						imagen_actual = this->imagenes[this->modo];
-						
-				}
+				this->accionActual->cambiarModo();
+				this->imagenActual = this->accionActual->getImagenActual();
+				this->lastTime = this->lastTime + TEMPO;
 		}
 		else{
+			this->imagenActual = this->accionActual->getImagenActual();
 			/*Mantengo la imagen
 			 * ergo: no hago nada
 			 */ 
 		}
 	}
 	
-	return imagen_actual;
+				
+	return (this->imagenActual);
+}
+
+void Personaje::destruirPersonaje(){
+	
+	this->accionActual->destruirAccion();
+	
 }
 
 void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
@@ -152,4 +141,4 @@ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 void Personaje::mirar_al_otro_lado(){
 	
 	
-	}
+}
