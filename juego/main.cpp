@@ -149,7 +149,9 @@ public:
     void game_loop(){
 	bool golpeandoPJ = false;
 	bool cansandoPJ = false;
-        mover = 1;
+	bool scrollearDerecha = false;
+    	bool scrollearIzquierda = false;
+	mover = 5;
         moverSZ= 1;
         SDL_Event evento;
         while (!salir){
@@ -160,15 +162,12 @@ public:
                     break;
                 case SDL_KEYDOWN:
                     if (evento.key.keysym.sym == SDLK_RIGHT)  {
-                        if (abs(mover)<450) mover-= 5;
-                        if (abs(-moverSZ)<450) moverSZ +=5;
-                        /*cout<<"der "<<mover<<endl;
-                        cout<<"ancho del piso: "<< anchoDelPiso<<endl;*/
+                        scrollearDerecha = true;
+                    	scrollearIzquierda = false;
                     }
                     if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
-                        //cout<<"izq "<<mover<<endl;
-                        mover+= 5;
-                        moverSZ-=5;
+                        scrollearIzquierda = true;
+                    	scrollearDerecha = false;
                     }
 		    if(evento.key.keysym.sym == SDLK_a)  {
                     	barraDeVida1.Aliviar(20);
@@ -204,6 +203,12 @@ public:
                 break;
            }
 
+	   if ( scrollearIzquierda && mover <0)
+           	mover+= 5;
+
+           if (scrollearDerecha && abs(mover)<500)
+           	mover-= 5;
+
             //Limpio y dibujo
             SDL_RenderClear(renderer);
 
@@ -211,13 +216,13 @@ public:
             //fondo
             (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
             //CML
-            (escenario->capas[1])->Dibujarse(0.5*mover ,0);
+            (escenario->capas[1])->Dibujarse2(-mover ,0);
             //CL
-            (escenario->capas[2])->Dibujarse(mover,0);
+            (escenario->capas[2])->Dibujarse2(-mover,0);
             //piso
-            (escenario->capas[3])->Dibujarse(0,ALTO_FISICO-46);
+            (escenario->capas[3])->Dibujarse2(-mover,0);
             //Sz
-            (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); 
+            //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170); 
 	
 	    barraDeVida1.Dibujarse();
 	    barraDeVida2.Dibujarse();
