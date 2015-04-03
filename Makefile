@@ -3,7 +3,7 @@ JSONFLAGS = -ljsoncpp
 SDLFLAGS= -w -lSDL2
 IMGFLAGS = -lSDL2_image
 FONTFLAGS = -lSDL2_ttf
-JSONTEST = "pruebas/json/test.json"
+JSONTEST = "pruebas/integracion.json"
 CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes

@@ -32,6 +32,14 @@ int InicializarSDL() {
     logger->log_debug("SDL cargada correctamente");
     return 0;
 }
+
+SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
+	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
+	if (texture == NULL){
+		logger->log_error("LoadTexture");
+	}
+	return texture;
+}
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 
@@ -158,6 +166,8 @@ public:
 	    mover = 5;
         moverSZ= 1;
         SDL_Event evento;
+        SDL_Texture *under = loadTexture("resources/background/p_under.png", renderer);
+        SDL_Rect r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         while (!salir){
             SDL_PollEvent( &evento );
             switch(evento.type){
@@ -213,24 +223,38 @@ public:
            //Limpio y dibujo
            SDL_RenderClear(renderer);
 
-
+           /*
            //fondo
            (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
            //CML
-           (escenario->capas[1])->Dibujarse2(-mover ,0);
+           (escenario->capas[1])->Dibujarse(-mover,0);
            //CL
-           (escenario->capas[2])->Dibujarse2(-mover,0);
+           (escenario->capas[2])->Dibujarse(-mover,0);
            //piso
-           (escenario->capas[3])->Dibujarse2(-mover,0);
+           (escenario->capas[3])->Dibujarse(-mover,120, 48*2,1257);
            //Sz
            //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170); 
-	
+	       */
+	       
+	       SDL_RenderCopy(renderer, under, NULL, &r);
+	       (escenario->capas[0])->Dibujarse(0,0);
+           (escenario->capas[1])->Dibujarse(0 + mover/4,40);
+           (escenario->capas[2])->Dibujarse(0 + mover/2,0);
+           (escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
+           (escenario->capas[4])->Dibujarse((int)escenario->capas[4]->x_logico + mover,0);
+           (escenario->capas[5])->Dibujarse((int)escenario->capas[5]->x_logico + mover,0);
+           (escenario->capas[6])->Dibujarse((int)escenario->capas[6]->x_logico + mover,0);
+           (escenario->capas[7])->Dibujarse((int)escenario->capas[7]->x_logico + mover,0);
+           (escenario->capas[8])->Dibujarse((int)escenario->capas[8]->x_logico + mover,208);
+           (escenario->capas[9])->Dibujarse((int)escenario->capas[9]->x_logico + mover,0);       
+           (escenario->capas[10])->Dibujarse(- mover/2,125);   
 	       barraDeVida1.Dibujarse();
 	       barraDeVida2.Dibujarse();
             
            SDL_RenderPresent(renderer);
-           //SDL_Delay(10);
+           SDL_Delay(10);
         }
+    SDL_DestroyTexture(under);  
     };
     
     void reiniciarJuego(){
@@ -243,6 +267,7 @@ public:
     };
     void terminar_juego(){
         escenario->Borrar();
+        for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
     };
     void terminar_sdl(){
         SDL_DestroyRenderer(renderer);
