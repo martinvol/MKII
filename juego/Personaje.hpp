@@ -35,8 +35,27 @@ class Personaje {
 		//MILE: A agregar:
 		
 		CoordenadaLogica* obtenerCoordenada();
+		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
+		/* Devuelve la coordenada en la que está.
+		 * Comienza (o sigue) la imagen de parar. */
+		CoordenadaLogica* parar();
+		/* Devuelve la coordenada a la que iría.
+		 * Comienza (o sigue) la imagen de saltar. */
+		CoordenadaLogica* saltar();
+		/* Devuelve la coordenada a la que iría.
+		 * Comienza (o sigue) la imagen de saltar para la derecha. */
+		CoordenadaLogica* saltarDerecha();
+		/* Devuelve la coordenada a la que iría.
+		 * Comienza (o sigue) la imagen de saltar para la izquierda. */
+		CoordenadaLogica* saltarIzquierda();
+		/* Devuelve la coordenada a la que iría.
+		 * Comienza (o sigue) la imagen de caminar para la derecha. */
+		CoordenadaLogica* caminarDerecha();
+		/* Devuelve la coordenada a la que iría.
+		 * Comienza (o sigue) la imagen de caminar para la izquierda. */
+		CoordenadaLogica* caminarIzquierda();
 		
 };
 

@@ -14,7 +14,7 @@
 using namespace std;
 
 enum num_jugador {jugador1 = 0, jugador2};
-enum movimiento {Nada, Derecha, Izquierda, Arriba};
+enum movimiento {Nada, Derecha, Izquierda, Arriba, ArribaDerecha, ArribaIzquierda};
 
 class Director {
 		
@@ -41,7 +41,7 @@ class Director {
 		
 		
 		// PUEDEN USARSE:
-		
+		/* Sólo va a recibir Derecha, Izquierda o Arriba. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
 		
 		

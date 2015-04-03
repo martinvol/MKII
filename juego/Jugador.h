@@ -12,16 +12,17 @@ class Jugador {
 		
 		Personaje* obtenerPersonaje();
 		CoordenadaLogica* obtenerCoordenada();
-		/* Cambia
+		float obtenerAnchoLogico();
+		/* Cambia orientación. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
-		/* Devuelve la coordenada en la que está. */
+		/* Activa las imágenes.
+		 * Y devuelve a dónde se movería. */
 		CoordenadaLogica* parar();
-		/* Devuelve la coordenada a la que iría. */
 		CoordenadaLogica* saltar();
-		/* Devuelve la coordenada a la que iría. */
+		CoordenadaLogica* saltarDerecha();
+		CoordenadaLogica* saltarIzquierda();
 		CoordenadaLogica* caminarDerecha();
-		/* Devuelve la coordenada a la que iría. */
 		CoordenadaLogica* caminarIzquierda();
 		
 };
