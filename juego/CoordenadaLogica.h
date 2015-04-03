@@ -12,6 +12,7 @@ public:
 	void sumar(CoordenadaLogica* coord);
 	void desplazarX(float x);
 	void desplazarY(float y);
+	bool estaALaDerechaDe(CoordenadaLogica* coord);
 
 };
 

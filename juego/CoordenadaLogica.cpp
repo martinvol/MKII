@@ -22,3 +22,7 @@ void CoordenadaLogica::desplazarX(float x){
 void CoordenadaLogica::desplazarY(float y){
 	this->y += y;
 }
+
+bool CoordenadaLogica::estaALaDerechaDe(CoordenadaLogica* coord){
+	return (this->x > coord->x);
+}
