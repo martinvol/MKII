@@ -13,7 +13,7 @@ using namespace std;
 
 void Conf::set_values (char* my_file) {
     Logger *logger = Logger::instance();
-    logger->log_debug("Parser inicializado");
+    logger->log_debug("Inicializando parser");
 
     logger->log_debug(std::string("Intenta cargar configuraciones desde ") +  my_file);
 
@@ -29,6 +29,8 @@ void Conf::set_values (char* my_file) {
 
     if (!test.is_open()){
         logger->log_error("Problema con el archivo, probablemente no existe");
+        Conf::set_values("pruebas/json/test.json");
+
     }
 
     else {
