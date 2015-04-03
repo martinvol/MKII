@@ -182,15 +182,19 @@ public:
                     break;
                 case SDL_KEYDOWN:
                     if (evento.key.keysym.sym == SDLK_RIGHT)  {
-                        scrollearDerecha = true;
-                    	scrollearIzquierda = false;
+                        //scrollearDerecha = true;
+                    	//scrollearIzquierda = false;
                     	this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                    	if (abs(mover)<750) mover-= 5;
+                        if (abs(-moverSZ)<750) moverSZ +=2;
                     	
                     }
                     if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
-                        scrollearIzquierda = true;
-                    	scrollearDerecha = false;
+                        //scrollearIzquierda = true;
+                    	//scrollearDerecha = false;
                     	this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                    	mover+= 5;
+                        moverSZ-=5;
                     }
 		            if(evento.key.keysym.sym == SDLK_a)  {
                     	barraDeVida1.Aliviar(20);
@@ -232,8 +236,8 @@ public:
 					
            }
 
-	       if (scrollearIzquierda && mover<0) mover+= 5;
-           else if (scrollearDerecha && abs(mover)<700) mover-= 5;
+	       //if (scrollearIzquierda && mover<0) mover+= 5;
+           //else if (scrollearDerecha && abs(mover)<700) mover-= 5;
 
            //Limpio y dibujo
            SDL_RenderClear(renderer);
@@ -265,7 +269,7 @@ public:
           // (escenario->capas[10])->Dibujarse(- mover/2,125);   
 	       barraDeVida1.Dibujarse();
 	       barraDeVida2.Dibujarse();
-	       this->personajeJuego->Dibujarse(-mover/2,125);
+	       this->personajeJuego->Dibujarse(-moverSZ/2,125);
 	    
             
            SDL_RenderPresent(renderer);
