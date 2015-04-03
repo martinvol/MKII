@@ -12,8 +12,10 @@ public:
 	// No se necesita la y porque es siempre igual.
     float x_logico;
 
-	// Alto lógico de la ventana
+	// Datos de la ventana
 	float alto_logico;
+	int alto_fisico;
+	int ancho_fisico;
 
 	// Factores de conversión para altura y ancho.
 	float factor_ancho;
@@ -22,7 +24,10 @@ public:
 	ConversorDeCoordenadas(int alto_fisico, int ancho_fisico, float alto_logico, float x);
 
 	// Conversiones que crean nuevas coordenadas,y no destruyen viejas.
+	
 	CoordenadaFisica* convertirAFisicas(CoordenadaLogica* coord);
+	/* Devuelve NULL si la coordenada lógica no debería estar en la pantalla. */
+	
 	CoordenadaLogica* convertirALogicas(CoordenadaFisica* coord);
 
 	//Para avisarle que se movió la ventana dentro del mundo.

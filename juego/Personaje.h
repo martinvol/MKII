@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "Accion.hpp"
+#include "CoordenadaLogica.h"
 
 using namespace std;
 
@@ -27,6 +28,11 @@ class Personaje {
 		void mirar_al_otro_lado();
 		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion,SDL_Renderer* ren);
 		void destruirPersonaje();
+		
+		// MILE: Agregar estas funciones:
+		CoordenadaLogica* obtenerCoordenadaLogica();
+		void mirarParaDerecha();
+		void mirarParaIzquierda();
 };
 
 #endif

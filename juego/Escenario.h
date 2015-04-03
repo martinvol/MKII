@@ -1,5 +1,9 @@
 #ifndef ESCENARIO_H_INCLUDED
 #define ESCENARIO_H_INCLUDED
+
+#include "Capa.h"
+#include "CoordenadaFisica.h"
+
 class Escenario{
 public:
     //Ordenado por z-index
@@ -13,6 +17,6 @@ public:
 
     //De Manu con puntero a funcion. Igual ver...
     //void Dibujar(CoordenadasFisicas Conversor(CoordenadasLogicas));
-    void Dibujar(CoordenadasFisicas coordenadas);
+    void Dibujar(CoordenadaFisica* coordenadas);
 };
 #endif // ESCENARIO_H_INCLUDED

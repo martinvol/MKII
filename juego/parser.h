@@ -1,7 +1,12 @@
 #include <unordered_map>
 #include "Capa.h"
+#include "jsoncpp/json/json.h"
+#include "logger.h"
 
 class Conf {
+	private:
+		float cargarValidar(Json::Value, float, char*, char*);
+		Logger *logger;
 
     public:
         void set_values (char* file_name);
