@@ -151,11 +151,11 @@ public:
     }
     void game_loop(){
     
-	bool golpeandoPJ = false;
-	bool cansandoPJ = false;
-	bool scrollearDerecha = false;
+	    bool golpeandoPJ = false;
+	    bool cansandoPJ = false;
+	    bool scrollearDerecha = false;
     	bool scrollearIzquierda = false;
-	mover = 5;
+	    mover = 5;
         moverSZ= 1;
         SDL_Event evento;
         while (!salir){
@@ -173,7 +173,7 @@ public:
                         scrollearIzquierda = true;
                     	scrollearDerecha = false;
                     }
-		    if(evento.key.keysym.sym == SDLK_a)  {
+		            if(evento.key.keysym.sym == SDLK_a)  {
                     	barraDeVida1.Aliviar(20);
 	                    barraDeVida2.Aliviar(20);
                     }
@@ -182,59 +182,57 @@ public:
     	                    barraDeVida1.Cansar(50);
     	                    barraDeVida2.Cansar(50);
     	                    cansandoPJ = true;
-                    }
-                }
-		    if((evento.key.keysym.sym == SDLK_d))  {
+                        }
+                    }   
+		            if((evento.key.keysym.sym == SDLK_d))  {
                     	if (golpeandoPJ == false){
                     	    barraDeVida1.Lastimar(90);
-			    barraDeVida2.Lastimar(750);
+			                barraDeVida2.Lastimar(750);
                     	    golpeandoPJ = true;
 	                    }
                         break;
                     }
-                    if (evento.key.keysym.sym == SDLK_ESCAPE)  salir = true;
+                    if (evento.key.keysym.sym == SDLK_ESCAPE) salir = true;
                     if (evento.key.keysym.sym == SDLK_r){
                         reiniciarJuego();
                     }
                     break;
-		case SDL_KEYUP:
+		        case SDL_KEYUP:
 	                if((evento.key.keysym.sym == SDLK_d))  {
 	                    golpeandoPJ = false;
 	                }
-			if((evento.key.keysym.sym == SDLK_c))  {
+			        if((evento.key.keysym.sym == SDLK_c))  {
 	                    cansandoPJ = false;
 	                }
-                break;
+                    break;
            }
 
-	       if ( scrollearIzquierda && mover <0)
-           	mover+= 5;
+	       if (scrollearIzquierda && mover<0) mover+= 5;
+           else if (scrollearDerecha && abs(mover)<700) mover-= 5;
 
-           else if (scrollearDerecha && abs(mover)<700)
-           	mover-= 5;
-
-            //Limpio y dibujo
-            SDL_RenderClear(renderer);
+           //Limpio y dibujo
+           SDL_RenderClear(renderer);
 
 
-            //fondo
-            (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
-            //CML
-            (escenario->capas[1])->Dibujarse2(-mover ,0);
-            //CL
-            (escenario->capas[2])->Dibujarse2(-mover,0);
-            //piso
-            (escenario->capas[3])->Dibujarse2(-mover,0);
-            //Sz
-            //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170); 
+           //fondo
+           (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
+           //CML
+           (escenario->capas[1])->Dibujarse2(-mover ,0);
+           //CL
+           (escenario->capas[2])->Dibujarse2(-mover,0);
+           //piso
+           (escenario->capas[3])->Dibujarse2(-mover,0);
+           //Sz
+           //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170); 
 	
-	    barraDeVida1.Dibujarse();
-	    barraDeVida2.Dibujarse();
+	       barraDeVida1.Dibujarse();
+	       barraDeVida2.Dibujarse();
             
-            SDL_RenderPresent(renderer);
-            //SDL_Delay(10);
+           SDL_RenderPresent(renderer);
+           //SDL_Delay(10);
         }
     };
+    
     void reiniciarJuego(){
         puts("Tengo que cambiar las configuraciones");
         terminar_juego();
