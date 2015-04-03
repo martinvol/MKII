@@ -222,7 +222,8 @@ public:
                     break;
 		        case SDL_KEYUP:
 	                this->personajeJuego->definir_imagen(QUIETO);
-					
+					scrollearIzquierda = false;
+                    scrollearDerecha = false;
 	                if((evento.key.keysym.sym == SDLK_d))  {
 	                    golpeandoPJ = false;
 	                }
