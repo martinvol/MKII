@@ -18,15 +18,18 @@ class Personaje {
 		Accion* accionActual;
 		int lastTime;
 		SDL_Texture* imagenActual;
+		SDL_Renderer* renderer;
 		
 	public:
 		
 		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren);
-		SDL_Texture* definir_imagen(int accion, SDL_Renderer* ren);
+		SDL_Texture* definir_imagen(int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion,SDL_Renderer* ren);
+		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion);
 		void destruirPersonaje();
+		void Dibujarse(int x, int y);
+		void Dibujarse(int x, int y, int alto, int ancho);
 };
 
 #endif

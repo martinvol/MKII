@@ -49,6 +49,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
 	this->imagenActual = NULL;
 	this->lastTime = 0;
 	this->nombrePersonaje = nombre;
+	this->renderer = ren;
 
 }
 
@@ -65,10 +66,10 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
  * un booleano que indica si la accion puede ser interrumpida.
  * y un puntero de tipo SDL_Renderer que indica el renderer.
  * */
-void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion,SDL_Renderer* ren){
+void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion){
 	
 	this->accionActual->destruirAccion();
-	this->accionActual = new Accion(nroAccion, ruta, permiteInterrupcion,ren);
+	this->accionActual = new Accion(nroAccion, ruta, permiteInterrupcion,this->renderer);
 	this->lastTime = 0;	
 	
 }
@@ -78,7 +79,7 @@ void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupci
  * quiere que el Personaje represente, 
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  */ 
-SDL_Texture* Personaje::definir_imagen(int nuevaAccion,SDL_Renderer* ren){
+SDL_Texture* Personaje::definir_imagen(int nuevaAccion){
 		
 	int currentTime,tiempoTranscurrido;
 	SDL_Texture* imagen_actual;
@@ -92,13 +93,13 @@ SDL_Texture* Personaje::definir_imagen(int nuevaAccion,SDL_Renderer* ren){
 	 */
 	 
 	if (this->accionActual == NULL){
-		this->accionActual = new Accion(0,"0",true,ren);	//Accion default;
-	
+		this->accionActual = new Accion(0,"resources/jugador/SubZero/0",true,this->renderer);	//Accion default;
 	}
 	else if (this->accionActual->esDistintaA(nuevaAccion)){
 		/*Se deben inicializar el vector de imagenes correspondientes a la secuencia
 		 */
-		cambiarAccionA(nuevaAccion,ruta,true,ren);
+		string ruta2 = "resources/jugador/SubZero/"+ruta; 
+		cambiarAccionA(nuevaAccion,ruta2,true);
 		this->imagenActual = this->accionActual->getImagenActual();
 		
 	}
@@ -132,6 +133,28 @@ void Personaje::destruirPersonaje(){
 	this->accionActual->destruirAccion();
 	
 }
+/**
+ * 
+ */ 
+void Personaje::Dibujarse(int x, int y){
+    int ancho, alto;
+	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
+	this->Dibujarse(x, y, alto, ancho);
+}
+
+/**
+ * 
+ * */
+void Personaje::Dibujarse(int x, int y, int alto, int ancho){
+	//Rectangulo destino
+	SDL_Rect destino;
+	destino.x = x;
+	destino.y = y;
+	destino.w = ancho;
+	destino.h = alto;
+	SDL_RenderCopy(this->renderer, this->imagenActual, NULL, &destino);
+}
+
 
 void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	

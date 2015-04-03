@@ -9,19 +9,19 @@ using namespace std;
 
 class Capa{
 // private:
-public:
-    SDL_Renderer *ren;
-    string ubicacion;
-    float anchoLogico;
-    float x_logico;
-    Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam);
-    ~Capa ();
-    void Dibujarse(int x, int y);
-    void Dibujarse(int x, int y, int alto, int ancho);
-    void Dibujarse2(int x, int y);
-    SDL_Texture* CargarTextura();
+	public:
+		SDL_Renderer *ren;
+		string ubicacion;
+		float anchoLogico;
+		float x_logico;
+		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam);
+		~Capa ();
+		void Dibujarse(int x, int y);
+		void Dibujarse(int x, int y, int alto, int ancho);
+		void Dibujarse2(int x, int y);
+		SDL_Texture* CargarTextura();
 
-    SDL_Texture* textura;
+		SDL_Texture* textura;
 };
 
 //----------------------------------------------------------------

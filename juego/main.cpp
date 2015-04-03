@@ -6,14 +6,17 @@
 #include "Capa.h"
 #include "Escenario.h"
 #include "parser.h"
-
+#include "Personaje.hpp"
 #include "logger.h"
-
 #include "ConversorDeCoordenadas.h"
 
 using namespace std;
 
 
+#define QUIETO 0
+#define CAMINAR_DERECHA 1
+#define CAMINAR_IZQUIERDA 2
+#define SALTAR 3
 Logger *logger = Logger::instance();
 
 
@@ -70,6 +73,7 @@ public:
 
     Conf *conf;
 
+	Personaje *personajeJuego;	
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
@@ -83,7 +87,7 @@ public:
         configurar();
         //Dibujarse(int x, int y, int alto, int ancho){
         // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
-
+		
         game_loop();
 
         /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
@@ -136,7 +140,8 @@ public:
         barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
        //Derecha
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
-
+		Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
+		this->personajeJuego = personaje;
     }
     
     void cargar_capas(){
@@ -158,7 +163,7 @@ public:
 
     }
     void game_loop(){
-    
+		
 	    bool golpeandoPJ = false;
 	    bool cansandoPJ = false;
 	    bool scrollearDerecha = false;
@@ -168,6 +173,7 @@ public:
         SDL_Event evento;
         SDL_Texture *under = loadTexture("resources/background/p_under.png", renderer);
         SDL_Rect r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
+        
         while (!salir){
             SDL_PollEvent( &evento );
             switch(evento.type){
@@ -178,10 +184,13 @@ public:
                     if (evento.key.keysym.sym == SDLK_RIGHT)  {
                         scrollearDerecha = true;
                     	scrollearIzquierda = false;
+                    	this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                    	
                     }
                     if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
                         scrollearIzquierda = true;
                     	scrollearDerecha = false;
+                    	this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
                     }
 		            if(evento.key.keysym.sym == SDLK_a)  {
                     	barraDeVida1.Aliviar(20);
@@ -208,13 +217,19 @@ public:
                     }
                     break;
 		        case SDL_KEYUP:
+	                this->personajeJuego->definir_imagen(QUIETO);
+					
 	                if((evento.key.keysym.sym == SDLK_d))  {
 	                    golpeandoPJ = false;
 	                }
 			        if((evento.key.keysym.sym == SDLK_c))  {
 	                    cansandoPJ = false;
 	                }
+	                 
                     break;
+                default:
+					this->personajeJuego->definir_imagen(QUIETO);
+					
            }
 
 	       if (scrollearIzquierda && mover<0) mover+= 5;
@@ -247,9 +262,11 @@ public:
            (escenario->capas[7])->Dibujarse((int)escenario->capas[7]->x_logico + mover,0);
            (escenario->capas[8])->Dibujarse((int)escenario->capas[8]->x_logico + mover,208);
            (escenario->capas[9])->Dibujarse((int)escenario->capas[9]->x_logico + mover,0);       
-           (escenario->capas[10])->Dibujarse(- mover/2,125);   
+          // (escenario->capas[10])->Dibujarse(- mover/2,125);   
 	       barraDeVida1.Dibujarse();
 	       barraDeVida2.Dibujarse();
+	       this->personajeJuego->Dibujarse(-mover/2,125);
+	    
             
            SDL_RenderPresent(renderer);
            SDL_Delay(10);

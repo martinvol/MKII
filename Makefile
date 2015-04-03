@@ -59,12 +59,25 @@ Director.o: juego/Director.cpp
 logger.o: juego/logger.c
 	$(CC) "juego/logger.c" $(CFLAGS) -c
 
-juego: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
-	$(CC) main.o Capa.o Escenario.o parser.o  BarrasDeVida.o logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+Accion.o: juego/Accion.cpp
+	$(CC) "juego/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+Personaje.o: juego/Personaje.cpp
+	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+		
+Personaje: Personaje.o Accion.o
+	$(CC)  Personaje.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
+
+Accion: Accion.o
+	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
+
+
+juego: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o Accion.o Personaje.o
+	$(CC) main.o Capa.o Accion.o Personaje.o Escenario.o parser.o  BarrasDeVida.o logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
 	# make clean
 	
-juegoJsonTest: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
+juegoJsonTest: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o Accion.o Personaje.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable $(JSONTEST)
 
