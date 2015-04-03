@@ -13,7 +13,7 @@ using namespace std;
 
 void Conf::set_values (char* my_file) {
     Logger *logger = Logger::instance();
-    logger->log_debug("Parser inicializado");
+    logger->log_debug("Inicializando parser");
 
     logger->log_debug(std::string("Intenta cargar configuraciones desde ") +  my_file);
 
@@ -29,6 +29,8 @@ void Conf::set_values (char* my_file) {
 
     if (!test.is_open()){
         logger->log_error("Problema con el archivo, probablemente no existe");
+        Conf::set_values("pruebas/json/test.json");
+
     }
 
     else {
@@ -86,40 +88,3 @@ void Conf::set_values (char* my_file) {
         }
     }
 }
-
-
-/*int main_(int argc, char* argv[]) {
-    Conf conf;
-    conf.set_values(argv[1]);
-
-    printf ("conf.ventana_anchopx: %f \n", conf.ventana_anchopx);
-    printf ("conf.ventana_altopx: %f \n", conf.ventana_altopx);
-    printf ("conf.ventana_ancho: %f \n", conf.ventana_ancho);
-
-    std::cout << '\n';
-
-    printf ("conf.escenario_ancho: %f \n", conf.escenario_ancho);
-    printf ("conf.escenario_alto: %f \n", conf.escenario_alto);
-    printf ("conf.escenario_ypiso: %f \n", conf.escenario_ypiso);
-
-    std::cout << '\n';
-
-    printf ("conf.personaje_ancho: %f \n", conf.personaje_ancho);
-    printf ("conf.personaje_alto: %f \n", conf.personaje_alto);
-    printf ("conf.personaje_zindex: %f \n", conf.personaje_zindex);
-
-    std::cout << '\n';
-
-    for (std::vector<Capa>::iterator it = conf.capas_vector.begin() ; it != conf.capas_vector.end(); ++it){
-        // std::cout << ' ' << conf.capas_vector.;
-        std::cout << it->ubicacion << '\n';
-        std::cout << it->anchoLogico << '\n';
-        std::cout << it->x_logico << '\n';
-    }
-
-    for(auto it : conf.sprites_map) {
-        std::cout << it.first << '\n';
-        std::cout << it.second << '\n';  
-    } 
-    return 0;
-}*/

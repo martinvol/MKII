@@ -9,7 +9,7 @@ class Ventana {
         //SDL_Texture *colorDeFondo;
         //SDL_Window* ventana;
         unsigned int anchoPx, altoPx;
-        unsigned float ancho, alto; //Dani: Esto creo que no es necesario.
+        unsigned float ancho, alto;
         CoordenadaLogica coordEsquinaInferiorIzq;
         
     public:

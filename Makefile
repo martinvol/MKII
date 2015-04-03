@@ -3,7 +3,7 @@ JSONFLAGS = -ljsoncpp
 SDLFLAGS= -w -lSDL2
 IMGFLAGS = -lSDL2_image
 FONTFLAGS = -lSDL2_ttf
-JSONTEST = "pruebas/json/test.json"
+JSONTEST = "pruebas/integracion.json"
 CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
@@ -48,10 +48,13 @@ parser.o: juego/parser.cpp
 BarrasDeVida.o: juego/BarrasDeVida.cpp
 	$(CC) "juego/BarrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-coordenadas.o: source/CoordenadaLogica.cpp source/CoordenadaFisica.cpp source/ConversorDeCoordenadas.cpp
-	$(CC) "source/CoordenadaLogica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
-	$(CC) "source/CoordenadaFisica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
-	$(CC) "source/ConversorDeCoordenadas.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
+	$(CC) "juego/CoordenadaLogica.cpp" $(CFLAGS) -c
+	$(CC) "juego/CoordenadaFisica.cpp" $(CFLAGS) -c
+	$(CC) "juego/ConversorDeCoordenadas.cpp" $(CFLAGS) -c
+
+Director.o: juego/Director.cpp
+	$(CC) "juego/Director.cpp" $(CFLAGS) -c
 
 logger.o: juego/logger.c
 	$(CC) "juego/logger.c" $(CFLAGS) -c
@@ -68,7 +71,7 @@ juegoJsonTest: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
 prueba_personaje:
 	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
 	
-prueba_integracionI: clean Capa.o Escenario.o parser.o coordenadas.o
+prueba_integracionI: clean Capa.o Escenario.o parser.o Coordenadas.o logger.o
 	$(CC) "pruebas/IntegracionI.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
 	./integracionI

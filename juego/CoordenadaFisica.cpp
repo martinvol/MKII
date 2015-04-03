@@ -11,6 +11,6 @@ void CoordenadaFisica::multiplicarPor(float f_x, float f_y){
 }
 
 void CoordenadaFisica::sumar(CoordenadaFisica* coord){
-	this->x_fisico += coord.x_fisico;
-	this->y_fisico += coord.y_fisico;
+	this->x_fisico += coord->x_fisico;
+	this->y_fisico += coord->y_fisico;
 }

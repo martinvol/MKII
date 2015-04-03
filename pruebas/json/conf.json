@@ -1,0 +1,50 @@
+{
+   "ventana":{
+      "anchopx":800,
+      "altopx":416,
+      "ancho":200,
+      "margen":80
+   },
+   "escenario":{
+      "ancho":1000.5,
+      "alto":150,
+      "ypiso":20
+   },
+   "capas":[
+      {
+         "imagen_fondo":"juego/fondo.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/columnasMUYLejos.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/columnasLejosFinal.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/p_1.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      },
+      {
+         "imagen_fondo":"juego/subZeroFeliz1.png",
+         "anchoLogico":0,
+         "xlogico": 0
+      }
+
+   ],
+   "personaje":{
+      "ancho":20,
+      "alto":35,
+      "zindex":1,
+      "sprites":{
+            "personaje1":"personaje1.png",
+            "personaje2":"personaje2.png"
+      }
+   }
+}
