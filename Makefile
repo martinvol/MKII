@@ -71,7 +71,7 @@ juegoJsonTest: main.o Capa.o Escenario.o parser.o BarrasDeVida.o logger.o
 prueba_personaje:
 	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
 	
-prueba_integracionI: clean Capa.o Escenario.o parser.o coordenadas.o
+prueba_integracionI: clean Capa.o Escenario.o parser.o Coordenadas.o logger.o
 	$(CC) "pruebas/IntegracionI.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
 	./integracionI
