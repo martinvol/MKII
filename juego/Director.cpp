@@ -11,6 +11,14 @@ void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 	}
 }
 
+CoordenadaLogica* Director::validar_nuevo_lugar(CoordenadaLogica* coord, float ancho_personaje){
+	coord.desplazarX(ancho_personaje/2);
+	
+	coord.desplazarX(-ancho_personaje);
+	
+	coord.desplazarX(ancho_personaje/2);
+}
+
 void Director::actualizar(){
 	verificar_movimiento();
 	verificar_orientaciones();
@@ -48,13 +56,14 @@ void Director::verificar_necesidad_de_scroll_y_accionar_movimientos(){
 															// u obtenerCoordenadaIzqInf()
 				scroll1 = true;
 				nueva_coord1 = jugadores[jugador1]->caminarIzquierda();
+				
 			break;
 		case Arriba:
 			scroll1 = false;
 			jugadores[jugador1]->saltar();
 			break;
 		default: //case Nada:
-			nueva_coord1 = scroll1 = false;
+			scroll1 = false;
 			nueva_coord1 = jugadores[jugador1]->parar();
 			break;
 	}

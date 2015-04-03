@@ -68,7 +68,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
  * */
 void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion){
 	
-	this->accionActual->destruirAccion();
+	delete this->accionActual;
 	this->accionActual = new Accion(nroAccion, ruta, permiteInterrupcion,this->renderer);
 	this->lastTime = 0;	
 	
@@ -129,7 +129,7 @@ SDL_Texture* Personaje::definir_imagen(int nuevaAccion){
 }
 Personaje::~Personaje(){
 	
-	this->accionActual->~Accion();
+	delete this->accionActual;
 	
 }
 /**
