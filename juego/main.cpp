@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "BarrasDeVida.h"
+#include "BarraDeVida.h"
 #include "Capa.h"
 #include "Escenario.h"
 #include "parser.h"
