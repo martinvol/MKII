@@ -238,7 +238,7 @@ public:
 	       
 	       SDL_RenderCopy(renderer, under, NULL, &r);
 	       (escenario->capas[0])->Dibujarse(0,0);
-           (escenario->capas[1])->Dibujarse(0 + mover/4,40);
+           (escenario->capas[1])->Dibujarse(0 + mover/4,0);
            (escenario->capas[2])->Dibujarse(0 + mover/2,0);
            (escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
            (escenario->capas[4])->Dibujarse((int)escenario->capas[4]->x_logico + mover,0);
