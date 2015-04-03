@@ -12,47 +12,53 @@
    "capas":[
       {
          "imagen_fondo":"resources/background/p_bg.png",
-         "xlogico": 0
+         "xlogico": 0,
+         "anchoLogico":400
       },
       {
          "imagen_fondo":"resources/background/p_4b.png",
-         "xlogico": 0
+         "xlogico": 0,
+         "anchoLogico":504
       },
       {
          "imagen_fondo":"resources/background/p_3.png",
-         "xlogico": 0
+         "xlogico": 0,
+         "anchoLogico": 776
       },
       {
          "imagen_fondo":"resources/background/p_2_1.png",
-         "xlogico": 200
+         "xlogico": 200,
+         "anchoLogico": 70
       },
       {
          "imagen_fondo":"resources/background/p_2_2.png",
-         "xlogico": 400
+         "xlogico": 400,
+         "anchoLogico": 84
       },
       {
          "imagen_fondo":"resources/background/p_2_3.png",
-         "xlogico": 600
+         "xlogico": 600,
+         "anchoLogico": 66
       },
       {
          "imagen_fondo":"resources/background/p_2_1.png",
-         "xlogico": 800
+         "xlogico": 800,
+         "anchoLogico": 70
       },
       {
          "imagen_fondo":"resources/background/p_2_2.png",
-         "xlogico": 1000
+         "xlogico": 1000,
+         "anchoLogico": 84
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
-         "xlogico": 0
+         "xlogico": 0,
+         "anchoLogico": 1216
       },
       {
          "imagen_fondo":"resources/background/p_1_2.png",
-         "xlogico": 0
-      },
-      {
-         "imagen_fondo":"juego/subZeroFeliz1.png",
-         "xlogico": 0
+         "xlogico": 0,
+         "anchoLogico": 185 
       }
    ],
    "personaje":{
