@@ -71,6 +71,8 @@ Personaje: Personaje.o Accion.o
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
 
+Jugador.o: juego/Jugador.cpp
+	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o
 	$(CC) main.o Capa.o Accion.o Personaje.o Escenario.o parser.o  BarraDeVida.o logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable

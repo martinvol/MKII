@@ -127,10 +127,9 @@ SDL_Texture* Personaje::definir_imagen(int nuevaAccion){
 				
 	return (this->imagenActual);
 }
-
-void Personaje::destruirPersonaje(){
+Personaje::~Personaje(){
 	
-	this->accionActual->destruirAccion();
+	this->accionActual->~Accion();
 	
 }
 /**

@@ -21,6 +21,7 @@ class Ventana {
 		
 		void cambiarTamaño(int ancho_fisico, int alto_fisico);
 		void cambiarMargen(float margen);
+		/*Se supone que no recibe una coordenada física que supere a la pantalla nunca. (No lo valida) */
 		lugarEnVentana coordenadaEnPantalla(CoordenadaFisica* coord);
 		
 		
