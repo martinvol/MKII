@@ -48,7 +48,7 @@ parser.o: juego/parser.cpp
 BarrasDeVida.o: juego/BarrasDeVida.cpp
 	$(CC) "juego/BarrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
+Coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
 	$(CC) "juego/CoordenadaLogica.cpp" $(CFLAGS) -c
 	$(CC) "juego/CoordenadaFisica.cpp" $(CFLAGS) -c
 	$(CC) "juego/ConversorDeCoordenadas.cpp" $(CFLAGS) -c

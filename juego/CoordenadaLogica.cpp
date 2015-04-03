@@ -11,8 +11,8 @@ void CoordenadaLogica::multiplicarPor(float f_x, float f_y){
 }
 
 void CoordenadaLogica::sumar(CoordenadaLogica* coord){
-	this->x += coord.x;
-	this->y += coord.y;
+	this->x += coord->x;
+	this->y += coord->y;
 }
 
 void CoordenadaLogica::desplazarX(float x){
