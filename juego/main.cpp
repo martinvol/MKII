@@ -23,25 +23,25 @@ Logger *logger = Logger::instance();
 //----------------------------------------------------------------
 
 int InicializarSDL() {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		logger->log_error("Error al iniciar SDL");
-		return 1;
-	}
-	if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG){
-	    logger->log_error("Error con inicializacion de imagenes");
-	    SDL_Quit();
-	    return 1;
-	}
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        logger->log_error("Error al iniciar SDL");
+        return 1;
+    }
+    if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG){
+        logger->log_error("Error con inicializacion de imagenes");
+        SDL_Quit();
+        return 1;
+    }
     logger->log_debug("SDL cargada correctamente");
     return 0;
 }
 
 SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
-	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
-	if (texture == NULL){
-		logger->log_error("LoadTexture");
-	}
-	return texture;
+    SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
+    if (texture == NULL){
+        logger->log_error("LoadTexture");
+    }
+    return texture;
 }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -56,7 +56,7 @@ class Juego
 public:
     int argc;   
     char** argv;
-	ConversorDeCoordenadas* conv;
+    ConversorDeCoordenadas* conv;
     
     bool salir = false;
     SDL_Renderer * renderer = NULL;
@@ -73,7 +73,7 @@ public:
 
     Conf *conf;
 
-	Personaje *personajeJuego;	
+    Personaje *personajeJuego;  
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
@@ -87,7 +87,7 @@ public:
         configurar();
         //Dibujarse(int x, int y, int alto, int ancho){
         // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
-		
+        
         game_loop();
 
         /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
@@ -135,13 +135,13 @@ public:
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
         cargar_capas();
-	
+    
         //Izquierda
         barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
        //Derecha
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
-		Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
-		this->personajeJuego = personaje;
+        Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
+        this->personajeJuego = personaje;
     }
     
     void cargar_capas(){
@@ -150,9 +150,9 @@ public:
             conf->capas_vector[i]->ren = renderer;
             
 
-            // escenario->AgregarCapa(conf->capas_vector[i]); Por algún motivo esto no anda
+            // escenario->AgregarCapa(conf->capas_vector[i]); Por algÃºn motivo esto no anda
 
-            escenario->AgregarCapa( // esto no debería estar así, tendria que andar la línea de arriba, pero estuve luchando y no la hago andar (maxi)
+            escenario->AgregarCapa( // esto no deberÃ­a estar asÃ­, tendria que andar la lÃ­nea de arriba, pero estuve luchando y no la hago andar (maxi)
                 new Capa (conf->capas_vector[i]->ubicacion,
                 conf->capas_vector[i]->anchoLogico,
                 conf->capas_vector[i]->x_logico,
@@ -163,12 +163,12 @@ public:
 
     }
     void game_loop(){
-		
-	    bool golpeandoPJ = false;
-	    bool cansandoPJ = false;
-	    bool scrollearDerecha = false;
-    	bool scrollearIzquierda = false;
-	    mover = 5;
+        
+        bool golpeandoPJ = false;
+        bool cansandoPJ = false;
+        bool scrollearDerecha = false;
+        bool scrollearIzquierda = false;
+        mover = 5;
         moverSZ= 1;
         SDL_Event evento;
         SDL_Texture *under = loadTexture("resources/background/p_under.png", renderer);
@@ -183,36 +183,36 @@ public:
                 case SDL_KEYDOWN:
                     if (evento.key.keysym.sym == SDLK_RIGHT)  {
                         //scrollearDerecha = true;
-                    	//scrollearIzquierda = false;
-                    	this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
-                    	if (abs(mover)<750) mover-= 5;
+                        //scrollearIzquierda = false;
+                        this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                        if (abs(mover)<750) mover-= 5;
                         if (abs(-moverSZ)<750) moverSZ +=2;
-                    	
+                        
                     }
                     if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
                         //scrollearIzquierda = true;
-                    	//scrollearDerecha = false;
-                    	this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
-                    	mover+= 5;
+                        //scrollearDerecha = false;
+                        this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                        mover+= 5;
                         moverSZ-=5;
                     }
-		            if(evento.key.keysym.sym == SDLK_a)  {
-                    	barraDeVida1.Aliviar(20);
-	                    barraDeVida2.Aliviar(20);
+                    if(evento.key.keysym.sym == SDLK_a)  {
+                        barraDeVida1.Aliviar(20);
+                        barraDeVida2.Aliviar(20);
                     }
                     if(evento.key.keysym.sym == SDLK_c)  {
-    	                if (cansandoPJ == false){
-    	                    barraDeVida1.Cansar(50);
-    	                    barraDeVida2.Cansar(50);
-    	                    cansandoPJ = true;
+                        if (cansandoPJ == false){
+                            barraDeVida1.Cansar(50);
+                            barraDeVida2.Cansar(50);
+                            cansandoPJ = true;
                         }
                     }   
-		            if((evento.key.keysym.sym == SDLK_d))  {
-                    	if (golpeandoPJ == false){
-                    	    barraDeVida1.Lastimar(90);
-			                barraDeVida2.Lastimar(750);
-                    	    golpeandoPJ = true;
-	                    }
+                    if((evento.key.keysym.sym == SDLK_d))  {
+                        if (golpeandoPJ == false){
+                            barraDeVida1.Lastimar(90);
+                            barraDeVida2.Lastimar(750);
+                            golpeandoPJ = true;
+                        }
                         break;
                     }
                     if (evento.key.keysym.sym == SDLK_ESCAPE) salir = true;
@@ -220,24 +220,23 @@ public:
                         reiniciarJuego();
                     }
                     break;
-		        case SDL_KEYUP:
-	                this->personajeJuego->definir_imagen(QUIETO);
-					scrollearIzquierda = false;
-                    scrollearDerecha = false;
-	                if((evento.key.keysym.sym == SDLK_d))  {
-	                    golpeandoPJ = false;
-	                }
-			        if((evento.key.keysym.sym == SDLK_c))  {
-	                    cansandoPJ = false;
-	                }
-	                 
+                case SDL_KEYUP:
+                    this->personajeJuego->definir_imagen(QUIETO);
+                    
+                    if((evento.key.keysym.sym == SDLK_d))  {
+                        golpeandoPJ = false;
+                    }
+                    if((evento.key.keysym.sym == SDLK_c))  {
+                        cansandoPJ = false;
+                    }
+                     
                     break;
                 default:
-					this->personajeJuego->definir_imagen(QUIETO);
-					
+                    this->personajeJuego->definir_imagen(QUIETO);
+                    
            }
 
-	       //if (scrollearIzquierda && mover<0) mover+= 5;
+           //if (scrollearIzquierda && mover<0) mover+= 5;
            //else if (scrollearDerecha && abs(mover)<700) mover-= 5;
 
            //Limpio y dibujo
@@ -254,10 +253,10 @@ public:
            (escenario->capas[3])->Dibujarse(-mover,120, 48*2,1257);
            //Sz
            //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170); 
-	       */
-	       
-	       SDL_RenderCopy(renderer, under, NULL, &r);
-	       (escenario->capas[0])->Dibujarse(0,0);
+           */
+           
+           SDL_RenderCopy(renderer, under, NULL, &r);
+           (escenario->capas[0])->Dibujarse(0,0);
            (escenario->capas[1])->Dibujarse(0 + mover/4,0);
            (escenario->capas[2])->Dibujarse(0 + mover/2,0);
            (escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
@@ -268,13 +267,13 @@ public:
            (escenario->capas[8])->Dibujarse((int)escenario->capas[8]->x_logico + mover,208);
            (escenario->capas[9])->Dibujarse((int)escenario->capas[9]->x_logico + mover,0);       
           // (escenario->capas[10])->Dibujarse(- mover/2,125);   
-	       barraDeVida1.Dibujarse();
-	       barraDeVida2.Dibujarse();
-	       this->personajeJuego->Dibujarse(-moverSZ/2,125);
-	    
+           barraDeVida1.Dibujarse();
+           barraDeVida2.Dibujarse();
+           this->personajeJuego->Dibujarse(-moverSZ/2,125);
+        
             
            SDL_RenderPresent(renderer);
-           SDL_Delay(1000/40.);
+           SDL_Delay(10);
         }
     SDL_DestroyTexture(under);  
     };
