@@ -14,4 +14,5 @@ public:
 	void desplazarY(float y);
 
 };
+
 #endif // COORDLOGICA_H_INCLUDED

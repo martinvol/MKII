@@ -48,10 +48,13 @@ parser.o: juego/parser.cpp
 BarrasDeVida.o: juego/BarrasDeVida.cpp
 	$(CC) "juego/BarrasDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-coordenadas.o: source/CoordenadaLogica.cpp source/CoordenadaFisica.cpp source/ConversorDeCoordenadas.cpp
-	$(CC) "source/CoordenadaLogica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
-	$(CC) "source/CoordenadaFisica.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
-	$(CC) "source/ConversorDeCoordenadas.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
+	$(CC) "juego/CoordenadaLogica.cpp" $(CFLAGS) -c
+	$(CC) "juego/CoordenadaFisica.cpp" $(CFLAGS) -c
+	$(CC) "juego/ConversorDeCoordenadas.cpp" $(CFLAGS) -c
+
+Director.o: juego/Director.cpp
+	$(CC) "juego/Director.cpp" $(CFLAGS) -c
 
 logger.o: juego/logger.c
 	$(CC) "juego/logger.c" $(CFLAGS) -c
