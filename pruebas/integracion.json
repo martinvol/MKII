@@ -2,12 +2,12 @@
    "ventana":{
       "anchopx":400,
       "altopx":255,
-      "ancho":200
+      "ancho":400
    },
    "escenario":{
-      "ancho":1000.5,
-      "alto":150,
-      "ypiso":20
+      "ancho":1216,
+      "alto":255,
+      "ypiso":47
    },
    "capas":[
       {
@@ -24,23 +24,23 @@
       },
       {
          "imagen_fondo":"resources/background/p_2_1.png",
-         "xlogico": 0
+         "xlogico": 200
       },
       {
          "imagen_fondo":"resources/background/p_2_2.png",
-         "xlogico": 0
+         "xlogico": 400
       },
       {
          "imagen_fondo":"resources/background/p_2_3.png",
-         "xlogico": 0
+         "xlogico": 600
       },
       {
          "imagen_fondo":"resources/background/p_2_1.png",
-         "xlogico": 0
+         "xlogico": 800
       },
       {
          "imagen_fondo":"resources/background/p_2_2.png",
-         "xlogico": 0
+         "xlogico": 1000
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
@@ -54,7 +54,6 @@
          "imagen_fondo":"juego/subZeroFeliz1.png",
          "xlogico": 0
       }
-
    ],
    "personaje":{
       "ancho":20,
