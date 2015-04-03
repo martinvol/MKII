@@ -12,7 +12,7 @@ using namespace std;
 
 
 void Conf::set_values (char* my_file) {
-    Logger *logger = Logger::instance();
+    logger = Logger::instance();
     logger->log_debug("Inicializando parser");
 
     logger->log_debug(std::string("Intenta cargar configuraciones desde ") +  my_file);
@@ -41,10 +41,11 @@ void Conf::set_values (char* my_file) {
 
             const Json::Value ventana = root["ventana"];
             
-            ventana_anchopx = ventana.get("anchopx", 0).asFloat();
-            ventana_altopx = ventana.get("altopx", 0).asFloat();
-            ventana_ancho = ventana.get("ancho", 0).asFloat();
-            margen = ventana.get("margen", 0).asFloat();
+            ventana_anchopx = cargarValidar(ventana, 800, "anchopx", "Usando anchopx default de 800px");
+            ventana_altopx = cargarValidar(ventana, 416, "altopx", "Usando altopx default de 416px");
+
+            ventana_ancho = cargarValidar(ventana, 600, "ancho", "Usando ancho default de 600px");
+            margen = cargarValidar(ventana, 80, "margen", "Usando marge default de 80%");
 
             const Json::Value escenario = root["escenario"];
             escenario_ancho = escenario.get("ancho", 0).asFloat();
@@ -67,10 +68,6 @@ void Conf::set_values (char* my_file) {
             const Json::Value capas = root["capas"];
             
             for ( int index = 0; index < capas.size(); ++index ){
-    /*            std::cout << capas[index].get("imagen_fondo", "default").asString();
-                std::cout << "\n";
-                printf("capa: %f \n", capas[index].get("ancho", 0).asFloat());
-    */
                 Capa *temp = new Capa(
                     capas[index].get("imagen_fondo", "default").asString(), 
                     capas[index].get("anchoLogico", 0).asFloat(),
@@ -83,10 +80,16 @@ void Conf::set_values (char* my_file) {
        
             valido = true;
         } else {
-            logger->log_error("Error de sytaxis en el archivo");
-            logger->log_error(reader.getFormatedErrorMessages());
-            Conf::set_values("pruebas/json/test.json");
-
+            puts("Error de sytaxis en el archivo");
+            cout << reader.getFormatedErrorMessages() << endl;
         }
     }
+}
+
+float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
+   if (!objetoJson.isMember(clave)){
+        logger->log_error(std::string("ventana no tiene el parametro:") + clave);
+        logger->log_debug(mensaje);
+    }
+    return objetoJson.get(clave, valorDefault).asFloat();
 }
