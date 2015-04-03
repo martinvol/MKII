@@ -262,7 +262,7 @@ public:
         terminar_juego();
         cargar_configuracion();
         cargar_capas();
-        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO);
+        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO); // Dani se encarga de poner esto en su objeto
 
     };
     void terminar_juego(){
