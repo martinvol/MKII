@@ -269,7 +269,7 @@ public:
 	    
             
            SDL_RenderPresent(renderer);
-           SDL_Delay(10);
+           SDL_Delay(1000/40.);
         }
     SDL_DestroyTexture(under);  
     };
