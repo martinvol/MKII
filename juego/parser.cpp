@@ -83,8 +83,10 @@ void Conf::set_values (char* my_file) {
        
             valido = true;
         } else {
-            puts("Error de sytaxis en el archivo");
-            cout << reader.getFormatedErrorMessages() << endl;
+            logger->log_error("Error de sytaxis en el archivo");
+            logger->log_error(reader.getFormatedErrorMessages());
+            Conf::set_values("pruebas/json/test.json");
+
         }
     }
 }
