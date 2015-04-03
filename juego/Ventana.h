@@ -16,7 +16,7 @@ class Ventana {
 		int borde_izq, borde_der;
 		
 		// Margen identifica cuánto porcentaje de la ventana no es borde.		
-		Ventana(int ancho_fisico, int alto_fisico, float margen);
+		Ventana(char* titulo, int ancho_fisico, int alto_fisico, float margen);
 		~Ventana();
 		
 		void cambiarTamaño(int ancho_fisico, int alto_fisico);
