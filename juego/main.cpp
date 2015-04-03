@@ -97,7 +97,6 @@ public:
         // Se settean configuraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
-
         //Pantalla
         ANCHO_FISICO = conf->ventana_anchopx; //800
         ALTO_FISICO = conf->ventana_altopx; //416
@@ -105,18 +104,22 @@ public:
         AnchoLogico = conf->escenario_ancho;
         AltoLogico = conf->escenario_alto;
         // Martin
-
-
         // fin de las configuraciones
 
     };
+    
     void configurar(){
 
         cargar_configuracion();
 
         //SDL_Window* ventana = NULL;
 
-        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ANCHO_FISICO, ALTO_FISICO, SDL_WINDOW_MAXIMIZED);
+        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate", 
+                                   SDL_WINDOWPOS_CENTERED,
+                                   SDL_WINDOWPOS_CENTERED, 
+                                   ANCHO_FISICO, ALTO_FISICO, 
+                                   SDL_WINDOW_MAXIMIZED);
+                                   
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
         cargar_capas();
@@ -127,7 +130,9 @@ public:
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
 
     }
+    
     void cargar_capas(){
+    
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++){
             conf->capas_vector[i]->ren = renderer;
             
@@ -145,6 +150,7 @@ public:
 
     }
     void game_loop(){
+    
 	bool golpeandoPJ = false;
 	bool cansandoPJ = false;
 	bool scrollearDerecha = false;
