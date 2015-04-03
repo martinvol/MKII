@@ -258,7 +258,7 @@ public:
     };
     
     void reiniciarJuego(){
-        puts("Tengo que cambiar las configuraciones");
+        logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();
         cargar_configuracion();
         cargar_capas();
@@ -289,7 +289,4 @@ int main(int argc, char* argv[]){
 
     Juego juego(argc, argv);
     return juego.jugar();
-    /*Hola hola;
-    return 0;*/
-
 }

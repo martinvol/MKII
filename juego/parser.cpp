@@ -5,7 +5,6 @@
 #include "Capa.h"
 #include "parser.h"
 #include "logger.h"
-// This is the JSON header
 #include "jsoncpp/json/json.h"
 
 using namespace std;
@@ -63,7 +62,6 @@ void Conf::set_values (char* my_file) {
             const Json::Value sprites = personaje["sprites"];
 
             for (auto const& id : sprites.getMemberNames()) {
-                //std::cout << id << std::endl;
                 sprites_map[id] = sprites.get(id, "Esto nunca se va a mostrar").asString();
             }
 
@@ -79,8 +77,6 @@ void Conf::set_values (char* my_file) {
                 capas_vector.push_back(temp);
             }
 
-       
-            valido = true;
         } else {
             puts("Error de sytaxis en el archivo");
             cout << reader.getFormatedErrorMessages() << endl;
@@ -90,7 +86,7 @@ void Conf::set_values (char* my_file) {
 
 float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
    if (!objetoJson.isMember(clave)){
-        logger->log_error(std::string("ventana no tiene el parametro:") + clave);
+        logger->log_warning(std::string("ventana no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
     }
     return objetoJson.get(clave, valorDefault).asFloat();
