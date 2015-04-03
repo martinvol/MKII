@@ -48,15 +48,17 @@ void Conf::set_values (char* my_file) {
             margen = cargarValidar(ventana, 80, "margen", "Usando marge default de 80%");
 
             const Json::Value escenario = root["escenario"];
-            escenario_ancho = escenario.get("ancho", 0).asFloat();
-            escenario_alto = escenario.get("alto", 0).asFloat();
-            escenario_ypiso = escenario.get("ypiso", 0).asFloat();
+
+            escenario_ancho = cargarValidar(escenario, 2000, "ancho", "Usando ancho default de 2000");
+            escenario_alto = cargarValidar(escenario, 200, "alto", "Usando ancho default de 200");
+            escenario_ypiso = cargarValidar(escenario, 0, "ypiso", "Usando ypiso default de 0");
 
 
             const Json::Value personaje = root["personaje"];
-            personaje_ancho = personaje.get("ancho", 0).asFloat();
-            personaje_alto = personaje.get("alto", 0).asFloat();
-            personaje_zindex = personaje.get("zindex", 0).asFloat();
+
+            personaje_ancho = cargarValidar(personaje, 100, "ancho", "Usando ancho (personaje) default de 100");
+            personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
+            personaje_zindex = cargarValidar(personaje, 0, "zindex", "Usando zindex (personaje) default de 0");
 
             const Json::Value sprites = personaje["sprites"];
 

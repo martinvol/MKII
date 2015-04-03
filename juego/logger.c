@@ -6,7 +6,7 @@
 using namespace std;
 
 Logger::Logger(){
-	puts("me instancio");
+	log_debug("Logger inicializado");
 }
 
 Logger* Logger::instance(){
