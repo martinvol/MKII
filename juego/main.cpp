@@ -67,30 +67,28 @@ public:
         argv = argv_;
         this->escenario = new Escenario();        
     };
+    
     int jugar(){
 
         if (InicializarSDL() != 0) return 1;
         renderer = SDL_CreateRenderer(NULL, -1, 0);
         configurar();
-//Dibujarse(int x, int y, int alto, int ancho){
-
-
+        //Dibujarse(int x, int y, int alto, int ancho){
         // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
-    game_loop();
+        game_loop();
 
-       /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
+        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
         columnasMuyLejos->Dibujarse(0.5*mover ,0);
         ColumnasLejos->Dibujarse(mover,0);
         piso->Dibujarse(0,ALTO_FISICO-46);
         Sz->Dibujarse(15+moverSZ ,ALTO_FISICO-170);*/
 
-    // LIBERAR RECURSOS
-    terminar_juego();
+        // LIBERAR RECURSOS
+        terminar_juego();
 
-    terminar_sdl();
-    return 0;
-
+        terminar_sdl();
+        return 0;
     };
 
     void cargar_configuracion(){
@@ -203,10 +201,10 @@ public:
                 break;
            }
 
-	   if ( scrollearIzquierda && mover <0)
+	       if ( scrollearIzquierda && mover <0)
            	mover+= 5;
 
-           if (scrollearDerecha && abs(mover)<500)
+           else if (scrollearDerecha && abs(mover)<700)
            	mover-= 5;
 
             //Limpio y dibujo
@@ -228,6 +226,7 @@ public:
 	    barraDeVida2.Dibujarse();
             
             SDL_RenderPresent(renderer);
+            //SDL_Delay(10);
         }
     };
     void reiniciarJuego(){
