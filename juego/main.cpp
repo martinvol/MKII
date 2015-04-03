@@ -247,7 +247,7 @@ public:
            (escenario->capas[7])->Dibujarse((int)escenario->capas[7]->x_logico + mover,0);
            (escenario->capas[8])->Dibujarse((int)escenario->capas[8]->x_logico + mover,208);
            (escenario->capas[9])->Dibujarse((int)escenario->capas[9]->x_logico + mover,0);       
-           (escenario->capas[10])->Dibujarse(moverSZ,125);   
+           (escenario->capas[10])->Dibujarse(- mover/2,125);   
 	       barraDeVida1.Dibujarse();
 	       barraDeVida2.Dibujarse();
             
