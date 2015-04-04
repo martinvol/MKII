@@ -25,10 +25,10 @@ public:
 
 	// Conversiones que crean nuevas coordenadas,y no destruyen viejas.
 	
-	CoordenadaFisica* convertirAFisicas(CoordenadaLogica* coord);
+	CoordenadaFisica* aFisica(CoordenadaLogica* coord);
 	/* Devuelve NULL si la coordenada lógica no debería estar en la pantalla. */
 	
-	CoordenadaLogica* convertirALogicas(CoordenadaFisica* coord);
+	CoordenadaLogica* aLogica(CoordenadaFisica* coord);
 
 	//Para avisarle que se movió la ventana dentro del mundo.
 	void seMovioVentana(int pixeles);

@@ -115,7 +115,7 @@ Accion::Accion(int nroAccion, string ruta, bool permite,SDL_Renderer* ren){
 /**Se destruye el vector, liberando la memoria 
  * ocupada por las imagenes guardadas en el vector.
  * */
-void Accion::destruirAccion(){
+Accion::~Accion(){
 	
 	for (int i = 0; i < this->cantModos; i++){
 			SDL_DestroyTexture(imagenes[i]);

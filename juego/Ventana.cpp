@@ -27,3 +27,17 @@ lugarEnVentana Ventana::coordenadaEnPantalla(CoordenadaFisica* coord){
 	if (coord->x_fisico >= borde_der) return bordeDer;
 	return medio;
 }
+
+CoordenadaLogica* Ventana::obtenerBordeLogicoIzquierdo(ConversorDeCoordenadas* conv){
+	coord_fis = new CoordenadaFisica(borde_izq, 0);
+	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	delete coord_fis;
+	return coord_log;
+}
+
+CoordenadaLogica* Ventana::obtenerBordeLogicoDerecho(ConversorDeCoordenadas* conv){
+	coord_fis = new CoordenadaFisica(borde_der, 0);
+	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	delete coord_fis;
+	return coord_log;
+}

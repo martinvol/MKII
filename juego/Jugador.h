@@ -1,8 +1,9 @@
 #ifndef JUGADOR_H
 #define JUGADOR_H
 
-#include "Personaje.h"
+#include "Personaje.hpp"
 #include "BarraDeVida.h"
+#include "CoordenadaLogica.h"
 
 class Jugador {
 	public:
@@ -10,6 +11,20 @@ class Jugador {
 		BarraDeVida* barra;
 		
 		Personaje* obtenerPersonaje();
+		CoordenadaLogica* obtenerCoordenada();
+		float obtenerAnchoLogico();
+		/* Cambia orientación. */
+		void mirarParaDerecha();
+		void mirarParaIzquierda();
+		/* Activa las imágenes.
+		 * Y devuelve a dónde se movería. */
+		CoordenadaLogica* parar();
+		CoordenadaLogica* saltar();
+		CoordenadaLogica* saltarDerecha();
+		CoordenadaLogica* saltarIzquierda();
+		CoordenadaLogica* caminarDerecha();
+		CoordenadaLogica* caminarIzquierda();
+		
 };
 
 #endif //JUGADOR_H

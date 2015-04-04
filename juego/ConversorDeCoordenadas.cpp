@@ -24,15 +24,13 @@ ConversorDeCoordenadas::ConversorDeCoordenadas(int alto_fisico, int ancho_fisico
 	this->ancho_fisico = ancho_fisico;
 }
 
-CoordenadaFisica* ConversorDeCoordenadas::convertirAFisicas(CoordenadaLogica* coord){
+CoordenadaFisica* ConversorDeCoordenadas::aFisica(CoordenadaLogica* coord){
 	int x_fisico = (coord->x - x_logico) * factor_ancho;
-	if (x_fisico < 0 || x_fisico > ancho_fisico) return NULL;
 	int y_fisico = (alto_logico - coord->y)*factor_alto;
-	if (y_fisico < 0 || y_fisico > alto_fisico) return NULL;
 	return new CoordenadaFisica(x_fisico, y_fisico);
 }
 
-CoordenadaLogica* ConversorDeCoordenadas::convertirALogicas(CoordenadaFisica* coord){
+CoordenadaLogica* ConversorDeCoordenadas::aLogica(CoordenadaFisica* coord){
 	return new CoordenadaLogica(x_logico + ((coord->x_fisico * 1.0)/factor_ancho), alto_logico - ((coord->y_fisico * 1.0)/factor_alto));
 }
 

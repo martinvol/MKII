@@ -19,6 +19,7 @@ class Accion{
 	public:
 		
 		Accion(int nroAccion, string ruta, bool permite,SDL_Renderer* ren); //constructor
+		~Accion();
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
 		void setModoActual(int modo);
@@ -30,6 +31,5 @@ class Accion{
 		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
-		void destruirAccion();
 	
 };
