@@ -85,20 +85,11 @@ public:
         if (InicializarSDL() != 0) return 1;
         renderer = SDL_CreateRenderer(NULL, -1, 0);
         configurar();
-        //Dibujarse(int x, int y, int alto, int ancho){
-        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
 
         game_loop();
 
-        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
-        columnasMuyLejos->Dibujarse(0.5*mover ,0);
-        ColumnasLejos->Dibujarse(mover,0);
-        piso->Dibujarse(0,ALTO_FISICO-46);
-        Sz->Dibujarse(15+moverSZ ,ALTO_FISICO-170);*/
-
         // LIBERAR RECURSOS
         terminar_juego();
-
         terminar_sdl();
         return 0;
     };
@@ -121,10 +112,7 @@ public:
     };
 
     void configurar(){
-
         cargar_configuracion();
-
-        //SDL_Window* ventana = NULL;
 
         window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
                                    SDL_WINDOWPOS_CENTERED,
@@ -149,7 +137,6 @@ public:
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++){
             conf->capas_vector[i]->ren = renderer;
 
-
             // escenario->AgregarCapa(conf->capas_vector[i]); Por algÃºn motivo esto no anda
 
             escenario->AgregarCapa( // esto no deberÃ­a estar asÃ­, tendria que andar la lÃ­nea de arriba, pero estuve luchando y no la hago andar (maxi)
@@ -160,8 +147,8 @@ public:
                 )
             );
         }
-
     }
+
     void game_loop(){
 
         bool golpeandoPJ = false;
@@ -169,6 +156,8 @@ public:
         bool scrollearDerecha = false;
         bool scrollearIzquierda = false;
         bool saltando = false;
+        bool saltoDiagonalIZQ = false;
+        bool saltoDiagonalDER = false;
         mover = 5;
         moverSZ= 1;
         int posicionPJ_Piso = 125;
@@ -189,7 +178,19 @@ public:
                         this->personajeJuego->definir_imagen(QUIETO);
                         scrollearDerecha = false;
                         scrollearIzquierda = false;
+                    }
+                    if ((evento.key.keysym.sym == SDLK_x)){
+                        saltoDiagonalDER = true;
+                        this->personajeJuego->definir_imagen(QUIETO);
+                        scrollearDerecha = false;
+                        scrollearIzquierda = false;
+                    }
 
+                    if ((evento.key.keysym.sym == SDLK_z)){ //Ver ControladorDeEventos para multiples teclas
+                        saltoDiagonalIZQ = true;
+                        this->personajeJuego->definir_imagen(QUIETO);
+                        scrollearDerecha = false;
+                        scrollearIzquierda = false;
                     }
                     if (evento.key.keysym.sym == SDLK_RIGHT)  {
                         scrollearDerecha = true;
@@ -249,19 +250,6 @@ public:
            //Limpio y dibujo
            SDL_RenderClear(renderer);
 
-           /*
-           //fondo
-           (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
-           //CML
-           (escenario->capas[1])->Dibujarse(-mover,0);
-           //CL
-           (escenario->capas[2])->Dibujarse(-mover,0);
-           //piso
-           (escenario->capas[3])->Dibujarse(-mover,120, 48*2,1257);
-           //Sz
-           //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170);
-           */
-
            SDL_RenderCopy(renderer, under, NULL, &r);
            (escenario->capas[0])->Dibujarse(0,0);
            (escenario->capas[1])->Dibujarse(0 + mover/4,0);
@@ -277,19 +265,22 @@ public:
            barraDeVida1.Dibujarse();
            barraDeVida2.Dibujarse();
 
-           if(saltando == true){
+           if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
                 if(posicionPJ_Piso > 125){
                     posicionPJ_Piso = 125;
-                    saltando = false;
+                    saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
                     t = 1.0;
                 }else{
                     //Vo = 10px/t ; g =  5.5px/t*t
                     t+=0.05;
                     posicionPJ_Piso -= 10*t; //Vo *t
                     posicionPJ_Piso += 5.5*t*t; // -g *t * t
+                    if(saltoDiagonalIZQ && mover<0)
+                        mover +=5;
+                    if(saltoDiagonalDER && abs(mover)<700)
+                        mover -=5;
                 }
            }
-
 
            this->personajeJuego->Dibujarse(-mover/2,posicionPJ_Piso);
 
