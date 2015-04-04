@@ -118,6 +118,9 @@ public:
         // Martin
         // fin de las configuraciones
 
+        this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
+                                          AltoLogico, AnchoLogico);
+
     };
     
     void configurar(){

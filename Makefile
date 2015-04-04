@@ -74,13 +74,14 @@ Accion: Accion.o
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o
-	$(CC) main.o Capa.o Accion.o Personaje.o Escenario.o parser.o  BarraDeVida.o logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o
+	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+
+juego: compilar_juego
 	./juego_ejecutable ${jsonpath}
 	# make clean
 	
-juegoJsonTest: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o
-	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+juegoJsonTest: compilar_juego
 	./juego_ejecutable $(JSONTEST)
 
 prueba_personaje:
