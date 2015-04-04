@@ -1,11 +1,11 @@
 {
    "ventana":{
-      "anchopx":400,
+      "anchopx":800,
       "altopx":255,
       "ancho":400
    },
    "escenario":{
-      "ancho":1216,
+      "ancho":1000,
       "alto":255,
       "ypiso":47
    },
@@ -18,7 +18,7 @@
       {
          "imagen_fondo":"resources/background/p_4b.png",
          "xlogico": 0,
-         "anchoLogico":504
+         "anchoLogico":400
       },
       {
          "imagen_fondo":"resources/background/p_3.png",
@@ -62,8 +62,8 @@
       }
    ],
    "personaje":{
-      "ancho":20,
-      "alto":35,
+      "ancho":50,
+      "alto":100,
       "zindex":1,
       "sprites":{
             "personaje1":"personaje1.png",

@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
+#include "ConversorDeCoordenadas.h"
+
 using namespace std;
 
 Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam){
@@ -30,14 +32,19 @@ void Capa::Dibujarse(int x, int y){
 	Dibujarse(x, y, alto, ancho);
 }
 
+void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
+	Dibujarse(x,y, conversor->alto_fisico, conversor->factor_ancho*this->anchoLogico);
+}
+
 //----------------------------------------------------------------
 void Capa::Dibujarse(int x, int y, int alto, int ancho){
 	//Rectangulo destino
 	SDL_Rect destino;
+	destino.h = alto;
+	destino.w = ancho;
 	destino.x = x;
 	destino.y = y;
-	destino.w = ancho;
-	destino.h = alto;
+	// printf("%d\n", destino.w);
 	SDL_RenderCopy(this->ren, this->textura, NULL, &destino);
 }
 

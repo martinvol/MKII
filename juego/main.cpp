@@ -120,7 +120,8 @@ public:
 
         this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
                                           AltoLogico, AnchoLogico);
-
+        printf("alto fisico %d\n", ALTO_FISICO);
+        printf("alto logico %d\n", AltoLogico);
     };
 
     void configurar(){
@@ -246,29 +247,26 @@ public:
 
            }
 
-           if (scrollearIzquierda && mover<0) mover+= 5;
-           else if (scrollearDerecha && abs(mover)<700) mover-= 5;
+            if (scrollearIzquierda && mover<0){
+                mover+= 5;
+            } else if (scrollearDerecha && abs(mover)<ANCHO_FISICO-(conv->factor_ancho*conf->personaje_ancho)){
+                mover-= 10;
+            }
 
            //Limpio y dibujo
            SDL_RenderClear(renderer);
 
-           /*
-           //fondo
-           (escenario->capas[0])->Dibujarse(0,0, ALTO_FISICO,ANCHO_FISICO);
-           //CML
-           (escenario->capas[1])->Dibujarse(-mover,0);
-           //CL
-           (escenario->capas[2])->Dibujarse(-mover,0);
-           //piso
-           (escenario->capas[3])->Dibujarse(-mover,120, 48*2,1257);
-           //Sz
-           //(escenario->capas[4])->Dibujarse2(15+moverSZ ,ALTO_FISICO-170);
-           */
 
            SDL_RenderCopy(renderer, under, NULL, &r);
-           (escenario->capas[0])->Dibujarse(0,0);
-           (escenario->capas[1])->Dibujarse(0 + mover/4,0);
-           (escenario->capas[2])->Dibujarse(0 + mover/2,0);
+           //(escenario->capas[0])->Dibujarse(0,0);
+           //(escenario->capas[1])->Dibujarse(0 + mover/4,0);
+
+           //(escenario->capas[1])->Dibujarse(0 + mover/4, 0, ALTO_FISICO, ANCHO_FISICO);
+           // (escenario->capas[1])->Dibujarse(0, 0, ALTO_FISICO, ANCHO_FISICO);
+           (escenario->capas[1])->DibujarseAnchoReal(mover, 0, conv);
+
+           
+           /*(escenario->capas[2])->Dibujarse(0 + mover/2,0);
            (escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
            (escenario->capas[4])->Dibujarse((int)escenario->capas[4]->x_logico + mover,0);
            (escenario->capas[5])->Dibujarse((int)escenario->capas[5]->x_logico + mover,0);
@@ -276,7 +274,7 @@ public:
            (escenario->capas[7])->Dibujarse((int)escenario->capas[7]->x_logico + mover,0);
            (escenario->capas[8])->Dibujarse((int)escenario->capas[8]->x_logico + mover,208);
            (escenario->capas[9])->Dibujarse((int)escenario->capas[9]->x_logico + mover,0);
-          // (escenario->capas[10])->Dibujarse(- mover/2,125);
+          (escenario->capas[10])->Dibujarse(- mover/2,125);*/
            barraDeVida1.Dibujarse();
            barraDeVida2.Dibujarse();
 
@@ -294,7 +292,8 @@ public:
            }
 
 
-           this->personajeJuego->Dibujarse(-mover/2,posicionPJ_Piso);
+           // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
+           this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
 
 
            SDL_RenderPresent(renderer);
