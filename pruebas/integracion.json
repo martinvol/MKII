@@ -5,20 +5,20 @@
       "ancho":400
    },
    "escenario":{
-      "ancho":1000,
+      "ancho":3000,
       "alto":255,
       "ypiso":47
    },
    "capas":[
       {
-         "imagen_fondo":"resources/background/p_3.png",
-         "xlogico": 0,
-         "anchoLogico": 800
-      },
-      {
          "imagen_fondo":"resources/background/p_4b.png",
          "xlogico": 0,
          "anchoLogico":1600
+      },
+      {
+         "imagen_fondo":"resources/background/p_3.png",
+         "xlogico": 0,
+         "anchoLogico": 800
       },
       {
          "imagen_fondo":"resources/background/p_2_1.png",
@@ -47,14 +47,19 @@
       },
       {
          "imagen_fondo":"resources/background/p_1_2.png",
-         "xlogico": 0,
+         "xlogico": 100,
          "anchoLogico": 185 
+      },
+      {
+         "imagen_fondo":"resources/background/fondo.png",
+         "xlogico": 0,
+         "anchoLogico": 1000
       }
    ],
    "personaje":{
       "ancho":50,
       "alto":100,
-      "zindex":1,
+      "zindex":0,
       "sprites":{
             "personaje1":"personaje1.png",
             "personaje2":"personaje2.png"

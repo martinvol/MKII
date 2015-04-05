@@ -249,24 +249,33 @@ public:
 
             if (scrollearIzquierda && mover<0){
                 mover+= 5;
-            } else if (scrollearDerecha && abs(mover)<ANCHO_FISICO-(conv->factor_ancho*conf->personaje_ancho)){
+            } else if (scrollearDerecha && abs(mover)<(ANCHO_FISICO)-(conv->factor_ancho*conf->personaje_ancho)){
                 mover-= 10;
             }
 
-           //Limpio y dibujo
-           SDL_RenderClear(renderer);
+            //Limpio y dibujo
+            SDL_RenderClear(renderer);
 
 
-           SDL_RenderCopy(renderer, under, NULL, &r);
-           //(escenario->capas[0])->Dibujarse(0,0);
-           //(escenario->capas[1])->Dibujarse(0 + mover/4,0);
+            SDL_RenderCopy(renderer, under, NULL, &r);
+            //(escenario->capas[0])->Dibujarse(0,0);
+            //(escenario->capas[1])->Dibujarse(0 + mover/4,0);
 
-           //(escenario->capas[1])->Dibujarse(0 + mover/4, 0, ALTO_FISICO, ANCHO_FISICO);
-           // (escenario->capas[1])->Dibujarse(0, 0, ALTO_FISICO, ANCHO_FISICO);
+            //(escenario->capas[1])->Dibujarse(0 + mover/4, 0, ALTO_FISICO, ANCHO_FISICO);
+            // (escenario->capas[1])->Dibujarse(0, 0, ALTO_FISICO, ANCHO_FISICO);
 
-           for (int i = 0; i<escenario->capas.size(); i++)
+
+            for (int i = escenario->capas.size(); i --> 0; ){ // Itero hacia en orden inverso
+                                                              // Así respeto los Z index
+           //for (int i = 0; i<escenario->capas.size(); i++){
+                // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
+                // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
+
                 (escenario->capas[i])->DibujarseAnchoReal(mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico) , 0, conv);
-
+                if (i==conf->personaje_zindex){
+                    this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+               }
+           }
            
            //(escenario->capas[2])->Dibujarse(0 + mover/2,0);
            //(escenario->capas[2])->DibujarseAnchoReal(mover*((float)escenario->capas[2]->anchoLogico/(float)conv->x_logico), 0, conv);
@@ -297,7 +306,6 @@ public:
 
 
            // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
-           this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
 
 
            SDL_RenderPresent(renderer);

@@ -38,7 +38,7 @@ void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 
 	SDL_Rect destination_rect;
 
-	destination_rect.x = x;
+	destination_rect.x = x + (this->x_logico)*conversor->factor_ancho;
 	destination_rect.y = y;
 	destination_rect.w = conversor->factor_ancho*this->anchoLogico;
 	destination_rect.h = conversor->alto_fisico;
