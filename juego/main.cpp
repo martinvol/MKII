@@ -263,11 +263,15 @@ public:
 
            //(escenario->capas[1])->Dibujarse(0 + mover/4, 0, ALTO_FISICO, ANCHO_FISICO);
            // (escenario->capas[1])->Dibujarse(0, 0, ALTO_FISICO, ANCHO_FISICO);
-           (escenario->capas[1])->DibujarseAnchoReal(mover, 0, conv);
+
+           for (int i = 0; i<escenario->capas.size(); i++)
+                (escenario->capas[i])->DibujarseAnchoReal(mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico) , 0, conv);
 
            
-           /*(escenario->capas[2])->Dibujarse(0 + mover/2,0);
-           (escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
+           //(escenario->capas[2])->Dibujarse(0 + mover/2,0);
+           //(escenario->capas[2])->DibujarseAnchoReal(mover*((float)escenario->capas[2]->anchoLogico/(float)conv->x_logico), 0, conv);
+
+           /*(escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
            (escenario->capas[4])->Dibujarse((int)escenario->capas[4]->x_logico + mover,0);
            (escenario->capas[5])->Dibujarse((int)escenario->capas[5]->x_logico + mover,0);
            (escenario->capas[6])->Dibujarse((int)escenario->capas[6]->x_logico + mover,0);

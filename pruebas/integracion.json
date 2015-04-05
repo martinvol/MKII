@@ -11,19 +11,14 @@
    },
    "capas":[
       {
-         "imagen_fondo":"resources/background/p_bg.png",
+         "imagen_fondo":"resources/background/p_3.png",
          "xlogico": 0,
-         "anchoLogico":400
+         "anchoLogico": 800
       },
       {
          "imagen_fondo":"resources/background/p_4b.png",
          "xlogico": 0,
-         "anchoLogico":400
-      },
-      {
-         "imagen_fondo":"resources/background/p_3.png",
-         "xlogico": 0,
-         "anchoLogico": 776
+         "anchoLogico":1600
       },
       {
          "imagen_fondo":"resources/background/p_2_1.png",
@@ -49,11 +44,6 @@
          "imagen_fondo":"resources/background/p_2_2.png",
          "xlogico": 1000,
          "anchoLogico": 84
-      },
-      {
-         "imagen_fondo":"resources/background/p_1.png",
-         "xlogico": 0,
-         "anchoLogico": 1216
       },
       {
          "imagen_fondo":"resources/background/p_1_2.png",
