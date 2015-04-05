@@ -13,13 +13,16 @@ using namespace std;
 
 class Personaje {
 	
-		int posicion_x;
-		int posicion_y;
+		int posicion_x;	//Borrar
+		int posicion_y; 	//Borrar
+		
+		CoordenadaLogica* coordenada;
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
+		void Dibujarse(int x, int y, int alto, int ancho);
 		
 	public:
 		
@@ -30,7 +33,7 @@ class Personaje {
 		void mirar_al_otro_lado();
 		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion);
 		void Dibujarse(int x, int y);
-		void Dibujarse(int x, int y, int alto, int ancho);
+		
 		
 		//MILE: A agregar:
 		
