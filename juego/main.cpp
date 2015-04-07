@@ -234,19 +234,20 @@ void DibujarTodo(){
         //Limpio y dibujo
         SDL_RenderClear(renderer);
         //SDL_RenderCopy(renderer, under, NULL, &r);
+        //this->escenario->Dibujarse();
 
-        //for (int i = escenario->capas.size(); i --> 0; ){
-        for (int i = 0; i < escenario->capas.size(); i ++) {
+        for (int i = escenario->capas.size(); i --> 0; ){
+        //for (int i = 0; i < escenario->capas.size(); i ++) {
         // Itero hacia en orden inverso
         // Así respeto los Z index
         //for (int i = 0; i<escenario->capas.size(); i++){
             // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
-            (escenario->capas[i])->DibujarseAnchoReal(
+            (escenario->capas[i])->Dibujarse(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
-                , 0, conv);
+                , 0);
 
 
             if (i==conf->personaje_zindex){

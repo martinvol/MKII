@@ -12,9 +12,9 @@
    },
    "capas":[
       {
-         "imagen_fondo":"resources/background/fondo.png",
+         "imagen_fondo":"resources/background/p_1.png",
          "xlogico": 0,
-         "anchoLogico": 400
+         "anchoLogico": 1216
       },
       {
          "imagen_fondo":"resources/background/p_4b.png",
@@ -33,13 +33,13 @@
       },
       {
          "imagen_fondo":"resources/background/p_1_2.png",
-         "xlogico": 100,
+         "xlogico": 0,
          "anchoLogico": 185 
       },
       {
-         "imagen_fondo":"resources/background/p_1.png",
+         "imagen_fondo":"resources/background/fondo.png",
          "xlogico": 0,
-         "anchoLogico": 1216
+         "anchoLogico": 0
       }
    ],
    "personaje":{
