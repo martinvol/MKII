@@ -69,8 +69,6 @@ public:
     Conf *conf;
     Personaje *personajeJuego;
 
-    //void DibujarTodo();
-
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
@@ -156,102 +154,17 @@ public:
 //---------------------------------------------------------------
 //----------------------------------------------------------------
     void game_loop(){
-
-        bool golpeandoPJ = false;
-        bool cansandoPJ = false;
-        bool scrollearDerecha = false;
-        bool scrollearIzquierda = false;
-        bool saltando = false;
         mover = 5;
         moverSZ= 1;
-
-        SDL_Event evento;
 
         //uno solo...por ahora (?)
         if (SDL_NumJoysticks() < 1){
             cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
         }
 
-        Sint16 presionado=0;
-
+        SDL_Event evento;
         while (!salir){
-            SDL_PollEvent( &evento );
-            //SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
-            presionado = SDL_JoystickGetAxis(Player1,0);
-            // + ---> DERECHA
-            // - ---> IZQUIERDA
-            //cout<<presionado<<endl;
-
-            switch(evento.type){
-                case SDL_QUIT:
-                    salir = true;
-                    break;
-                case SDL_KEYDOWN:
-                    if (evento.key.keysym.sym == SDLK_UP)  {
-                        //saltando = true;
-                        this->personajeJuego->definir_imagen(QUIETO);
-                        scrollearDerecha = false;
-                        scrollearIzquierda = false;
-
-                    }
-                    if (evento.key.keysym.sym == SDLK_RIGHT)  {
-                        scrollearDerecha = true;
-                        scrollearIzquierda = false;
-                        this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
-
-                    }
-                    if ((evento.key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
-                        scrollearIzquierda = true;
-                        scrollearDerecha = false;
-                        this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
-                    }
-                    if(evento.key.keysym.sym == SDLK_a)  {
-                        barraDeVida1.Aliviar(20);
-                        barraDeVida2.Aliviar(20);
-                    }
-                    if(evento.key.keysym.sym == SDLK_c)  {
-                        if (cansandoPJ == false){
-                            barraDeVida1.Cansar(50);
-                            barraDeVida2.Cansar(50);
-                            cansandoPJ = true;
-                        }
-                    }
-                    if((evento.key.keysym.sym == SDLK_d))  {
-                        if (golpeandoPJ == false){
-                            barraDeVida1.Lastimar(90);
-                            barraDeVida2.Lastimar(750);
-                            golpeandoPJ = true;
-                        }
-                        break;
-                    }
-                    if (evento.key.keysym.sym == SDLK_ESCAPE) salir = true;
-                    if (evento.key.keysym.sym == SDLK_r){
-                        reiniciarJuego();
-                    }
-                    break;
-                case SDL_KEYUP:
-                    this->personajeJuego->definir_imagen(QUIETO);
-                    scrollearDerecha = false;
-                    scrollearIzquierda = false;
-                    if((evento.key.keysym.sym == SDLK_d))  {
-                        golpeandoPJ = false;
-                    }
-                    if((evento.key.keysym.sym == SDLK_c))  {
-                        cansandoPJ = false;
-                    }
-
-                    break;
-                default:
-                    this->personajeJuego->definir_imagen(QUIETO);
-
-           }
-
-            if (scrollearIzquierda && mover<0){
-                mover+= 5;
-            } else if (scrollearDerecha && abs(mover)<(ANCHO_FISICO)-(conv->factor_ancho*conf->personaje_ancho)){
-                mover-= 10;
-            }
-
+            Controlador(&evento);
             DibujarTodo();
 
         }
@@ -329,6 +242,93 @@ void DibujarTodo(){
            // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
            SDL_RenderPresent(renderer);
            SDL_Delay(1000/40.);
+    };
+
+
+    void Controlador(SDL_Event *evento){
+        bool golpeandoPJ = false;
+        bool cansandoPJ = false;
+        bool scrollearDerecha = false;
+        bool scrollearIzquierda = false;
+        bool saltando = false;
+        Sint16 presionado=0;
+
+
+
+        SDL_PollEvent( evento );
+        //SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
+        presionado = SDL_JoystickGetAxis(Player1,0);
+        // + ---> DERECHA
+        // - ---> IZQUIERDA
+        //cout<<presionado<<endl;
+
+        switch(evento->type){
+            case SDL_QUIT:
+                salir = true;
+                break;
+            case SDL_KEYDOWN:
+                if (evento->key.keysym.sym == SDLK_UP)  {
+                    //saltando = true;
+                    this->personajeJuego->definir_imagen(QUIETO);
+                    scrollearDerecha = false;
+                    scrollearIzquierda = false;
+                }
+                if (evento->key.keysym.sym == SDLK_RIGHT)  {
+                    scrollearDerecha = true;
+                    scrollearIzquierda = false;
+                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                }
+                if ((evento->key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
+                    scrollearIzquierda = true;
+                    scrollearDerecha = false;
+                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                }
+                if(evento->key.keysym.sym == SDLK_a)  {
+                    barraDeVida1.Aliviar(20);
+                    barraDeVida2.Aliviar(20);
+                }
+                if(evento->key.keysym.sym == SDLK_c)  {
+                    if (cansandoPJ == false){
+                        barraDeVida1.Cansar(50);
+                        barraDeVida2.Cansar(50);
+                        cansandoPJ = true;
+                    }
+                }
+                if((evento->key.keysym.sym == SDLK_d))  {
+                    if (golpeandoPJ == false){
+                        barraDeVida1.Lastimar(90);
+                        barraDeVida2.Lastimar(750);
+                        golpeandoPJ = true;
+                    }
+                    break;
+                }
+                if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
+                if (evento->key.keysym.sym == SDLK_r){
+                    reiniciarJuego();
+                }
+                break;
+            case SDL_KEYUP:
+                this->personajeJuego->definir_imagen(QUIETO);
+                scrollearDerecha = false;
+                scrollearIzquierda = false;
+                if((evento->key.keysym.sym == SDLK_d))  {
+                    golpeandoPJ = false;
+                }
+                if((evento->key.keysym.sym == SDLK_c))  {
+                    cansandoPJ = false;
+                }
+                break;
+            default:
+                this->personajeJuego->definir_imagen(QUIETO);
+
+           }
+
+            if (scrollearIzquierda && mover<0){
+                mover+= 5;
+            } else if (scrollearDerecha && abs(mover)<(ANCHO_FISICO)-(conv->factor_ancho*conf->personaje_ancho)){
+                mover-= 10;
+            }
+
     };
 };//FIN CLASE JUEGO
 //----------------------------------------------------------------
