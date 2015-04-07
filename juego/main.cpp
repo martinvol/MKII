@@ -16,6 +16,7 @@ using namespace std;
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
+#define SALTODIAGONAL 4
 Logger *logger = Logger::instance();
 
 //----------------------------------------------------------------
@@ -48,6 +49,23 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 //---------------------------------------------------
 class Juego{
 public:
+    // Para no tener que crearlas y destruirlas en cada loop del juego
+    //seria un desperdicio.
+    bool Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
+    bool saltoDiagonalIZQ = false;
+    bool saltoDiagonalDER = false;
+    bool golpeandoPJ = false;
+    bool cansandoPJ = false;
+    bool scrollearDerecha = false;
+    bool scrollearIzquierda = false;
+    bool saltando = false;
+    Sint16 presionado=0;
+    SDL_Rect r;
+    int posicionPJ_Piso = 125;
+    double t = 1.0;
+
+
+
     int argc;
     char** argv;
     ConversorDeCoordenadas* conv;
@@ -63,8 +81,8 @@ public:
     unsigned int ANCHO_FISICO, ALTO_FISICO;
     unsigned int AnchoLogico, AltoLogico;
 
-    int mover;
-    int moverSZ;
+    int mover = 5;
+    int moverSZ =1;
     SDL_Window * window = NULL;
     Conf *conf;
     Personaje *personajeJuego;
@@ -97,6 +115,7 @@ public:
         //Pantalla
         ANCHO_FISICO = conf->ventana_anchopx; //800
         ALTO_FISICO = conf->ventana_altopx; //416
+        r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
         AnchoLogico = conf->escenario_ancho;
         AltoLogico = conf->escenario_alto;
@@ -132,6 +151,8 @@ public:
         this->personajeJuego = personaje;
         SDL_JoystickEventState(SDL_ENABLE);
         Player1 = SDL_JoystickOpen(0);
+        Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
+        estadoPersonaje1 = Quieto_State;
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -154,9 +175,6 @@ public:
 //---------------------------------------------------------------
 //----------------------------------------------------------------
     void game_loop(){
-        mover = 5;
-        moverSZ= 1;
-
         //uno solo...por ahora (?)
         if (SDL_NumJoysticks() < 1){
             cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
@@ -164,11 +182,13 @@ public:
 
         SDL_Event evento;
         while (!salir){
-            Controlador(&evento);
-            DibujarTodo();
-
+            Controlador(&evento);   //Controlador
+            //Modelo
+            ActualizarModelo();
+            DibujarTodo();          //Vista
+            //Ver el delay...
+            SDL_Delay(1000/40.);
         }
-
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -201,60 +221,70 @@ public:
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 void DibujarTodo(){
-    SDL_Rect r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
+        //Limpio y dibujo
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, under, NULL, &r);
 
-    int posicionPJ_Piso = 125;
-        double t = 1.0;
-            //Limpio y dibujo
-            SDL_RenderClear(renderer);
+        for (int i = escenario->capas.size(); i --> 0; ){
+        // Itero hacia en orden inverso
+        // Así respeto los Z index
+        //for (int i = 0; i<escenario->capas.size(); i++){
+            // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
+            // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
+            (escenario->capas[i])->DibujarseAnchoReal(mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico) , 0, conv);
+            if (i==conf->personaje_zindex){
+                this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+            }
+        }
 
-            SDL_RenderCopy(renderer, under, NULL, &r);
-            for (int i = escenario->capas.size(); i --> 0; ){
-            // Itero hacia en orden inverso
-            // Así respeto los Z index
-           //for (int i = 0; i<escenario->capas.size(); i++){
-                // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
-                // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
+        barraDeVida1.Dibujarse();
+        barraDeVida2.Dibujarse();
 
-                (escenario->capas[i])->DibujarseAnchoReal(mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico) , 0, conv);
-                if (i==conf->personaje_zindex){
-                    this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
-               }
-           }
+        if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
+            if(posicionPJ_Piso > 125){
+                posicionPJ_Piso = 125;
+                saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
+                //Despues de caer vuelve a quieto.
+                estadoPersonaje1 = Quieto_State;
+                t = 1.0;
+            }else{
+                //Vo = 10px/t ; g =  5.5px/t*t
+                t+=0.05;
+                posicionPJ_Piso -= 10*t; //Vo *t
+                posicionPJ_Piso += 5.5*t*t; // -g *t * t
+                if(saltoDiagonalIZQ && mover<0)
+                    mover +=5;
+                if(saltoDiagonalDER && abs(mover)<700)
+                    mover -=5;
+            }
+        }
 
-           barraDeVida1.Dibujarse();
-           barraDeVida2.Dibujarse();
+        /*if(saltando == true){
+            if(posicionPJ_Piso > 125){
+                posicionPJ_Piso = 125;
+                saltando = false;
+                t = 1.0;
+            }else{
+                //Vo = 10px/t ; g =  5.5px/t*t
+                t+=0.05;
+                posicionPJ_Piso -= 10*t; //Vo *t
+                posicionPJ_Piso += 5.5*t*t; // -g *t * t
+            }
+        }*/
+        // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
+        SDL_RenderPresent(renderer);
+};
 
-           /*if(saltando == true){
-                if(posicionPJ_Piso > 125){
-                    posicionPJ_Piso = 125;
-                    saltando = false;
-                    t = 1.0;
-                }else{
-                    //Vo = 10px/t ; g =  5.5px/t*t
-                    t+=0.05;
-                    posicionPJ_Piso -= 10*t; //Vo *t
-                    posicionPJ_Piso += 5.5*t*t; // -g *t * t
-                }
-           }*/
-
-           // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
-           SDL_RenderPresent(renderer);
-           SDL_Delay(1000/40.);
-    };
+enum Estados{
+      Quieto_State,
+      SaltoDiagonal_State,
+      SaltoVertical_State,
+      Caminando_State
+   } estadoPersonaje1;
 
 
     void Controlador(SDL_Event *evento){
-        bool golpeandoPJ = false;
-        bool cansandoPJ = false;
-        bool scrollearDerecha = false;
-        bool scrollearIzquierda = false;
-        bool saltando = false;
-        Sint16 presionado=0;
-
-
-
         SDL_PollEvent( evento );
         //SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
         presionado = SDL_JoystickGetAxis(Player1,0);
@@ -267,22 +297,32 @@ void DibujarTodo(){
                 salir = true;
                 break;
             case SDL_KEYDOWN:
+
+                //-----------------------------------------
+                //-----------------------------------------
+                //---------------BASICOS-------------------
                 if (evento->key.keysym.sym == SDLK_UP)  {
-                    //saltando = true;
-                    this->personajeJuego->definir_imagen(QUIETO);
+                    Arriba_PRESIONADO = true;
+                    /*saltando = true;
+                    this->personajeJuego->definir_imagen(SALTAR);
                     scrollearDerecha = false;
-                    scrollearIzquierda = false;
+                    scrollearIzquierda = false;*/
                 }
                 if (evento->key.keysym.sym == SDLK_RIGHT)  {
-                    scrollearDerecha = true;
+                    Der_PRESIONADO = true;
+                    /*scrollearDerecha = true;
                     scrollearIzquierda = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);*/
                 }
                 if ((evento->key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
-                    scrollearIzquierda = true;
+                    Izq_PRESIONADO = true;
+                    /*scrollearIzquierda = true;
                     scrollearDerecha = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);*/
                 }
+                //-----------------------------------------
+                //-----------------------------------------
+
                 if(evento->key.keysym.sym == SDLK_a)  {
                     barraDeVida1.Aliviar(20);
                     barraDeVida2.Aliviar(20);
@@ -308,9 +348,24 @@ void DibujarTodo(){
                 }
                 break;
             case SDL_KEYUP:
-                this->personajeJuego->definir_imagen(QUIETO);
+                //this->personajeJuego->definir_imagen(QUIETO);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
+                //-----------------------------------------
+                //-----------------------------------------
+                //---------------BASICOS-------------------
+                if((evento->key.keysym.sym == SDLK_UP))  {
+                    Arriba_PRESIONADO = false;
+                }
+                if((evento->key.keysym.sym == SDLK_LEFT))  {
+                    Izq_PRESIONADO = false;
+                }
+                if((evento->key.keysym.sym == SDLK_RIGHT))  {
+                    Der_PRESIONADO = false;
+                }
+                //-----------------------------------------
+                //-----------------------------------------
+
                 if((evento->key.keysym.sym == SDLK_d))  {
                     golpeandoPJ = false;
                 }
@@ -330,6 +385,75 @@ void DibujarTodo(){
             }
 
     };
+
+
+    void ActualizarModelo(){
+    //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
+        switch(estadoPersonaje1){
+    //QUIETO
+            case Quieto_State:
+                //Quieto --> salto Diag Der
+                if(Arriba_PRESIONADO && Der_PRESIONADO){
+                    saltoDiagonalDER = true;
+                    this->personajeJuego->definir_imagen(SALTODIAGONAL);
+                    scrollearDerecha = false;
+                    scrollearIzquierda = false;
+                }
+                //Quieto -->salto diag izq
+                if(Arriba_PRESIONADO && Izq_PRESIONADO){
+                    saltoDiagonalIZQ = true;
+                    this->personajeJuego->definir_imagen(SALTODIAGONAL);
+                    scrollearDerecha = false;
+                    scrollearIzquierda = false;
+                }
+                //Quieto --> camina izq.
+                if(Izq_PRESIONADO){
+                    scrollearIzquierda = true;
+                    scrollearDerecha = false;
+                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                }
+                // Quieto --> camina der
+                if (Der_PRESIONADO){
+                    scrollearDerecha = true;
+                    scrollearIzquierda = false;
+                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                }
+                // Quieto --> salta vertical
+                if (Arriba_PRESIONADO){
+                    saltando = true;
+                    this->personajeJuego->definir_imagen(SALTAR);
+                    scrollearDerecha = false;
+                    scrollearIzquierda = false;
+                }
+                // Quieto -->Quieto
+                this->personajeJuego->definir_imagen(QUIETO);
+                break;
+    //CAMINANDO
+            case Caminando_State:
+                //Camino --> sigo caminando
+                if (Der_PRESIONADO){
+                    scrollearDerecha = true;
+                    scrollearIzquierda = false;
+                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                }
+                if (Izq_PRESIONADO){
+                    scrollearIzquierda = true;
+                    scrollearDerecha = false;
+                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                }
+                break;
+    //SALTANDO_VERTICAL
+            case SaltoVertical_State:
+                this->personajeJuego->definir_imagen(SALTAR);
+                scrollearDerecha = false;
+                scrollearIzquierda = false;
+                break;
+            default:
+                this->personajeJuego->definir_imagen(SALTAR);
+        }
+
+    };
+
 };//FIN CLASE JUEGO
 //----------------------------------------------------------------
 //----------------------------------------------------------------
