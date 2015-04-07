@@ -140,7 +140,7 @@ public:
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
-        under = loadTexture("resources/background/p_under.png", renderer);
+        //under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
 
         //Izquierda
@@ -223,9 +223,10 @@ public:
 void DibujarTodo(){
         //Limpio y dibujo
         SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, under, NULL, &r);
+        //SDL_RenderCopy(renderer, under, NULL, &r);
 
-        for (int i = escenario->capas.size(); i --> 0; ){
+        //for (int i = escenario->capas.size(); i --> 0; ){
+        for (int i = 0; i < escenario->capas.size(); i ++) {
         // Itero hacia en orden inverso
         // Así respeto los Z index
         //for (int i = 0; i<escenario->capas.size(); i++){
