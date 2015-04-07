@@ -2,15 +2,16 @@
    "ventana":{
       "anchopx":800,
       "altopx":255,
-      "ancho":400
+      "ancho":400,
+      "margen":80
    },
    "escenario":{
-      "ancho":3000,
+      "ancho":900,
       "alto":255,
       "ypiso":47
    },
    "capas":[
-      {
+/*      {
          "imagen_fondo":"resources/background/p_4b.png",
          "xlogico": 0,
          "anchoLogico":1600
@@ -49,11 +50,11 @@
          "imagen_fondo":"resources/background/p_1_2.png",
          "xlogico": 100,
          "anchoLogico": 185 
-      },
+      },*/
       {
          "imagen_fondo":"resources/background/fondo.png",
          "xlogico": 0,
-         "anchoLogico": 1000
+         "anchoLogico": 900
       }
    ],
    "personaje":{

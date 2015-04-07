@@ -83,6 +83,10 @@ public:
 
     int mover = 5;
     int moverSZ =1;
+
+    float x_logico_personaje; 
+    float borde_izquierdo_logico_pantalla;
+
     SDL_Window * window = NULL;
     Conf *conf;
     Personaje *personajeJuego;
@@ -124,8 +128,14 @@ public:
 
         this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
                                           AltoLogico, AnchoLogico);
-        printf("alto fisico %d\n", ALTO_FISICO);
-        printf("alto logico %d\n", AltoLogico);
+
+        // Cargamos al personaje en el medio del mapa
+        x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
+        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - (this->conv->factor_ancho*ANCHO_FISICO/2);
+
+        // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
+
+
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -232,11 +242,22 @@ void DibujarTodo(){
             // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
-            (escenario->capas[i])->DibujarseAnchoReal(mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico) , 0, conv);
+            (escenario->capas[i])->DibujarseAnchoReal(
+                escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
+                // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
+                , 0, conv);
+
+
             if (i==conf->personaje_zindex){
-                this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+                this->personajeJuego->Dibujarse(
+                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
+                    posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
             }
         }
+
+       /* printf("X logico personaje %f \n", x_logico_personaje);
+        printf("Donde dibujo el personaje %f \n", (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho);
+*/
 
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
@@ -314,7 +335,7 @@ enum Estados{
                     scrollearIzquierda = false;
                     this->personajeJuego->definir_imagen(CAMINAR_DERECHA);*/
                 }
-                if ((evento->key.keysym.sym == SDLK_LEFT) && (mover <0) )  {
+                if ((evento->key.keysym.sym == SDLK_LEFT))  {
                     Izq_PRESIONADO = true;
                     /*scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -378,10 +399,34 @@ enum Estados{
 
            }
 
-            if (scrollearIzquierda && mover<0){
-                mover+= 5;
-            } else if (scrollearDerecha && abs(mover)<(ANCHO_FISICO)-(conv->factor_ancho*conf->personaje_ancho)){
-                mover-= 10;
+            if (scrollearIzquierda){
+                x_logico_personaje = x_logico_personaje - 5.;
+                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
+                    
+                {
+                    x_logico_personaje = x_logico_personaje + 5.;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 5.;
+                    if (borde_izquierdo_logico_pantalla<0){
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + 5.;
+                        puts("Se acabó la pantalla");
+                    }
+                    puts("me muevo hacia la Izquierda");
+                }
+                // mover+= 5;
+
+            } else if (scrollearDerecha){
+                x_logico_personaje = x_logico_personaje + 5.;
+                if ((x_logico_personaje + (conf->personaje_ancho/2) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (ANCHO_FISICO -ANCHO_FISICO*(100-conf->margen)/200))
+                {
+                    x_logico_personaje = x_logico_personaje - 5.;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + 5.;
+
+                    if (borde_izquierdo_logico_pantalla + (((float)ANCHO_FISICO)/conv->factor_ancho) > conf->escenario_ancho){
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 5.;
+                        puts("Se acabó la pantalla");
+                    }
+                    puts("me muevo hacia la derecha");
+                }
             }
 
     };
