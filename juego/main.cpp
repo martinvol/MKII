@@ -12,13 +12,11 @@
 
 using namespace std;
 
-
 #define QUIETO 0
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
 Logger *logger = Logger::instance();
-
 
 //----------------------------------------------------------------
 
@@ -35,7 +33,7 @@ int InicializarSDL() {
     logger->log_debug("SDL cargada correctamente");
     return 0;
 }
-
+//----------------------------------------------------------------
 SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
     SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
     if (texture == NULL){
@@ -43,20 +41,18 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
     }
     return texture;
 }
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-
+//---------------------------------------------------
+//---------------------------------------------------
 //---------------------------------------------------
 //-----------------------MAIN------------------------
 //---------------------------------------------------
-
-
-class Juego
-{
+class Juego{
 public:
     int argc;
     char** argv;
     ConversorDeCoordenadas* conv;
+    SDL_Texture *under;
+    SDL_Joystick *Player1;
 
     bool salir = false;
     SDL_Renderer * renderer = NULL;
@@ -70,38 +66,29 @@ public:
     int mover;
     int moverSZ;
     SDL_Window * window = NULL;
-
     Conf *conf;
-
     Personaje *personajeJuego;
+
+    //void DibujarTodo();
+
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
         this->escenario = new Escenario();
     };
-
+//----------------------------------------------------------------
     int jugar(){
-
         if (InicializarSDL() != 0) return 1;
         renderer = SDL_CreateRenderer(NULL, -1, 0);
+
         configurar();
-        //Dibujarse(int x, int y, int alto, int ancho){
-        // (escenario->capas[4])->Dibujarse(15+moverSZ ,ALTO_FISICO-170); // ESTA LINEA NO LA PUESO MOVER A LOOP!!!
-
         game_loop();
-
-        /* fondo->Dibujarse(0 ,0 ,ALTO_FISICO,ANCHO_FISICO);
-        columnasMuyLejos->Dibujarse(0.5*mover ,0);
-        ColumnasLejos->Dibujarse(mover,0);
-        piso->Dibujarse(0,ALTO_FISICO-46);
-        Sz->Dibujarse(15+moverSZ ,ALTO_FISICO-170);*/
-
         // LIBERAR RECURSOS
         terminar_juego();
-
         terminar_sdl();
         return 0;
     };
+//----------------------------------------------------------------
 
     void cargar_configuracion(){
         this->conf = new Conf();
@@ -123,12 +110,10 @@ public:
         printf("alto fisico %d\n", ALTO_FISICO);
         printf("alto logico %d\n", AltoLogico);
     };
-
+//----------------------------------------------------------------
+//----------------------------------------------------------------
     void configurar(){
-
         cargar_configuracion();
-
-        //SDL_Window* ventana = NULL;
 
         window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
                                    SDL_WINDOWPOS_CENTERED,
@@ -138,6 +123,7 @@ public:
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
+        under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
 
         //Izquierda
@@ -146,15 +132,15 @@ public:
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
         Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
         this->personajeJuego = personaje;
+        SDL_JoystickEventState(SDL_ENABLE);
+        Player1 = SDL_JoystickOpen(0);
     }
-
+//----------------------------------------------------------------
+//----------------------------------------------------------------
     void cargar_capas(){
 
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++){
             conf->capas_vector[i]->ren = renderer;
-
-
-            // escenario->AgregarCapa(conf->capas_vector[i]); Por algÃºn motivo esto no anda
 
             escenario->AgregarCapa( // esto no deberÃ­a estar asÃ­, tendria que andar la lÃ­nea de arriba, pero estuve luchando y no la hago andar (maxi)
                 new Capa (conf->capas_vector[i]->ubicacion,
@@ -166,6 +152,8 @@ public:
         }
 
     }
+//----------------------------------------------------------------
+//----------------------------------------------------------------
     void game_loop(){
 
         bool golpeandoPJ = false;
@@ -175,21 +163,31 @@ public:
         bool saltando = false;
         mover = 5;
         moverSZ= 1;
-        int posicionPJ_Piso = 125;
-        double t = 1.0;
+
         SDL_Event evento;
-        SDL_Texture *under = loadTexture("resources/background/p_under.png", renderer);
-        SDL_Rect r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
+
+        //uno solo...por ahora (?)
+        if (SDL_NumJoysticks() < 1){
+            cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
+        }
+
+        Sint16 presionado=0;
 
         while (!salir){
             SDL_PollEvent( &evento );
+            //SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
+            presionado = SDL_JoystickGetAxis(Player1,0);
+            // + ---> DERECHA
+            // - ---> IZQUIERDA
+            //cout<<presionado<<endl;
+
             switch(evento.type){
                 case SDL_QUIT:
                     salir = true;
                     break;
                 case SDL_KEYDOWN:
                     if (evento.key.keysym.sym == SDLK_UP)  {
-                        saltando = true;
+                        //saltando = true;
                         this->personajeJuego->definir_imagen(QUIETO);
                         scrollearDerecha = false;
                         scrollearIzquierda = false;
@@ -253,20 +251,54 @@ public:
                 mover-= 10;
             }
 
+            DibujarTodo();
+
+        }
+
+    };
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+    void reiniciarJuego(){
+        logger->log_debug("Tengo que cambiar las configuraciones");
+        terminar_juego();
+        cargar_configuracion();
+        cargar_capas();
+        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO); // Dani se encarga de poner esto en su objeto
+
+    };
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+    void terminar_juego(){
+        escenario->Borrar();
+        SDL_JoystickClose(Player1);
+        SDL_DestroyTexture(under);
+        for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
+    };
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+    void terminar_sdl(){
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        IMG_Quit();
+        SDL_Quit();
+    };
+
+
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+void DibujarTodo(){
+    SDL_Rect r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
+
+    int posicionPJ_Piso = 125;
+        double t = 1.0;
             //Limpio y dibujo
             SDL_RenderClear(renderer);
 
 
             SDL_RenderCopy(renderer, under, NULL, &r);
-            //(escenario->capas[0])->Dibujarse(0,0);
-            //(escenario->capas[1])->Dibujarse(0 + mover/4,0);
-
-            //(escenario->capas[1])->Dibujarse(0 + mover/4, 0, ALTO_FISICO, ANCHO_FISICO);
-            // (escenario->capas[1])->Dibujarse(0, 0, ALTO_FISICO, ANCHO_FISICO);
-
-
-            for (int i = escenario->capas.size(); i --> 0; ){ // Itero hacia en orden inverso
-                                                              // Así respeto los Z index
+            for (int i = escenario->capas.size(); i --> 0; ){
+            // Itero hacia en orden inverso
+            // Así respeto los Z index
            //for (int i = 0; i<escenario->capas.size(); i++){
                 // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
                 // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
@@ -276,22 +308,11 @@ public:
                     this->personajeJuego->Dibujarse(-mover,posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
                }
            }
-           
-           //(escenario->capas[2])->Dibujarse(0 + mover/2,0);
-           //(escenario->capas[2])->DibujarseAnchoReal(mover*((float)escenario->capas[2]->anchoLogico/(float)conv->x_logico), 0, conv);
 
-           /*(escenario->capas[3])->Dibujarse((int)escenario->capas[3]->x_logico + mover,0);
-           (escenario->capas[4])->Dibujarse((int)escenario->capas[4]->x_logico + mover,0);
-           (escenario->capas[5])->Dibujarse((int)escenario->capas[5]->x_logico + mover,0);
-           (escenario->capas[6])->Dibujarse((int)escenario->capas[6]->x_logico + mover,0);
-           (escenario->capas[7])->Dibujarse((int)escenario->capas[7]->x_logico + mover,0);
-           (escenario->capas[8])->Dibujarse((int)escenario->capas[8]->x_logico + mover,208);
-           (escenario->capas[9])->Dibujarse((int)escenario->capas[9]->x_logico + mover,0);
-          (escenario->capas[10])->Dibujarse(- mover/2,125);*/
            barraDeVida1.Dibujarse();
            barraDeVida2.Dibujarse();
 
-           if(saltando == true){
+           /*if(saltando == true){
                 if(posicionPJ_Piso > 125){
                     posicionPJ_Piso = 125;
                     saltando = false;
@@ -302,41 +323,15 @@ public:
                     posicionPJ_Piso -= 10*t; //Vo *t
                     posicionPJ_Piso += 5.5*t*t; // -g *t * t
                 }
-           }
-
+           }*/
 
            // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
-
-
            SDL_RenderPresent(renderer);
            SDL_Delay(1000/40.);
-        }
-    SDL_DestroyTexture(under);
     };
-
-    void reiniciarJuego(){
-        logger->log_debug("Tengo que cambiar las configuraciones");
-        terminar_juego();
-        cargar_configuracion();
-        cargar_capas();
-        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO); // Dani se encarga de poner esto en su objeto
-
-    };
-    void terminar_juego(){
-        escenario->Borrar();
-        for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
-    };
-    void terminar_sdl(){
-        SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        IMG_Quit();
-        SDL_Quit();
-    };
-
-};
-
-
-
+};//FIN CLASE JUEGO
+//----------------------------------------------------------------
+//----------------------------------------------------------------
 int main(int argc, char* argv[]){
     logger->set_debug(true);
     logger->set_warning(true);
