@@ -374,7 +374,7 @@ enum Estados{
                 }
                 break;
             default:
-                this->personajeJuego->definir_imagen(QUIETO);
+                ;//this->personajeJuego->definir_imagen(QUIETO);
 
            }
 
@@ -398,6 +398,7 @@ enum Estados{
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
                     scrollearDerecha = false;
                     scrollearIzquierda = false;
+                    break;
                 }
                 //Quieto -->salto diag izq
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
@@ -405,18 +406,21 @@ enum Estados{
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
                     scrollearDerecha = false;
                     scrollearIzquierda = false;
+                    break;
                 }
                 //Quieto --> camina izq.
                 if(Izq_PRESIONADO){
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
                     this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                    break;
                 }
                 // Quieto --> camina der
                 if (Der_PRESIONADO){
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
                     this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                    break;
                 }
                 // Quieto --> salta vertical
                 if (Arriba_PRESIONADO){
@@ -424,6 +428,7 @@ enum Estados{
                     this->personajeJuego->definir_imagen(SALTAR);
                     scrollearDerecha = false;
                     scrollearIzquierda = false;
+                    break;
                 }
                 // Quieto -->Quieto
                 this->personajeJuego->definir_imagen(QUIETO);
