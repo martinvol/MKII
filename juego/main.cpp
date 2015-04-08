@@ -65,7 +65,7 @@ public:
     bool saltando = false;
     Sint16 presionado=0;
     SDL_Rect r;
-    int posicionPJ_Piso = 125;
+    int posicionPJ_Piso = 0;
     double t = 1.0;
 
 
@@ -88,7 +88,7 @@ public:
     int mover = 5;
     int moverSZ =1;
 
-    float x_logico_personaje; 
+    float x_logico_personaje;
     float borde_izquierdo_logico_pantalla;
 
     SDL_Window * window = NULL;
@@ -126,6 +126,7 @@ public:
         //Pantalla
         ANCHO_FISICO = conf->ventana_anchopx; //800
         ALTO_FISICO = conf->ventana_altopx; //416
+        posicionPJ_Piso = conf->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
         AnchoLogico = conf->escenario_ancho;
@@ -138,6 +139,7 @@ public:
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
+
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - ((ANCHO_FISICO/2)/this->conv->factor_ancho);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
@@ -251,7 +253,7 @@ public:
 void DibujarTodo(){
         //Limpio y dibujo
         SDL_RenderClear(renderer);
-        
+
         SDL_Rect fillRect = {0, 0, conf->ventana_anchopx, conf->ventana_altopx};
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
@@ -289,37 +291,6 @@ void DibujarTodo(){
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
 
-        if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
-            if(posicionPJ_Piso > 125){
-                posicionPJ_Piso = 125;
-                saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
-                //Despues de caer vuelve a quieto.
-                estadoPersonaje1 = Quieto_State;
-                t = 1.0;
-            }else{
-                //Vo = 10px/t ; g =  5.5px/t*t
-                t+=0.05;
-                posicionPJ_Piso -= 10*t; //Vo *t
-                posicionPJ_Piso += 5.5*t*t; // -g *t * t
-                if(saltoDiagonalIZQ && mover<0)
-                    mover +=5;
-                if(saltoDiagonalDER && abs(mover)<700)
-                    mover -=5;
-            }
-        }
-
-        /*if(saltando == true){
-            if(posicionPJ_Piso > 125){
-                posicionPJ_Piso = 125;
-                saltando = false;
-                t = 1.0;
-            }else{
-                //Vo = 10px/t ; g =  5.5px/t*t
-                t+=0.05;
-                posicionPJ_Piso -= 10*t; //Vo *t
-                posicionPJ_Piso += 5.5*t*t; // -g *t * t
-            }
-        }*/
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         SDL_RenderPresent(renderer);
 };
@@ -396,7 +367,6 @@ enum Estados{
                 }
                 break;
             case SDL_KEYUP:
-                //this->personajeJuego->definir_imagen(QUIETO);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
                 //-----------------------------------------
@@ -422,14 +392,13 @@ enum Estados{
                 }
                 break;
             default:
-                ;//this->personajeJuego->definir_imagen(QUIETO);
-
+                ;
            }
 
             if (scrollearIzquierda){
                 x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                 if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                    
+
                 {
                     x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
@@ -458,44 +427,79 @@ enum Estados{
 
 
     void ActualizarModelo(){
+      /*Quieto_State,      SaltoDiagonal_State,      SaltoVertical_State,
+      Caminando_State */
     //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
+    if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
+            if(posicionPJ_Piso > conf->escenario_ypiso){
+                posicionPJ_Piso = conf->escenario_ypiso;
+                saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
+                //Despues de caer vuelve a quieto.
+                estadoPersonaje1 = Quieto_State;
+                t = 1.0;
+            }else{
+                //Vo = 10px/t ; g =  5.5px/t*t
+                t+=0.05;
+                posicionPJ_Piso -= 10*t; //Vo *t
+                posicionPJ_Piso += 5.5*t*t; // -g *t * t
+                if( (saltoDiagonalIZQ) /*&& (mover<0)*/ ){
+                    mover +=5;
+                    x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+
+                }else if(saltoDiagonalDER  /*&& abs(mover)<700*/){
+                    mover -=5;
+                    x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                }
+
+            }
+        }
+
         switch(estadoPersonaje1){
     //QUIETO
             case Quieto_State:
                 //Quieto --> salto Diag Der
                 if(Arriba_PRESIONADO && Der_PRESIONADO){
+                    estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
-                    scrollearDerecha = false;
+
+                    scrollearDerecha = true;
                     scrollearIzquierda = false;
                     break;
                 }
                 //Quieto -->salto diag izq
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
+                    estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
+
+                    scrollearIzquierda = true;
                     scrollearDerecha = false;
-                    scrollearIzquierda = false;
                     break;
                 }
                 //Quieto --> camina izq.
                 if(Izq_PRESIONADO){
+                    estadoPersonaje1 = Caminando_State;
+                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
                     break;
                 }
                 // Quieto --> camina der
                 if (Der_PRESIONADO){
+                    estadoPersonaje1 = Caminando_State;
+                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
                     break;
                 }
                 // Quieto --> salta vertical
                 if (Arriba_PRESIONADO){
+                    estadoPersonaje1 = SaltoVertical_State;
                     saltando = true;
                     this->personajeJuego->definir_imagen(SALTAR);
+
                     scrollearDerecha = false;
                     scrollearIzquierda = false;
                     break;
@@ -505,23 +509,47 @@ enum Estados{
                 break;
     //CAMINANDO
             case Caminando_State:
+                //Camino --> Salto diagonal der
+                if (Der_PRESIONADO && Arriba_PRESIONADO){
+                    estadoPersonaje1 = SaltoDiagonal_State;
+                    saltoDiagonalDER = true;
+
+                    this->personajeJuego->definir_imagen(SALTODIAGONAL);
+                //Camino --> Salto diagonal izq
+                }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
+                    estadoPersonaje1 = SaltoDiagonal_State;
+                    saltoDiagonalIZQ = true;
+
+                    this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 //Camino --> sigo caminando
-                if (Der_PRESIONADO){
+                }else if (Der_PRESIONADO){
+                    estadoPersonaje1 = Caminando_State;
+                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
-                }
-                if (Izq_PRESIONADO){
+                //Camino --> sigo caminando
+                }else if (Izq_PRESIONADO){
+                    estadoPersonaje1 = Caminando_State;
+                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                //Camino y no hay accion--> quieto
+                }else{
+                    estadoPersonaje1 = Quieto_State;
+                    this->personajeJuego->definir_imagen(QUIETO);
                 }
                 break;
     //SALTANDO_VERTICAL
             case SaltoVertical_State:
+                estadoPersonaje1 = SaltoVertical_State;
                 this->personajeJuego->definir_imagen(SALTAR);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
+                break;
+    //SALTANDO_DIAGONAL
+            case SaltoDiagonal_State:
+                estadoPersonaje1 = SaltoDiagonal_State;
+                this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 break;
             default:
                 this->personajeJuego->definir_imagen(SALTAR);
