@@ -17,6 +17,10 @@ using namespace std;
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
 #define SALTODIAGONAL 4
+
+#define MOVER_PIXELES 5
+#define FRAMERATE 40
+
 Logger *logger = Logger::instance();
 
 //----------------------------------------------------------------
@@ -185,6 +189,9 @@ public:
 //---------------------------------------------------------------
 //----------------------------------------------------------------
     void game_loop(){
+
+        float timerFps;
+
         //uno solo...por ahora (?)
         if (SDL_NumJoysticks() < 1){
             cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
@@ -192,13 +199,21 @@ public:
 
         SDL_Event evento;
         while (!salir){
+            timerFps = SDL_GetTicks();
             Controlador(&evento);   //Controlador
             //Modelo
             ActualizarModelo();
             DibujarTodo();          //Vista
             //Ver el delay...
-            SDL_Delay(1000/40.);
+            //SDL_Delay(1000/30.);
+
+            timerFps = SDL_GetTicks() - timerFps;
+
+            if(timerFps < 1000/FRAMERATE){
+                SDL_Delay((1000/FRAMERATE) - timerFps);
+            }
         }
+
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -401,32 +416,30 @@ enum Estados{
            }
 
             if (scrollearIzquierda){
-                x_logico_personaje = x_logico_personaje - 5.;
+                x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                 if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
                     
                 {
-                    x_logico_personaje = x_logico_personaje + 5.;
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 5.;
+                    x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                     if (borde_izquierdo_logico_pantalla<0){
-                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + 5.;
-                        puts("Se acabó la pantalla");
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
+                        this->personajeJuego->definir_imagen(QUIETO);
                     }
-                    puts("me muevo hacia la Izquierda");
                 }
                 // mover+= 5;
 
             } else if (scrollearDerecha){
-                x_logico_personaje = x_logico_personaje + 5.;
+                x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                 if ((x_logico_personaje + (conf->personaje_ancho/2) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (ANCHO_FISICO -ANCHO_FISICO*(100-conf->margen)/200))
                 {
-                    x_logico_personaje = x_logico_personaje - 5.;
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + 5.;
+                    x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
 
                     if (borde_izquierdo_logico_pantalla + (((float)ANCHO_FISICO)/conv->factor_ancho) > conf->escenario_ancho){
-                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 5.;
-                        puts("Se acabó la pantalla");
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                        this->personajeJuego->definir_imagen(QUIETO);
                     }
-                    puts("me muevo hacia la derecha");
                 }
             }
 

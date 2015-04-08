@@ -44,6 +44,9 @@ void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 	destination_rect.h = conversor->alto_fisico;
 
 	SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
+	//SDL_RenderCopy(ren, textura, NULL, &destination_rect);
+
+
 }
 
 //----------------------------------------------------------------
