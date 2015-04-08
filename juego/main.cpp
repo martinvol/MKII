@@ -116,7 +116,10 @@ public:
 
     void cargar_configuracion(){
         this->conf = new Conf();
-        conf->set_values(argv[1]);
+        if (argc == 1 )
+            conf->cargarDefault();
+        else
+            conf->set_values(argv[1]);
         // Se settean configuraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
@@ -248,7 +251,14 @@ public:
 void DibujarTodo(){
         //Limpio y dibujo
         SDL_RenderClear(renderer);
+        
+        SDL_Rect fillRect = {0, 0, conf->ventana_anchopx, conf->ventana_altopx};
+        SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+        SDL_RenderFillRect(renderer, &fillRect );
+
+
         SDL_RenderCopy(renderer, under, NULL, &r);
+        // Que es esto?
 
         for (int i = escenario->capas.size(); i --> 0; ){
         // Itero hacia en orden inverso
@@ -256,6 +266,7 @@ void DibujarTodo(){
         //for (int i = 0; i<escenario->capas.size(); i++){
             // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
+
 
             (escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
