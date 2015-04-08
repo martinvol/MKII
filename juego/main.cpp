@@ -138,7 +138,7 @@ public:
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
-        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - (this->conv->factor_ancho*ANCHO_FISICO/2);
+        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - ((ANCHO_FISICO/2)/this->conv->factor_ancho);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
