@@ -104,6 +104,12 @@ void Accion::setImagenes (){
 SDL_Texture* Accion::getImagenActual(){
 	return this->imagenes[this->modoActual];
 } 
+SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
+	return this->imagenes[numeroDeSprite];
+}
+int Accion::getModoActual(){
+	return this->modoActual;
+}
 /***********************************************************************
  * 
  * 						CONSTRUCTOR
@@ -179,6 +185,4 @@ void Accion::cambiarModo(){
 	
 }
 
-SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
-	return this->imagenes[numeroDeSprite];
-	}
+

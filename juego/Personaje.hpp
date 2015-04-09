@@ -31,7 +31,7 @@ class Personaje {
 		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion);
 		void Dibujarse(int x, int y);
 		void Dibujarse(int x, int y, int alto, int ancho);
-		
+		int getSpriteActual();
 		//Para Maxi
 		SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 		

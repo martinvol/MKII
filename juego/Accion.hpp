@@ -28,6 +28,7 @@ class Accion{
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
 		SDL_Texture* getImagenActual();
+		int getModoActual();
 		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
