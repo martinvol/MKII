@@ -69,7 +69,8 @@ public:
     int posicionPJ_Piso = 0;
     double t = 1.0;
 
-
+    bool pausa = false;
+    bool cambiarModo = false;
 
     int argc;
     char** argv;
@@ -214,15 +215,17 @@ public:
         SDL_Event evento;
         while (!salir){
             timerFps = SDL_GetTicks();
-            Controlador(&evento);   //Controlador
-            ActualizarModelo();     //Modelo
-            DibujarTodo();          //Vista
+            Controlador(&evento);       //Controlador
+            if (!pausa){
+                ActualizarModelo();     //Modelo
+            }
+            DibujarTodo();              //Vista
 
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((1000/FRAMERATE) - timerFps);
+                //SDL_Delay((1000/FRAMERATE) - timerFps);
             }
         }
 
@@ -299,6 +302,11 @@ void DibujarTodo(){
         barraDeVida2.Dibujarse();
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
+        if (pausa){
+            SDL_Rect pantalla = {0,0,conf->ventana_anchopx,conf->ventana_altopx};
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
+            SDL_RenderFillRect( renderer, &pantalla );
+        }
         SDL_RenderPresent(renderer);
 };
 
@@ -380,7 +388,9 @@ enum Estados{
                 }
                 //-----------------------------------------
                 //-----------------------------------------
-
+                if (evento->key.keysym.sym == SDLK_p)  {
+                    cambiarModo = true;
+                }
                 if(evento->key.keysym.sym == SDLK_a)  {
                     barraDeVida1.Aliviar(20);
                     barraDeVida2.Aliviar(20);
@@ -422,7 +432,10 @@ enum Estados{
                 }
                 //-----------------------------------------
                 //-----------------------------------------
-
+                if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
+                    cambiarModo = false;
+                    pausa = !pausa;
+                }
                 if((evento->key.keysym.sym == SDLK_d))  {
                     golpeandoPJ = false;
                 }
