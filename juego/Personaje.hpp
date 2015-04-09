@@ -35,30 +35,43 @@ class Personaje {
 		void Dibujarse(int x, int y);
 		
 		
-		//MILE: A agregar:
+		//MILE: A agregar para DANI:
 		
-		CoordenadaLogica* obtenerCoordenada();
-		/* Sólo espejan o no espejan. */
+		/* Sólo espejan o no espejan la imagen. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
-		/* Devuelve la coordenada en la que está.
-		 * Comienza (o sigue) la imagen de parar. */
-		CoordenadaLogica* parar();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar. */
-		CoordenadaLogica* saltar();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar para la derecha. */
-		CoordenadaLogica* saltarDerecha();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar para la izquierda. */
-		CoordenadaLogica* saltarIzquierda();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de caminar para la derecha. */
-		CoordenadaLogica* caminarDerecha();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de caminar para la izquierda. */
-		CoordenadaLogica* caminarIzquierda();
+		
+		/* Sólo te dicen a que acción te están pidiendo que cambies.
+		 * Sólo lo debés hacer si es válido interrumpir tu acción
+		 * para la que te dicen; sino, no cambiás nada. */
+		void parar();
+		void caminarDerecha();
+		void caminarIzquierda();
+		void saltar();
+		void saltarDerecha();
+		void saltarIzquierda();
+		
+		// COMENTARIO: No sé qué coordenadas voy a usar de estas y no sé
+		// cuáles te convienen a vos. Esto se puede negociar.
+		// De todas formas sabiendo una y el ancho y el alto lógicos
+		// del personaje podrías calcularme todas y no me parece mal que
+		// guardes tu ancho y alto lógico.
+		/* Devuelven coordenadas que deben ser liberadas para no perder
+		 * memoria. */
+		CoordenadaLogica* obtenerCoordenadaIzqSup();
+		CoordenadaLogica* obtenerCoordenadaIzqInf();
+		CoordenadaLogica* obtenerCoordenadaDerSup();
+		CoordenadaLogica* obtenerCoordenadaDerInf();
+		
+		/* Estas corresponden a preguntar dónde deberías estar o a
+		 * dónde te deberías mover la próxima vez de acuerdo a la
+		 * acción que está en transcurso. */
+		 /* Devuelven coordenadas que deben ser liberadas para no perder
+		 * memoria. */
+		CoordenadaLogica* obtenerSiguienteCoordenadaIzqSup();
+		CoordenadaLogica* obtenerSiguienteCoordenadaIzqInf();
+		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
+		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
 		
 };
 
