@@ -83,6 +83,7 @@ juego: compilar_juego
 	
 juegoJsonTest: compilar_juego
 	./juego_ejecutable $(JSONTEST)
+	make clean
 
 prueba_personaje:
 	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
