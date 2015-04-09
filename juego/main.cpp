@@ -20,6 +20,7 @@ using namespace std;
 
 #define MOVER_PIXELES 5
 #define FRAMERATE 40
+#define JOYSTICK_DEAD_ZONE 8000
 
 Logger *logger = Logger::instance();
 
@@ -75,6 +76,8 @@ public:
     ConversorDeCoordenadas* conv;
     SDL_Texture *under;
     SDL_Joystick *Player1;
+    int x_Joystick, y_Joystick;
+
 
     bool salir = false;
     SDL_Renderer * renderer = NULL;
@@ -168,8 +171,12 @@ public:
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
         Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
         this->personajeJuego = personaje;
-        SDL_JoystickEventState(SDL_ENABLE);
+        //SDL_JoystickEventState(SDL_ENABLE);
         Player1 = SDL_JoystickOpen(0);
+        SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
+
+
+
         Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
         estadoPersonaje1 = Quieto_State;
     }
@@ -305,12 +312,43 @@ enum Estados{
 
     void Controlador(SDL_Event *evento){
         SDL_PollEvent( evento );
-        //SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
-        presionado = SDL_JoystickGetAxis(Player1,0);
-        // + ---> DERECHA
-        // - ---> IZQUIERDA
-        //cout<<presionado<<endl;
+        x_Joystick = SDL_JoystickGetAxis(Player1, 0);
+        y_Joystick = SDL_JoystickGetAxis(Player1, 1);
+        //Ahora anda este tambien.
+        /*if (evento->type == SDL_JOYBUTTONDOWN){
+            ;
+        }*/
+        if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
+            //  x = -1;
+            Izq_PRESIONADO = true;
 
+        }else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
+            //  x =  1;
+            Der_PRESIONADO = true;
+        }else{
+            //  x = 0;
+            Izq_PRESIONADO =false;
+            Der_PRESIONADO = false;
+            scrollearDerecha = false;
+            scrollearIzquierda = false;
+        }
+
+        //Vertical
+        if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
+            //  y = -1;
+            Arriba_PRESIONADO = true;
+            }else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
+                //y =  1;
+                //Abajo_PRESIONADO = true;
+                ;
+            }else{
+                //yDir = 0;
+                Arriba_PRESIONADO = false;
+            }
+
+        //-----------------------------------------
+        //----------EVENTOS NO-JOYSTICK------------
+        //-----------------------------------------
         switch(evento->type){
             case SDL_QUIT:
                 salir = true;
@@ -554,7 +592,6 @@ enum Estados{
             default:
                 this->personajeJuego->definir_imagen(SALTAR);
         }
-
     };
 
 };//FIN CLASE JUEGO
