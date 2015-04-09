@@ -20,8 +20,9 @@ class Capa{
 		~Capa ();
 		void Dibujarse(int x, int y);
 		void Dibujarse(int x, int y, int alto, int ancho);
-		void Dibujarse2(int x, int y);
+		void Dibujarse2(int x, int y, ConversorDeCoordenadas* conversor);
 		void DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor);
+		void DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor);
 		SDL_Texture* CargarTextura();
 
 		SDL_Texture* textura;

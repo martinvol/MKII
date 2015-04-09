@@ -1,12 +1,12 @@
 {
    "ventana":{
-      "anchopx":1500,
-      "altopx":800,
+      "anchopx":1000,
+      "altopx":600,
       "ancho":400,
       "margen":90
    },
    "escenario":{
-      "ancho":900,
+      "ancho":1257,
       "alto":300,
       "ypiso":47
    },
@@ -14,9 +14,9 @@
       {
          "imagen_fondo":"resources/background/columnasLejosFinal.png",
          "xlogico": 0,
-         "anchoLogico":900
-      },
-      {
+         "anchoLogico":200
+      } 
+/*      {
          "imagen_fondo":"resources/background/columnasMUYLejos.png",
          "xlogico": 0,
          "anchoLogico": 700
@@ -26,7 +26,7 @@
          "xlogico": 200,
          "anchoLogico": 70
       }
-/*      {
+      {
          "imagen_fondo":"resources/background/p_2_2.png",
          "xlogico": 400,
          "anchoLogico": 84

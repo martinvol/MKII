@@ -42,11 +42,32 @@ void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 	destination_rect.y = y;
 	destination_rect.w = conversor->factor_ancho*this->anchoLogico;
 	destination_rect.h = conversor->alto_fisico;
-
+	
 	//SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
 	SDL_RenderCopy(ren, textura, NULL, &destination_rect);
 
 
+}
+
+void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
+    // Este metodo va a tratar de dibujar los rectangulos bonitos usando el rect de source
+    
+    SDL_Rect destination_rect, source_rect;
+    int w, h;
+    SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
+    
+    source_rect.x = x + (this->x_logico)*(conversor->factor_ancho);
+	source_rect.y = 0;
+	source_rect.w = conversor->factor_ancho*this->anchoLogico;
+	source_rect.h = h;
+    
+	destination_rect.x = 0;
+	destination_rect.y = 0;
+	destination_rect.w = w;
+	destination_rect.h = conversor->alto_fisico;
+	
+	//SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopy(ren, textura, &source_rect, NULL);
 }
 
 //----------------------------------------------------------------
@@ -62,13 +83,13 @@ void Capa::Dibujarse(int x, int y, int alto, int ancho){
 }
 
 //----------------------------------------------------------------
-void Capa::Dibujarse2(int x, int y){
+void Capa::Dibujarse2(int x, int y, ConversorDeCoordenadas* conversor){
 	int ancho, alto;
 	SDL_QueryTexture(this->textura, NULL, NULL, &ancho, &alto);
     SDL_Rect loQueSeCorta = {x, y, ancho*0.5, alto};
 
 
-	SDL_RenderCopyEx(ren, textura, &loQueSeCorta, NULL, 0.0, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopy(ren, textura, &loQueSeCorta, NULL);//;, 0.0, NULL, SDL_FLIP_NONE);
 }
 
 //----------------------------------------------------------------

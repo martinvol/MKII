@@ -225,7 +225,7 @@ public:
 
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                //SDL_Delay((1000/FRAMERATE) - timerFps);
+                SDL_Delay((1000/FRAMERATE) - timerFps);
             }
         }
 
@@ -280,7 +280,7 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
-            (escenario->capas[i])->DibujarseAnchoReal(
+            (escenario->capas[i])->DibujarseAnchoReal2(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
