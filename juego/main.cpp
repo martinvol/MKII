@@ -75,6 +75,8 @@ public:
     char** argv;
     ConversorDeCoordenadas* conv;
     SDL_Texture *under;
+
+    bool usandoJoystick = false;
     SDL_Joystick *Player1;
     int x_Joystick, y_Joystick;
 
@@ -171,11 +173,9 @@ public:
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
         Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
         this->personajeJuego = personaje;
-        //SDL_JoystickEventState(SDL_ENABLE);
+
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
-
-
 
         Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
         estadoPersonaje1 = Quieto_State;
@@ -207,6 +207,8 @@ public:
         //uno solo...por ahora (?)
         if (SDL_NumJoysticks() < 1){
             cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
+        }else{
+            usandoJoystick = true;
         }
 
         SDL_Event evento;
@@ -318,6 +320,7 @@ enum Estados{
         /*if (evento->type == SDL_JOYBUTTONDOWN){
             ;
         }*/
+    if(usandoJoystick){
         if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
             //  x = -1;
             Izq_PRESIONADO = true;
@@ -345,7 +348,7 @@ enum Estados{
                 //yDir = 0;
                 Arriba_PRESIONADO = false;
             }
-
+    }
         //-----------------------------------------
         //----------EVENTOS NO-JOYSTICK------------
         //-----------------------------------------
