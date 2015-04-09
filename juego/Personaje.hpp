@@ -32,6 +32,9 @@ class Personaje {
 		void Dibujarse(int x, int y);
 		void Dibujarse(int x, int y, int alto, int ancho);
 		
+		//Para Maxi
+		SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
+		
 		//MILE: A agregar:
 		
 		CoordenadaLogica* obtenerCoordenada();

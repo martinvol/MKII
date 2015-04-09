@@ -31,5 +31,6 @@ class Accion{
 		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
+		SDL_Texture* getImagenNro(int numeroDeSprite);
 	
 };

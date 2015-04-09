@@ -70,6 +70,27 @@ void Accion::setRenderer(SDL_Renderer* ren){
 void Accion::setAccionNro(int nroAccion){
 	this->accionNro = nroAccion;
 }
+/**Guarda en un vector el conjunto de imagenes
+ * correspondientes a la propia accion
+ * */
+void Accion::setImagenes (){
+	
+	string numeroImagen, rutaCompleta; 
+	SDL_Texture* imagen;
+	int numero;
+	
+	for (int i = 0; i<this->cantModos; i++){
+	
+		numero = i+1;
+		numeroImagen = to_string(numero);
+		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
+		imagen = IMG_LoadTexture (this->renderer,rutaCompleta.c_str());
+		this->imagenes.push_back(imagen);
+	
+	}
+}
+
+
 /***********************************************************************
  * 
  * 						GETTERS
@@ -158,22 +179,6 @@ void Accion::cambiarModo(){
 	
 }
 
-/**Guarda en un vector el conjunto de imagenes
- * correspondientes a la propia accion
- * */
-void Accion::setImagenes (){
-	
-	string numeroImagen, rutaCompleta; 
-	SDL_Texture* imagen;
-	int numero;
-	
-	for (int i = 0; i<this->cantModos; i++){
-	
-		numero = i+1;
-		numeroImagen = to_string(numero);
-		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
-		imagen = IMG_LoadTexture (this->renderer,rutaCompleta.c_str());
-		this->imagenes.push_back(imagen);
-	
+SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
+	return this->imagenes[numeroDeSprite];
 	}
-}

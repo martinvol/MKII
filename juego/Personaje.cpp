@@ -164,3 +164,6 @@ void Personaje::mirar_al_otro_lado(){
 	
 	
 }
+SDL_Texture* Personaje::DibujarSpriteNumero(int numeroDeSprite){
+	return this->accionActual->getImagenNro(numeroDeSprite);
+	}
