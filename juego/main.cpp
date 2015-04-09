@@ -215,14 +215,12 @@ public:
         while (!salir){
             timerFps = SDL_GetTicks();
             Controlador(&evento);   //Controlador
-            //Modelo
-            ActualizarModelo();
+            ActualizarModelo();     //Modelo
             DibujarTodo();          //Vista
-            //Ver el delay...
-            //SDL_Delay(1000/30.);
+
+            SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
-
             if(timerFps < 1000/FRAMERATE){
                 SDL_Delay((1000/FRAMERATE) - timerFps);
             }
