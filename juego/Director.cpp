@@ -77,10 +77,29 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 
 void Director::verificar_movimientos(){
 	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
-	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaIzqSup();
+	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaDerSup();
+	if (
+	// Caso: scrollear a la derecha.
+	if (ventana.coordenadaEnPantalla(coord1) == bordeDer){
+		if (sePuedeScrollearDerecha()){
+			//scrollear derecha
+		} else {
+			CoordenadaLogica* bordeDer = ventana->obtenerBordeLogicoDerecho(conversor);
+			
+			jugadores[jugador1]->moverseA();
+		}
+			
+	}
 	
+	// Caso: scrollear a la izquierda.
+	delete coord1;
+	coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaIzqSup();
+	if (ventana.coordenadaEnPantalla(coord1) == bordeIzq) {
+		//scrollear izquierda
+	}
 	
-	
+	// Caso: la posición era válida.
+	jugadores[jugador1]->moverseAIzqSup(coord1);
 }
 
 

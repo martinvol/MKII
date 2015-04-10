@@ -9,9 +9,11 @@ public:
 
 	CoordenadaLogica(float x, float y);
 	void multiplicarPor(float f_x, float f_y);
+	// No libera la memoria de coord.
 	void sumar(CoordenadaLogica* coord);
 	void desplazarX(float x);
 	void desplazarY(float y);
+	// No libera la memoria de coord.
 	bool estaALaDerechaDe(CoordenadaLogica* coord);
 
 };

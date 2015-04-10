@@ -8,6 +8,9 @@ class Escenario{
 public:
     //Ordenado por z-index
     vector<Capa*> capas;
+    
+    // Se destruye con las capas que contiene.
+    ~Director();
 
     // Libera todo
     void Borrar();

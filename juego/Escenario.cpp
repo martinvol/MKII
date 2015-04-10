@@ -27,3 +27,7 @@ void Escenario::Borrar(){
     capas.clear();
 
 }
+
+Escenacio::~Escenario(){
+	Borrar();
+}

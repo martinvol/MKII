@@ -23,11 +23,9 @@ public:
 
 	ConversorDeCoordenadas(int alto_fisico, int ancho_fisico, float alto_logico, float x);
 
-	// Conversiones que crean nuevas coordenadas,y no destruyen viejas.
-	
-	CoordenadaFisica* aFisica(CoordenadaLogica* coord);
-	/* Devuelve NULL si la coordenada lógica no debería estar en la pantalla. */
-	
+	// Conversiones que crean nuevas coordenadas que deben ser liberadas,
+	// y no libera viejas.
+	CoordenadaFisica* aFisica(CoordenadaLogica* coord);	
 	CoordenadaLogica* aLogica(CoordenadaFisica* coord);
 
 	//Para avisarle que se movió la ventana dentro del mundo.

@@ -9,6 +9,7 @@ public:
 
 	CoordenadaFisica(int x, int y);
 	void multiplicarPor(float f_x, float f_y);
+	// No libera la memoria de coord.
 	void sumar(CoordenadaFisica* coord);
 
 };

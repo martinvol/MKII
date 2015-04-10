@@ -36,6 +36,8 @@ class Director {
 		void verificar_orientaciones();
 		
 		// PUEDEN USARSE:
+		Director(); // Recibe el conversor, la ventana, los personajes y los jugadores?
+		~Director();		
 		/* Sólo va a recibir Derecha, Izquierda o Arriba. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
 		

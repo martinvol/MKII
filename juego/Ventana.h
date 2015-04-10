@@ -23,6 +23,7 @@ class Ventana {
 		void cambiarMargen(float margen);
 		/*Se supone que no recibe una coordenada física que supere a la pantalla nunca. (No lo valida) */
 		lugarEnVentana coordenadaEnPantalla(CoordenadaFisica* coord);
+		/* Devuelven coordenadas que deben liberarse. */
 		CoordenadaLogica* obtenerBordeLogicoIzquierdo(ConversorDeCoordenadas* conv);
 		CoordenadaLogica* obtenerBordeLogicoDerecho(ConversorDeCoordenadas* conv);	
 }

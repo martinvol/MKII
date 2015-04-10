@@ -13,7 +13,7 @@ using namespace std;
 
 class Personaje {
 	
-		int posicion_x;	//Borrar
+		int posicion_x;		//Borrar
 		int posicion_y; 	//Borrar
 		
 		CoordenadaLogica* coordenada;
