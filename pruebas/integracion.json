@@ -1,20 +1,35 @@
 {
    "ventana":{
-      "anchopx":400,
-      "altopx":255,
+      "anchopx":1000,
+      "altopx":600,
       "ancho":400,
-      "margen":80
+      "margen":90
    },
    "escenario":{
-      "ancho":1217,
-      "alto":255,
+      "ancho":1257,
+      "alto":300,
       "ypiso":47
    },
    "capas":[
       {
-         "imagen_fondo":"resources/background/p_1.png",
+         "imagen_fondo":"resources/background/columnasLejosFinal.png",
          "xlogico": 0,
-         "anchoLogico": 1216
+         "anchoLogico":200
+      }
+      /*{
+         "imagen_fondo":"resources/background/columnasMUYLejos.png",
+         "xlogico": 0,
+         "anchoLogico": 700
+      },
+      {
+         "imagen_fondo":"resources/background/p_2_1.png",
+         "xlogico": 200,
+         "anchoLogico": 70
+      }
+      {
+         "imagen_fondo":"resources/background/p_2_2.png",
+         "xlogico": 400,
+         "anchoLogico": 84
       },
       {
          "imagen_fondo":"resources/background/p_4b.png",
@@ -39,8 +54,8 @@
       {
          "imagen_fondo":"resources/background/fondo.png",
          "xlogico": 0,
-         "anchoLogico": 0
-      }
+         "anchoLogico": 900
+      }*/
    ],
    "personaje":{
       "ancho":63,

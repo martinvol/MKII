@@ -17,6 +17,11 @@ using namespace std;
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
 #define SALTODIAGONAL 4
+
+#define MOVER_PIXELES 5
+#define FRAMERATE 40
+#define JOYSTICK_DEAD_ZONE 8000
+
 Logger *logger = Logger::instance();
 
 //----------------------------------------------------------------
@@ -61,16 +66,21 @@ public:
     bool saltando = false;
     Sint16 presionado=0;
     SDL_Rect r;
-    int posicionPJ_Piso = 125;
+    int posicionPJ_Piso = 0;
     double t = 1.0;
 
-
+    bool pausa = false;
+    bool cambiarModo = false;
 
     int argc;
     char** argv;
     ConversorDeCoordenadas* conv;
     SDL_Texture *under;
+
+    bool usandoJoystick = false;
     SDL_Joystick *Player1;
+    int x_Joystick, y_Joystick;
+
 
     bool salir = false;
     SDL_Renderer * renderer = NULL;
@@ -112,13 +122,17 @@ public:
 
     void cargar_configuracion(){
         this->conf = new Conf();
-        conf->set_values(argv[1]);
+        if (argc == 1 )
+            conf->cargarDefault();
+        else
+            conf->set_values(argv[1]);
         // Se settean configuraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
         //Pantalla
         ANCHO_FISICO = conf->ventana_anchopx; //800
         ALTO_FISICO = conf->ventana_altopx; //416
+        posicionPJ_Piso = conf->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
         AnchoLogico = conf->escenario_ancho;
@@ -131,7 +145,8 @@ public:
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
-        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - (this->conv->factor_ancho*ANCHO_FISICO/2);
+
+        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - ((ANCHO_FISICO/2)/this->conv->factor_ancho);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -150,7 +165,7 @@ public:
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 
-        //under = loadTexture("resources/background/p_under.png", renderer);
+        under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
 
         //Izquierda
@@ -159,8 +174,10 @@ public:
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
         Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
         this->personajeJuego = personaje;
-        SDL_JoystickEventState(SDL_ENABLE);
+
         Player1 = SDL_JoystickOpen(0);
+        SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
+
         Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
         estadoPersonaje1 = Quieto_State;
     }
@@ -185,20 +202,33 @@ public:
 //---------------------------------------------------------------
 //----------------------------------------------------------------
     void game_loop(){
+
+        float timerFps;
+
         //uno solo...por ahora (?)
         if (SDL_NumJoysticks() < 1){
             cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
+        }else{
+            usandoJoystick = true;
         }
 
         SDL_Event evento;
         while (!salir){
-            Controlador(&evento);   //Controlador
-            //Modelo
-            ActualizarModelo();
-            DibujarTodo();          //Vista
-            //Ver el delay...
-            SDL_Delay(1000/40.);
+            timerFps = SDL_GetTicks();
+            Controlador(&evento);       //Controlador
+            if (!pausa){
+                ActualizarModelo();     //Modelo
+            }
+            DibujarTodo();              //Vista
+
+            SDL_FlushEvent(SDL_KEYDOWN);
+
+            timerFps = SDL_GetTicks() - timerFps;
+            if(timerFps < 1000/FRAMERATE){
+                SDL_Delay((1000/FRAMERATE) - timerFps);
+            }
         }
+
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -233,21 +263,28 @@ public:
 void DibujarTodo(){
         //Limpio y dibujo
         SDL_RenderClear(renderer);
-        //SDL_RenderCopy(renderer, under, NULL, &r);
-        //this->escenario->Dibujarse();
+
+        SDL_Rect fillRect = {0, 0, conf->ventana_anchopx, conf->ventana_altopx};
+        SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+        SDL_RenderFillRect(renderer, &fillRect );
+
+
+        SDL_RenderCopy(renderer, under, NULL, &r);
+        // Que es esto?
 
         for (int i = escenario->capas.size(); i --> 0; ){
-        //for (int i = 0; i < escenario->capas.size(); i ++) {
         // Itero hacia en orden inverso
         // Así respeto los Z index
         //for (int i = 0; i<escenario->capas.size(); i++){
             // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
-            (escenario->capas[i])->Dibujarse(
+
+            (escenario->capas[i])->DibujarseAnchoReal2(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
+                + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
-                , 0);
+                , 0, conv);
 
 
             if (i==conf->personaje_zindex){
@@ -264,38 +301,12 @@ void DibujarTodo(){
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
 
-        if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
-            if(posicionPJ_Piso > 125){
-                posicionPJ_Piso = 125;
-                saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
-                //Despues de caer vuelve a quieto.
-                estadoPersonaje1 = Quieto_State;
-                t = 1.0;
-            }else{
-                //Vo = 10px/t ; g =  5.5px/t*t
-                t+=0.05;
-                posicionPJ_Piso -= 10*t; //Vo *t
-                posicionPJ_Piso += 5.5*t*t; // -g *t * t
-                if(saltoDiagonalIZQ && mover<0)
-                    mover +=5;
-                if(saltoDiagonalDER && abs(mover)<700)
-                    mover -=5;
-            }
-        }
-
-        /*if(saltando == true){
-            if(posicionPJ_Piso > 125){
-                posicionPJ_Piso = 125;
-                saltando = false;
-                t = 1.0;
-            }else{
-                //Vo = 10px/t ; g =  5.5px/t*t
-                t+=0.05;
-                posicionPJ_Piso -= 10*t; //Vo *t
-                posicionPJ_Piso += 5.5*t*t; // -g *t * t
-            }
-        }*/
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
+        if (pausa){
+            SDL_Rect pantalla = {0,0,conf->ventana_anchopx,conf->ventana_altopx};
+            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
+            SDL_RenderFillRect( renderer, &pantalla );
+        }
         SDL_RenderPresent(renderer);
 };
 
@@ -309,12 +320,44 @@ enum Estados{
 
     void Controlador(SDL_Event *evento){
         SDL_PollEvent( evento );
-        //SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
-        presionado = SDL_JoystickGetAxis(Player1,0);
-        // + ---> DERECHA
-        // - ---> IZQUIERDA
-        //cout<<presionado<<endl;
+        x_Joystick = SDL_JoystickGetAxis(Player1, 0);
+        y_Joystick = SDL_JoystickGetAxis(Player1, 1);
+        //Ahora anda este tambien.
+        /*if (evento->type == SDL_JOYBUTTONDOWN){
+            ;
+        }*/
+    if(usandoJoystick){
+        if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
+            //  x = -1;
+            Izq_PRESIONADO = true;
 
+        }else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
+            //  x =  1;
+            Der_PRESIONADO = true;
+        }else{
+            //  x = 0;
+            Izq_PRESIONADO =false;
+            Der_PRESIONADO = false;
+            scrollearDerecha = false;
+            scrollearIzquierda = false;
+        }
+
+        //Vertical
+        if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
+            //  y = -1;
+            Arriba_PRESIONADO = true;
+            }else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
+                //y =  1;
+                //Abajo_PRESIONADO = true;
+                ;
+            }else{
+                //yDir = 0;
+                Arriba_PRESIONADO = false;
+            }
+    }
+        //-----------------------------------------
+        //----------EVENTOS NO-JOYSTICK------------
+        //-----------------------------------------
         switch(evento->type){
             case SDL_QUIT:
                 salir = true;
@@ -345,7 +388,9 @@ enum Estados{
                 }
                 //-----------------------------------------
                 //-----------------------------------------
-
+                if (evento->key.keysym.sym == SDLK_p)  {
+                    cambiarModo = true;
+                }
                 if(evento->key.keysym.sym == SDLK_a)  {
                     barraDeVida1.Aliviar(20);
                     barraDeVida2.Aliviar(20);
@@ -371,7 +416,6 @@ enum Estados{
                 }
                 break;
             case SDL_KEYUP:
-                //this->personajeJuego->definir_imagen(QUIETO);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
                 //-----------------------------------------
@@ -388,7 +432,10 @@ enum Estados{
                 }
                 //-----------------------------------------
                 //-----------------------------------------
-
+                if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
+                    cambiarModo = false;
+                    pausa = !pausa;
+                }
                 if((evento->key.keysym.sym == SDLK_d))  {
                     golpeandoPJ = false;
                 }
@@ -397,11 +444,36 @@ enum Estados{
                 }
                 break;
             default:
-                ;//this->personajeJuego->definir_imagen(QUIETO);
-
+                ;
            }
 
+            if (scrollearIzquierda){
+                x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
 
+                {
+                    x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                    if (borde_izquierdo_logico_pantalla<0){
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
+                        this->personajeJuego->definir_imagen(QUIETO);
+                    }
+                }
+                // mover+= 5;
+
+            } else if (scrollearDerecha){
+                x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                if ((x_logico_personaje + (conf->personaje_ancho/2) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (ANCHO_FISICO -ANCHO_FISICO*(100-conf->margen)/200))
+                {
+                    x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
+
+                    if (borde_izquierdo_logico_pantalla + (((float)ANCHO_FISICO)/conv->factor_ancho) > conf->escenario_ancho){
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                        this->personajeJuego->definir_imagen(QUIETO);
+                    }
+                }
+            }
 
     };
 
@@ -411,9 +483,8 @@ enum Estados{
       Caminando_State */
     //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
     if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
-            if(posicionPJ_Piso > 125){
-                //posicionPJ_Piso = conf->escenario_ypiso;
-		posicionPJ_Piso = 125;
+            if(posicionPJ_Piso > conf->escenario_ypiso){
+                posicionPJ_Piso = conf->escenario_ypiso;
                 saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
                 //Despues de caer vuelve a quieto.
                 estadoPersonaje1 = Quieto_State;
@@ -425,11 +496,11 @@ enum Estados{
                 posicionPJ_Piso += 5.5*t*t; // -g *t * t
                 if( (saltoDiagonalIZQ) /*&& (mover<0)*/ ){
                     mover +=5;
-                    x_logico_personaje = x_logico_personaje - 5;
+                    x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER  /*&& abs(mover)<700*/){
                     mover -=5;
-                    x_logico_personaje = x_logico_personaje + 5;
+                    x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                 }
 
             }
@@ -462,6 +533,7 @@ enum Estados{
                 if(Izq_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
                     this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
                     break;
@@ -493,15 +565,12 @@ enum Estados{
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    scrollearDerecha = true;
-                    scrollearIzquierda = false;
+
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
-                    scrollearIzquierda = true;
-                    scrollearDerecha = false;
 
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 //Camino --> sigo caminando
@@ -533,50 +602,10 @@ enum Estados{
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
                 this->personajeJuego->definir_imagen(SALTODIAGONAL);
-                if (saltoDiagonalIZQ){
-                    scrollearIzquierda = true;
-                    scrollearDerecha = false;
-                }else{
-                    scrollearDerecha = true;
-                    scrollearIzquierda = false;
-                }
                 break;
             default:
                 this->personajeJuego->definir_imagen(SALTAR);
         }
-
-
-        //Scrolleo desde el modelo, y despues de procesar movimientos, sino se achata.
-        if (scrollearIzquierda){
-                x_logico_personaje = x_logico_personaje - 5.;
-                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-
-                {
-                    x_logico_personaje = x_logico_personaje + 5.;
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 5.;
-                    if (borde_izquierdo_logico_pantalla<0){
-                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + 5.;
-                        puts("Se acabó la pantalla");
-                    }
-                    puts("me muevo hacia la Izquierda");
-                }
-                // mover+= 5;
-
-        } else if (scrollearDerecha){
-                x_logico_personaje = x_logico_personaje + 5.;
-                if ((x_logico_personaje + (conf->personaje_ancho/2) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (ANCHO_FISICO -ANCHO_FISICO*(100-conf->margen)/200))
-                {
-                    x_logico_personaje = x_logico_personaje - 5.;
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + 5.;
-
-                    if (borde_izquierdo_logico_pantalla + (((float)ANCHO_FISICO)/conv->factor_ancho) > conf->escenario_ancho){
-                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 5.;
-                        puts("Se acabó la pantalla");
-                    }
-                    puts("me muevo hacia la derecha");
-                }
-            }
-
     };
 
 };//FIN CLASE JUEGO
