@@ -61,9 +61,6 @@ void Accion::setCantModos(){
 void Accion::setModoActual(int modo){
 	this->modoActual = modo;
 }
-void Accion::setPermiteInterrupcion(bool permite){
-	this->permiteInterrupcion = permite;
-}
 void Accion::setRenderer(SDL_Renderer* ren){
 	this->renderer = ren;
 }
@@ -121,11 +118,11 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, bool permite,SDL_Renderer* ren){
-	
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
+	this->lastTime = 0;
+	cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
 	setAccionNro(nroAccion);
-	setRutaArchivo(ruta);
-	setPermiteInterrupcion(permite);
+	setRutaArchivo(ruta+to_string(nroAccion));
 	setRenderer(ren);
 	setCantModos();
 	setImagenes();
@@ -155,6 +152,7 @@ Accion::~Accion(){
  * false, en caso contrario
  * */
 bool Accion::esDistintaA(int nroAccion){
+	cout<<"nroAccionACtual"<<this->accionNro<<"nueva"<<nroAccion<<endl;
 	if (this->accionNro != nroAccion)
 		return true;
 	return false;
@@ -170,7 +168,7 @@ bool Accion::esUltimoModo(){
 	}
 	return false;
 }
-	
+		
 /**Aumenta en uno el modo Actual
  * si llega al ultimo modo posible
  * retorna al modo 0.
@@ -182,7 +180,9 @@ void Accion::cambiarModo(){
 	else{
 		setModoActual(this->modoActual+1);
 	}
-	
 }
+
+void Accion::execute(){}
+
 
 

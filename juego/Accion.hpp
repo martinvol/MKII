@@ -9,22 +9,23 @@ using namespace std;
 
 class Accion{
 	
-	bool permiteInterrupcion;
-	int accionNro;
-	int cantModos;
-	string ruta;
-	SDL_Renderer* renderer;
-	vector<SDL_Texture*> imagenes;
-	int modoActual;
+	
 	public:
-		
-		Accion(int nroAccion, string ruta, bool permite,SDL_Renderer* ren); //constructor
+			
+		int accionNro;
+		int cantModos;
+		string ruta;
+		SDL_Renderer* renderer;
+		vector<SDL_Texture*> imagenes;
+		int modoActual;
+		int lastTime;
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
 		~Accion();
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
 		void setModoActual(int modo);
 		void setImagenes();
-		void setPermiteInterrupcion(bool permite);
+		
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
 		SDL_Texture* getImagenActual();
@@ -32,6 +33,102 @@ class Accion{
 		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
+		virtual void execute();
+		virtual bool permite(int nuevaAccion){return true;};
 		SDL_Texture* getImagenNro(int numeroDeSprite);
 	
+};
+#define TEMPO 30
+class Quieto:public Accion{
+	public:
+		Quieto(string ruta, SDL_Renderer* ren):Accion(0,ruta,ren){};
+		void execute(){
+			unsigned int currentTime = SDL_GetTicks();
+			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			
+			if (tiempoTranscurrido > TEMPO){
+					
+					Accion::cambiarModo();
+					lastTime = lastTime + TEMPO;
+			}			
+		};
+		bool permite(int nuevaAccion){
+			return true;
+		};	
+};
+class CaminarDerecha: public Accion{
+	public:
+		CaminarDerecha(string ruta, SDL_Renderer* ren):Accion(1,ruta,ren){};
+		void execute(){
+			unsigned int currentTime = SDL_GetTicks();
+			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			
+			if (tiempoTranscurrido > TEMPO){
+					
+					Accion::cambiarModo();
+					lastTime = lastTime + TEMPO;
+			}			
+		};
+		bool permite(int nuevaAccion){
+			return true;
+		};
+};
+class CaminarIzquierda: public Accion{
+	public:
+		CaminarIzquierda(string ruta, SDL_Renderer* ren):Accion(2,ruta,ren){};
+		void execute(){
+			unsigned int currentTime = SDL_GetTicks();
+			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			
+			if (tiempoTranscurrido > TEMPO){
+					
+					Accion::cambiarModo();
+					lastTime = lastTime + TEMPO;
+			}			
+		};
+		bool permite(int nuevaAccion){
+			return true;
+		};
+};
+#define TEMPOSALTO 1000
+class Saltar:public Accion{
+	public:
+		Saltar(string ruta, SDL_Renderer* ren):Accion(3,ruta,ren){};
+		void execute(){
+			unsigned int currentTime = SDL_GetTicks();
+			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			cout<<"Tiempo transcurrido: "<<tiempoTranscurrido<<endl;
+			
+			if (Accion::getModoActual()==1){
+				if (tiempoTranscurrido>TEMPOSALTO){
+					Accion::cambiarModo();
+					lastTime = lastTime + TEMPOSALTO;
+				}
+			}
+			else{
+				if (tiempoTranscurrido > 50){		
+						Accion::cambiarModo();
+						lastTime = lastTime + TEMPO;
+				}	
+			}		
+		};
+		bool permite(int nuevaAccion){
+			return false;
+		};
+};
+class SaltarDiagonal: public Accion{
+	public:
+		SaltarDiagonal(string ruta, SDL_Renderer* ren):Accion(4,ruta,ren){};	
+		void execute(){
+			unsigned int currentTime = SDL_GetTicks();
+			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			
+			if (tiempoTranscurrido > TEMPO){		
+					Accion::cambiarModo();
+					lastTime = lastTime + TEMPO;
+			}
+		};
+		bool permite(int nuevaAccion){
+			return false;
+		};
 };

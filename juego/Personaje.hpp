@@ -28,7 +28,7 @@ class Personaje {
 		SDL_Texture* definir_imagen(int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion);
+		void cambiarAccionA(int nroACcion,string ruta);
 		void Dibujarse(int x, int y);
 		void Dibujarse(int x, int y, int alto, int ancho);
 		int getSpriteActual();
