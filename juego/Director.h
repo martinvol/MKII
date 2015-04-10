@@ -11,6 +11,10 @@
 #include "CoordenadaFisica.h"
 #include "ConversorDeCoordenadas.h"
 
+
+// Cuánto ancho lógico se mueve al scrollear.
+#define FACTOR_SCROLL 5.0
+
 using namespace std;
 
 enum num_jugador {jugador1 = 0, jugador2};
@@ -34,6 +38,10 @@ class Director {
 		void informar_accion(movimiento mov, Jugador* jugador);
 		void verificar_movimientos();
 		void verificar_orientaciones();
+		bool sePuedeScrollearDerecha();
+		bool sePuedeScrollearIzquierda();
+		void scrollearDerecha();
+		void scrollearIzquierda();
 		
 		// PUEDEN USARSE:
 		Director(); // Recibe el conversor, la ventana, los personajes y los jugadores?

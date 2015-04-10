@@ -40,13 +40,17 @@ class Jugador {
 		
 		/* Estas corresponden a preguntar dónde deberías estar o a
 		 * dónde te deberías mover la próxima vez de acuerdo a la
-		 * acción que está en transcurso. */
+		 * acción que fue pedida de "activar". */
 		 /* Devuelven coordenadas que deben ser liberadas para no perder
 		 * memoria. */
 		CoordenadaLogica* obtenerSiguienteCoordenadaIzqSup();
 		CoordenadaLogica* obtenerSiguienteCoordenadaIzqInf();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
+	
+		/* Coordenada a la que debe moverse el pesonaje. */
+		void moverseAIzqSup(CoordenadaLogica* coord);
+		void moverseADerSup(CoordenadaLogica* coord);
 		
 };
 

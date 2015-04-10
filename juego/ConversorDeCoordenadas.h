@@ -29,7 +29,7 @@ public:
 	CoordenadaLogica* aLogica(CoordenadaFisica* coord);
 
 	//Para avisarle que se movió la ventana dentro del mundo.
-	void seMovioVentana(int pixeles);
-	void seMovioVentana(float metros);
+	void seMueveVentana(int pixeles);
+	void seMueveVentana(float metros);
 };
 #endif // CONVERSOR_H_INCLUDED

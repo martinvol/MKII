@@ -11,6 +11,8 @@ public:
 	void multiplicarPor(float f_x, float f_y);
 	// No libera la memoria de coord.
 	void sumar(CoordenadaLogica* coord);
+	void setearX(float x);
+	void setearY(float y);
 	void desplazarX(float x);
 	void desplazarY(float y);
 	// No libera la memoria de coord.

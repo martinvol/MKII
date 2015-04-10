@@ -34,10 +34,10 @@ CoordenadaLogica* ConversorDeCoordenadas::aLogica(CoordenadaFisica* coord){
 	return new CoordenadaLogica(x_logico + ((coord->x_fisico * 1.0)/factor_ancho), alto_logico - ((coord->y_fisico * 1.0)/factor_alto));
 }
 
-void ConversorDeCoordenadas::seMovioVentana(int pixeles){
+void ConversorDeCoordenadas::seMueveVentana(int pixeles){
 	x_logico += pixeles * 1.0 / factor_ancho;
 }
 
-void ConversorDeCoordenadas::seMovioVentana(float metros){
+void ConversorDeCoordenadas::seMueveVentana(float metros){
 	x_logico += metros;
 }

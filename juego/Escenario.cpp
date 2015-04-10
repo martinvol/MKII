@@ -31,3 +31,24 @@ void Escenario::Borrar(){
 Escenacio::~Escenario(){
 	Borrar();
 }
+
+Escenario::Escenario(float ancho, float alto){
+	this->ancho = ancho;
+	this->alto = alto;
+}
+
+bool Escenario::esLimiteDerecho(float x){
+	return (x >= ancho);
+}
+
+bool Escenario::esLimiteIzquierdo(float x){
+	return (x <= 0);
+}
+
+float Escenario::obtenerLimiteDerecho(float x){
+	return ancho;
+}
+
+float Escenario::obtenerLimiteIzquierdo(float x){
+	return 0;
+}

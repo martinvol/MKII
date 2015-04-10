@@ -75,117 +75,73 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 	}
 }
 
+/* Por ahora, sólo valida el movimiento de UN JUGADOR. */
 void Director::verificar_movimientos(){
 	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
 	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaDerSup();
-	if (
+	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+	// Verifica altura.
+	if (this->ventana->superaTecho(coord1_fis)){
+		coord1->setearY(this->ventana->obtenerBordeSuperior(this->conversor));
+	}
+	
 	// Caso: scrollear a la derecha.
-	if (ventana.coordenadaEnPantalla(coord1) == bordeDer){
-		if (sePuedeScrollearDerecha()){
-			//scrollear derecha
-		} else {
-			CoordenadaLogica* bordeDer = ventana->obtenerBordeLogicoDerecho(conversor);
-			
-			jugadores[jugador1]->moverseA();
-		}
-			
+	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
+		scrollearDerecha();
+		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
+		if (coord1->x > margen_der) coord1->setearX(margen_der);
+		jugadores[jugador1]->moverseADerSup(coord1);		
 	}
 	
 	// Caso: scrollear a la izquierda.
 	delete coord1;
+	delete coord1_fis;
 	coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaIzqSup();
-	if (ventana.coordenadaEnPantalla(coord1) == bordeIzq) {
-		//scrollear izquierda
+	coord1_fis = this->conversor->aFisica(coord1);
+	// Verifica altura.
+	if (this->ventana->superaTecho(coord1_fis)){
+		coord1->setearY(this->ventana->obtenerBordeSuperior(this->conversor));
 	}
 	
-	// Caso: la posición era válida.
+	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeIzq) {
+		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
+		if (coord1->x < margen_izq) coord1->setearX(margen_izq);
+		jugadores[jugador1]->moverseAIzqSup(coord1);
+	}
+	
+	// Caso: la posición era válida en ancho.
 	jugadores[jugador1]->moverseAIzqSup(coord1);
 }
 
-
-/* Recibe cuánto scrollear (o es siempre constante?????)
- * Si es positivo es para la derecha; negativo para la izquierda. */
- // En píxeles, lógicas??
-bool Director::ventanaPuedeScrollear(???){
-	
+bool Director::sePuedeScrollearDerecha(){
+	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
+	bool sePuede = not this->escenario->esLimiteDerecho(borde_der);
+	return sePuede;
 }
 
-//~ /* Devuelve la misma coordenada si es válida.
- //~ * Sino, libera la anterior, crea una nueva con un lugar válido, dentro del margen. */
-//~ CoordenadaLogica* Director::validar_lugar(CoordenadaLogica* coord, float ancho_personaje){
-	//~ coord.desplazarX(ancho_personaje/2); // Esquina Derecha
-	//~ coord_fisica = conversor.aFisica(coord);
-	//~ if (ventana.coordenadaEnPantalla(coord_fisica) == bordeDer){
-		//~ delete coord_fisica;
-		//~ delete coord;
-		//~ return ventana.obtenerBordeLogicoDerecho(conversor);
-	//~ }
-	//~ coord.desplazarX(-ancho_personaje); // Esquina Izquierda
-	//~ coord_fisica = conversor.aFisica(coord);
-	//~ if (ventana.coordenadaEnPantalla(coord_fisica) == bordeIzq){
-		//~ delete coord_fisica;
-		//~ delete coord;
-		//~ return ventana.obtenerBordeLogicoIzquierdo(conversor);
-	//~ }	
-	//~ return coord.desplazarX(ancho_personaje/2); // Volvió a como estaba.
-//~ }
-//~ 
-//~ void Director::verificar_movimiento_y_scroll(){
-	//~ verificar_necesidad_de_scroll();
-	//~ if (scroll1 && scroll2 && mov1 != mov2){
-		//~ //Accionan pero
-		//~ //Se quedan en donde están.
-		//~ //No scrollea
-	//~ } else if (scroll1 || scroll2){
-		//~ //Accionar
-		//~ //Mover
-		//~ //Scrollear
-	//~ } else {
-		//~ //Accionar
-		//~ //Mover
-		//~ //No scrollear
-	//~ }		
-//~ }
-//~ 
-//~ CoordenadaLogica* analizar_scroll
-//~ 
-//~ void Director::verificar_necesidad_de_scroll_y_accionar_movimientos(){
-	//~ switch(mov1){
-		//~ case Derecha:
-			//~ if (ventana.coordenadaEnPantalla(jugadores[jugador1]->obtenerCoordenadaDerSup()) == BordeDer){
-				//~ scroll1 = true;
-				//~ nueva_coord1 = jugadores[jugador1]->caminarDerecha();
-			//~ }
-			//~ break;
-		//~ case Izquierda:
-			//~ if (ventana.coordenadaEnPantalla(jugadores[jugador1]->obtenerCoordenadaIzqSup()) == BordeIzq){
-				//~ scroll1 = true;
-				//~ nueva_coord1 = jugadores[jugador1]->caminarIzquierda();
-			//~ }
-			//~ break;
-		//~ case Arriba:
-			//~ scroll1 = false;
-			//~ jugadores[jugador1]->saltar();
-			//~ break;
-		//~ default: //case Nada:
-			//~ scroll1 = false;
-			//~ nueva_coord1 = jugadores[jugador1]->parar();
-			//~ break;
-	//~ }
-	//~ switch(mov2){
-		//~ case Derecha:
-			//~ if (ventana.coordenadaEnPantalla(jugadores[jugador2]->obtenerCoordenadaDerSup()) == BordeDer)
-															//~ // u obtenerCoordenadaDerInf()
-				//~ scroll2 = true;
-			//~ break;
-		//~ case Izquierda:
-			//~ if (ventana.coordenadaEnPantalla(jugadores[jugador2]->obtenerCoordenadaIzqSup()) == BordeIzq)
-															//~ // u obtenerCoordenadaIzqInf()
-				//~ scroll2 = true;
-		//~ default:
-			//~ break;
-	//~ }
-//~ }
+bool Director::sePuedeScrollearIzquierda(){
+	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
+	bool sePuede = not this->escenario->esLimiteIzquierdo(borde_izq);
+	return sePuede;
+}
+
+void Director::scrollearDerecha(){
+	if (not this->sePuedeScrollearDerecha()) return;
+	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
+	if (this->escenario->esLimiteDerecho(borde_der+float(FACTOR_SCROLL)))
+		this->conversor->seMueveVentana(this->escenario->obtenerLimiteDerecho() - borde_der);
+	else this->conversor->seMueveVentana(float(FACTOR_SCROLL));
+}
+
+void Director::scrollearIzquierda(){
+	if (not this->sePuedeScrollearIzquierda()) return;
+	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
+	if (this->escenario->esLimiteIzquierdo(borde_izq-float(FACTOR_SCROLL)))
+		this->conversor->seMueveVentana(this->escenario->obtenerLimiteIzquierdo() - borde_izq);
+	else this->conversor->seMueveVentana(- float(FACTOR_SCROLL));
+}
+
+
 
 void Director::verificar_orientaciones(){
 	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerCoordenadaIzqSup();
