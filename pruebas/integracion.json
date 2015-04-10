@@ -43,7 +43,7 @@
       }
    ],
    "personaje":{
-      "ancho":200,
+      "ancho":63,
       "alto":129,
       "zindex":0,
       "sprites":{

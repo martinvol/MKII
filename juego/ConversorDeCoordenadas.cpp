@@ -20,7 +20,9 @@ ConversorDeCoordenadas::ConversorDeCoordenadas(int alto_fisico, int ancho_fisico
 	this->alto_logico = alto_logico;
 	this->ancho_logico = ancho_logico;
 	this->factor_alto = (alto_fisico * 1.0) /( alto_logico * 1.0);
-	this->factor_ancho = (ancho_fisico * 1.0)/(ancho_logico * 1.0);
+	this->factor_ancho = (ancho_fisico * 1.0)/(ancho_logico_ventana * 1.0);
+	/*cout <<"ancho fisico" << conv->factor_alto << "\n"; ///
+	cout <<"ancho logico" << conv->factor_alto << "\n"; ///*/
 	this->alto_fisico = alto_fisico;
 	this->ancho_fisico = ancho_fisico;
 	this->ancho_logico_ventana = ancho_logico_ventana;

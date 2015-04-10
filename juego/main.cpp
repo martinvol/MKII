@@ -146,7 +146,8 @@ public:
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
 
-        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - ((ANCHO_FISICO/2)/this->conv->factor_ancho);
+
+        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -294,9 +295,15 @@ void DibujarTodo(){
             if (i==conf->personaje_zindex){
                 this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
+
                     posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
             }
         }
+        cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
+        cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
+        cout <<"factor ancho" << conv->factor_ancho << "\n"; ///
+        cout <<"factor alto" << conv->factor_alto << "\n"; ///
+
 
        /* printf("X logico personaje %f \n", x_logico_personaje);
         printf("Donde dibujo el personaje %f \n", (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho);
@@ -454,7 +461,6 @@ enum Estados{
             if (scrollearIzquierda){
                 x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                 if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-
                 {
                     x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
@@ -467,12 +473,12 @@ enum Estados{
 
             } else if (scrollearDerecha){
                 x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
-                if ((x_logico_personaje + (conf->personaje_ancho/2) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (ANCHO_FISICO -ANCHO_FISICO*(100-conf->margen)/200))
+                if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
                     x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
 
-                    if (borde_izquierdo_logico_pantalla + (((float)ANCHO_FISICO)/conv->factor_ancho) > conf->escenario_ancho){
+                    if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                         this->personajeJuego->definir_imagen(QUIETO);
                     }
