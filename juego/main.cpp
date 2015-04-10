@@ -193,7 +193,8 @@ public:
                 new Capa (conf->capas_vector[i]->ubicacion,
                 conf->capas_vector[i]->anchoLogico,
                 conf->capas_vector[i]->x_logico,
-                conf->capas_vector[i]->ren
+                conf->capas_vector[i]->ren,
+                this->conv
                 )
             );
         }
