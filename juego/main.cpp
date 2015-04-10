@@ -141,7 +141,7 @@ public:
         // fin de las configuraciones
 
         this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
-                                          AltoLogico, AnchoLogico);
+                                          AltoLogico, AnchoLogico, conf->ventana_ancho, 0);
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
@@ -280,12 +280,16 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
-            (escenario->capas[i])->DibujarseAnchoReal2(
+
+            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
+            /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
                 , 0, conv);
-
+                
+            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conv);
+*/
 
             if (i==conf->personaje_zindex){
                 this->personajeJuego->Dibujarse(
