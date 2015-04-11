@@ -47,17 +47,21 @@ void Capa::Dibujarse(int x, int y){
 void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 	//Dibujarse(x,y, conversor->alto_fisico, conversor->factor_ancho*this->anchoLogico);
 	
+	float posi_px = (((this->m)*x + (this->b)));
+	cout <<"posi_px " << posi_px << "\n"; ///
+
+	posi_px = posi_px*(conversor->factor_ancho) - x;
 
 
 	SDL_Rect destination_rect;
 
-	destination_rect.x = x + (this->x_logico)*conversor->factor_ancho;
+	destination_rect.x = posi_px + (this->x_logico)*conversor->factor_ancho;
 	destination_rect.y = y;
 	destination_rect.w = conversor->factor_ancho*this->anchoLogico;
 	destination_rect.h = conversor->alto_fisico;
 	
-	//SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
-	SDL_RenderCopy(ren, textura, NULL, &destination_rect);
+	SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
+	//SDL_RenderCopy(ren, textura, NULL, &destination_rect);
 
 
 }

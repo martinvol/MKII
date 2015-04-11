@@ -283,7 +283,7 @@ void DibujarTodo(){
 
 
 
-            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
+            (escenario->capas[i])->DibujarseAnchoReal(borde_izquierdo_logico_pantalla, 0, conv);
             /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
@@ -472,7 +472,7 @@ enum Estados{
 
             } else if (scrollearDerecha){
                 x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
-                if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
+                if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
                     x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
