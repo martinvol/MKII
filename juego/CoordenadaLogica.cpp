@@ -1,4 +1,4 @@
-#include "CoordenadaLogica.h"
+#include "CoordenadaLogica.hpp"
 
 CoordenadaLogica::CoordenadaLogica(float x, float y){
 	this->x = x;
@@ -28,9 +28,9 @@ bool CoordenadaLogica::estaALaDerechaDe(CoordenadaLogica* coord){
 }
 
 void CoordenadaLogica::setearX(float x){
-	coord->x = x;
+	this->x = x;
 }
 
 void CoordenadaLogica::setearY(float y){
-	coord->y = y;
+	this->y = y;
 }

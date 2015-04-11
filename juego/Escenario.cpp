@@ -1,5 +1,5 @@
-#include "Capa.h"
-#include "Escenario.h"
+#include "Capa.hpp"
+#include "Escenario.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -28,7 +28,7 @@ void Escenario::Borrar(){
 
 }
 
-Escenacio::~Escenario(){
+Escenario::~Escenario(){
 	Borrar();
 }
 
@@ -45,10 +45,10 @@ bool Escenario::esLimiteIzquierdo(float x){
 	return (x <= 0);
 }
 
-float Escenario::obtenerLimiteDerecho(float x){
+float Escenario::obtenerLimiteDerecho(){
 	return ancho;
 }
 
-float Escenario::obtenerLimiteIzquierdo(float x){
+float Escenario::obtenerLimiteIzquierdo(){
 	return 0;
 }

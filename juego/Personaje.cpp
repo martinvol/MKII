@@ -41,10 +41,11 @@ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
-Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho_logico, float alto_logico){
 
-	this->posicion_x = posicion_x;
-	this->posicion_y = posicion_y;
+	this->coordenada = coord;
+	this->ancho = ancho_logico;
+	this->alto = alto_logico;
 	this->accionActual = NULL;
 	this->imagenActual = NULL;
 	this->lastTime = 0;
@@ -132,6 +133,7 @@ Personaje::~Personaje(){
 	delete this->accionActual;
 	
 }
+
 /**
  * 
  */ 
@@ -144,6 +146,7 @@ void Personaje::Dibujarse(int x, int y){
 /**
  * 
  * */
+
 void Personaje::Dibujarse(int x, int y, int alto, int ancho){
 	//Rectangulo destino
 	SDL_Rect destino;
@@ -162,5 +165,56 @@ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	
 void Personaje::mirar_al_otro_lado(){
 	
+	
+}
+
+
+/* FALTAN PARA INTERACCION CON EL DIRECTOR */
+void Personaje::mirarParaDerecha(){
+}
+void Personaje::mirarParaIzquierda(){
+}
+void Personaje::parar(){
+}
+void Personaje::caminarDerecha(){
+}
+void Personaje::caminarIzquierda(){
+}
+void Personaje::saltar(){
+}
+void Personaje::saltarDerecha(){
+}
+void Personaje::saltarIzquierda(){
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
+	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
+	coord->sumar(coordenada);
+	return coord;
+}
+CoordenadaLogica* Personaje::obtenerCoordenadaIzqInf(){
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaDerSup(){
+	
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
+	
+}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
+	
+	}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
+	
+	}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
+	
+}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
 	
 }

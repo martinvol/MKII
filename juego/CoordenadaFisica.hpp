@@ -1,5 +1,6 @@
 #ifndef COORD_H_INCLUDED
 #define COORD_H_INCLUDED
+
 class CoordenadaFisica{
 public:
 

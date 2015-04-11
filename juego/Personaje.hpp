@@ -7,16 +7,18 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "Accion.hpp"
-#include "CoordenadaLogica.h"
+#include "CoordenadaLogica.hpp"
 
 using namespace std;
 
 class Personaje {
-	
-		int posicion_x;		//Borrar
-		int posicion_y; 	//Borrar
 		
+		/* Coordenada Logica de la esquina izquierda superior. */	
 		CoordenadaLogica* coordenada;
+		/* En unidades logicas. */
+		float alto;
+		float ancho;
+	
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
 		int lastTime;
@@ -26,16 +28,13 @@ class Personaje {
 		
 	public:
 		
-		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren);
+		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho_logico, float alto_logico);
 		~Personaje();
 		SDL_Texture* definir_imagen(int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion);
+		void cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion);
 		void Dibujarse(int x, int y);
-		
-		
-		//MILE: A agregar para DANI:
 		
 		/* Sólo espejan o no espejan la imagen. */
 		void mirarParaDerecha();
@@ -72,7 +71,6 @@ class Personaje {
 		CoordenadaLogica* obtenerSiguienteCoordenadaIzqInf();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
-		
 };
 
 #endif

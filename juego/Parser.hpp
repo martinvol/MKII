@@ -1,9 +1,10 @@
 #include <unordered_map>
-#include "Capa.h"
 #include "jsoncpp/json/json.h"
-#include "logger.h"
 
-class Conf {
+#include "Capa.hpp"
+#include "Logger.hpp"
+
+class Parser {
 	private:
 		float cargarValidar(Json::Value, float, char*, char*);
 		Logger *logger;

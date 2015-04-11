@@ -2,13 +2,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "BarraDeVida.h"
-#include "Capa.h"
-#include "Escenario.h"
-#include "parser.h"
+#include "BarraDeVida.hpp"
+#include "Capa.hpp"
+#include "Escenario.hpp"
+#include "Parser.hpp"
 #include "Personaje.hpp"
-#include "logger.h"
-#include "ConversorDeCoordenadas.h"
+#include "Logger.hpp"
+#include "ConversorDeCoordenadas.hpp"
 
 using namespace std;
 
@@ -71,13 +71,13 @@ public:
     int moverSZ;
     SDL_Window * window = NULL;
 
-    Conf *conf;
+    Parser *conf;
 
     Personaje *personajeJuego;
+    
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
-        this->escenario = new Escenario();
     };
 
     int jugar(){
@@ -95,10 +95,12 @@ public:
     };
 
     void cargar_configuracion(){
-        this->conf = new Conf();
+        this->conf = new Parser();
         conf->set_values(argv[1]);
         // Se settean configuraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
+
+		this->escenario = new Escenario(conf->escenario_ancho, conf->escenario_alto);
 
         //Pantalla
         ANCHO_FISICO = conf->ventana_anchopx; //800
@@ -128,7 +130,8 @@ public:
         barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
        //Derecha
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
-        Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
+        CoordenadaLogica* coord_personaje = new CoordenadaLogica(1,1);
+        Personaje* personaje = new Personaje(coord_personaje,"Subzero",renderer, conf->personaje_ancho, conf->personaje_alto);
         this->personajeJuego = personaje;
     }
 

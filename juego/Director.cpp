@@ -1,4 +1,4 @@
-#include "Director.h"
+#include "Director.hpp"
 
 void Director::analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar){
 	if (*mov == Arriba){

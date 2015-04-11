@@ -1,5 +1,6 @@
 #ifndef COORDLOGICA_H_INCLUDED
 #define COORDLOGICA_H_INCLUDED
+
 class CoordenadaLogica{
 public:
 

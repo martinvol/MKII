@@ -2,15 +2,15 @@
 #define JUGADOR_H
 
 #include "Personaje.hpp"
-#include "BarraDeVida.h"
-#include "CoordenadaLogica.h"
+#include "BarraDeVida.hpp"
+#include "CoordenadaLogica.hpp"
 
 class Jugador {
 	public:
 		Personaje* personaje;
 		BarraDeVida* barra;
 		
-		// COPIA DE PERSONAJE:
+	// Para PERSONAJE:
 		
 		/* Sólo espejan o no espejan la imagen. */
 		void mirarParaDerecha();
@@ -51,6 +51,8 @@ class Jugador {
 		/* Coordenada a la que debe moverse el pesonaje. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
+	
+	// Para BARRA DE VIDA:
 		
 };
 

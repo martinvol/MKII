@@ -42,13 +42,13 @@ Capa.o: juego/Capa.cpp
 Escenario.o: juego/Escenario.cpp
 	$(CC) "juego/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-parser.o: juego/parser.cpp
-	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Parser.o: juego/Parser.cpp
+	$(CC) "juego/Parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 BarraDeVida.o: juego/BarraDeVida.cpp
 	$(CC) "juego/BarraDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
+coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
 	$(CC) "juego/CoordenadaLogica.cpp" $(CFLAGS) -c
 	$(CC) "juego/CoordenadaFisica.cpp" $(CFLAGS) -c
 	$(CC) "juego/ConversorDeCoordenadas.cpp" $(CFLAGS) -c
@@ -56,8 +56,8 @@ Coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/Conve
 Director.o: juego/Director.cpp
 	$(CC) "juego/Director.cpp" $(CFLAGS) -c
 
-logger.o: juego/logger.c
-	$(CC) "juego/logger.c" $(CFLAGS) -c
+Logger.o: juego/Logger.cpp
+	$(CC) "juego/Logger.cpp" $(CFLAGS) -c
 
 Accion.o: juego/Accion.cpp
 	$(CC) "juego/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -74,19 +74,19 @@ Accion: Accion.o
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o
-	$(CC) main.o Capa.o Accion.o Personaje.o Escenario.o parser.o  BarraDeVida.o logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
+juego: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o 
+	$(CC) main.o Capa.o Accion.o Personaje.o Escenario.o Parser.o  BarraDeVida.o Logger.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable ${jsonpath}
 	# make clean
 	
-juegoJsonTest: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o
+juegoJsonTest: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 	./juego_ejecutable $(JSONTEST)
 
 prueba_personaje:
 	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
 	
-prueba_integracionI: clean Capa.o Escenario.o parser.o Coordenadas.o logger.o
+prueba_integracionI: clean Capa.o Escenario.o Parser.o coordenadas.o Logger.o
 	$(CC) "pruebas/IntegracionI.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
 	./integracionI

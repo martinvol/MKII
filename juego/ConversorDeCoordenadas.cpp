@@ -1,4 +1,4 @@
-#include "ConversorDeCoordenadas.h"
+#include "ConversorDeCoordenadas.hpp"
 
 // Se va a hacer:
 // Si ALTO_FISICO --> ALTO_LOGICO,

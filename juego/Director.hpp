@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "Personaje.hpp"
-#include "Jugador.h"
-#include "Escenario.h"
-#include "Ventana.h"
-#include "CoordenadaLogica.h"
-#include "CoordenadaFisica.h"
-#include "ConversorDeCoordenadas.h"
+#include "Jugador.hpp"
+#include "Escenario.hpp"
+#include "Ventana.hpp"
+#include "CoordenadaLogica.hpp"
+#include "CoordenadaFisica.hpp"
+#include "ConversorDeCoordenadas.hpp"
 
 
 // Cuánto ancho lógico se mueve al scrollear.

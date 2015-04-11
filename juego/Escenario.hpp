@@ -1,8 +1,8 @@
 #ifndef ESCENARIO_H_INCLUDED
 #define ESCENARIO_H_INCLUDED
 
-#include "Capa.h"
-#include "CoordenadaFisica.h"
+#include "Capa.hpp"
+#include "CoordenadaFisica.hpp"
 
 
 class Escenario{

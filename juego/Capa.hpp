@@ -1,4 +1,3 @@
-
 #ifndef CAPA_H_INCLUDED
 #define CAPA_H_INCLUDED
 #include <iostream>

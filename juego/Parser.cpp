@@ -2,15 +2,16 @@
 #include <cstring>
 #include <fstream>
 #include <unordered_map>
-#include "Capa.h"
-#include "parser.h"
-#include "logger.h"
 #include "jsoncpp/json/json.h"
+
+#include "Capa.hpp"
+#include "Parser.hpp"
+#include "Logger.hpp"
 
 using namespace std;
 
 
-void Conf::set_values (char* my_file) {
+void Parser::set_values (char* my_file) {
     logger = Logger::instance();
     logger->log_debug("Inicializando parser");
 
@@ -28,7 +29,7 @@ void Conf::set_values (char* my_file) {
 
     if (!test.is_open()){
         logger->log_error("Problema con el archivo, probablemente no existe");
-        Conf::set_values("pruebas/json/test.json");
+        Parser::set_values("pruebas/json/test.json");
 
     }
 
@@ -84,7 +85,7 @@ void Conf::set_values (char* my_file) {
     }
 }
 
-float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
+float Parser::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
    if (!objetoJson.isMember(clave)){
         logger->log_warning(std::string("ventana no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
