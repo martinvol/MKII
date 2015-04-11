@@ -19,7 +19,7 @@ using namespace std;
 #define SALTODIAGONAL 4
 
 #define MOVER_PIXELES 5
-#define FRAMERATE 40
+#define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
 
 Logger *logger = Logger::instance();
@@ -130,8 +130,8 @@ public:
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
         //Pantalla
-        ANCHO_FISICO = conf->ventana_anchopx; //800
-        ALTO_FISICO = conf->ventana_altopx; //416
+        ANCHO_FISICO = conf->ventana_ancho; //800
+        ALTO_FISICO = conf->escenario_alto; //416
         posicionPJ_Piso = conf->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
@@ -141,12 +141,13 @@ public:
         // fin de las configuraciones
 
         this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
-                                          AltoLogico, AnchoLogico);
+                                          AltoLogico, AnchoLogico, conf->ventana_ancho, 0);
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
 
-        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2) - ((ANCHO_FISICO/2)/this->conv->factor_ancho);
+
+        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -160,7 +161,7 @@ public:
         window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
                                    SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED,
-                                   ANCHO_FISICO, ALTO_FISICO,
+                                   conf->ventana_anchopx, conf->ventana_altopx,
                                    SDL_WINDOW_MAXIMIZED);
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
@@ -192,7 +193,8 @@ public:
                 new Capa (conf->capas_vector[i]->ubicacion,
                 conf->capas_vector[i]->anchoLogico,
                 conf->capas_vector[i]->x_logico,
-                conf->capas_vector[i]->ren
+                conf->capas_vector[i]->ren,
+                this->conv
                 )
             );
         }
@@ -237,7 +239,7 @@ public:
         terminar_juego();
         cargar_configuracion();
         cargar_capas();
-        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO); // Dani se encarga de poner esto en su objeto
+        SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
 
     };
 //----------------------------------------------------------------
@@ -280,19 +282,28 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
-            (escenario->capas[i])->DibujarseAnchoReal2(
+
+            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
+            /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
                 , 0, conv);
-
+                
+            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conv);
+*/
 
             if (i==conf->personaje_zindex){
                 this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+
+                    //posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+                    posicionPJ_Piso*(conf->ventana_altopx/conf->escenario_alto), (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto, (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
         }
+        //cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
+        //cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
+
 
        /* printf("X logico personaje %f \n", x_logico_personaje);
         printf("Donde dibujo el personaje %f \n", (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho);
@@ -450,7 +461,6 @@ enum Estados{
             if (scrollearIzquierda){
                 x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                 if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-
                 {
                     x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
@@ -463,12 +473,12 @@ enum Estados{
 
             } else if (scrollearDerecha){
                 x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
-                if ((x_logico_personaje + (conf->personaje_ancho/2) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (ANCHO_FISICO -ANCHO_FISICO*(100-conf->margen)/200))
+                if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
                     x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
 
-                    if (borde_izquierdo_logico_pantalla + (((float)ANCHO_FISICO)/conv->factor_ancho) > conf->escenario_ancho){
+                    if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                         this->personajeJuego->definir_imagen(QUIETO);
                     }

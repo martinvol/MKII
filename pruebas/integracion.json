@@ -1,61 +1,41 @@
 {
    "ventana":{
-      "anchopx":1000,
-      "altopx":600,
+      "anchopx":400,
+      "altopx":255,
       "ancho":400,
-      "margen":90
+      "margen":80
    },
    "escenario":{
-      "ancho":1257,
-      "alto":300,
-      "ypiso":47
+      "ancho":1216,
+      "alto":255,
+      "ypiso":126
    },
    "capas":[
       {
-         "imagen_fondo":"resources/background/columnasLejosFinal.png",
+         "imagen_fondo":"resources/background/p_1.png",
          "xlogico": 0,
-         "anchoLogico":200
-      }
-      /*{
-         "imagen_fondo":"resources/background/columnasMUYLejos.png",
-         "xlogico": 0,
-         "anchoLogico": 700
+         "anchoLogico":1216
       },
       {
-         "imagen_fondo":"resources/background/p_2_1.png",
-         "xlogico": 200,
-         "anchoLogico": 70
-      }
-      {
-         "imagen_fondo":"resources/background/p_2_2.png",
-         "xlogico": 400,
-         "anchoLogico": 84
-      },
-      {
-         "imagen_fondo":"resources/background/p_4b.png",
+         "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
          "xlogico": 0,
-         "anchoLogico": 504
+         "anchoLogico":1000
       },
       {
          "imagen_fondo":"resources/background/p_3.png",
          "xlogico": 0,
-         "anchoLogico": 776
+         "anchoLogico": 700
       },
       {
-         "imagen_fondo":"resources/background/p_2.png",
+         "imagen_fondo":"resources/background/p_4b.png",
          "xlogico": 0,
-         "anchoLogico": 1000
-      },
-      {
-         "imagen_fondo":"resources/background/p_1_2.png",
-         "xlogico": 0,
-         "anchoLogico": 185 
+         "anchoLogico": 504 
       },
       {
          "imagen_fondo":"resources/background/fondo.png",
          "xlogico": 0,
-         "anchoLogico": 900
-      }*/
+         "anchoLogico": 400
+      }
    ],
    "personaje":{
       "ancho":63,
