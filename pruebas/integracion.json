@@ -1,6 +1,6 @@
 {
    "ventana":{
-      "anchopx":800,
+      "anchopx":400,
       "altopx":255,
       "ancho":400,
       "margen":90
@@ -23,7 +23,7 @@
       }*/
       {
          "imagen_fondo":"resources/background/p_3.png",
-         "xlogico": 100,
+         "xlogico": 0,
          "anchoLogico": 700
       }
       /*

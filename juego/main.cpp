@@ -302,8 +302,6 @@ void DibujarTodo(){
         }
         cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
         cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
-        cout <<"factor ancho" << conv->factor_ancho << "\n"; ///
-        cout <<"factor alto" << conv->factor_alto << "\n"; ///
 
 
        /* printf("X logico personaje %f \n", x_logico_personaje);

@@ -67,8 +67,10 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     
 	
 
-	float posi_px = (((this->m)*x + (this->b)))*(conversor->factor_ancho); // ¡¡¡¡¡¡ESTA VARIABLE TIENE QUE ESTAR EN !!!!!
+	float posi_px = (((this->m)*x + (this->b)));
 	cout <<"posi_px" << posi_px << "\n"; ///
+
+	posi_px = posi_px*(conversor->factor_ancho);
 
     SDL_Rect source_rect;
     int w, h;
@@ -77,8 +79,8 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     
     source_rect.w = w*(conversor->ancho_logico_ventana/this->anchoLogico);
     if (x < 0) source_rect.x = 0;
-    else if (x > w - source_rect.w) source_rect.x = w - source_rect.w;
-    else source_rect.x = posi_px*(this->anchoLogico/conversor->ancho_logico);
+    //else if (x > w - source_rect.w) source_rect.x = w - source_rect.w;
+    else source_rect.x = posi_px*(this->anchoLogico/conversor->ancho_logico); // Esta linea esta fea *Manu*
 	source_rect.y = 0;
 	source_rect.h = h;
 	
