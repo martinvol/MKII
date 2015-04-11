@@ -18,7 +18,7 @@ using namespace std;
 #define SALTAR 3
 #define SALTODIAGONAL 4
 
-#define MOVER_PIXELES 5
+#define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
 
@@ -471,9 +471,10 @@ enum Estados{
                 }
                 // mover+= 5;
 
+
             } else if (scrollearDerecha){
                 x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
-                if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)*conv->factor_ancho > (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
+                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx -conf->ventana_anchopx*(100-conf->margen)/200))
                 {
                     x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
