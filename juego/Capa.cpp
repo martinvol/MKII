@@ -80,10 +80,10 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     int w, h;
     SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
-    source_rect.x = posi_px*m;//*(this->anchoLogico/(conversor->ancho_logico));
+    source_rect.x = posi_px;//*(this->anchoLogico/(conversor->ancho_logico));
     source_rect.w = w*(conversor->ancho_logico_ventana/this->anchoLogico);
     if (source_rect.x < 0) source_rect.x = 0;
-    else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
+    //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
 	source_rect.y = 0;
 	source_rect.h = h;
 	
