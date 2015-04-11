@@ -170,9 +170,9 @@ public:
         cargar_capas();
 
         //Izquierda
-        barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
+        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
        //Derecha
-        barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
+        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
         Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
         this->personajeJuego = personaje;
 
