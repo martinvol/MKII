@@ -4,15 +4,27 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 #include "ConversorDeCoordenadas.h"
+#include <string>
 
 using namespace std;
 
-Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam){
+Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
     this->x_logico = x_logicoParam;
     textura = CargarTextura();
+     
+    if (conversor != NULL){
+        this->conversor =  conversor;
+    
+        float a = 0;
+        b = this->x_logico;
+        float c = conversor->ancho_logico - (this->conversor->ancho_logico_ventana);
+        float d = conversor->ancho_logico - this->anchoLogico;
+        m = (d -b)/(c-a);
+    }
+
 }
 
 //----------------------------------------------------------------
@@ -35,16 +47,21 @@ void Capa::Dibujarse(int x, int y){
 void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 	//Dibujarse(x,y, conversor->alto_fisico, conversor->factor_ancho*this->anchoLogico);
 	
+	float posi_px = (((this->m)*x + (this->b)));
+	cout <<"posi_px " << posi_px << "\n"; ///
+
+	posi_px = posi_px*(conversor->factor_ancho) - x;
+
 
 	SDL_Rect destination_rect;
 
-	destination_rect.x = x + (this->x_logico)*conversor->factor_ancho;
+	destination_rect.x = posi_px + (this->x_logico)*conversor->factor_ancho;
 	destination_rect.y = y;
 	destination_rect.w = conversor->factor_ancho*this->anchoLogico;
 	destination_rect.h = conversor->alto_fisico;
 	
-	//SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
-	SDL_RenderCopy(ren, textura, NULL, &destination_rect);
+	SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
+	//SDL_RenderCopy(ren, textura, NULL, &destination_rect);
 
 
 }
@@ -52,19 +69,24 @@ void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     // Este metodo va a tratar de dibujar los rectangulos bonitos usando el rect de source
     
-    SDL_Rect destination_rect, source_rect;
+	
+
+	float posi_px = (((this->m)*x + (this->b)));
+	cout <<"posi_px" << posi_px << "\n"; ///
+
+	posi_px = posi_px*(conversor->factor_ancho);
+
+    SDL_Rect source_rect;
     int w, h;
     SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
-    source_rect.x = x + (this->x_logico)*(conversor->factor_ancho);
-	source_rect.y = 0;
-	source_rect.w = conversor->factor_ancho*this->anchoLogico;
-	source_rect.h = h;
     
-	destination_rect.x = 0;
-	destination_rect.y = 0;
-	destination_rect.w = w;
-	destination_rect.h = conversor->alto_fisico;
+    source_rect.w = w*(conversor->ancho_logico_ventana/this->anchoLogico);
+    if (x < 0) source_rect.x = 0;
+    //else if (x > w - source_rect.w) source_rect.x = w - source_rect.w;
+    else source_rect.x = posi_px*(this->anchoLogico/conversor->ancho_logico); // Esta linea esta fea *Manu*
+	source_rect.y = 0;
+	source_rect.h = h;
 	
 	//SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
 	SDL_RenderCopy(ren, textura, &source_rect, NULL);

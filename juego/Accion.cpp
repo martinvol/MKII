@@ -120,7 +120,7 @@ int Accion::getModoActual(){
  * */
 Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
 	this->lastTime = 0;
-	cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
+	//cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
 	setAccionNro(nroAccion);
 	setRutaArchivo(ruta+to_string(nroAccion));
 	setRenderer(ren);

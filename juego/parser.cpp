@@ -70,6 +70,7 @@ void Conf::set_values (char* my_file) {
                     capas[index].get("imagen_fondo", "default").asString(), 
                     capas[index].get("anchoLogico", 0).asFloat(),
                     capas[index].get("xlogico", 0).asFloat(), 
+                    NULL,
                     NULL);
 
                 capas_vector.push_back(temp);

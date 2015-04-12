@@ -16,7 +16,10 @@ class Capa{
 		string ubicacion;
 		float anchoLogico;
 		float x_logico;
-		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam);
+		
+		float b, m;
+
+		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor);
 		~Capa ();
 		void Dibujarse(int x, int y);
 		void Dibujarse(int x, int y, int alto, int ancho);
@@ -26,6 +29,7 @@ class Capa{
 		SDL_Texture* CargarTextura();
 
 		SDL_Texture* textura;
+		ConversorDeCoordenadas* conversor;
 };
 
 //----------------------------------------------------------------
