@@ -32,12 +32,14 @@ void Conf::set_values (char* my_file) {
     Json::Reader reader;
 
     if (my_file == NULL){
+            logger->log_error("Problema con el archivo, probablemente no existe");
             cargarDefault();
     }
     
     std::ifstream test(my_file, std::ifstream::binary);
 
     if (!test.is_open()){
+        logger->log_error("Problema con el archivo, probablemente no existe");
         cargarDefault();
 
     }
@@ -106,8 +108,9 @@ void Conf::set_values (char* my_file) {
             personaje_mirar_derecha = cargarValidarBool(personaje, true, "mirar_derecha", "El personaje no tiene mirar_derecha, se carga por default derecha");
 
         } else {
-            puts("Error de sytaxis en el archivo");
-            cout << reader.getFormatedErrorMessages() << endl;
+            logger->log_error("Error de sytaxis en el archivo");
+            logger->log_error(reader.getFormatedErrorMessages());
+            cargarDefault();
         }
     }
 }
@@ -130,7 +133,6 @@ bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* cl
 
 
 void Conf::cargarDefault(){
-    logger->log_error("Problema con el archivo, probablemente no existe");
-    Conf::set_values("pruebas/json/test.json");
-    logger->log_debug("Cargo configuración default");
+    logger->log_debug("Cargando configuración default");
+    Conf::set_values("resources/default.json");
 }
