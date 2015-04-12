@@ -103,6 +103,8 @@ void Conf::set_values (char* my_file) {
                 capas_vector.push_back(temp);
             }
 
+            personaje_mirar_derecha = personaje.get("mirar_derecha", true).asBool();
+
         } else {
             puts("Error de sytaxis en el archivo");
             cout << reader.getFormatedErrorMessages() << endl;

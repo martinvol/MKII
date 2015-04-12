@@ -18,5 +18,5 @@ class Conf {
         std::vector<Capa*> capas_vector;
         unordered_map <string, string> sprites_map;
 
-        bool valido = false; // Si este valor es falso el archivo se cargó mal
+        bool personaje_mirar_derecha;
 };

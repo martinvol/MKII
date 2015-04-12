@@ -44,6 +44,7 @@
       "sprites":{
             "personaje1":"personaje1.png",
             "personaje2":"personaje2.png"
-      }
+      },
+      "mirar_derecha": true
    }
 }
