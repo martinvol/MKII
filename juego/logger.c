@@ -2,8 +2,17 @@
 #include <string>
 #include "logger.h"
 #include <iostream>
+#include <time.h>       /* time_t, struct tm, time, localtime, strftime */
 
 using namespace std;
+
+void tiempo(char* buffer){
+	time_t rawtime;
+	struct tm * timeinfo;
+	time (&rawtime);
+ 	timeinfo = localtime (&rawtime);
+	strftime (buffer, 80, "%I:%M%p", timeinfo);
+}
 
 Logger::Logger(){
 	log_debug("Logger inicializado");
@@ -15,23 +24,30 @@ Logger* Logger::instance(){
 	}
 
 void Logger::log_debug(std::string const &message){
+    char buffer [80];
+    tiempo(buffer);
+
 	if (debug){
 		printf("\x1b[%dm", 32); // imprime en color verde
-		cout<<"[DEBUG] " << message<<endl;
+		cout <<"[DEBUG [" << buffer << "]] " << message<<endl;
 		printf("\x1b[%dm", 0);  // Vuelve al color estandar
 	}
 }
 void Logger::log_warning(std::string const &message){
+	char buffer [80];
+    tiempo(buffer);
 	if (warning){
 		printf("\x1b[%dm", 33); // imprime en color amarillo
-		cout<<"[WARNING] " << message<<endl;
+		cout<<"[WARNING [" << buffer << "]] " << message<<endl;
 		printf("\x1b[%dm", 0); // Vuelve al color estandar
 	}
 }
 void Logger::log_error(std::string const &message){
+	char buffer [80];
+    tiempo(buffer);
 	if (error){
 		printf("\x1b[%dm", 31); // imprime en color rojo
-		cout<<"[ERROR] " << message<<endl;
+		cout<<"[ERROR [" << buffer << "]] " << message<<endl;
 		printf("\x1b[%dm", 0); // Vuelve al color estandar
 	}
 }

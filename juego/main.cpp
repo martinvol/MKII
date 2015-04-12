@@ -209,7 +209,7 @@ public:
 
         //uno solo...por ahora (?)
         if (SDL_NumJoysticks() < 1){
-            cout <<"NO HAY JOYSTICK CONECTADO"<<endl;
+            logger->log_warning("No hay JOYSTICK conectado");
         }else{
             usandoJoystick = true;
         }

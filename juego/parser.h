@@ -6,6 +6,7 @@
 class Conf {
 	private:
 		float cargarValidar(Json::Value, float, char*, char*);
+        bool cargarValidarBool(Json::Value, bool, char*, char*);
 		Logger *logger;
 
     public:

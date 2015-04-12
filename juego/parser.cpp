@@ -103,7 +103,7 @@ void Conf::set_values (char* my_file) {
                 capas_vector.push_back(temp);
             }
 
-            personaje_mirar_derecha = personaje.get("mirar_derecha", true).asBool();
+            personaje_mirar_derecha = cargarValidarBool(personaje, true, "mirar_derecha", "El personaje no tiene mirar_derecha, se carga por default derecha");
 
         } else {
             puts("Error de sytaxis en el archivo");
@@ -114,10 +114,18 @@ void Conf::set_values (char* my_file) {
 
 float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
    if (!objetoJson.isMember(clave)){
-        logger->log_warning(std::string("ventana no tiene el parametro: ") + clave);
+        logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
     }
     return objetoJson.get(clave, valorDefault).asFloat();
+}
+
+bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){
+   if (!objetoJson.isMember(clave)){
+        logger->log_warning(std::string("ventana no tiene el parametro: ") + clave);
+        logger->log_debug(mensaje);
+    }
+    return objetoJson.get(clave, valorDefault).asBool();
 }
 
 
