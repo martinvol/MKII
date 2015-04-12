@@ -18,8 +18,8 @@ using namespace std;
 #define SALTAR 3
 #define SALTODIAGONAL 4
 
-#define MOVER_PIXELES 5
-#define FRAMERATE 40
+#define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
+#define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
 
 Logger *logger = Logger::instance();
@@ -130,8 +130,8 @@ public:
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
         //Pantalla
-        ANCHO_FISICO = conf->ventana_anchopx; //800
-        ALTO_FISICO = conf->ventana_altopx; //416
+        ANCHO_FISICO = conf->ventana_ancho; //800
+        ALTO_FISICO = conf->escenario_alto; //416
         posicionPJ_Piso = conf->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
@@ -161,7 +161,7 @@ public:
         window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
                                    SDL_WINDOWPOS_CENTERED,
                                    SDL_WINDOWPOS_CENTERED,
-                                   ANCHO_FISICO, ALTO_FISICO,
+                                   conf->ventana_anchopx, conf->ventana_altopx,
                                    SDL_WINDOW_MAXIMIZED);
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
@@ -170,10 +170,10 @@ public:
         cargar_capas();
 
         //Izquierda
-        barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
+        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
        //Derecha
-        barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
-        Personaje* personaje = new Personaje(1,1,"Subzero",renderer,conf);
+        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
+        Personaje* personaje = new Personaje(1,1,"Subzero",renderer, conf);
         this->personajeJuego = personaje;
 
         Player1 = SDL_JoystickOpen(0);
@@ -239,7 +239,7 @@ public:
         terminar_juego();
         cargar_configuracion();
         cargar_capas();
-        SDL_SetWindowSize(window, ANCHO_FISICO, ALTO_FISICO); // Dani se encarga de poner esto en su objeto
+        SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
 
     };
 //----------------------------------------------------------------
@@ -282,8 +282,8 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
+            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
 
-            (escenario->capas[i])->DibujarseAnchoReal(borde_izquierdo_logico_pantalla, 0, conv);
             /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
@@ -297,11 +297,12 @@ void DibujarTodo(){
                 this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
 
-                    posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+                    //posicionPJ_Piso, conv->factor_alto*conf->personaje_alto, conv->factor_ancho*conf->personaje_ancho);
+                    posicionPJ_Piso*(conf->ventana_altopx/conf->escenario_alto), (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto, (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
         }
-        cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
-        cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
+        //cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
+        //cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
 
 
        /* printf("X logico personaje %f \n", x_logico_personaje);
@@ -458,10 +459,10 @@ enum Estados{
            }
 
             if (scrollearIzquierda){
-                x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                if (x_logico_personaje >= 0) x_logico_personaje -= MOVER_PIXELES;
                 if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
                 {
-                    x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                    //x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                     if (borde_izquierdo_logico_pantalla<0){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
@@ -470,11 +471,12 @@ enum Estados{
                 }
                 // mover+= 5;
 
+
             } else if (scrollearDerecha){
-                x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
-                if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
+                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
+                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx -conf->ventana_anchopx*(100-conf->margen)/200))
                 {
-                    x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                    //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
 
                     if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){

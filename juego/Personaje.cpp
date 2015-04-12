@@ -14,7 +14,7 @@ using namespace std;
  *
  **********************************************************************/  
 
-#define TEMPO 30
+#define TEMPO 8000
 
 
 /***********************************************************************
@@ -129,13 +129,13 @@ Personaje::~Personaje(){
 void Personaje::Dibujarse(int x, int y){
     int ancho, alto;
 	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
-	this->Dibujarse(x, y, alto, ancho);
+	this->Dibujarse(x, y, float(alto), float(ancho));
 }
 
 /**
  * 
  * */
-void Personaje::Dibujarse(int x, int y, int alto, int ancho){
+void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = x;

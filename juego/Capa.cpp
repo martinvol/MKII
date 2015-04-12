@@ -17,11 +17,15 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
      
     if (conversor != NULL){
         this->conversor =  conversor;
+        
+        int w, h;
+        SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
         float a = 0;
         b = this->x_logico;
         float c = conversor->ancho_logico - (this->conversor->ancho_logico_ventana);
-        float d = conversor->ancho_logico - this->anchoLogico;
+        float d = w - w*(conversor->ancho_logico_ventana/this->anchoLogico);
+        //float d = conversor->ancho_logico - this->anchoLogico;
         m = (d -b)/(c-a);
     }
 
@@ -53,6 +57,7 @@ void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
 	posi_px = posi_px*(conversor->factor_ancho) - x;
 
 
+
 	SDL_Rect destination_rect;
 
 	destination_rect.x = posi_px + (this->x_logico)*conversor->factor_ancho;
@@ -72,7 +77,8 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
 	
 
 	float posi_px = (((this->m)*x + (this->b)));
-	cout <<"posi_px" << posi_px << "\n"; ///
+
+	//cout <<"posi_px" << posi_px << "\n"; ///
 
 	posi_px = posi_px*(conversor->factor_ancho);
 
@@ -80,15 +86,13 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     int w, h;
     SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
-    
+    source_rect.x = posi_px;//*(this->anchoLogico/(conversor->ancho_logico));
     source_rect.w = w*(conversor->ancho_logico_ventana/this->anchoLogico);
-    if (x < 0) source_rect.x = 0;
-    //else if (x > w - source_rect.w) source_rect.x = w - source_rect.w;
-    else source_rect.x = posi_px*(this->anchoLogico/conversor->ancho_logico); // Esta linea esta fea *Manu*
+    if (source_rect.x < 0) source_rect.x = 0;
+    //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
 	source_rect.y = 0;
 	source_rect.h = h;
 	
-	//SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
 	SDL_RenderCopy(ren, textura, &source_rect, NULL);
 }
 

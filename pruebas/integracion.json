@@ -1,9 +1,9 @@
 {
    "ventana":{
-      "anchopx":800,
+      "anchopx":400,
       "altopx":255,
       "ancho":400,
-      "margen":90
+      "margen":70
    },
    "escenario":{
       "ancho":1216,
@@ -11,37 +11,36 @@
       "ypiso":126
    },
    "capas":[
-      /*{
+      {
          "imagen_fondo":"resources/background/p_1.png",
          "xlogico": 0,
          "anchoLogico":1216
+      },
       {
-         "imagen_fondo":"resources/background/p_1_2.png",
+         "imagen_fondo":"resources/background/p_1.png",
          "xlogico": 0,
-         "anchoLogico": 185 
-      }
-      }*/
+         "anchoLogico":1216
+      },
+      {
+         "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
+         "xlogico": 0,
+         "anchoLogico":1000
+      },
       {
          "imagen_fondo":"resources/background/p_3.png",
          "xlogico": 0,
          "anchoLogico": 700
-      }
-      /*
+      },
       {
          "imagen_fondo":"resources/background/p_4b.png",
          "xlogico": 0,
          "anchoLogico": 504 
       },
       {
-         "imagen_fondo":"resources/background/p_2.png",
-         "xlogico": 0,
-         "anchoLogico": 1000
-      },
-      {
          "imagen_fondo":"resources/background/fondo.png",
          "xlogico": 0,
          "anchoLogico": 400
-      }*/
+      }
    ],
    "personaje":{
       "ancho":63,
