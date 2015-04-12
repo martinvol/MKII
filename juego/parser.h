@@ -1,3 +1,6 @@
+#ifndef PARSER_H_INCLUDED
+#define PARSER_H_INCLUDED
+
 #include <unordered_map>
 #include "Capa.h"
 #include "jsoncpp/json/json.h"
@@ -20,3 +23,5 @@ class Conf {
 
         bool valido = false; // Si este valor es falso el archivo se cargó mal
 };
+
+#endif // PARSER

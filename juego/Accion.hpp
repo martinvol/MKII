@@ -1,3 +1,6 @@
+#ifndef ACCION_H_INCLUDED
+#define ACCION_H_INCLUDED
+
 #include <stdio.h>
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -36,6 +39,10 @@ class Accion{
 		virtual void execute();
 		virtual bool permite(int nuevaAccion){return true;};
 		SDL_Texture* getImagenNro(int numeroDeSprite);
+		void resetear(){
+			this->modoActual = 0;
+			this->lastTime = 0;
+		}
 	
 };
 #define TEMPO 30
@@ -90,14 +97,13 @@ class CaminarIzquierda: public Accion{
 			return true;
 		};
 };
-#define TEMPOSALTO 1000
+#define TEMPOSALTO 150
 class Saltar:public Accion{
 	public:
 		Saltar(string ruta, SDL_Renderer* ren):Accion(3,ruta,ren){};
 		void execute(){
 			unsigned int currentTime = SDL_GetTicks();
 			unsigned int tiempoTranscurrido = currentTime - lastTime;
-			cout<<"Tiempo transcurrido: "<<tiempoTranscurrido<<endl;
 			
 			if (Accion::getModoActual()==1){
 				if (tiempoTranscurrido>TEMPOSALTO){
@@ -120,15 +126,24 @@ class SaltarDiagonal: public Accion{
 	public:
 		SaltarDiagonal(string ruta, SDL_Renderer* ren):Accion(4,ruta,ren){};	
 		void execute(){
+			
 			unsigned int currentTime = SDL_GetTicks();
 			unsigned int tiempoTranscurrido = currentTime - lastTime;
-			
-			if (tiempoTranscurrido > TEMPO){		
+			//~ if (Accion::getModoActual()==1){
+				//~ if (tiempoTranscurrido>TEMPOSALTO){
+					//~ Accion::cambiarModo();
+					//~ lastTime = lastTime + TEMPOSALTO;
+				//~ }
+			//~ }
+			if (tiempoTranscurrido > 10){
 					Accion::cambiarModo();
-					lastTime = lastTime + TEMPO;
+					lastTime = lastTime + 10;
 			}
+			
 		};
 		bool permite(int nuevaAccion){
 			return false;
 		};
 };
+
+#endif

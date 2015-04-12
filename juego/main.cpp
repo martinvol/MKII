@@ -172,7 +172,7 @@ public:
         barraDeVida1.Inicializar(0, ANCHO_FISICO/2, ALTO_FISICO, renderer, true);
        //Derecha
         barraDeVida2.Inicializar(ANCHO_FISICO/2, ANCHO_FISICO, ALTO_FISICO, renderer, false);
-        Personaje* personaje = new Personaje(1,1,"Subzero",renderer);
+        Personaje* personaje = new Personaje(1,1,"Subzero",renderer,conf);
         this->personajeJuego = personaje;
 
         Player1 = SDL_JoystickOpen(0);
@@ -488,6 +488,7 @@ enum Estados{
                 saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
                 //Despues de caer vuelve a quieto.
                 estadoPersonaje1 = Quieto_State;
+                this->personajeJuego->definir_imagen(QUIETO);
                 t = 1.0;
             }else{
                 //Vo = 10px/t ; g =  5.5px/t*t
@@ -565,7 +566,6 @@ enum Estados{
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-
                     this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
@@ -594,14 +594,15 @@ enum Estados{
     //SALTANDO_VERTICAL
             case SaltoVertical_State:
                 estadoPersonaje1 = SaltoVertical_State;
-                this->personajeJuego->definir_imagen(SALTAR);
+                //this->personajeJuego->definir_imagen(SALTAR);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
                 break;
     //SALTANDO_DIAGONAL
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
-                this->personajeJuego->definir_imagen(SALTODIAGONAL);
+                //this->personajeJuego->definir_imagen(SALTODIAGONAL);
+                
                 break;
             default:
                 this->personajeJuego->definir_imagen(SALTAR);

@@ -6,24 +6,27 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include "Estado.hpp"
 #include "Accion.hpp"
 #include "CoordenadaLogica.h"
+#include "parser.h"
 
 using namespace std;
 
 class Personaje {
-	
+		Conf* parser;
 		int posicion_x;
 		int posicion_y;
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
+		Estado* estado;
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
 		
 	public:
 		
-		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren);
+		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser);
 		~Personaje();
 		SDL_Texture* definir_imagen(int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
@@ -61,5 +64,7 @@ class Personaje {
 		CoordenadaLogica* caminarIzquierda();
 		
 };
+
+
 
 #endif

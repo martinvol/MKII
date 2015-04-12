@@ -42,8 +42,10 @@ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
-Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren){
+Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser){
 
+	this->parser = parser;
+	this->estado = new Estado("resources/jugador/SubZero/", ren);
 	this->posicion_x = posicion_x;
 	this->posicion_y = posicion_y;
 	this->accionActual = NULL;
@@ -69,17 +71,18 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
  * */
 void Personaje::cambiarAccionA(int nroAccion,string ruta){
 	
-	delete this->accionActual;
+	this->accionActual->resetear();
+	//delete this->accionActual;
 	if (nroAccion == 0){ 
-			this->accionActual = new Quieto(ruta,this->renderer);
+			this->accionActual = this->estado->quieto;
 	}if (nroAccion == 1){
-			this->accionActual = new CaminarDerecha(ruta,this->renderer);
+			this->accionActual = this->estado->caminarder;
 	}if (nroAccion == 2){
-			this->accionActual = new CaminarIzquierda(ruta,this->renderer);
+			this->accionActual = this->estado->caminarizq;
 	}if (nroAccion == 3){
-			this->accionActual = new Saltar(ruta,this->renderer);
+			this->accionActual = this->estado->saltar;
 	}if (nroAccion == 4){
-			this->accionActual = new SaltarDiagonal(ruta,this->renderer);
+			this->accionActual = this->estado->saltardiagonal;
 	}	
 
 }
@@ -91,10 +94,10 @@ void Personaje::cambiarAccionA(int nroAccion,string ruta){
  */ 
 SDL_Texture* Personaje::definir_imagen(int nuevaAccion){
 		
-	string ruta = "resources/jugador/SubZero/";
+	string ruta = this->parser->sprites_map["personaje1.png"];///"resources/jugador/SubZero/";
 	
 	if (this->accionActual == NULL){
-		this->accionActual = new Quieto(ruta,this->renderer);	//Accion default;
+		this->accionActual = estado->quieto;	//Accion default;
 		this->imagenActual = this->accionActual->getImagenActual();
 		return this->imagenActual;
 	}else if (this->accionActual->esDistintaA(nuevaAccion)){
