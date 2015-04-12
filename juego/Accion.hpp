@@ -8,6 +8,10 @@
 #include <string>
 #include <vector>
 
+#include "parser.h"
+#include "logger.h"
+
+
 using namespace std;
 
 class Accion{
@@ -22,23 +26,30 @@ class Accion{
 		vector<SDL_Texture*> imagenes;
 		int modoActual;
 		int lastTime;
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
-		~Accion();
+		Conf* parser;
+		Logger* logger;
+
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, Conf* parser); //constructor
+
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
 		void setModoActual(int modo);
 		void setImagenes();
-		
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
+	
 		SDL_Texture* getImagenActual();
 		int getModoActual();
+	
 		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
-		virtual void execute();
+	
+		virtual void execute(float tmp);
 		virtual bool permite(int nuevaAccion){return true;};
-		SDL_Texture* getImagenNro(int numeroDeSprite);
+
+		//SDL_Texture* getImagenNro(int numeroDeSprite);
+		~Accion();
 		void resetear(){
 			this->modoActual = 0;
 			this->lastTime = 0;
@@ -48,10 +59,10 @@ class Accion{
 #define TEMPO 30
 class Quieto:public Accion{
 	public:
-		Quieto(string ruta, SDL_Renderer* ren):Accion(0,ruta,ren){};
-		void execute(){
+		Quieto(string ruta, SDL_Renderer* ren,Conf* parser):Accion(0,ruta,ren,parser){};
+		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			unsigned int tiempoTranscurrido = tmp - lastTime;
 			
 			if (tiempoTranscurrido > TEMPO){
 					
@@ -65,10 +76,10 @@ class Quieto:public Accion{
 };
 class CaminarDerecha: public Accion{
 	public:
-		CaminarDerecha(string ruta, SDL_Renderer* ren):Accion(1,ruta,ren){};
-		void execute(){
+		CaminarDerecha(string ruta, SDL_Renderer* ren, Conf* parser):Accion(1,ruta,ren, parser){};
+		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			unsigned int tiempoTranscurrido = tmp - lastTime;
 			
 			if (tiempoTranscurrido > TEMPO){
 					
@@ -82,10 +93,10 @@ class CaminarDerecha: public Accion{
 };
 class CaminarIzquierda: public Accion{
 	public:
-		CaminarIzquierda(string ruta, SDL_Renderer* ren):Accion(2,ruta,ren){};
-		void execute(){
+		CaminarIzquierda(string ruta, SDL_Renderer* ren, Conf* parser):Accion(2,ruta,ren, parser){};
+		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			unsigned int tiempoTranscurrido = tmp - lastTime;
 			
 			if (tiempoTranscurrido > TEMPO){
 					
@@ -100,11 +111,11 @@ class CaminarIzquierda: public Accion{
 #define TEMPOSALTO 150
 class Saltar:public Accion{
 	public:
-		Saltar(string ruta, SDL_Renderer* ren):Accion(3,ruta,ren){};
-		void execute(){
+		Saltar(string ruta, SDL_Renderer* ren, Conf* parser):Accion(3,ruta,ren, parser){};
+		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = currentTime - lastTime;
-			
+			unsigned int tiempoTranscurrido = tmp - lastTime;
+			cout<<"imprimir saltom, modo actual: "<<Accion::getModoActual()<<endl;
 			if (Accion::getModoActual()==1){
 				if (tiempoTranscurrido>TEMPOSALTO){
 					Accion::cambiarModo();
@@ -119,16 +130,17 @@ class Saltar:public Accion{
 			}		
 		};
 		bool permite(int nuevaAccion){
+			cout<<"no permite"<<endl;
 			return false;
 		};
 };
 class SaltarDiagonal: public Accion{
 	public:
-		SaltarDiagonal(string ruta, SDL_Renderer* ren):Accion(4,ruta,ren){};	
-		void execute(){
-			
+		SaltarDiagonal(string ruta, SDL_Renderer* ren, Conf* parser):Accion(4,ruta,ren, parser){};	
+		void execute(float tmp){
+			cout<<"imprimir salto diagonal"<<endl;
 			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = currentTime - lastTime;
+			unsigned int tiempoTranscurrido = tmp - lastTime;
 			//~ if (Accion::getModoActual()==1){
 				//~ if (tiempoTranscurrido>TEMPOSALTO){
 					//~ Accion::cambiarModo();

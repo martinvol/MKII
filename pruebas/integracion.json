@@ -47,7 +47,7 @@
       "alto":129,
       "zindex":0,
       "sprites":{
-            "personaje1":"personaje1.png",
+            "personaje1":"resources/jugador/SubZero/",
             "personaje2":"personaje2.png"
       }
    }
