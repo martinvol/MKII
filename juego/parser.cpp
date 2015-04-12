@@ -80,7 +80,7 @@ void Conf::set_values (char* my_file) {
 
             ventana_altopx = cargarValidar(ventana, 416, "altopx", "Usando altopx default de 416px");
             
-            if (ventana_altopx > 700 || ventana_anchopx< 200){
+            if (ventana_altopx > 1000 || ventana_anchopx< 200){
                 logger->log_error("El alto de la ventana es inválido, se usará el ancho por defautl, 600px.");
                 ventana_altopx = 600;
             }
@@ -88,7 +88,7 @@ void Conf::set_values (char* my_file) {
 
             ventana_ancho = cargarValidar(ventana, 600, "ancho", "Usando ancho default de 600px");
             
-            if (ventana_altopx > 700 || ventana_anchopx< 200){
+            if (ventana_altopx > 700 || ventana_anchopx < 200){
                 logger->log_error("El alto de la ventana es inválido, se usará el ancho por defautl, 600px.");
                 ventana_ancho = 600;
             }
@@ -102,13 +102,13 @@ void Conf::set_values (char* my_file) {
             const Json::Value personaje = root["personaje"];
 
             personaje_ancho = cargarValidar(personaje, 100, "ancho", "Usando ancho (personaje) default de 100");
-            if (personaje_ancho >(3./4)*ventana_ancho || personaje_ancho < (1./4)*ventana_ancho){
+            if (personaje_ancho >(3./4)*ventana_ancho || personaje_ancho < 0){
                 logger->log_error("El ancho del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
                 personaje_ancho = ventana_ancho/4.;
             }
 
             personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
-            if (personaje_alto >(3./4)*escenario_alto || personaje_alto < (1./4)*escenario_alto){
+            if (personaje_alto >(3./4)*escenario_alto || personaje_alto < (1./8)*escenario_alto){
                 logger->log_error("El alto del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
                 personaje_alto = escenario_alto/4.;
             }
