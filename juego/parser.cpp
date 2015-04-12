@@ -184,6 +184,7 @@ bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* cl
 
 
 void Conf::cargarDefault(){
+    logger = Logger::instance();
     logger->log_debug("Cargando configuración default");
     Conf::set_values("resources/default.json");
 }
