@@ -467,34 +467,7 @@ enum Estados{
                 ;
            }
 
-            if (scrollearIzquierda){
-                if (x_logico_personaje >= 0 && ((x_logico_personaje - MOVER_PIXELES)>=0)) x_logico_personaje -= MOVER_PIXELES;
-                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                {
-                    //x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
-                    if (borde_izquierdo_logico_pantalla<0 && (borde_izquierdo_logico_pantalla - MOVER_PIXELES)<0){
-                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-                        //this->personajeJuego->definir_imagen(QUIETO);
-                    }
-                }
-                // mover+= 5;
-
-
-            } else if (scrollearDerecha){
-                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
-                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx -conf->ventana_anchopx*(100-conf->margen)/200))
-                {
-                    //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-
-                    if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
-                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
-                        //this->personajeJuego->definir_imagen(QUIETO);
-                    }
-                }
-            }
-
+            
     };
 
 
@@ -517,10 +490,12 @@ enum Estados{
                 if( (saltoDiagonalIZQ) /*&& (mover<0)*/ ){
                     mover +=5;
                     x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER  /*&& abs(mover)<700*/){
                     mover -=5;
                     x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
                 }
 
             }
@@ -626,6 +601,34 @@ enum Estados{
             default:
                 this->personajeJuego->definir_imagen(SALTAR);
         }
+        if (scrollearIzquierda){
+                if (x_logico_personaje >= 0 && ((x_logico_personaje - MOVER_PIXELES)>=0)) x_logico_personaje -= MOVER_PIXELES;
+                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
+                {
+                    //x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                    if (borde_izquierdo_logico_pantalla<0 && (borde_izquierdo_logico_pantalla - MOVER_PIXELES)<0){
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
+                        //this->personajeJuego->definir_imagen(QUIETO);
+                    }
+                }
+                // mover+= 5;
+
+
+            } else if (scrollearDerecha){
+                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
+                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx -conf->ventana_anchopx*(100-conf->margen)/200))
+                {
+                    //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
+
+                    if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
+                        borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                        //this->personajeJuego->definir_imagen(QUIETO);
+                    }
+                }
+            }
+
     };
 
 };//FIN CLASE JUEGO
