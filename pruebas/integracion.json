@@ -13,27 +13,22 @@
    "capas":[
       {
          "imagen_fondo":"resources/background/p_1.png",
-         "xlogico": 0,
-         "anchoLogico":1216
+         "anchoLogico":1000
       },
       {
          "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
-         "xlogico": 0,
          "anchoLogico":1000
       },
       {
          "imagen_fondo":"resources/background/p_3.png",
-         "xlogico": 0,
          "anchoLogico": 700
       },
       {
          "imagen_fondo":"resources/background/p_4b.png",
-         "xlogico": 0,
          "anchoLogico": 504 
       },
       {
          "imagen_fondo":"resources/background/fondo.png",
-         "xlogico": 0,
          "anchoLogico": 400
       }
    ],

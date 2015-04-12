@@ -8,6 +8,7 @@
 #include "jsoncpp/json/json.h"
 
 #define IMAGEN_DEFAULT "resources/background/defaultcapa.png"
+#define DEFAULT_X_LOGICO 0
 
 using namespace std;
 
@@ -98,7 +99,7 @@ void Conf::set_values (char* my_file) {
                 Capa *temp = new Capa(
                     nombre_archivo, 
                     capas[index].get("anchoLogico", 0).asFloat(),
-                    capas[index].get("xlogico", 0).asFloat(), 
+                    DEFAULT_X_LOGICO, 
                     NULL,
                     NULL);
 
