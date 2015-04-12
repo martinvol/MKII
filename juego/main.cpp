@@ -147,7 +147,7 @@ public:
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
 
 
-        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho);
+        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -274,7 +274,7 @@ void DibujarTodo(){
         SDL_RenderCopy(renderer, under, NULL, &r);
         // Que es esto?
 
-        for (int i = escenario->capas.size(); i --> 0; ){
+        for (int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
         // Así respeto los Z index
         //for (int i = 0; i<escenario->capas.size(); i++){
@@ -300,6 +300,15 @@ void DibujarTodo(){
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
+        }
+
+        if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
+            // Si no hay capas;
+            this->personajeJuego->Dibujarse(
+                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
+                    (posicionPJ_Piso+(conf->personaje_ancho))*(conf->ventana_altopx/conf->escenario_alto), 
+                    (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
+                    (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
         }
         //cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
         //cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
@@ -458,7 +467,6 @@ enum Estados{
                 ;
            }
 
-                cout<<borde_izquierdo_logico_pantalla<<endl;
             if (scrollearIzquierda){
                 if (x_logico_personaje >= 0 && ((x_logico_personaje - MOVER_PIXELES)>=0)) x_logico_personaje -= MOVER_PIXELES;
                 if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)

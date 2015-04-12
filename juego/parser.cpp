@@ -51,26 +51,60 @@ void Conf::set_values (char* my_file) {
 
         if (parsingSuccessful){
 
+            const Json::Value escenario = root["escenario"];
+
+            escenario_ancho = cargarValidar(escenario, 1500, "ancho", "Usando ancho default de 1500");
+
+            if (escenario_ancho > 2000 || escenario_ancho < 1000){
+                logger->log_error("El ancho del escenario es inválido, se usará el ancho por defautl, 1500");
+                escenario_ancho = 1500;
+            }
+
+            escenario_alto = cargarValidar(escenario, 200, "alto", "Usando ancho default de 200");
+
+            if (escenario_alto > (3./4.)*escenario_ancho || escenario_ancho < (1/4)){
+                logger->log_error("El alto del escenario es inválido, se usará el ancho por defautl, la mitad del ancho");
+                escenario_alto = escenario_ancho/2.;
+            }
+
+            escenario_ypiso = cargarValidar(escenario, 0, "ypiso", "Usando ypiso default de 0");
+
+
             const Json::Value ventana = root["ventana"];
             
             ventana_anchopx = cargarValidar(ventana, 800, "anchopx", "Usando anchopx default de 800px");
+            if (ventana_anchopx > 1200 || ventana_anchopx<400){
+                logger->log_error("El ancho de la ventana es inválido, se usará el ancho por defautl, 800px.");
+                ventana_anchopx = 800;
+            }
+
             ventana_altopx = cargarValidar(ventana, 416, "altopx", "Usando altopx default de 416px");
+            
+            if (ventana_altopx > 700 || ventana_anchopx< 200){
+                logger->log_error("El alto de la ventana es inválido, se usará el ancho por defautl, 600px.");
+                ventana_altopx = 600;
+            }
+
 
             ventana_ancho = cargarValidar(ventana, 600, "ancho", "Usando ancho default de 600px");
-            margen = cargarValidar(ventana, 80, "margen", "Usando marge default de 80%");
-
-            const Json::Value escenario = root["escenario"];
-
-            escenario_ancho = cargarValidar(escenario, 2000, "ancho", "Usando ancho default de 2000");
-            escenario_alto = cargarValidar(escenario, 200, "alto", "Usando ancho default de 200");
-            escenario_ypiso = cargarValidar(escenario, 0, "ypiso", "Usando ypiso default de 0");
-
+            
+            if (ventana_altopx > 700 || ventana_anchopx< 200){
+                logger->log_error("El alto de la ventana es inválido, se usará el ancho por defautl, 600px.");
+                ventana_ancho = 600;
+            }
+            
+            margen = cargarValidar(ventana, 70, "margen", "Usando marge default de 70%");
+            if (margen > 100){
+                logger->log_error("El margen no puede ser mayor que 100, se usará el ancho por defautl, 70%.");
+                margen = 70;
+            }
 
             const Json::Value personaje = root["personaje"];
 
             personaje_ancho = cargarValidar(personaje, 100, "ancho", "Usando ancho (personaje) default de 100");
             personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
-            personaje_zindex = cargarValidar(personaje, 0, "zindex", "Usando zindex (personaje) default de 0");
+
+
 
             const Json::Value sprites = personaje["sprites"];
 
@@ -89,7 +123,7 @@ void Conf::set_values (char* my_file) {
                 }
                 
                 nombre_archivo = capas[index].get("imagen_fondo", IMAGEN_DEFAULT).asString(); // este default hay que ponerlo bien
-                logger->log_debug("Intentando cargar capa " + nombre_archivo);
+                logger->log_debug("Intentando cargar capa '" + nombre_archivo + "'");
                 
                 if (!exists_test(nombre_archivo)){
                     logger->log_error("La capa no fue encontrada, cargando capa por default");
@@ -108,6 +142,13 @@ void Conf::set_values (char* my_file) {
             }
 
             personaje_mirar_derecha = cargarValidarBool(personaje, true, "mirar_derecha", "El personaje no tiene mirar_derecha, se carga por default derecha");
+
+            personaje_zindex = cargarValidar(personaje, 0, "zindex", "Usando zindex (personaje) default de 0");
+
+            if (personaje_zindex < 0){
+                logger->log_error("Z-Index del personaje no puede ser negativo, usando Z maximo posible");
+                personaje_zindex = capas.size();
+            }
 
         } else {
             logger->log_error("Error de sytaxis en el archivo");

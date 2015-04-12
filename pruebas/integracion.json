@@ -1,41 +1,41 @@
 {
    "ventana":{
-      "anchopx":1024,
-      "altopx":768,
+      "anchopx":800,
+      "altopx":600,
       "ancho":400,
       "margen":70
    },
    "escenario":{
-      "ancho":1516,
+      "ancho":1200,
       "alto":768,
       "ypiso":400
    },
    "capas":[
       {
-         "imagen_fondo":"resources/background/p_1.png",
-         "anchoLogico":1000
-      },
+         "imagen_fondo":"resources/background/fondo.png",
+         "anchoLogico": 400
+      }, 
+      {
+         "imagen_fondo":"resources/background/p_4b.png",
+         "anchoLogico": 504 
+      }, 
+      {
+         "imagen_fondo":"resources/background/p_3.png",
+         "anchoLogico": 700
+      }, 
       {
          "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
          "anchoLogico":1000
       },
       {
-         "imagen_fondo":"resources/background/p_3.png",
-         "anchoLogico": 700
-      },
-      {
-         "imagen_fondo":"resources/background/p_4b.png",
-         "anchoLogico": 504 
-      },
-      {
-         "imagen_fondo":"resources/background/fondo.png",
-         "anchoLogico": 400
+         "imagen_fondo":"resources/background/p_1.png",
+         "anchoLogico":1000
       }
    ],
    "personaje":{
       "ancho":100,
       "alto":268,
-      "zindex":0,
+      "zindex":60,
       "sprites":{
             "personaje1":"personaje1.png",
             "personaje2":"personaje2.png"
