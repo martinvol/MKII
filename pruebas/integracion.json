@@ -1,14 +1,14 @@
 {
    "ventana":{
-      "anchopx":400,
-      "altopx":255,
+      "anchopx":1024,
+      "altopx":768,
       "ancho":400,
       "margen":70
    },
    "escenario":{
-      "ancho":1216,
-      "alto":255,
-      "ypiso":126
+      "ancho":1516,
+      "alto":768,
+      "ypiso":400
    },
    "capas":[
       {
@@ -33,8 +33,8 @@
       }
    ],
    "personaje":{
-      "ancho":63,
-      "alto":129,
+      "ancho":100,
+      "alto":268,
       "zindex":0,
       "sprites":{
             "personaje1":"personaje1.png",

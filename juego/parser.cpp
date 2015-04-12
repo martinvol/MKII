@@ -97,8 +97,9 @@ void Conf::set_values (char* my_file) {
                 }
 
                 Capa *temp = new Capa(
-                    nombre_archivo, 
-                    capas[index].get("anchoLogico", 0).asFloat(),
+                    nombre_archivo,
+                    cargarValidar(capas[index], 700, "anchoLogico","Ancho lógico de capa no encontrado, se toma 700 por default"),
+                    //capas[index].get("anchoLogico", 0).asFloat(),
                     DEFAULT_X_LOGICO, 
                     NULL,
                     NULL);
@@ -126,7 +127,7 @@ float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clav
 
 bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){
    if (!objetoJson.isMember(clave)){
-        logger->log_warning(std::string("ventana no tiene el parametro: ") + clave);
+        logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
     }
     return objetoJson.get(clave, valorDefault).asBool();
