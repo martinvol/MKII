@@ -7,8 +7,20 @@
 #include "logger.h"
 #include "jsoncpp/json/json.h"
 
+#define IMAGEN_DEFAULT "resources/background/defaultcapa.png"
+
 using namespace std;
 
+bool exists_test(const std::string& name) {
+    ifstream f(name.c_str());
+    if (f.good()) {
+        f.close();
+        return true;
+    } else {
+        f.close();
+        return false;
+    }   
+}
 
 void Conf::set_values (char* my_file) {
     logger = Logger::instance();
@@ -66,8 +78,18 @@ void Conf::set_values (char* my_file) {
             const Json::Value capas = root["capas"];
             
             for ( int index = 0; index < capas.size(); ++index ){
+                
+                string nombre_archivo = capas[index].get("imagen_fondo", "default").asString(); // este default hay que ponerlo bien
+                
+                logger->log_debug("Intentando cargar capa " + nombre_archivo);
+                
+                if (!exists_test(nombre_archivo)){
+                    logger->log_error("La capa no fue encontrada, cargando capa por default");
+                    nombre_archivo = IMAGEN_DEFAULT;
+                }
+
                 Capa *temp = new Capa(
-                    capas[index].get("imagen_fondo", "default").asString(), 
+                    nombre_archivo, 
                     capas[index].get("anchoLogico", 0).asFloat(),
                     capas[index].get("xlogico", 0).asFloat(), 
                     NULL,
