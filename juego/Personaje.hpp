@@ -22,7 +22,7 @@ class Personaje {
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
-		void Dibujarse(int x, int y, int alto, int ancho);
+		//void Dibujarse(int x, int y, int alto, int ancho);
 		
 	public:
 		
@@ -31,10 +31,14 @@ class Personaje {
 		SDL_Texture* definir_imagen(int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion,string ruta, bool permiteInterrupcion);
+		void cambiarAccionA(int nroACcion,string ruta);
 		void Dibujarse(int x, int y);
-		
-		
+		//void Dibujarse(int x, int y, int alto, int ancho);
+		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
+		int getSpriteActual();
+		//Para Maxi
+		SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
+
 		//MILE: A agregar:
 		
 		CoordenadaLogica* obtenerCoordenada();

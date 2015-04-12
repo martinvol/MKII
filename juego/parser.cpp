@@ -20,15 +20,13 @@ void Conf::set_values (char* my_file) {
     Json::Reader reader;
 
     if (my_file == NULL){
-            puts("No hay archivo");
-            return;
+            cargarDefault();
     }
     
     std::ifstream test(my_file, std::ifstream::binary);
 
     if (!test.is_open()){
-        logger->log_error("Problema con el archivo, probablemente no existe");
-        Conf::set_values("pruebas/json/test.json");
+        cargarDefault();
 
     }
 
@@ -72,6 +70,7 @@ void Conf::set_values (char* my_file) {
                     capas[index].get("imagen_fondo", "default").asString(), 
                     capas[index].get("anchoLogico", 0).asFloat(),
                     capas[index].get("xlogico", 0).asFloat(), 
+                    NULL,
                     NULL);
 
                 capas_vector.push_back(temp);
@@ -90,4 +89,11 @@ float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clav
         logger->log_debug(mensaje);
     }
     return objetoJson.get(clave, valorDefault).asFloat();
+}
+
+
+void Conf::cargarDefault(){
+    logger->log_error("Problema con el archivo, probablemente no existe");
+    Conf::set_values("pruebas/json/test.json");
+    logger->log_debug("Cargo configuración default");
 }

@@ -10,6 +10,7 @@ class Conf {
 
     public:
         void set_values (char* file_name);
+        void cargarDefault();
         float ventana_anchopx, ventana_altopx, ventana_ancho;
         float escenario_ancho, escenario_alto, escenario_ypiso;
         float personaje_ancho, personaje_alto, personaje_zindex;
