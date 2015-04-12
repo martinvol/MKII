@@ -102,8 +102,16 @@ void Conf::set_values (char* my_file) {
             const Json::Value personaje = root["personaje"];
 
             personaje_ancho = cargarValidar(personaje, 100, "ancho", "Usando ancho (personaje) default de 100");
-            personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
+            if (personaje_ancho >(3./4)*ventana_ancho || personaje_ancho < (1./4)*ventana_ancho){
+                logger->log_error("El ancho del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
+                personaje_ancho = ventana_ancho/4.;
+            }
 
+            personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
+            if (personaje_alto >(3./4)*escenario_alto || personaje_alto < (1./4)*escenario_alto){
+                logger->log_error("El alto del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
+                personaje_alto = escenario_alto/4.;
+            }
 
 
             const Json::Value sprites = personaje["sprites"];
