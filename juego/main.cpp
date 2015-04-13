@@ -19,6 +19,7 @@ using namespace std;
 #define SALTODIAGONAL 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
+#define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
 #define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
 
@@ -64,10 +65,11 @@ public:
     bool scrollearDerecha = false;
     bool scrollearIzquierda = false;
     bool saltando = false;
+    bool alturaMaxima = false;
     Sint16 presionado=0;
     SDL_Rect r;
     int posicionPJ_Piso = 0;
-    double t = 1.0;
+    double t = 5.0;
 	float mileTmp;
     bool pausa = false;
     bool cambiarModo = false;
@@ -480,28 +482,41 @@ enum Estados{
                 posicionPJ_Piso = conf->escenario_ypiso;
                 saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
                 //Despues de caer vuelve a quieto.
+                alturaMaxima = false;
                 estadoPersonaje1 = Quieto_State;
                 this->personajeJuego->definir_imagen(this->mileTmp,QUIETO);
                 cout<<"QUIERO IR A QUIETOOOO"<<endl;
-                t = 1.0;
+                t = 5.0;
             }else{
+            //alturaMaxima
                 //Vo = 10px/t ; g = 6px/t*t
-                t+=0.05;
-                posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
-                posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
+                t+=0.01;
+                //||*/ (posicionPJ_Piso <(conf->escenario_ypiso- posicionPJ_Piso))
+                //Nota: posicionPJ_Piso = 0 no es en la parte superior de la pantalla :-/
+                if ( (posicionPJ_Piso) <= 0) {
+                    alturaMaxima = true;
+                    t = 5.0;
+                }
+                if (alturaMaxima){
+                    posicionPJ_Piso += MOVER_PIXELES_VERTICAL*t;//*t;
+                }else{
+                    posicionPJ_Piso -= MOVER_PIXELES_VERTICAL*t;//*t;
+                }
+                //posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
+                //posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
                 //this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
                 if(saltoDiagonalIZQ){
-                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= 2*MOVER_PIXELES;
+                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= 1.5*MOVER_PIXELES;
 
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 2*MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 1.5*MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 2*MOVER_PIXELES;
+                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 1.5*MOVER_PIXELES;
 
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
-                        borde_izquierdo_logico_pantalla += 2*MOVER_PIXELES;
+                        borde_izquierdo_logico_pantalla += 1.5*MOVER_PIXELES;
                 }
 
             }
