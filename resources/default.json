@@ -1,0 +1,45 @@
+{
+   "ventana":{
+      "anchopx":400,
+      "altopx":255,
+      "ancho":400,
+      "margen":90
+   },
+   "escenario":{
+      "ancho":1216,
+      "alto":255,
+      "ypiso":60
+   },
+   "capas":[
+      {
+         "imagen_fondo":"resources/background/fondo.png",
+         "anchoLogico": 400
+      }, 
+      {
+         "imagen_fondo":"resources/background/p_4b.png",
+         "anchoLogico": 504 
+      }, 
+      {
+         "imagen_fondo":"resources/background/p_3.png",
+         "anchoLogico": 700
+      }, 
+      {
+         "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
+         "anchoLogico":1000
+      },
+      {
+         "imagen_fondo":"resources/background/p_1.png",
+         "anchoLogico":1216
+      }
+   ],
+   "personaje":{
+      "ancho":63,
+      "alto":129,
+      "zindex":60,
+      "sprites":{
+            "personaje1":"resources/jugador/SubZero/",
+            "personaje2":"personaje2.png"
+      },
+      "mirar_derecha": true
+   }
+}
