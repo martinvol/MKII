@@ -104,7 +104,6 @@ public:
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
-        this->escenario = new Escenario(conf->escenario_ancho, conf->escenario_alto);
     };
 //----------------------------------------------------------------
     int jugar(){
@@ -142,6 +141,7 @@ public:
 
         this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
                                           AltoLogico, AnchoLogico, conf->ventana_ancho, 0);
+        this->escenario = new Escenario(conf->escenario_ancho, conf->escenario_alto);
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
