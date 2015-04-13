@@ -1,9 +1,12 @@
 #include "Ventana.hpp"
 
 Ventana::Ventana(char* titulo, int ancho_fisico, int alto_fisico, float margen){
-	this->window = SDL_CreateWindow(titulo, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ancho_fisico, alto_fisico, SDL_WINDOW_MAXIMIZED);
+	this->window = SDL_CreateWindow(titulo,SDL_WINDOWPOS_CENTERED,
+                                   SDL_WINDOWPOS_CENTERED,
+                                   ancho_fisico, alto_fisico,
+                                   SDL_WINDOW_MAXIMIZED);
 	
-	this->ancho = ancho_fisico;
+	this->ancho_fisico = ancho_fisico;
 	int ancho_de_borde = (ancho_fisico * (margen/100)) / 2;
 	this->borde_izq = ancho_de_borde;
 	this->borde_der = ancho_fisico - ancho_de_borde;
@@ -15,7 +18,7 @@ Ventana::~Ventana(){
 
 void Ventana::cambiarTamano(int ancho_fisico, int alto_fisico){
 	SDL_SetWindowSize(this->window, ancho_fisico, alto_fisico);
-	this->ancho = ancho_fisico;
+	this->ancho_fisico = ancho_fisico;
 }
 
 void Ventana::cambiarMargen(float margen){
@@ -32,12 +35,12 @@ lugarEnVentana Ventana::coordenadaEnPantalla(CoordenadaFisica* coord){
 
 bool Ventana::superaTecho(CoordenadaFisica* coord){
 	// El techo está físicamente en altura 0 y crece para el piso.
-	return (coord->y < 0);
+	return (coord->y_fisico < 0);
 }
 
 float Ventana::obtenerMargenLogicoIzquierdo(ConversorDeCoordenadas* conv){
 	CoordenadaFisica* coord_fis = new CoordenadaFisica(borde_izq, 0);
-	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	CoordenadaLogica* coord_log = conv->aLogica(coord_fis);
 	delete coord_fis;
 	float margen = coord_log->x;
 	delete coord_log;
@@ -46,15 +49,15 @@ float Ventana::obtenerMargenLogicoIzquierdo(ConversorDeCoordenadas* conv){
 
 float Ventana::obtenerMargenLogicoDerecho(ConversorDeCoordenadas* conv){
 	CoordenadaFisica* coord_fis = new CoordenadaFisica(borde_der, 0);
-	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	CoordenadaLogica* coord_log = conv->aLogica(coord_fis);
 	delete coord_fis;
 	float margen = coord_log->x;
 	delete coord_log;
 	return margen;
 }
 float Ventana::obtenerBordeLogicoIzquierdo(ConversorDeCoordenadas* conv){
-	CoordenadaFisica* coord_fis = new CoordenadaFisica(ancho, 0);
-	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	CoordenadaFisica* coord_fis = new CoordenadaFisica(ancho_fisico, 0);
+	CoordenadaLogica* coord_log = conv->aLogica(coord_fis);
 	delete coord_fis;
 	float borde = coord_log->x;
 	delete coord_log;
@@ -63,7 +66,7 @@ float Ventana::obtenerBordeLogicoIzquierdo(ConversorDeCoordenadas* conv){
 
 float Ventana::obtenerBordeLogicoDerecho(ConversorDeCoordenadas* conv){
 	CoordenadaFisica* coord_fis = new CoordenadaFisica(0, 0);
-	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	CoordenadaLogica* coord_log = conv->aLogica(coord_fis);
 	delete coord_fis;
 	float borde = coord_log->x;
 	delete coord_log;
@@ -72,7 +75,7 @@ float Ventana::obtenerBordeLogicoDerecho(ConversorDeCoordenadas* conv){
 
 float Ventana::obtenerBordeSuperior(ConversorDeCoordenadas* conv){
 	CoordenadaFisica* coord_fis = new CoordenadaFisica(0, 0);
-	CoordenadaLogica* coord_log = conv.aLogica(coord_fis);
+	CoordenadaLogica* coord_log = conv->aLogica(coord_fis);
 	delete coord_fis;
 	float borde = coord_log->y;
 	delete coord_log;

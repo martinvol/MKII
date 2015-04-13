@@ -48,7 +48,7 @@ Parser.o: juego/Parser.cpp
 BarraDeVida.o: juego/BarraDeVida.cpp
 	$(CC) "juego/BarraDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
+coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
 	$(CC) "juego/CoordenadaLogica.cpp" $(CFLAGS) -c
 	$(CC) "juego/CoordenadaFisica.cpp" $(CFLAGS) -c
 	$(CC) "juego/ConversorDeCoordenadas.cpp" $(CFLAGS) -c
@@ -80,7 +80,10 @@ Accion: Accion.o
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o Coordenadas.o
+Ventana.o: juego/Ventana.cpp
+	$(CC) "juego/Ventana.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+compilar_juego: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Ventana.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

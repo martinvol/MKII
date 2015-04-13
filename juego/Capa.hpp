@@ -21,7 +21,7 @@ class Capa{
 		
 		float b, m;
 
-		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor);
+		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, float ancho_escenario, float ancho_ventana_logico);
 		~Capa ();
 		void Dibujarse(int x, int y);
 		void Dibujarse(int x, int y, int alto, int ancho);

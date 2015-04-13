@@ -9,6 +9,7 @@
 #include "Personaje.hpp"
 #include "Logger.hpp"
 #include "ConversorDeCoordenadas.hpp"
+#include "Ventana.hpp"
 
 using namespace std;
 
@@ -73,7 +74,6 @@ public:
 
     int argc;
     char** argv;
-    ConversorDeCoordenadas* conv;
     SDL_Texture *under;
 
     bool usandoJoystick = false;
@@ -84,7 +84,6 @@ public:
     bool salir = false;
     SDL_Renderer * renderer = NULL;
 
-    Escenario *escenario;
     BarraDeVida barraDeVida1, barraDeVida2;
 
     unsigned int ANCHO_FISICO, ALTO_FISICO;
@@ -93,12 +92,15 @@ public:
     int mover = 5;
     int moverSZ =1;
 
-    Parser *parser;
+    Parser* parser;
     float x_logico_personaje;
     float borde_izquierdo_logico_pantalla;
 
-    SDL_Window * window = NULL;
-    Personaje *personajeJuego;
+    Personaje* personajeJuego;
+    ConversorDeCoordenadas* conv;
+	Escenario* escenario;
+	Ventana* ventana;
+    
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
@@ -117,8 +119,7 @@ public:
     };
 //----------------------------------------------------------------
 
-    void cargar_configuracion(){
-        this->parser = new Parser();
+    void cargar_configuracion(Parser* parser){
         if (argc == 1 )
             parser->cargarDefault();
         else
@@ -126,44 +127,37 @@ public:
         // Se settean Parseriguraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
-		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
-
         //Pantalla
-        ANCHO_FISICO = parser->ventana_ancho; //800
-        ALTO_FISICO = parser->escenario_alto; //416
-        posicionPJ_Piso = parser->escenario_ypiso;
+        ANCHO_FISICO = parser->ventana_anchopx;
+        ALTO_FISICO = parser->ventana_altopx;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
+        
         //Mundo
         AnchoLogico = parser->escenario_ancho;
         AltoLogico = parser->escenario_alto;
-        // Martin
+        posicionPJ_Piso = parser->escenario_ypiso;
+        
         // fin de las Parseriguraciones
 
-        this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
-                                          AltoLogico, AnchoLogico, parser->ventana_ancho, 0);
 
-        // Cargamos al personaje en el medio del mapa
-        x_logico_personaje = (parser->escenario_ancho/2) - (parser->personaje_ancho/2);
-
-
+        // Cargamos al personaje y ventana en el medio del mapa.
+        // x_logico del extremo izquierdo.
+        x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho/2.);
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
-
-        // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void configurar(){
-        cargar_configuracion();
+        this->parser = new Parser();
+        cargar_configuracion(this->parser);
+        
+        this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
+		this->conv = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+                             parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
+		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
 
-        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
-                                   SDL_WINDOWPOS_CENTERED,
-                                   SDL_WINDOWPOS_CENTERED,
-                                   parser->ventana_anchopx, parser->ventana_altopx,
-                                   SDL_WINDOW_MAXIMIZED);
-
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-
+        renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
         under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
 
@@ -185,16 +179,18 @@ public:
     void cargar_capas(){
 
         for (unsigned int i = 0; i < parser->capas_vector.size(); i++){
-            parser->capas_vector[i]->ren = renderer;
-
+            //~ parser->capas_vector[i]->ren = renderer;
+			//~ escenario->AgregarCapa(parser->capas_vector[i]);
             escenario->AgregarCapa( // esto no deberÃ­a estar asÃ­, tendria que andar la lÃ­nea de arriba, pero estuve luchando y no la hago andar (maxi)
                 new Capa (parser->capas_vector[i]->ubicacion,
                 parser->capas_vector[i]->anchoLogico,
                 parser->capas_vector[i]->x_logico,
-                parser->capas_vector[i]->ren,
-                this->conv
+                renderer,
+                this->parser->escenario_ancho,
+                this->parser->ventana_ancho
                 )
             );
+            delete parser->capas_vector[i];
         }
 
     }
@@ -236,15 +232,17 @@ public:
     void reiniciarJuego(){
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
-        cargar_configuracion();
+        cargar_configuracion(this->parser);
+        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
         cargar_capas();
-        SDL_SetWindowSize(window, parser->ventana_anchopx, parser->ventana_altopx); // Dani se encarga de poner esto en su objeto
-
+        ventana->cambiarTamano(parser->ventana_anchopx, parser->ventana_altopx);
+		barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
+        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_juego(){
-        escenario->Borrar();
+        delete this->escenario;
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
         delete this->personajeJuego;
@@ -254,7 +252,7 @@ public:
 //----------------------------------------------------------------
     void terminar_sdl(){
         SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
+        delete ventana;
         IMG_Quit();
         SDL_Quit();
     };
@@ -270,8 +268,7 @@ void DibujarTodo(){
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
-
-        SDL_RenderCopy(renderer, under, NULL, &r);
+		SDL_RenderCopy(renderer, under, NULL, &r);
         // Que es esto?
 
         for (int i = 0; i < escenario->capas.size(); i++){

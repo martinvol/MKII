@@ -9,7 +9,7 @@
 
 class Parser {
 	private:
-		float cargarValidar(Json::Value, float, char*, char*);
+		float cargarValidar(Json::Value, float, char*, std::string);
         bool cargarValidarBool(Json::Value, bool, char*, char*);
 		Logger *logger;
 

@@ -1,6 +1,9 @@
 #ifndef VENTANA_H
 #define VENTANA_H
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 #include "CoordenadaFisica.hpp"
 #include "ConversorDeCoordenadas.hpp"
 
@@ -15,7 +18,7 @@ class Ventana {
 		// Anchos físicos que identifican el final del borde izquierdo
 		// y el inicio del borde derecho.
 		int borde_izq, borde_der;
-		int ancho;
+		int ancho_fisico;
 		
 		
 		// Margen identifica cuánto porcentaje de la ventana no es borde.		

@@ -14,7 +14,7 @@
 using namespace std;
 
 class Personaje {
-		/* Coordenada Logica de la esquina izquierda superior. */	
+		/* Coordenada Logica de la esquina izquierda inferior. */	
 		CoordenadaLogica* coordenada;
 		/* En unidades logicas. */
 		float alto;
