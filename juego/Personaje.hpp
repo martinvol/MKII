@@ -6,19 +6,20 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include "Estado.hpp"
 #include "Accion.hpp"
 #include "CoordenadaLogica.h"
+#include "parser.h"
 
 using namespace std;
 
 class Personaje {
-	
-		int posicion_x;	//Borrar
-		int posicion_y; 	//Borrar
-		
-		CoordenadaLogica* coordenada;
+		Conf* parser;
+		int posicion_x;
+		int posicion_y;
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
+		Estado* estado;
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
@@ -26,18 +27,18 @@ class Personaje {
 		
 	public:
 		
-		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren);
+		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser);
 		~Personaje();
-		SDL_Texture* definir_imagen(int accion);
+		void definir_imagen(float tmp, int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion,string ruta);
+		void cambiarAccionA(int nroACcion);
 		void Dibujarse(int x, int y);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
 		int getSpriteActual();
 		//Para Maxi
-		SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
+		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
 		//MILE: A agregar:
 		
@@ -65,5 +66,7 @@ class Personaje {
 		CoordenadaLogica* caminarIzquierda();
 		
 };
+
+
 
 #endif

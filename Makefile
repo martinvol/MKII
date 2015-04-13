@@ -62,11 +62,17 @@ logger.o: juego/logger.c
 Accion.o: juego/Accion.cpp
 	$(CC) "juego/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+Estado.o: juego/Estado.cpp
+	$(CC) "juego/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
 Personaje.o: juego/Personaje.cpp
 	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
-Personaje: Personaje.o Accion.o
-	$(CC)  Personaje.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
+Personaje: Personaje.o Accion.o	Estado.o
+	$(CC)  Personaje.o Accion.o Estado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
+
+Estado: Estado.o
+	$(CC)  Estado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"

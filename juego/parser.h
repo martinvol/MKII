@@ -1,3 +1,6 @@
+#ifndef PARSER_H_INCLUDED
+#define PARSER_H_INCLUDED
+
 #include <unordered_map>
 #include "Capa.h"
 #include "jsoncpp/json/json.h"
@@ -18,6 +21,9 @@ class Conf {
         float margen;
         std::vector<Capa*> capas_vector;
         unordered_map <string, string> sprites_map;
-
         bool personaje_mirar_derecha;
+        bool valido = false; // Si este valor es falso el archivo se cargó mal
 };
+
+#endif // PARSER
+
