@@ -10,6 +10,9 @@ class Jugador {
 		Personaje* personaje;
 		BarraDeVida* barra;
 		
+		Jugador(Personaje* personaje, BarraDeVida* barra);
+		~Jugador();
+		
 	// Para PERSONAJE:
 		
 		/* Sólo espejan o no espejan la imagen. */

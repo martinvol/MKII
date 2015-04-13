@@ -23,7 +23,7 @@ enum movimiento {Nada, Derecha, Izquierda, Arriba, ArribaDerecha, ArribaIzquierd
 class Director {
 		
     public:
-		vector<Personaje*> personajes;
+		//~ vector<Personaje*> personajes;
 		vector<Jugador*> jugadores;
 		Escenario* escenario;
 		Ventana* ventana;
@@ -44,7 +44,7 @@ class Director {
 		void scrollearIzquierda();
 		
 		// PUEDEN USARSE:
-		Director(); // Recibe el conversor, la ventana, los personajes y los jugadores?
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2); // Recibe el conversor, la ventana, los personajes y los jugadores?
 		~Director();
 		
 		/* Sólo va a recibir Derecha, Izquierda o Arriba. */

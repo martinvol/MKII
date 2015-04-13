@@ -10,6 +10,8 @@
 #include "Logger.hpp"
 #include "ConversorDeCoordenadas.hpp"
 #include "Ventana.hpp"
+#include "Director.hpp"
+#include "CoordenadaLogica.hpp"
 
 using namespace std;
 
@@ -100,6 +102,7 @@ public:
     ConversorDeCoordenadas* conv;
 	Escenario* escenario;
 	Ventana* ventana;
+	Director* director;
     
     Juego(int argc_, char* argv_[]){
         argc = argc_;
@@ -165,14 +168,15 @@ public:
         barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
        //Derecha
         barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
-        Personaje* personaje = new Personaje(1,1,"Subzero",renderer, parser);
+        Personaje* personaje = new Personaje(new CoordenadaLogica(1,1),"Subzero",renderer, parser);
         this->personajeJuego = personaje;
 
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
 
-        Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
-        estadoPersonaje1 = Quieto_State;
+		// Se supone que esto no va si está el director.
+        //~ Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
+        //~ estadoPersonaje1 = Quieto_State;
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -233,7 +237,7 @@ public:
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
         cargar_configuracion(this->parser);
-        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
+        this->personajeJuego = new Personaje(new CoordenadaLogica(1,1),"Subzero",renderer, parser);
         cargar_capas();
         ventana->cambiarTamano(parser->ventana_anchopx, parser->ventana_altopx);
 		barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -242,17 +246,16 @@ public:
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_juego(){
-        delete this->escenario;
+        //~ delete this->escenario;
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
-        delete this->personajeJuego;
-        for (unsigned int i = 0; i < parser->capas_vector.size(); i++) delete parser->capas_vector[i];
+        delete this->director;
+        //~ delete this->personajeJuego;
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_sdl(){
         SDL_DestroyRenderer(renderer);
-        delete ventana;
         IMG_Quit();
         SDL_Quit();
     };

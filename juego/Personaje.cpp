@@ -41,18 +41,125 @@ using namespace std;
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
 
-Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Parser* parser){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, Parser* parser){
 
 	this->parser = parser;
 	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
-	this->posicion_x = posicion_x;
-	this->posicion_y = posicion_y;
+	this->coordenada = coord;
 	this->accionActual = this->estado->quieto;
 	this->imagenActual = NULL;
 	this->lastTime = 0;
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
+}
+
+/***********************************************************************
+ * 
+ * 					FUNCIONES PARA EL DIRECTOR
+ *
+ **********************************************************************/  
+
+/* FALTAN PARA INTERACCION CON EL DIRECTOR */
+void Personaje::mirarParaDerecha(){
+
+}
+
+void Personaje::mirarParaIzquierda(){
+
+}
+
+void Personaje::parar(){
+
+}
+
+void Personaje::caminarDerecha(){
+
+}
+
+void Personaje::caminarIzquierda(){
+
+}
+
+void Personaje::saltar(){
+
+}
+
+void Personaje::saltarDerecha(){
+
+}
+
+void Personaje::saltarIzquierda(){
+
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
+	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
+	coord->sumar(coordenada);
+	coord->desplazarY(alto);
+	return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaIzqInf(){
+	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
+	coord->sumar(coordenada);
+	return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaDerSup(){
+	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
+	coord->sumar(coordenada);
+	coord->desplazarY(alto);
+	coord->desplazarX(ancho);
+	return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
+	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
+	coord->sumar(coordenada);
+	coord->desplazarX(ancho);
+	return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
+	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
+	//~ Me devuelve una coordenada nueva que debo liberar.
+	//~ coord->desplazarY(alto);
+	//~ return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
+	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
+	//~ Me devuelve una coordenada nueva que debo liberar.
+	//~ return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
+	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
+	//~ Me devuelve una coordenada nueva que debo liberar.
+	//~ coord->desplazarY(alto);
+	//~ coord->desplazarX(ancho);
+	//~ return coord;
+}
+
+CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
+	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
+	//~ Me devuelve una coordenada nueva que debo liberar.
+	//~ coord->desplazarX(ancho);
+	//~ return coord;
+}
+
+void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
+	delete coordenada;
+	coordenada = coord;
+	coord->desplazarY(-alto);
+}
+
+void Personaje::moverseADerSup(CoordenadaLogica* coord){
+	delete coordenada;
+	coordenada = coord;
+	coord->desplazarY(-alto);
+	coord->desplazarX(-ancho);
 }
 
 
@@ -168,56 +275,6 @@ void Personaje::mirar_al_otro_lado(){
 	
 }
 
-
-/* FALTAN PARA INTERACCION CON EL DIRECTOR */
-void Personaje::mirarParaDerecha(){
-}
-void Personaje::mirarParaIzquierda(){
-}
-void Personaje::parar(){
-}
-void Personaje::caminarDerecha(){
-}
-void Personaje::caminarIzquierda(){
-}
-void Personaje::saltar(){
-}
-void Personaje::saltarDerecha(){
-}
-void Personaje::saltarIzquierda(){
-}
-
-CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
-	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
-	coord->sumar(coordenada);
-	return coord;
-}
-CoordenadaLogica* Personaje::obtenerCoordenadaIzqInf(){
-}
-
-CoordenadaLogica* Personaje::obtenerCoordenadaDerSup(){
-	
-}
-
-CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
-	
-}
-
-CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
-	
-	}
-
-CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
-	
-	}
-
-CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
-	
-}
-
-CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
-	
-}
 //~ 
 //~ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	//~ 

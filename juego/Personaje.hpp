@@ -19,9 +19,8 @@ class Personaje {
 		/* En unidades logicas. */
 		float alto;
 		float ancho;
+		
 		Parser* parser;
-		int posicion_x;
-		int posicion_y;
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
 		Estado* estado;
@@ -32,7 +31,7 @@ class Personaje {
 		
 	public:
 		
-		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Parser* parser);
+		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, Parser* parser);
 		~Personaje();
 		void definir_imagen(float tmp, int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
@@ -83,6 +82,11 @@ class Personaje {
 		CoordenadaLogica* obtenerSiguienteCoordenadaIzqInf();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
+		
+		/* Coordenada a la que debe moverse el pesonaje. */
+		void moverseAIzqSup(CoordenadaLogica* coord);
+		void moverseADerSup(CoordenadaLogica* coord);
+		
 };
 
 

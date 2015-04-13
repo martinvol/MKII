@@ -1,5 +1,23 @@
 #include "Director.hpp"
 
+Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2){
+	this->escenario = escenario;
+	this->ventana = ventana;
+	this->conversor = conversor;
+	jugadores.push_back(new Jugador(personaje1, barra1));
+	jugadores.push_back(new Jugador(personaje2, barra2));
+}
+
+Director::~Director(){
+	delete escenario;
+	delete ventana;
+	delete conversor;
+	for (unsigned int i = 0; i <= jugadores.size() -1; i++){
+        delete jugadores[i];
+    }
+    jugadores.clear();
+}
+
 void Director::analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar){
 	if (*mov == Arriba){
 		if (lugar == Derecha) *mov = ArribaDerecha;
