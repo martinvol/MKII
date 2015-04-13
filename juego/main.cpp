@@ -601,7 +601,7 @@ enum Estados{
     //SALTANDO_DIAGONAL
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
-                //this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
 
                 break;
             default:
