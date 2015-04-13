@@ -238,6 +238,7 @@ public:
     void reiniciarJuego(){
         logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();
+        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
         cargar_configuracion();
         cargar_capas();
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
