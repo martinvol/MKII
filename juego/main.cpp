@@ -482,6 +482,7 @@ enum Estados{
                 //Despues de caer vuelve a quieto.
                 estadoPersonaje1 = Quieto_State;
                 this->personajeJuego->definir_imagen(this->mileTmp,QUIETO);
+                cout<<"QUIERO IR A QUIETOOOO"<<endl;
                 t = 1.0;
             }else{
                 //Vo = 10px/t ; g = 6px/t*t

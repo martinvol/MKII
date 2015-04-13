@@ -92,10 +92,10 @@ void Personaje::cambiarAccionA(int nroAccion){
  */ 
  void Personaje::definir_imagen(float tmp, int nuevaAccion){
 	
-	puts("----------------------------------------------------------------------------------");	
+	/*puts("----------------------------------------------------------------------------------");	
 	cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
 	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
-	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
+	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;*/
 	
 	if (this->accionActual == NULL){
 		this->accionActual = estado->quieto;	//Accion default;
@@ -124,7 +124,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	}
 	
 	this->accionActual->execute(tmp);
-	cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
+	//cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
 	return;// this->imagenActual;
 	
