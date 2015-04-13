@@ -489,14 +489,14 @@ enum Estados{
                 posicionPJ_Piso += 5.5*t*t; // -g *t * t
                 if( (saltoDiagonalIZQ) /*&& (mover<0)*/ ){
                     mover +=5;
-                    x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
+                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= MOVER_PIXELES;
                     
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER  /*&& abs(mover)<700*/){
                     mover -=5;
-                    x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
+                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
                     
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
