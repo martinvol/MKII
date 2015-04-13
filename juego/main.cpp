@@ -91,9 +91,6 @@ public:
     unsigned int ANCHO_FISICO, ALTO_FISICO;
     unsigned int AnchoLogico, AltoLogico;
 
-    int mover = 5;
-    int moverSZ =1;
-
     float x_logico_personaje;
     float borde_izquierdo_logico_pantalla;
 
@@ -344,13 +341,14 @@ enum Estados{
 
     void Controlador(SDL_Event *evento){
         SDL_PollEvent( evento );
-        x_Joystick = SDL_JoystickGetAxis(Player1, 0);
-        y_Joystick = SDL_JoystickGetAxis(Player1, 1);
+
         //Ahora anda este tambien.
         /*if (evento->type == SDL_JOYBUTTONDOWN){
             ;
         }*/
     if(usandoJoystick){
+        x_Joystick = SDL_JoystickGetAxis(Player1, 0);
+        y_Joystick = SDL_JoystickGetAxis(Player1, 1);
         if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
             //  x = -1;
             Izq_PRESIONADO = true;
@@ -480,30 +478,29 @@ enum Estados{
     if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
             if(posicionPJ_Piso > conf->escenario_ypiso){
                 posicionPJ_Piso = conf->escenario_ypiso;
-                saltando =saltoDiagonalIZQ = saltoDiagonalDER= false;
+                saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
                 //Despues de caer vuelve a quieto.
                 estadoPersonaje1 = Quieto_State;
                 this->personajeJuego->definir_imagen(this->mileTmp,QUIETO);
                 t = 1.0;
             }else{
-                //Vo = 10px/t ; g =  5.5px/t*t
+                //Vo = 10px/t ; g = 6px/t*t
                 t+=0.05;
-                posicionPJ_Piso -= 10*t; //Vo *t
-                posicionPJ_Piso += 5.5*t*t; // -g *t * t
-                if( (saltoDiagonalIZQ) /*&& (mover<0)*/ ){
-                    mover +=5;
-                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= MOVER_PIXELES;
+                posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
+                posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
+                //this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                if(saltoDiagonalIZQ){
+                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= 2*MOVER_PIXELES;
 
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 2*MOVER_PIXELES;
 
-                }else if(saltoDiagonalDER  /*&& abs(mover)<700*/){
-                    mover -=5;
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
+                }else if(saltoDiagonalDER){
+                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 2*MOVER_PIXELES;
 
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
-                        borde_izquierdo_logico_pantalla += MOVER_PIXELES;
+                        borde_izquierdo_logico_pantalla += 2*MOVER_PIXELES;
                 }
 
             }
@@ -607,7 +604,7 @@ enum Estados{
 
                 break;
             default:
-                this->personajeJuego->definir_imagen(this->mileTmp,SALTAR);
+                this->personajeJuego->definir_imagen(this->mileTmp,QUIETO);
         }
         if (scrollearIzquierda){
                 if (x_logico_personaje >= 0 && ((x_logico_personaje - MOVER_PIXELES)>=0)) x_logico_personaje -= MOVER_PIXELES;
