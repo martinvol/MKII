@@ -170,7 +170,7 @@ public:
         cargar_capas();
 
         //Izquierda
-        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
+        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true) ;
        //Derecha
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
         Personaje* personaje = new Personaje(1,1,"Subzero",renderer, conf);
@@ -242,7 +242,8 @@ public:
         cargar_configuracion();
         cargar_capas();
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
-
+        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
+        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -292,14 +293,14 @@ void DibujarTodo(){
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
                 , 0, conv);
-                
+
             //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conv);
 */
 
             if (i==conf->personaje_zindex){
                 this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (posicionPJ_Piso+(conf->personaje_ancho))*(conf->ventana_altopx/conf->escenario_alto), 
+                    (posicionPJ_Piso+(conf->personaje_ancho))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
@@ -309,7 +310,7 @@ void DibujarTodo(){
             // Si no hay capas;
             this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (posicionPJ_Piso+(conf->personaje_ancho))*(conf->ventana_altopx/conf->escenario_alto), 
+                    (posicionPJ_Piso+(conf->personaje_ancho))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
         }
@@ -492,14 +493,14 @@ enum Estados{
                 if( (saltoDiagonalIZQ) /*&& (mover<0)*/ ){
                     mover +=5;
                     if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= MOVER_PIXELES;
-                    
+
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER  /*&& abs(mover)<700*/){
                     mover -=5;
                     if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
-                    
+
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
                         borde_izquierdo_logico_pantalla += MOVER_PIXELES;
@@ -603,7 +604,7 @@ enum Estados{
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
                 //this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
-                
+
                 break;
             default:
                 this->personajeJuego->definir_imagen(this->mileTmp,SALTAR);

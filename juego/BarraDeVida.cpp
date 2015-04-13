@@ -10,6 +10,7 @@ void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_
     this->terminnoDeCansarse = true;
     this->vidaNumerica = 1000;
     this->staminaNumerica = 100;
+    this->crecimientoDeBarra = int(altoPantalla * 0.01);
 
     //this->anchoRectanguloInterior = x_fin - x_ini;
     this->renderer = rendererParam;
@@ -140,21 +141,21 @@ void BarraDeVida::Aliviar(int porcentaje){
 //-----------------------------------------------------------
 void BarraDeVida::ActualizarAnchoDeVida( int anchoDeVidaEsperado){
     //ACTUALIZO LA VIDA.
-    if (anchoDeVidaEsperado <= vida.w){
+    if (anchoDeVidaEsperado < vida.w){
         if (izquierda == true){
             //desplazo el azul a la derecha
             //y lo achico para no salir del borde
-            vida.x +=2;
-            vida.w -=2;
+            vida.x +=crecimientoDeBarra;
+            vida.w -=crecimientoDeBarra;
             // crece el danio
-            danio.w +=2;
+            danio.w +=crecimientoDeBarra;
         }else{
             //se corre el danio para izq
             //y crece
-            danio.x -=2;
-            danio.w +=2;
+            danio.x -=crecimientoDeBarra;
+            danio.w +=crecimientoDeBarra;
             // se achica la vida.
-            vida.w -=2;
+            vida.w -=crecimientoDeBarra;
         }
     }
 }
@@ -168,31 +169,31 @@ void BarraDeVida::ActualizarAnchoDeStamina(int anchoDeStaminaEsperado){
         if (izquierda == true){
             //desplazo el verde a la derecha
             //y lo achico para no salir del borde
-            staminaVerde.x +=1;
-            staminaVerde.w -=1;
+            staminaVerde.x +=2;
+            staminaVerde.w -=2;
             // crece el danio
-            staminaRoja.w +=1;
+            staminaRoja.w +=2;
         }else{
             //se corre el rojo para izq
             //y crece
-            staminaRoja.x -=1;
-            staminaRoja.w +=1;
+            staminaRoja.x -=2;
+            staminaRoja.w +=2;
             // se achica la stamina.
-            staminaVerde.w -=1;
+            staminaVerde.w -=2;
         }
     }
 
     if(anchoDeStaminaEsperado > staminaVerde.w){
         if (izquierda == true){
-            staminaVerde.x -=1;
-            staminaVerde.w +=1;
+            staminaVerde.x -=2;
+            staminaVerde.w +=2;
 
-            staminaRoja.w -=1;
+            staminaRoja.w -=2;
         }else{
-            staminaRoja.x +=1;
-            staminaRoja.w -=1;
+            staminaRoja.x +=2;
+            staminaRoja.w -=2;
 
-            staminaVerde.w +=1;
+            staminaVerde.w +=2;
         }
     }
 }
@@ -219,7 +220,7 @@ void BarraDeVida::ActualizarAnchos(){
     int diferenciaStamina = (staminaVerde.w - anchoDeStaminaEsperado);
 
     //para que se vacie la barra.
-    if (diferenciaStamina <=2){
+    if (diferenciaStamina <=3){
         terminnoDeCansarse = true;
     }
 

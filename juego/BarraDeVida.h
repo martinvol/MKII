@@ -22,6 +22,7 @@ private:
     int x_ini, x_fin, y_ini, y_fin;
     int anchoRectanguloInterior;
     int anchoRectanguloStaminaInterior;
+    int crecimientoDeBarra;
 
     SDL_Rect borde;
     SDL_Rect vida;
