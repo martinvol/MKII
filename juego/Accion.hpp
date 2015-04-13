@@ -11,7 +11,6 @@
 #include "Parser.hpp"
 #include "Logger.hpp"
 
-
 using namespace std;
 
 class Accion{
@@ -74,6 +73,7 @@ class Quieto:public Accion{
 			return true;
 		};	
 };
+
 class CaminarDerecha: public Accion{
 	public:
 		CaminarDerecha(string ruta, SDL_Renderer* ren, Parser* parser):Accion(1,ruta,ren, parser){};
@@ -158,4 +158,4 @@ class SaltarDiagonal: public Accion{
 		};
 };
 
-#endif
+#endif // ACCION_H_INCLUDED

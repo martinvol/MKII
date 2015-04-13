@@ -46,7 +46,7 @@ class Personaje {
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
 		//MILE: A agregar:
-		
+
 		CoordenadaLogica* obtenerCoordenada();
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();

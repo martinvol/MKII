@@ -39,4 +39,4 @@ class Estado{
 
 };
 
-#endif
+#endif // ESTADO_H_INCLUDED

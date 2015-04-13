@@ -192,5 +192,3 @@ void Accion::cambiarModo(){
 
 void Accion::execute(float tmp){}
 
-
-

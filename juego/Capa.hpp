@@ -6,6 +6,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
+
+#include "ConversorDeCoordenadas.hpp"
+
 using namespace std;
 
 class Capa{

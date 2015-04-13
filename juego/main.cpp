@@ -17,7 +17,6 @@ using namespace std;
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
 #define SALTODIAGONAL 4
-
 #define MOVER_PIXELES parser->ventana_anchopx/parser->personaje_ancho
 #define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
@@ -150,7 +149,6 @@ public:
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
-
 
     };
 //----------------------------------------------------------------
@@ -525,7 +523,6 @@ enum Estados{
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
                     this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
-
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
                     break;
@@ -635,7 +632,6 @@ enum Estados{
                 }
             }
     };
-
 };//FIN CLASE JUEGO
 //----------------------------------------------------------------
 //----------------------------------------------------------------

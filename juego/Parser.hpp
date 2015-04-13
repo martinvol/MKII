@@ -26,5 +26,4 @@ class Parser {
         bool valido = false; // Si este valor es falso el archivo se cargó mal
 };
 
-#endif // PARSER
-
+#endif // PARSER_H_INCLUDED

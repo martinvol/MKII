@@ -99,6 +99,7 @@ prueba_integracionI: clean Capa.o Escenario.o Parser.o coordenadas.o Logger.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
 	./integracionI
 	make clean
+
 	
 clean:
 	find . -name "*.o" -type f -delete

@@ -55,6 +55,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
 
 }
 
+
 /***********************************************************************
  * 
  * 							DEMAS
@@ -136,7 +137,6 @@ Personaje::~Personaje(){
 	//~ delete this->accionActual;
 	
 }
-
 /**
  * 
  */ 
@@ -149,7 +149,6 @@ void Personaje::Dibujarse(int x, int y){
 /**
  * 
  * */
-
 void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	//Rectangulo destino
 	SDL_Rect destino;

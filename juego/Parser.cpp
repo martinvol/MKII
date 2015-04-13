@@ -2,12 +2,13 @@
 #include <cstring>
 #include <fstream>
 #include <unordered_map>
-#include "jsoncpp/json/json.h"
-
-
 #include "Capa.hpp"
 #include "Parser.hpp"
 #include "Logger.hpp"
+#include "jsoncpp/json/json.h"
+
+#define IMAGEN_DEFAULT "resources/background/defaultcapa.png"
+#define DEFAULT_X_LOGICO 0
 
 #define IMAGEN_DEFAULT "resources/background/defaultcapa.png"
 #define DEFAULT_X_LOGICO 0
@@ -188,6 +189,6 @@ bool Parser::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* 
 
 void Parser::cargarDefault(){
     logger = Logger::instance();
-    logger->log_debug("Cargando Parseriguración default");
+    logger->log_debug("Cargando configuración default");
     Parser::set_values("resources/default.json");
 }
