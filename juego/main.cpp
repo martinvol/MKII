@@ -228,7 +228,7 @@ public:
 
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((5000/FRAMERATE) - timerFps);
+                SDL_Delay((1000/FRAMERATE) - timerFps);
             }
         }
 
