@@ -2,7 +2,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "Accion.hpp"
 #include <vector>
 #include <string>
 #include <thread>         
@@ -10,6 +9,8 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/stat.h>
+
+#include "Accion.hpp"
 
 using namespace std;
 
@@ -27,11 +28,12 @@ int cuentaArchivos(string ruta){
 	struct dirent *ent;
 	
 	dir = opendir (ruta.c_str());
-
+	Logger* logger = Logger::instance();
 	/* Miramos que no haya error */
 	if (dir == NULL){
-		std::cout<<"No puedo abrir el directorio"<<endl;
+		logger->log_error("No se puede abrir el directorio del Personaje");
 		exit(EXIT_FAILURE);
+		return 0;
 	}
 
 	int i = 0;
@@ -61,15 +63,37 @@ void Accion::setCantModos(){
 void Accion::setModoActual(int modo){
 	this->modoActual = modo;
 }
-void Accion::setPermiteInterrupcion(bool permite){
-	this->permiteInterrupcion = permite;
-}
 void Accion::setRenderer(SDL_Renderer* ren){
 	this->renderer = ren;
 }
 void Accion::setAccionNro(int nroAccion){
 	this->accionNro = nroAccion;
 }
+/**Guarda en un vector el conjunto de imagenes
+ * correspondientes a la propia accion
+ * */
+void Accion::setImagenes (){
+	
+	string numeroImagen, rutaCompleta; 
+	
+	int numero;
+	
+	for (int i = 0; i<this->cantModos; i++){
+		SDL_Texture* imagen;
+		numero = i+1;
+		numeroImagen = to_string(numero);
+		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
+		imagen = IMG_LoadTexture (this->renderer,rutaCompleta.c_str());
+		if(imagen == NULL){
+			this->logger->log_debug("IMG_LoadTexture error: " + (string)(SDL_GetError()));
+			//cout<<"error en: "<<numeroImagen<<endl;
+		}
+		this->imagenes.push_back(imagen);
+	
+	}
+}
+
+
 /***********************************************************************
  * 
  * 						GETTERS
@@ -83,6 +107,12 @@ void Accion::setAccionNro(int nroAccion){
 SDL_Texture* Accion::getImagenActual(){
 	return this->imagenes[this->modoActual];
 } 
+//~ SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
+	//~ return this->imagenes[numeroDeSprite];
+//~ }
+int Accion::getModoActual(){
+	return this->modoActual;
+}
 /***********************************************************************
  * 
  * 						CONSTRUCTOR
@@ -94,11 +124,13 @@ SDL_Texture* Accion::getImagenActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, bool permite,SDL_Renderer* ren){
-	
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, Parser* parser){
+	this->lastTime = 0;
+	this->parser = parser;
+	this->logger =  Logger::instance();
+	//cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
 	setAccionNro(nroAccion);
-	setRutaArchivo(ruta);
-	setPermiteInterrupcion(permite);
+	setRutaArchivo(ruta+to_string(nroAccion));
 	setRenderer(ren);
 	setCantModos();
 	setImagenes();
@@ -128,6 +160,7 @@ Accion::~Accion(){
  * false, en caso contrario
  * */
 bool Accion::esDistintaA(int nroAccion){
+	//cout<<"nroAccionACtual"<<this->accionNro<<"nueva"<<nroAccion<<endl;
 	if (this->accionNro != nroAccion)
 		return true;
 	return false;
@@ -143,7 +176,7 @@ bool Accion::esUltimoModo(){
 	}
 	return false;
 }
-	
+		
 /**Aumenta en uno el modo Actual
  * si llega al ultimo modo posible
  * retorna al modo 0.
@@ -155,25 +188,9 @@ void Accion::cambiarModo(){
 	else{
 		setModoActual(this->modoActual+1);
 	}
-	
 }
 
-/**Guarda en un vector el conjunto de imagenes
- * correspondientes a la propia accion
- * */
-void Accion::setImagenes (){
-	
-	string numeroImagen, rutaCompleta; 
-	SDL_Texture* imagen;
-	int numero;
-	
-	for (int i = 0; i<this->cantModos; i++){
-	
-		numero = i+1;
-		numeroImagen = to_string(numero);
-		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
-		imagen = IMG_LoadTexture (this->renderer,rutaCompleta.c_str());
-		this->imagenes.push_back(imagen);
-	
-	}
-}
+void Accion::execute(float tmp){}
+
+
+

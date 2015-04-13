@@ -6,37 +6,49 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
+#include "Estado.hpp"
 #include "Accion.hpp"
 #include "CoordenadaLogica.hpp"
+#include "Parser.hpp"
 
 using namespace std;
 
 class Personaje {
-		
 		/* Coordenada Logica de la esquina izquierda superior. */	
 		CoordenadaLogica* coordenada;
 		/* En unidades logicas. */
 		float alto;
 		float ancho;
-	
+		Parser* parser;
+		int posicion_x;
+		int posicion_y;
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
+		Estado* estado;
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
-		void Dibujarse(int x, int y, int alto, int ancho);
+		//void Dibujarse(int x, int y, int alto, int ancho);
 		
 	public:
 		
-		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho_logico, float alto_logico);
+		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Parser* parser);
 		~Personaje();
-		SDL_Texture* definir_imagen(int accion);
+		void definir_imagen(float tmp, int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion);
+		void cambiarAccionA(int nroACcion);
 		void Dibujarse(int x, int y);
+		//void Dibujarse(int x, int y, int alto, int ancho);
+		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
+		int getSpriteActual();
+		//Para Maxi
+		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
+
+		//MILE: A agregar:
 		
-		/* Sólo espejan o no espejan la imagen. */
+		CoordenadaLogica* obtenerCoordenada();
+		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
 		
@@ -72,5 +84,7 @@ class Personaje {
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
 };
+
+
 
 #endif

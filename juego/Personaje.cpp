@@ -14,7 +14,6 @@ using namespace std;
  *
  **********************************************************************/  
 
-#define TEMPO 8000
 
 /***********************************************************************
  * 
@@ -22,9 +21,9 @@ using namespace std;
  *
  **********************************************************************/  
 
-void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
-	os << msg << " : " << num << std::endl;
-}
+//~ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
+	//~ os << msg << " : " << num << std::endl;
+//~ }
 
 
 /***********************************************************************
@@ -41,12 +40,14 @@ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
-Personaje::Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho_logico, float alto_logico){
 
-	this->coordenada = coord;
-	this->ancho = ancho_logico;
-	this->alto = alto_logico;
-	this->accionActual = NULL;
+Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Parser* parser){
+
+	this->parser = parser;
+	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
+	this->posicion_x = posicion_x;
+	this->posicion_y = posicion_y;
+	this->accionActual = this->estado->quieto;
 	this->imagenActual = NULL;
 	this->lastTime = 0;
 	this->nombrePersonaje = nombre;
@@ -67,12 +68,22 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, 
  * un booleano que indica si la accion puede ser interrumpida.
  * y un puntero de tipo SDL_Renderer que indica el renderer.
  * */
-void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupcion){
+void Personaje::cambiarAccionA(int nroAccion){
 	
-	delete this->accionActual;
-	this->accionActual = new Accion(nroAccion, ruta, permiteInterrupcion,this->renderer);
-	this->lastTime = 0;	
-	
+	this->accionActual->resetear();
+	//delete this->accionActual;
+	if (nroAccion == 0){ 
+			this->accionActual = this->estado->quieto;
+	}if (nroAccion == 1){
+			this->accionActual = this->estado->caminarder;
+	}if (nroAccion == 2){
+			this->accionActual = this->estado->caminarizq;
+	}if (nroAccion == 3){
+			this->accionActual = this->estado->saltar;
+	}if (nroAccion == 4){
+			this->accionActual = this->estado->saltardiagonal;
+	}	
+
 }
 /**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
  * se debe mostrar por pantalla.
@@ -80,57 +91,49 @@ void Personaje::cambiarAccionA(int nroAccion,string ruta, bool permiteInterrupci
  * quiere que el Personaje represente, 
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  */ 
-SDL_Texture* Personaje::definir_imagen(int nuevaAccion){
-		
-	int currentTime,tiempoTranscurrido;
-	SDL_Texture* imagen_actual;
-	string ruta = to_string(nuevaAccion);
+ void Personaje::definir_imagen(float tmp, int nuevaAccion){
 	
-	/*La accion que se esta representando no coincide con la nuevaAccion
-	 * pasada por parametro
-	 * El loop del juego esperaba que representara una nuevaAccion
-	 * Si el juego recien se inicia, incluso entonces la nuevaAccion no coincide con el estado 
-	 * inicial del Personaje
-	 */
-	 
+	puts("----------------------------------------------------------------------------------");	
+	cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
+	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
+	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
+	
 	if (this->accionActual == NULL){
-		this->accionActual = new Accion(0,"resources/jugador/SubZero/0",true,this->renderer);	//Accion default;
-	}
-	else if (this->accionActual->esDistintaA(nuevaAccion)){
-		/*Se deben inicializar el vector de imagenes correspondientes a la secuencia
-		 */
-		string ruta2 = "resources/jugador/SubZero/"+ruta; 
-		cambiarAccionA(nuevaAccion,ruta2,true);
+		this->accionActual = estado->quieto;	//Accion default;
 		this->imagenActual = this->accionActual->getImagenActual();
+		return;// this->imagenActual;
+	}else if (this->accionActual->esDistintaA(nuevaAccion)){
 		
-	}
-	/*Se desea continuar con el mismo movimiento
-	 */
-	else{
-		currentTime = SDL_GetTicks();
-		tiempoTranscurrido = currentTime - this->lastTime;
-		/*Debo actualizar la imagen a mostrar
-		 */ 
-		if (tiempoTranscurrido > TEMPO){
-				
-				this->accionActual->cambiarModo();
-				this->imagenActual = this->accionActual->getImagenActual();
-				this->lastTime = this->lastTime + TEMPO;
-		}
-		else{
+		if (this->accionActual->permite(nuevaAccion)){
+			puts("Cambie de accion porque lo permitia");
+			cambiarAccionA(nuevaAccion);
+			//this->accionActual->execute();
 			this->imagenActual = this->accionActual->getImagenActual();
-			/*Mantengo la imagen
-			 * ergo: no hago nada
-			 */ 
+			return;// this->imagenActual;
 		}
+		if(this->accionActual->esUltimoModo()){
+			puts("Llego al ultimo estado");
+			cambiarAccionA(nuevaAccion);
+			//this->accionActual->execute();
+			this->imagenActual = this->accionActual->getImagenActual();
+			return;// this->imagenActual;
+		}
+		//~ cambiarAccionA(nuevaAccion);
+		//~ this->accionActual->execute();
+		//~ this->imagenActual = this->accionActual->getImagenActual();
+		//~ return this->imagenActual;
 	}
 	
-				
-	return (this->imagenActual);
+	this->accionActual->execute(tmp);
+	cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
+	this->imagenActual = this->accionActual->getImagenActual();
+	return;// this->imagenActual;
+	
 }
 Personaje::~Personaje(){
 	
-	delete this->accionActual;
+	delete this->estado;
+	//~ delete this->accionActual;
 	
 }
 
@@ -140,14 +143,14 @@ Personaje::~Personaje(){
 void Personaje::Dibujarse(int x, int y){
     int ancho, alto;
 	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
-	this->Dibujarse(x, y, alto, ancho);
+	this->Dibujarse(x, y, float(alto), float(ancho));
 }
 
 /**
  * 
  * */
 
-void Personaje::Dibujarse(int x, int y, int alto, int ancho){
+void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = x;
@@ -156,8 +159,6 @@ void Personaje::Dibujarse(int x, int y, int alto, int ancho){
 	destino.h = alto;
 	SDL_RenderCopy(this->renderer, this->imagenActual, NULL, &destino);
 }
-
-
 void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	
 	
@@ -218,3 +219,20 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
 	
 }
+//~ 
+//~ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
+	//~ 
+	//~ 
+//~ }
+	//~ 
+//~ void Personaje::mirar_al_otro_lado(){
+	//~ 
+	//~ 
+//~ }
+//~ SDL_Texture* Personaje::DibujarSpriteNumero(int numeroDeSprite){
+	//~ return this->accionActual->getImagenNro(numeroDeSprite);
+//~ }
+	//~ 
+//~ int Personaje::getSpriteActual(){
+	//~ return this->accionActual->getModoActual();
+//~ }

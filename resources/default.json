@@ -1,14 +1,14 @@
 {
    "ventana":{
-      "anchopx":800,
-      "altopx":600,
+      "anchopx":400,
+      "altopx":255,
       "ancho":400,
-      "margen":70
+      "margen":90
    },
    "escenario":{
-      "ancho":1200,
-      "alto":768,
-      "ypiso":400
+      "ancho":1216,
+      "alto":255,
+      "ypiso":60
    },
    "capas":[
       {
@@ -29,12 +29,12 @@
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
-         "anchoLogico":1000
+         "anchoLogico":1216
       }
    ],
    "personaje":{
-      "ancho":100,
-      "alto":268,
+      "ancho":63,
+      "alto":129,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/",
