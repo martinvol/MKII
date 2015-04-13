@@ -15,15 +15,14 @@
 // Los atributos x e y lógicos se pueden inicializar en 0 para estar al principio del mundo o 0 y la mitad del ancho, como se desee.
 
 
-ConversorDeCoordenadas::ConversorDeCoordenadas(int alto_fisico, int ancho_fisico, float alto_logico, float ancho_logico, float ancho_logico_ventana, float x){
+ConversorDeCoordenadas::ConversorDeCoordenadas(int alto_fisico, int ancho_fisico, float alto_logico, float ancho_logico, float x){
 	this->x_logico = x;
 	this->alto_logico = alto_logico;
 	this->ancho_logico = ancho_logico;
-	this->factor_alto = (alto_fisico * 1.0) /( alto_logico * 1.0);
-	this->factor_ancho = (ancho_fisico * 1.0)/(ancho_logico_ventana * 1.0);
+	this->factor_alto = (alto_fisico * 1.0) /(alto_logico * 1.0);
+	this->factor_ancho = (ancho_fisico * 1.0)/(ancho_logico * 1.0);
 	this->alto_fisico = alto_fisico;
 	this->ancho_fisico = ancho_fisico;
-	this->ancho_logico_ventana = ancho_logico_ventana;
 }
 
 CoordenadaFisica* ConversorDeCoordenadas::aFisica(CoordenadaLogica* coord){

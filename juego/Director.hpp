@@ -13,7 +13,7 @@
 
 
 // Cuánto ancho lógico se mueve al scrollear.
-#define FACTOR_SCROLL 5.0
+#define FACTOR_SCROLL 5
 
 using namespace std;
 
@@ -45,7 +45,8 @@ class Director {
 		
 		// PUEDEN USARSE:
 		Director(); // Recibe el conversor, la ventana, los personajes y los jugadores?
-		~Director();		
+		~Director();
+		
 		/* Sólo va a recibir Derecha, Izquierda o Arriba. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
 		

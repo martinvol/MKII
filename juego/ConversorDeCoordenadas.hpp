@@ -13,7 +13,6 @@ public:
     float x_logico;
 
 	// Datos de la ventana
-	float ancho_logico_ventana;
 	float ancho_logico;
 	float alto_logico;
 	int alto_fisico;
@@ -23,7 +22,8 @@ public:
 	float factor_ancho;
 	float factor_alto;
 
-	ConversorDeCoordenadas(int alto_fisico, int ancho_fisico, float alto_logico_escen, float ancho_logico_escen, float ancho_logico_ventana, float x);
+	// Ancho y alto logicos y fisicos de la ventana.
+	ConversorDeCoordenadas(int alto_fisico, int ancho_fisico, float alto_logico, float ancho_logico, float x);
 
 	// Conversiones que crean nuevas coordenadas que deben ser liberadas
 	// y no destruyen viejas.	
