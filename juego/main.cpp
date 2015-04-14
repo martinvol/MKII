@@ -609,7 +609,7 @@ enum Estados{
     //SALTANDO_VERTICAL
             case SaltoVertical_State:
                 estadoPersonaje1 = SaltoVertical_State;
-                //this->personajeJuego->definir_imagen(this->mileTmp,SALTAR);
+                this->personajeJuego->definir_imagen(this->mileTmp,SALTAR);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
                 break;

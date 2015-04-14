@@ -103,20 +103,24 @@ void Personaje::cambiarAccionA(int nroAccion){
 		return;// this->imagenActual;
 	}else if (this->accionActual->esDistintaA(nuevaAccion)){
 		
-		if (this->accionActual->permite(nuevaAccion)){
-			puts("Cambie de accion porque lo permitia");
-			cambiarAccionA(nuevaAccion);
-			//this->accionActual->execute();
-			this->imagenActual = this->accionActual->getImagenActual();
-			return;// this->imagenActual;
-		}
-		if(this->accionActual->esUltimoModo()){
-			puts("Llego al ultimo estado");
-			cambiarAccionA(nuevaAccion);
-			//this->accionActual->execute();
-			this->imagenActual = this->accionActual->getImagenActual();
-			return;// this->imagenActual;
-		}
+		//~ if (this->accionActual->permite(nuevaAccion)){
+			//~ puts("Cambie de accion porque lo permitia");
+			//~ cambiarAccionA(nuevaAccion);
+			//~ //this->accionActual->execute();
+			//~ this->imagenActual = this->accionActual->getImagenActual();
+			//~ return;// this->imagenActual;
+		//~ }
+		//~ if(this->accionActual->esUltimoModo()){
+			//~ puts("Llego al ultimo estado");
+			//~ cambiarAccionA(nuevaAccion);
+			//~ //this->accionActual->execute();
+			//~ this->imagenActual = this->accionActual->getImagenActual();
+			//~ return;// this->imagenActual;
+		//~ }
+		cambiarAccionA(nuevaAccion);
+		//this->accionActual->execute();
+		this->imagenActual = this->accionActual->getImagenActual();
+		return;// this->imagenActual;
 		//~ cambiarAccionA(nuevaAccion);
 		//~ this->accionActual->execute();
 		//~ this->imagenActual = this->accionActual->getImagenActual();
