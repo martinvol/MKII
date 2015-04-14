@@ -128,6 +128,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, Conf* parser){
 	this->lastTime = 0;
 	this->parser = parser;
 	this->logger =  Logger::instance();
+	this->secuenciaInversa = false;
 	//cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
 	setAccionNro(nroAccion);
 	setRutaArchivo(ruta+to_string(nroAccion));
@@ -180,7 +181,8 @@ bool Accion::esUltimoModo(){
 /**Aumenta en uno el modo Actual
  * si llega al ultimo modo posible
  * retorna al modo 0.
- * */ 	
+ * */
+  	
 void Accion::cambiarModo(){
 	if (esUltimoModo()){
 		setModoActual(0);	

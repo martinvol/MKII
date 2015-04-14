@@ -44,7 +44,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
 
 	this->parser = parser;
 	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
-	this->ladoDerecha = this->parser->personaje_mirar_derecha;
+	this->ladoDerecha = true;//this->parser->personaje_mirar_derecha;
 	this->posicion_x = posicion_x;
 	this->posicion_y = posicion_y;
 	this->accionActual = this->estado->quieto;
@@ -76,6 +76,12 @@ void Personaje::cambiarAccionA(int nroAccion){
 			this->accionActual = this->estado->quieto;
 	}if (nroAccion == 1){
 			this->accionActual = this->estado->caminarder;
+			if (!this->parser->personaje_mirar_derecha){
+				//espejar e invertir las imagenes
+				this->accionActual->setInvertirSecuencia();
+				this->ladoDerecha = false;
+				return;
+			}
 	}if (nroAccion == 2){
 			this->accionActual = this->estado->caminarizq;
 	}if (nroAccion == 3){
@@ -83,6 +89,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	}if (nroAccion == 4){
 			this->accionActual = this->estado->saltardiagonal;
 	}	
+	this->ladoDerecha = true;
 
 }
 /**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
@@ -93,12 +100,12 @@ void Personaje::cambiarAccionA(int nroAccion){
  */ 
  void Personaje::definir_imagen(float tmp, int nuevaAccion){
 	
-	/*puts("----------------------------------------------------------------------------------");	
-	cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
-	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
-	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;*/
-	if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
-	else if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
+	//~ puts("----------------------------------------------------------------------------------");	
+	//~ cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
+	//~ cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
+	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
+	//~ if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
+	//~ else if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
 	if(nuevaAccion == 5){nuevaAccion=4;}
 	
 	
@@ -133,7 +140,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	}
 	
 	this->accionActual->execute(tmp);
-	//cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
+	//~ cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
 	return;// this->imagenActual;
 	

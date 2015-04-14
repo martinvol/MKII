@@ -28,6 +28,7 @@ class Accion{
 		int lastTime;
 		Conf* parser;
 		Logger* logger;
+		bool secuenciaInversa;
 
 		Accion(int nroAccion, string ruta, SDL_Renderer* ren, Conf* parser); //constructor
 
@@ -37,6 +38,10 @@ class Accion{
 		void setImagenes();
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
+		
+		void setInvertirSecuencia(){
+			this->secuenciaInversa = true;
+		};
 	
 		SDL_Texture* getImagenActual();
 		int getModoActual();
@@ -53,8 +58,9 @@ class Accion{
 		virtual void resetear(){
 			this->modoActual = 0;
 			this->lastTime = 0;
+			this->secuenciaInversa = false;
 		}
-	
+		void cambiarModoInversamente();
 };
 #define TEMPO 30
 class Quieto:public Accion{
@@ -79,21 +85,25 @@ class Quieto:public Accion{
 class CaminarDerecha: public Accion{
 	public:
 		CaminarDerecha(string ruta, SDL_Renderer* ren, Conf* parser):Accion(1,ruta,ren, parser){};
+		void cambiarModoInversamente(){
+			if (this->modoActual==0){
+				setModoActual(this->cantModos-1);	
+			}
+			else{
+				setModoActual(this->modoActual-1);
+			}
+		
+		};
 		void execute(float tmp){
-			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = tmp - lastTime;
-			
-			//~ if (tiempoTranscurrido > TEMPO){
-					//~ 
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPO;
-			//~ }			
-		Accion::cambiarModo();
-		lastTime = lastTime + TEMPO;
+			if(secuenciaInversa){
+				CaminarDerecha::cambiarModoInversamente();
+			}
+			else{
+				Accion::cambiarModo();
+			}
 		};
-		bool permite(int nuevaAccion){
-			return true;
-		};
+		
+		
 };
 class CaminarIzquierda: public Accion{
 	public:
