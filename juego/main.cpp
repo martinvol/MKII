@@ -16,9 +16,11 @@ using namespace std;
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
-#define SALTODIAGONAL 4
+#define SALTODIAGONAL_IZQ 4
+#define SALTODIAGONAL_DER 5
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
+#define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
 #define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
 
@@ -64,10 +66,11 @@ public:
     bool scrollearDerecha = false;
     bool scrollearIzquierda = false;
     bool saltando = false;
+    bool alturaMaxima = false;
     Sint16 presionado=0;
     SDL_Rect r;
     int posicionPJ_Piso = 0;
-    double t = 1.0;
+    double t = 5.0;
 	float mileTmp;
     bool pausa = false;
     bool cambiarModo = false;
@@ -127,8 +130,8 @@ public:
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
         //Pantalla
-        ANCHO_FISICO = conf->ventana_ancho; //800
-        ALTO_FISICO = conf->escenario_alto; //416
+        ANCHO_FISICO = conf->ventana_anchopx; //800
+        ALTO_FISICO = conf->ventana_altopx; //416
         posicionPJ_Piso = conf->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
@@ -480,28 +483,41 @@ enum Estados{
                 posicionPJ_Piso = conf->escenario_ypiso;
                 saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
                 //Despues de caer vuelve a quieto.
+                alturaMaxima = false;
                 estadoPersonaje1 = Quieto_State;
                 this->personajeJuego->definir_imagen(this->mileTmp,QUIETO);
                 cout<<"QUIERO IR A QUIETOOOO"<<endl;
-                t = 1.0;
+                t = 5.0;
             }else{
+            //alturaMaxima
                 //Vo = 10px/t ; g = 6px/t*t
-                t+=0.05;
-                posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
-                posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
+                t+=0.01;
+                //||*/ (posicionPJ_Piso <(conf->escenario_ypiso- posicionPJ_Piso))
+                //Nota: posicionPJ_Piso = 0 no es en la parte superior de la pantalla :-/
+                if ( (posicionPJ_Piso) <= 0) {
+                    alturaMaxima = true;
+                    t = 5.0;
+                }
+                if (alturaMaxima){
+                    posicionPJ_Piso += MOVER_PIXELES_VERTICAL*t;//*t;
+                }else{
+                    posicionPJ_Piso -= MOVER_PIXELES_VERTICAL*t;//*t;
+                }
+                //posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
+                //posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
                 //this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
                 if(saltoDiagonalIZQ){
-                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= 2*MOVER_PIXELES;
+                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= 1.5*MOVER_PIXELES;
 
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 2*MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 1.5*MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 2*MOVER_PIXELES;
+                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 1.5*MOVER_PIXELES;
 
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
-                        borde_izquierdo_logico_pantalla += 2*MOVER_PIXELES;
+                        borde_izquierdo_logico_pantalla += 1.5*MOVER_PIXELES;
                 }
 
             }
@@ -514,7 +530,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Der_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_DER);
 
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
@@ -524,7 +540,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_IZQ);
 
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -566,13 +582,13 @@ enum Estados{
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_DER);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
 
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_IZQ);
                 //Camino --> sigo caminando
                 }else if (Der_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
@@ -594,14 +610,17 @@ enum Estados{
     //SALTANDO_VERTICAL
             case SaltoVertical_State:
                 estadoPersonaje1 = SaltoVertical_State;
-                //this->personajeJuego->definir_imagen(this->mileTmp,SALTAR);
+                this->personajeJuego->definir_imagen(this->mileTmp,SALTAR);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
                 break;
     //SALTANDO_DIAGONAL
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
-                this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                if (saltoDiagonalDER)
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_DER);
+                else
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_IZQ);
 
                 break;
             default:
@@ -623,7 +642,7 @@ enum Estados{
 
             } else if (scrollearDerecha){
                  if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
-                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx -conf->ventana_anchopx*(100-conf->margen)/200))
+                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
                     //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
