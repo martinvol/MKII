@@ -6,7 +6,9 @@ using namespace std;
 
 class Logger{
     Logger();
+    ~Logger();
     bool debug, warning, error;
+    ofstream* archivo;
     public:
         static Logger * instance();
         void set_debug(bool nuevo_stado);

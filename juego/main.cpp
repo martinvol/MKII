@@ -228,7 +228,7 @@ public:
 
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((1000/FRAMERATE) - timerFps);
+                SDL_Delay((75) - timerFps);
             }
         }
 
@@ -659,6 +659,7 @@ enum Estados{
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
+    logger->log_debug("-------------------------------------");
     logger->set_debug(true);
     logger->set_warning(true);
     logger->set_error(true);
