@@ -80,18 +80,13 @@ public:
     bool salir = false;
     SDL_Renderer * renderer = NULL;
 
-    
-
-    unsigned int ANCHO_FISICO, ALTO_FISICO;
-    unsigned int AnchoLogico, AltoLogico;
-
     Parser* parser;
     float x_logico_personaje;
     float borde_izquierdo_logico_pantalla;
 
-    Personaje* personajeJuego, personajeJuego2;
-    BarraDeVida* barraDeVida1, barraDeVida2;
-    ConversorDeCoordenadas* conv;
+    Personaje* personajeJuego, *personajeJuego2;
+    BarraDeVida* barraDeVida1, *barraDeVida2;
+    ConversorDeCoordenadas* conversor;
 	Escenario* escenario;
 	Ventana* ventana;
 	Director* director;
@@ -110,6 +105,7 @@ public:
         // LIBERAR RECURSOS
         terminar_juego();
         terminar_sdl();
+        Logger::destroy_instance();
         return 0;
     };
 //----------------------------------------------------------------
@@ -130,7 +126,7 @@ public:
 		r = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
 
 		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
-		this->conv = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
                              parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
 		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
         
@@ -138,7 +134,7 @@ public:
         under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
         
-        Personaje* personaje = new Personaje(new CoordenadaLogica(1,1),"Subzero",renderer, parser);
+        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),"Subzero",renderer, (string) this->parser->sprites_map["personaje1"]);
         this->personajeJuego = personaje;
         
         // fin de las Parseriguraciones
@@ -151,9 +147,9 @@ public:
         cargar_configuracion(this->parser);
 		
         //Izquierda
-        barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
+        barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
        //Derecha
-        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+        barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
 		//~ personajeJuego2 = new PersonajeMock(parser->personaje_mirar_derecha, parser->escenario_ancho);
 
@@ -219,21 +215,15 @@ public:
     void reiniciarJuego(){
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
-        cargar_configuracion(this->parser);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(1,1),"Subzero",renderer, parser);
-        cargar_capas();
-        ventana->cambiarTamano(parser->ventana_anchopx, parser->ventana_altopx);
-		barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
-        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+		configurar();
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_juego(){
-        //~ delete this->escenario;
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
+        delete this->parser;
         delete this->director; // o sólo cambiar cosas?
-        //~ delete this->personajeJuego;
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -265,7 +255,7 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
-            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
+            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conversor);
 
             /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
@@ -278,8 +268,8 @@ void DibujarTodo(){
 
             if (i==parser->personaje_zindex){
                 this->personajeJuego->Dibujarse(
-                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (posicionPJ_Piso+(parser->personaje_ancho))*(parser->ventana_altopx/parser->escenario_alto), 
+                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
+                    (parser->escenario_ypiso+(parser->personaje_ancho))*(parser->ventana_altopx/parser->escenario_alto), 
                     (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
                     (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
             }
@@ -288,8 +278,8 @@ void DibujarTodo(){
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
             // Si no hay capas;
             this->personajeJuego->Dibujarse(
-                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (posicionPJ_Piso+(parser->personaje_ancho))*(parser->ventana_altopx/parser->escenario_alto), 
+                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
+                    (parser->escenario_ypiso+(parser->personaje_ancho))*(parser->ventana_altopx/parser->escenario_alto), 
                     (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
                     (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
         }
@@ -301,8 +291,8 @@ void DibujarTodo(){
         printf("Donde dibujo el personaje %f \n", (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho);
 */
 
-        barraDeVida1.Dibujarse();
-        barraDeVida2.Dibujarse();
+        barraDeVida1->Dibujarse();
+        barraDeVida2->Dibujarse();
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
         if (pausa){
@@ -360,7 +350,7 @@ void DibujarTodo(){
             //yDir = 0;
             nada = true;
         }
-		if (nada) seMuevePersonaje(jugador1, Nada);
+		if (nada) this->director->seMuevePersonaje(jugador1, Nada);
     
     } else {
         //-----------------------------------------
@@ -400,20 +390,20 @@ void DibujarTodo(){
                     else this->director->despausar();
                 }
                 if(evento->key.keysym.sym == SDLK_a && !pausa)  {
-                    barraDeVida1.Aliviar(20);
-                    barraDeVida2.Aliviar(20);
+                    barraDeVida1->Aliviar(20);
+                    barraDeVida2->Aliviar(20);
                 }
                 if(evento->key.keysym.sym == SDLK_c && !pausa)  {
                     if (cansandoPJ == false){
-                        barraDeVida1.Cansar(50);
-                        barraDeVida2.Cansar(50);
+                        barraDeVida1->Cansar(50);
+                        barraDeVida2->Cansar(50);
                         cansandoPJ = true;
                     }
                 }
                 if((evento->key.keysym.sym == SDLK_d && !pausa))  {
                     if (golpeandoPJ == false){
-                        barraDeVida1.Lastimar(90);
-                        barraDeVida2.Lastimar(750);
+                        barraDeVida1->Lastimar(90);
+                        barraDeVida2->Lastimar(750);
                         golpeandoPJ = true;
                     }
                     break;

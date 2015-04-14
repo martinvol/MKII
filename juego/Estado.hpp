@@ -22,12 +22,12 @@ class Estado{
 		
 		//Parser* parser;
 
-		Estado(string ruta, SDL_Renderer* ren, Parser* parser){
-			this->quieto = new Quieto(ruta, ren,parser);
-			this->saltar = new Saltar(ruta, ren,parser);
-			this->saltardiagonal = new SaltarDiagonal(ruta, ren,parser);
-			this->caminarizq = new CaminarIzquierda(ruta, ren,parser);
-			this->caminarder = new CaminarDerecha(ruta, ren,parser);
+		Estado(string ruta, SDL_Renderer* ren){
+			this->quieto = new Quieto(ruta, ren);
+			this->saltar = new Saltar(ruta, ren);
+			this->saltardiagonal = new SaltarDiagonal(ruta, ren);
+			this->caminarizq = new CaminarIzquierda(ruta, ren);
+			this->caminarder = new CaminarDerecha(ruta, ren);
 		};
 		~Estado(){
 			delete this->quieto;

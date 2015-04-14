@@ -29,6 +29,7 @@ using namespace std;
 /***********************************************************************
  * 
  * 							CONSTRUCTOR
+ * 						   Y DESTRUCTOR
  *
  **********************************************************************/  
 
@@ -41,10 +42,9 @@ using namespace std;
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, Parser* parser){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, string ruta){
 
-	this->parser = parser;
-	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
+	this->estado = new Estado(ruta, ren);
 	this->coordenada = coord;
 	this->accionActual = this->estado->quieto;
 	this->imagenActual = NULL;
@@ -54,13 +54,17 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, P
 
 }
 
+Personaje::~Personaje(){
+	delete this->coordenada;
+	delete this->estado;	// Esto elimina la acción y sus imágenes.
+}
+
 /***********************************************************************
  * 
  * 					FUNCIONES PARA EL DIRECTOR
  *
  **********************************************************************/  
 
-/* FALTAN PARA INTERACCION CON EL DIRECTOR */
 void Personaje::mirarParaDerecha(){
 
 }
@@ -238,12 +242,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	return;// this->imagenActual;
 	
 }
-Personaje::~Personaje(){
-	
-	delete this->estado;
-	//~ delete this->accionActual;
-	
-}
+
 /**
  * 
  */ 

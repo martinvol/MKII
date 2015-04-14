@@ -28,7 +28,8 @@ class Accion{
 		Parser* parser;
 		Logger* logger;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren, Parser* parser); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
+		~Accion();
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
@@ -48,17 +49,17 @@ class Accion{
 		virtual bool permite(int nuevaAccion){return true;};
 
 		//SDL_Texture* getImagenNro(int numeroDeSprite);
-		~Accion();
 		void resetear(){
 			this->modoActual = 0;
 			this->lastTime = 0;
 		}
 	
 };
+
 #define TEMPO 30
 class Quieto:public Accion{
 	public:
-		Quieto(string ruta, SDL_Renderer* ren,Parser* parser):Accion(0,ruta,ren,parser){};
+		Quieto(string ruta, SDL_Renderer* ren):Accion(0,ruta,ren){};
 		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
 			unsigned int tiempoTranscurrido = tmp - lastTime;
@@ -76,7 +77,7 @@ class Quieto:public Accion{
 
 class CaminarDerecha: public Accion{
 	public:
-		CaminarDerecha(string ruta, SDL_Renderer* ren, Parser* parser):Accion(1,ruta,ren, parser){};
+		CaminarDerecha(string ruta, SDL_Renderer* ren):Accion(1,ruta,ren){};
 		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
 			unsigned int tiempoTranscurrido = tmp - lastTime;
@@ -91,9 +92,10 @@ class CaminarDerecha: public Accion{
 			return true;
 		};
 };
+
 class CaminarIzquierda: public Accion{
 	public:
-		CaminarIzquierda(string ruta, SDL_Renderer* ren, Parser* parser):Accion(2,ruta,ren, parser){};
+		CaminarIzquierda(string ruta, SDL_Renderer* ren):Accion(2,ruta,ren){};
 		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
 			unsigned int tiempoTranscurrido = tmp - lastTime;
@@ -108,10 +110,11 @@ class CaminarIzquierda: public Accion{
 			return true;
 		};
 };
+
 #define TEMPOSALTO 150
 class Saltar:public Accion{
 	public:
-		Saltar(string ruta, SDL_Renderer* ren, Parser* parser):Accion(3,ruta,ren, parser){};
+		Saltar(string ruta, SDL_Renderer* ren):Accion(3,ruta,ren){};
 		void execute(float tmp){
 			unsigned int currentTime = SDL_GetTicks();
 			unsigned int tiempoTranscurrido = tmp - lastTime;
@@ -134,9 +137,10 @@ class Saltar:public Accion{
 			return false;
 		};
 };
+
 class SaltarDiagonal: public Accion{
 	public:
-		SaltarDiagonal(string ruta, SDL_Renderer* ren, Parser* parser):Accion(4,ruta,ren, parser){};	
+		SaltarDiagonal(string ruta, SDL_Renderer* ren):Accion(4,ruta,ren){};
 		void execute(float tmp){
 			cout<<"imprimir salto diagonal"<<endl;
 			unsigned int currentTime = SDL_GetTicks();

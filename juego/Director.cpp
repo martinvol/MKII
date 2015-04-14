@@ -175,3 +175,11 @@ void Director::verificar_orientaciones(){
 	delete coord2;
 }
 
+/* FALTA VER SI SE DEBE AVISAR AL PERSONAJE: */
+void Director::pausar(){
+	
+}
+
+void Director::despausar(){
+	
+}

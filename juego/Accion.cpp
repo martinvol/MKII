@@ -124,9 +124,9 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, Parser* parser){
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
+	
 	this->lastTime = 0;
-	this->parser = parser;
 	this->logger =  Logger::instance();
 	//cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
 	setAccionNro(nroAccion);
@@ -134,8 +134,8 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, Parser* parser){
 	setRenderer(ren);
 	setCantModos();
 	setImagenes();
-	setModoActual(0);	
-	
+	setModoActual(0);
+
 }
 
 /***********************************************************************

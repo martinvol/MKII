@@ -11,16 +11,16 @@ enum lugarEnVentana {bordeIzq, medio, bordeDer};
 
 class Ventana {
 
-	public:
-		
-		SDL_Window * window = NULL;
+	private:
 		
 		// Anchos físicos que identifican el final del borde izquierdo
 		// y el inicio del borde derecho.
 		int borde_izq, borde_der;
 		int ancho_fisico;
 		
-		
+	public:	
+		SDL_Window * window = NULL;
+	
 		// Margen identifica cuánto porcentaje de la ventana no es borde.		
 		Ventana(char* titulo, int ancho_fisico, int alto_fisico, float margen);
 		~Ventana();

@@ -14,6 +14,8 @@
 using namespace std;
 
 class Personaje {
+	
+	private:
 		/* Coordenada Logica de la esquina izquierda inferior. */	
 		CoordenadaLogica* coordenada;
 		/* En unidades logicas. */
@@ -31,7 +33,7 @@ class Personaje {
 		
 	public:
 		
-		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, Parser* parser);
+		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, string ruta);
 		~Personaje();
 		void definir_imagen(float tmp, int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
@@ -44,9 +46,8 @@ class Personaje {
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
-		//MILE: A agregar:
-
-		CoordenadaLogica* obtenerCoordenada();
+		//MILE: A agregar para DANI:
+		
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
@@ -61,11 +62,6 @@ class Personaje {
 		void saltarDerecha();
 		void saltarIzquierda();
 		
-		// COMENTARIO: No sé qué coordenadas voy a usar de estas y no sé
-		// cuáles te convienen a vos. Esto se puede negociar.
-		// De todas formas sabiendo una y el ancho y el alto lógicos
-		// del personaje podrías calcularme todas y no me parece mal que
-		// guardes tu ancho y alto lógico.
 		/* Devuelven coordenadas que deben ser liberadas para no perder
 		 * memoria. */
 		CoordenadaLogica* obtenerCoordenadaIzqSup();
