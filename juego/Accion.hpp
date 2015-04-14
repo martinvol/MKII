@@ -41,6 +41,7 @@ class Accion{
 		
 		void setInvertirSecuencia(){
 			this->secuenciaInversa = true;
+			this->setModoActual(this->cantModos-1);
 		};
 	
 		SDL_Texture* getImagenActual();
@@ -138,27 +139,26 @@ class SaltarDiagonal: public Accion{
 			if (esUltimoModo()){
 				///puts("entre aca");
 				setModoActual(1);	
-			}
-			else{
+			}else{
 				setModoActual(this->modoActual+1);
 			}
-			
+		};
+		void cambiarModoInversamente(){
+			if (this->modoActual==1){
+				setModoActual(this->cantModos-1);	
+			}
+			else{
+				setModoActual(this->modoActual-1);
+			}
+		
 		};
 		void execute(float tmp){
-			//~ cout<<"imprimir salto diagonal"<<endl;
-			//~ unsigned int currentTime = SDL_GetTicks();
-			//~ unsigned int tiempoTranscurrido = tmp - lastTime;
-			//~ if (Accion::getModoActual()==1){
-				//~ if (tiempoTranscurrido>TEMPOSALTO){
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPOSALTO;
-				//~ }
-			//~ }
-			//~ if (tiempoTranscurrido > 10){
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + 10;
-			//~ }
-			SaltarDiagonal::cambiarModo();
+			if(secuenciaInversa){
+				SaltarDiagonal::cambiarModoInversamente();
+			}
+			else{
+				SaltarDiagonal::cambiarModo();
+			}
 		};
 		bool permite(int nuevaAccion){
 			return false;
