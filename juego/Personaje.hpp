@@ -26,6 +26,7 @@ class Personaje {
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		Accion* accionActual;
 		Estado* estado;
+		bool ladoDerecha;
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;

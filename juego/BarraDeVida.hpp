@@ -44,7 +44,4 @@ public:
 
 };
 
-
-
-
 #endif // BARRASDEVIDA_H_INCLUDED

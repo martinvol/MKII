@@ -42,10 +42,12 @@ using namespace std;
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
 
+<<<<<<< HEAD
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, string ruta){
 
 	this->estado = new Estado(ruta, ren);
 	this->coordenada = coord;
+	//~ this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->accionActual = this->estado->quieto;
 	this->imagenActual = NULL;
 	this->lastTime = 0;
@@ -205,10 +207,12 @@ void Personaje::cambiarAccionA(int nroAccion){
  */ 
  void Personaje::definir_imagen(float tmp, int nuevaAccion){
 	
-	puts("----------------------------------------------------------------------------------");	
+	/*puts("----------------------------------------------------------------------------------");	
 	cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
 	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
-	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
+	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;*/
+	if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
+	if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
 	
 	if (this->accionActual == NULL){
 		this->accionActual = estado->quieto;	//Accion default;
@@ -216,20 +220,24 @@ void Personaje::cambiarAccionA(int nroAccion){
 		return;// this->imagenActual;
 	}else if (this->accionActual->esDistintaA(nuevaAccion)){
 		
-		if (this->accionActual->permite(nuevaAccion)){
-			puts("Cambie de accion porque lo permitia");
-			cambiarAccionA(nuevaAccion);
-			//this->accionActual->execute();
-			this->imagenActual = this->accionActual->getImagenActual();
-			return;// this->imagenActual;
-		}
-		if(this->accionActual->esUltimoModo()){
-			puts("Llego al ultimo estado");
-			cambiarAccionA(nuevaAccion);
-			//this->accionActual->execute();
-			this->imagenActual = this->accionActual->getImagenActual();
-			return;// this->imagenActual;
-		}
+		//~ if (this->accionActual->permite(nuevaAccion)){
+			//~ puts("Cambie de accion porque lo permitia");
+			//~ cambiarAccionA(nuevaAccion);
+			//~ //this->accionActual->execute();
+			//~ this->imagenActual = this->accionActual->getImagenActual();
+			//~ return;// this->imagenActual;
+		//~ }
+		//~ if(this->accionActual->esUltimoModo()){
+			//~ puts("Llego al ultimo estado");
+			//~ cambiarAccionA(nuevaAccion);
+			//~ //this->accionActual->execute();
+			//~ this->imagenActual = this->accionActual->getImagenActual();
+			//~ return;// this->imagenActual;
+		//~ }
+		cambiarAccionA(nuevaAccion);
+		//this->accionActual->execute();
+		this->imagenActual = this->accionActual->getImagenActual();
+		return;// this->imagenActual;
 		//~ cambiarAccionA(nuevaAccion);
 		//~ this->accionActual->execute();
 		//~ this->imagenActual = this->accionActual->getImagenActual();
@@ -237,7 +245,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	}
 	
 	this->accionActual->execute(tmp);
-	cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
+	//cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
 	return;// this->imagenActual;
 	
@@ -262,7 +270,12 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	destino.y = y;
 	destino.w = ancho;
 	destino.h = alto;
-	SDL_RenderCopy(this->renderer, this->imagenActual, NULL, &destino);
+	if (!this->ladoDerecha){
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
+	}
+	else{
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
+	}
 }
 void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	

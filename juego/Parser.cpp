@@ -78,7 +78,7 @@ void Parser::set_values (char* my_file) {
             escenario_alto = cargarValidar(escenario, DEFAULT_ESCENARIO_ALTO, "alto", "Usando ancho default de " + to_string(DEFAULT_ESCENARIO_ALTO));
 
             if (escenario_alto > (3./4.)*escenario_ancho || escenario_ancho < (1/4)){
-                logger->log_error("El alto del escenario es inválido, se usará el ancho por defaulT, la mitad del ancho");
+                logger->log_error("El alto del escenario es inválido, se usará el ancho por default, la mitad del ancho");
                 escenario_alto = escenario_ancho/2.;
             }
 
@@ -92,9 +92,7 @@ void Parser::set_values (char* my_file) {
                 logger->log_error("El ancho de la ventana es inválido, se usará el ancho por defautl, " + to_string(DEFAULT_VENTANA_ANCHO_FISICO) + "px.");
                 ventana_anchopx = DEFAULT_VENTANA_ANCHO_FISICO;
             }
-
             ventana_altopx = cargarValidar(ventana, DEFAULT_VENTANA_ALTO_FISICO, "altopx", "Usando altopx default de " + to_string(DEFAULT_VENTANA_ALTO_FISICO) + "px");
-            
             if (ventana_altopx > 1000 || ventana_anchopx< 200){
                 logger->log_error("El alto de la ventana es inválido, se usará el alto por defautl, " + to_string(DEFAULT_VENTANA_ALTO_FISICO) + "px.");
                 ventana_altopx = DEFAULT_VENTANA_ALTO_FISICO;
@@ -153,10 +151,17 @@ void Parser::set_values (char* my_file) {
                     nombre_archivo = IMAGEN_DEFAULT;
                 }
 
+
+				float ancho_logico_capa = cargarValidar(capas[index], DEFAULT_CAPA_ANCHO, "anchoLogico","Ancho lógico de capa no encontrado, se toma " + to_string(DEFAULT_CAPA_ANCHO) + " por default");
+
+				if (ancho_logico_capa < ventana_ancho){
+                    logger->log_error("La capa no puede tener un ancho lógico menor al de la ventana, se usa como ancho de esta el ancho de la ventana");
+                    ancho_logico_capa = ventana_ancho;
+                }
+
                 Capa* temp = new Capa(
                     nombre_archivo,
-                    cargarValidar(capas[index], DEFAULT_CAPA_ANCHO, "anchoLogico","Ancho lógico de capa no encontrado, se toma " + to_string(DEFAULT_CAPA_ANCHO) + " por default"),
-                    //capas[index].get("anchoLogico", 0).asFloat(),
+					ancho_logico_capa,
                     DEFAULT_X_LOGICO, 
                     NULL,
                     escenario_ancho, ventana_ancho);

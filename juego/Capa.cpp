@@ -72,12 +72,7 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     // Este metodo va a tratar de dibujar los rectangulos bonitos usando el rect de source
     
 	
-
 	float posi_px = (((this->m)*x + (this->b)));
-
-	//cout <<"posi_px" << posi_px << "\n"; ///
-
-	posi_px = posi_px*(conversor->factor_ancho);
 
     SDL_Rect source_rect;
     int w, h;

@@ -33,23 +33,4 @@ class Capa{
 		SDL_Texture* textura;
 		ConversorDeCoordenadas* conversor;
 };
-
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-//--------------------CONTENEDORES DE COORDENADAS-----------------
-//------------------------Dani despues dice como -----------------
-//--------------------------se transforman------------------------
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-class CoordenadasFisicas{
-public:
-    int x_fisico;
-    int y_fisico;
-};
-//----------------------------------------------------------------
-class CoordenadasLogicas{
-public:
-    double x_logico;
-    double y_logico;
-};
 #endif // CAPA_H_INCLUDED

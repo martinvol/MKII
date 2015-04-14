@@ -228,7 +228,7 @@ void BarraDeVida::ActualizarAnchos(){
     int diferenciaStamina = (staminaVerde.w - anchoDeStaminaEsperado);
 
     //para que se vacie la barra.
-    if (diferenciaStamina <=2){
+    if (diferenciaStamina <=3){
         terminnoDeCansarse = true;
     }
 

@@ -19,8 +19,11 @@ using namespace std;
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
-#define SALTODIAGONAL 4
-#define MOVER_PIXELES parser->ventana_anchopx/parser->personaje_ancho
+#define SALTODIAGONAL_IZQ 4
+#define SALTODIAGONAL_DER 5
+
+#define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
+#define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
 #define FRAMERATE 60
 #define JOYSTICK_DEAD_ZONE 8000
 
@@ -63,7 +66,7 @@ public:
     
     Sint16 presionado=0;
     SDL_Rect r;
-    double t = 1.0;
+    double t = 5.0;
 	float mileTmp;
     bool pausa = false;
     bool cambiarModo = false;
@@ -166,7 +169,7 @@ public:
         for (unsigned int i = 0; i < parser->capas_vector.size(); i++){
             //~ parser->capas_vector[i]->ren = renderer;
 			//~ escenario->AgregarCapa(parser->capas_vector[i]);
-            escenario->AgregarCapa( // esto no deberÃ­a estar asÃ­, tendria que andar la lÃ­nea de arriba, pero estuve luchando y no la hago andar (maxi)
+            escenario->AgregarCapa( // esto no debería estar así, tendria que andar la lí­nea de arriba, pero estuve luchando y no la hago andar (maxi)
                 new Capa (parser->capas_vector[i]->ubicacion,
                 parser->capas_vector[i]->anchoLogico,
                 parser->capas_vector[i]->x_logico,
@@ -197,15 +200,15 @@ public:
         while (!salir){
             timerFps = SDL_GetTicks();
             this->mileTmp = timerFps;
-            Controlador(&evento);       	//Controlador
+            Controlador(&evento);       				//Controlador
 			if (!pausa) this->director->actualizar();	//Modelo
-            DibujarTodo();              	//Vista
+            DibujarTodo();              				//Vista
 
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((1000/FRAMERATE) - timerFps);
+                SDL_Delay((75) - timerFps);
             }
         }
 
@@ -262,7 +265,7 @@ void DibujarTodo(){
                 + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
                 // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
                 , 0, conv);
-                
+
             //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conv);
 */
 
@@ -294,7 +297,7 @@ void DibujarTodo(){
         barraDeVida1->Dibujarse();
         barraDeVida2->Dibujarse();
 
-        // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
+        // CoordenadaFisica* c = conversor->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
         if (pausa){
             SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
@@ -313,7 +316,7 @@ void DibujarTodo(){
 
     void Controlador(SDL_Event *evento){
         SDL_PollEvent( evento );
-        
+
         //Ahora anda este tambien.
         /*if (evento->type == SDL_JOYBUTTONDOWN){
             ;
@@ -430,7 +433,6 @@ void DibujarTodo(){
            }
 	   }
     };
-
 
     //~ void ActualizarModelo(){
       //~ /*Quieto_State,      SaltoDiagonal_State,      SaltoVertical_State,
@@ -594,10 +596,12 @@ void DibujarTodo(){
                 //~ }
             //~ }
     //~ };
+
 };//FIN CLASE JUEGO
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
+    logger->log_debug("-------------------------------------");
     logger->set_debug(true);
     logger->set_warning(true);
     logger->set_error(true);
