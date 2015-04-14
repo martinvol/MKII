@@ -130,8 +130,8 @@ public:
         // Esto tiene que cambiarse cuando se aprieta la letra R
 
         //Pantalla
-        ANCHO_FISICO = conf->ventana_ancho; //800
-        ALTO_FISICO = conf->escenario_alto; //416
+        ANCHO_FISICO = conf->ventana_anchopx; //800
+        ALTO_FISICO = conf->ventana_altopx; //416
         posicionPJ_Piso = conf->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
@@ -642,7 +642,7 @@ enum Estados{
 
             } else if (scrollearDerecha){
                  if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
-                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx -conf->ventana_anchopx*(100-conf->margen)/200))
+                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
                     //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
