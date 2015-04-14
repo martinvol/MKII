@@ -659,11 +659,11 @@ enum Estados{
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
-    logger->log_debug("-------------------------------------");
     logger->set_debug(true);
     logger->set_warning(true);
     logger->set_error(true);
 
+    logger->log_debug("-------------------------------------");
     logger->log_debug("Empieza el juego");
 
     Juego juego(argc, argv);
