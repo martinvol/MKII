@@ -111,7 +111,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	
 	//~ puts("----------------------------------------------------------------------------------");	
 	//~ cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
-	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
+	//~ cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
 	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
 	//~ if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
 	//~ else if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}

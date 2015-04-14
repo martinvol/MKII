@@ -16,7 +16,6 @@ class Estado{
 	
 		Quieto* quieto;
 		CaminarDerecha* caminarder;
-		CaminarIzquierda* caminarizq;
 		Saltar* saltar;
 		SaltarDiagonal* saltardiagonal;
 		
@@ -26,13 +25,11 @@ class Estado{
 			this->quieto = new Quieto(ruta, ren,parser);
 			this->saltar = new Saltar(ruta, ren,parser);
 			this->saltardiagonal = new SaltarDiagonal(ruta, ren,parser);
-			this->caminarizq = new CaminarIzquierda(ruta, ren,parser);
 			this->caminarder = new CaminarDerecha(ruta, ren,parser);
 		};
 		~Estado(){
 			delete this->quieto;
 			delete this->caminarder;
-			delete this->caminarizq;
 			delete this->saltar;
 			delete this->saltardiagonal;
 		}
