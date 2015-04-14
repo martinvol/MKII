@@ -21,11 +21,12 @@ using namespace std;
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
-#define FRAMERATE 60
+#define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
 Logger *logger = Logger::instance();
 
+    
 //----------------------------------------------------------------
 
 int InicializarSDL() {
@@ -216,7 +217,9 @@ public:
 
         SDL_Event evento;
         while (!salir){
+
             timerFps = SDL_GetTicks();
+            
             this->mileTmp = timerFps;
             Controlador(&evento);       //Controlador
             if (!pausa){
@@ -226,9 +229,10 @@ public:
 
             SDL_FlushEvent(SDL_KEYDOWN);
 
+
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((75) - timerFps);
+                SDL_Delay(timerFps);
             }
         }
 
@@ -516,7 +520,7 @@ enum Estados{
                     if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 1.5*MOVER_PIXELES;
 
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
-                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
+                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200)))
                         borde_izquierdo_logico_pantalla += 1.5*MOVER_PIXELES;
                 }
 
@@ -659,11 +663,11 @@ enum Estados{
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
-    logger->log_debug("-------------------------------------");
     logger->set_debug(true);
     logger->set_warning(true);
     logger->set_error(true);
 
+    logger->log_debug("-------------------------------------");
     logger->log_debug("Empieza el juego");
 
     Juego juego(argc, argv);
