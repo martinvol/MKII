@@ -19,16 +19,17 @@ using namespace std;
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
-#define SALTODIAGONAL_IZQ 4
-#define SALTODIAGONAL_DER 5
+#define SALTODIAGONAL_IZQ 5
+#define SALTODIAGONAL_DER 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
-#define FRAMERATE 60
+#define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
 Logger *logger = Logger::instance();
 
+    
 //----------------------------------------------------------------
 
 int InicializarSDL() {
@@ -198,7 +199,9 @@ public:
 
         SDL_Event evento;
         while (!salir){
+
             timerFps = SDL_GetTicks();
+            
             this->mileTmp = timerFps;
             Controlador(&evento);       				//Controlador
 			if (!pausa) this->director->actualizar();	//Modelo
@@ -206,9 +209,10 @@ public:
 
             SDL_FlushEvent(SDL_KEYDOWN);
 
+
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((75) - timerFps);
+                SDL_Delay(timerFps);
             }
         }
 
@@ -601,11 +605,11 @@ void DibujarTodo(){
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
-    logger->log_debug("-------------------------------------");
     logger->set_debug(true);
     logger->set_warning(true);
     logger->set_error(true);
 
+    logger->log_debug("-------------------------------------");
     logger->log_debug("Empieza el juego");
 
     Juego juego(argc, argv);

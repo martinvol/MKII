@@ -27,6 +27,7 @@ class Accion{
 		int lastTime;
 		Parser* parser;
 		Logger* logger;
+		bool secuenciaInversa;
 
 		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
 		~Accion();
@@ -37,6 +38,10 @@ class Accion{
 		void setImagenes();
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
+		
+		void setInvertirSecuencia(){
+			this->secuenciaInversa = true;
+		};
 	
 		SDL_Texture* getImagenActual();
 		int getModoActual();
@@ -53,8 +58,9 @@ class Accion{
 		virtual void resetear(){
 			this->modoActual = 0;
 			this->lastTime = 0;
+			this->secuenciaInversa = false;
 		}
-	
+		void cambiarModoInversamente();
 };
 
 #define TEMPO 30
@@ -62,16 +68,9 @@ class Quieto:public Accion{
 	public:
 		Quieto(string ruta, SDL_Renderer* ren):Accion(0,ruta,ren){};
 		void execute(float tmp){
-			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = tmp - lastTime;
+					
+			Accion::cambiarModo();
 			
-			//~ if (tiempoTranscurrido > TEMPO){
-					//~ 
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPO;
-			//~ }			
-		Accion::cambiarModo();
-		lastTime = lastTime + TEMPO;
 		};
 		bool permite(int nuevaAccion){
 			return true;
@@ -81,43 +80,35 @@ class Quieto:public Accion{
 class CaminarDerecha: public Accion{
 	public:
 		CaminarDerecha(string ruta, SDL_Renderer* ren):Accion(1,ruta,ren){};
+		void cambiarModoInversamente(){
+			if (this->modoActual==0){
+				setModoActual(this->cantModos-1);	
+			}
+			else{
+				setModoActual(this->modoActual-1);
+			}
+		};
 		void execute(float tmp){
-			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = tmp - lastTime;
-			
-			//~ if (tiempoTranscurrido > TEMPO){
-					//~ 
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPO;
-			//~ }			
-		Accion::cambiarModo();
-		lastTime = lastTime + TEMPO;
+			if(secuenciaInversa){
+				CaminarDerecha::cambiarModoInversamente();
+			}
+			else{
+				Accion::cambiarModo();
+			}
 		};
-		bool permite(int nuevaAccion){
-			return true;
-		};
+		
+		
 };
 
 class CaminarIzquierda: public Accion{
 	public:
 		CaminarIzquierda(string ruta, SDL_Renderer* ren):Accion(2,ruta,ren){};
 		void execute(float tmp){
-			//~ unsigned int currentTime = SDL_GetTicks();
-			//~ unsigned int tiempoTranscurrido = tmp - lastTime;
 			
 			Accion::cambiarModo();
-			lastTime = lastTime + TEMPO;
 		
+		};
 		
-			//~ if (tiempoTranscurrido > TEMPO){
-					//~ 
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPO;
-			//~ }			
-		};
-		bool permite(int nuevaAccion){
-			return true;
-		};
 };
 
 #define TEMPOSALTO 150
@@ -131,7 +122,6 @@ class Saltar:public Accion{
 			this->lastTime = 0;
 			this->contadorDeLoops=0;
 			this->contador = 0;
-			//~ puts("resetear");
 		};
 		void cambiarModo(){
 			
@@ -145,24 +135,6 @@ class Saltar:public Accion{
 			
 		};
 		void execute(float tmp){
-			//~ unsigned int currentTime = SDL_GetTicks();
-			//~ unsigned int tiempoTranscurrido = tmp - lastTime;
-			//~ cout<<"imprimir saltom, modo actual: "<<Accion::getModoActual()<<endl;
-			//~ if (Accion::getModoActual()==1){
-				//~ if (tiempoTranscurrido>TEMPOSALTO){
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPOSALTO;
-				//~ }
-			//~ }
-			//~ else{
-				//~ if (tiempoTranscurrido > 50){		
-						//~ Accion::cambiarModo();
-						//~ lastTime = lastTime + TEMPO;
-				//~ }	
-			//~ }		
-			//~ puts("hola");
-			contador++;
-			//~ cout<<"contador"<<contador<<endl;
 			if (this->getModoActual()==1){
 				if(contadorDeLoops<21){
 					contadorDeLoops+=1;
@@ -170,10 +142,6 @@ class Saltar:public Accion{
 				}
 			}
 			Saltar::cambiarModo();
-		};
-		bool permite(int nuevaAccion){
-			//~ cout<<"no permite"<<endl;
-			return false;
 		};
 };
 
