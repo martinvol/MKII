@@ -44,6 +44,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
 
 	this->parser = parser;
 	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
+	this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->posicion_x = posicion_x;
 	this->posicion_y = posicion_y;
 	this->accionActual = this->estado->quieto;
@@ -96,6 +97,8 @@ void Personaje::cambiarAccionA(int nroAccion){
 	cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
 	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
 	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;*/
+	if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
+	if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
 	
 	if (this->accionActual == NULL){
 		this->accionActual = estado->quieto;	//Accion default;
@@ -158,7 +161,12 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	destino.y = y;
 	destino.w = ancho;
 	destino.h = alto;
-	SDL_RenderCopy(this->renderer, this->imagenActual, NULL, &destino);
+	if (!this->ladoDerecha){
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
+	}
+	else{
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
+	}
 }
 
 //~ 

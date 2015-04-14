@@ -128,7 +128,7 @@ class Saltar:public Accion{
 			this->lastTime = 0;
 			this->contadorDeLoops=0;
 			this->contador = 0;
-			puts("resetear");
+			//~ puts("resetear");
 		};
 		void cambiarModo(){
 			
@@ -160,7 +160,7 @@ class Saltar:public Accion{
 			//~ }		
 			//~ puts("hola");
 			contador++;
-			cout<<"contador"<<contador<<endl;
+			//~ cout<<"contador"<<contador<<endl;
 			if (this->getModoActual()==1){
 				if(contadorDeLoops<21){
 					contadorDeLoops+=1;
