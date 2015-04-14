@@ -4,6 +4,14 @@
 #include <SDL2/SDL_image.h>
 using namespace std;
 
+BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
+	this->Inicializar(x_inicial, x_final, altoPantalla, rendererParam, izquierdaParam);
+}
+
+BarraDeVida::~BarraDeVida(){
+	
+}
+
 void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
     this->izquierda = izquierdaParam;
     this->muerto = false;
@@ -42,7 +50,7 @@ void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_
     this->borde.x = x_ini-1;
     this->borde.y = y_ini-1;
     this->borde.w = this->vida.w+2;
-    this->borde.h = this->vida.h +2;
+    this->borde.h = this->vida.h+2;
 
     this->vacio.x = x_ini;
     this->vacio.y = y_ini;

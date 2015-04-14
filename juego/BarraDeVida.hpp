@@ -33,6 +33,8 @@ private:
     SDL_Rect staminaVerde, staminaRoja;
 
 public:
+	BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
+	~BarraDeVida();
     void Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
     void Dibujarse();
     void Lastimar(int porcentaje);

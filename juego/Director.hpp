@@ -22,7 +22,7 @@ enum movimiento {Nada, Derecha, Izquierda, Arriba, ArribaDerecha, ArribaIzquierd
 
 class Director {
 		
-    public:
+    private:
 		//~ vector<Personaje*> personajes;
 		vector<Jugador*> jugadores;
 		Escenario* escenario;
@@ -32,7 +32,7 @@ class Director {
 		movimiento mov1 = Nada;
 		movimiento mov2 = Nada;
 		
-		// NO PUEDEN USARSE:
+	
 		void analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar);
 		void informar_acciones();
 		void informar_accion(movimiento mov, Jugador* jugador);
@@ -43,12 +43,15 @@ class Director {
 		void scrollearDerecha();
 		void scrollearIzquierda();
 		
-		// PUEDEN USARSE:
-		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2); // Recibe el conversor, la ventana, los personajes y los jugadores?
+	public:
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2);
 		~Director();
 		
-		/* Sólo va a recibir Derecha, Izquierda o Arriba. */
+		/* Sólo va a recibir Derecha, Izquierda, Arriba o Nada. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
+		
+		void pausar();
+		void despausar();
 		
 		/* Si un personaje se mueve, debe validar:
 		 * que si se va de margen, scrollee la ventana.
