@@ -16,23 +16,18 @@ class Estado{
 	
 		Quieto* quieto;
 		CaminarDerecha* caminarder;
-		CaminarIzquierda* caminarizq;
 		Saltar* saltar;
 		SaltarDiagonal* saltardiagonal;
-		
-		//Parser* parser;
 
 		Estado(string ruta, SDL_Renderer* ren){
 			this->quieto = new Quieto(ruta, ren);
 			this->saltar = new Saltar(ruta, ren);
 			this->saltardiagonal = new SaltarDiagonal(ruta, ren);
-			this->caminarizq = new CaminarIzquierda(ruta, ren);
 			this->caminarder = new CaminarDerecha(ruta, ren);
 		};
 		~Estado(){
 			delete this->quieto;
 			delete this->caminarder;
-			delete this->caminarizq;
 			delete this->saltar;
 			delete this->saltardiagonal;
 		}

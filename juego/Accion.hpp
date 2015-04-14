@@ -96,19 +96,6 @@ class CaminarDerecha: public Accion{
 				Accion::cambiarModo();
 			}
 		};
-		
-		
-};
-
-class CaminarIzquierda: public Accion{
-	public:
-		CaminarIzquierda(string ruta, SDL_Renderer* ren):Accion(2,ruta,ren){};
-		void execute(float tmp){
-			
-			Accion::cambiarModo();
-		
-		};
-		
 };
 
 #define TEMPOSALTO 150
