@@ -16,8 +16,8 @@ using namespace std;
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
-#define SALTODIAGONAL_IZQ 4
-#define SALTODIAGONAL_DER 5
+#define SALTODIAGONAL_IZQ 5
+#define SALTODIAGONAL_DER 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)

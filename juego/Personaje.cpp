@@ -98,7 +98,9 @@ void Personaje::cambiarAccionA(int nroAccion){
 	cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
 	cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;*/
 	if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
-	if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
+	else if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
+	if(nuevaAccion == 5){nuevaAccion=4;}
+	
 	
 	if (this->accionActual == NULL){
 		this->accionActual = estado->quieto;	//Accion default;
