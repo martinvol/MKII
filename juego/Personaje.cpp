@@ -13,18 +13,12 @@ using namespace std;
  * 							CONSTANTES
  *
  **********************************************************************/  
-
-
-/***********************************************************************
- * 
- * 							AUXILIAR
- *
- **********************************************************************/  
-
-//~ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
-	//~ os << msg << " : " << num << std::endl;
-//~ }
-
+#define QUIETO 0
+#define CAMINAR_DERECHA 1
+#define CAMINAR_IZQUIERDA 2
+#define SALTAR 3
+#define SALTODIAGONAL_DER 4
+#define SALTODIAGONAL_IZQ 5
 
 /***********************************************************************
  * 
@@ -43,14 +37,17 @@ using namespace std;
 Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser){
 
 	this->parser = parser;
+	//~ this->parser->personaje_mirar_derecha = false;
 	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
-	this->ladoDerecha = true;//this->parser->personaje_mirar_derecha;
+	this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->nroAccionActual = 0;
+	
 	this->posicion_x = posicion_x;
 	this->posicion_y = posicion_y;
+	
 	this->accionActual = this->estado->quieto;
+	
 	this->imagenActual = NULL;
-	this->lastTime = 0;
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
@@ -74,56 +71,37 @@ void Personaje::cambiarAccionA(int nroAccion){
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
 	
-	if (nroAccion == 0){ 
+	if (nroAccion == QUIETO){ 
 			this->accionActual = this->estado->quieto;
-	}if (nroAccion == 1){
+	}if (nroAccion == CAMINAR_DERECHA){
 			this->accionActual = this->estado->caminarder;
 			if (!this->parser->personaje_mirar_derecha){
 				//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
-				this->ladoDerecha = false;
-				
-				return;
 			}
-			if (!this->parser->personaje_mirar_derecha){
-					//nada
-			}
-	}if (nroAccion == 2){
+	}if (nroAccion == CAMINAR_IZQUIERDA){
 			this->accionActual = this->estado->caminarder;
 			if(this->parser->personaje_mirar_derecha){
-				this->ladoDerecha = true;
 				this->accionActual->setInvertirSecuencia();
-				return;
 			}
-			if(!this->parser->personaje_mirar_derecha){
-					//espeja
-					this->ladoDerecha = false;
-					return;
-			}
-	}if (nroAccion == 3){
+	}if (nroAccion == SALTAR){
 			this->accionActual = this->estado->saltar;
-	}if (nroAccion == 4){
+	}if (nroAccion == SALTODIAGONAL_DER){
 			this->accionActual = this->estado->saltardiagonal;
 			if(!this->parser->personaje_mirar_derecha){
 					//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
-				this->ladoDerecha = false;
-				return;
 			}
-	}if (nroAccion == 5){
+	}if (nroAccion == SALTODIAGONAL_IZQ){
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->parser->personaje_mirar_derecha){
 				this->accionActual->setInvertirSecuencia();
-				this->ladoDerecha = true;
-				return;	
-			}
-			if(!this->parser->personaje_mirar_derecha){
-					//espeja
-					this->ladoDerecha = false;
-					return;
 			}
 	}
-	this->ladoDerecha = true;
+	//Se pasaron los casos de sprites especiales
+	if(!this->parser->personaje_mirar_derecha){
+		this->ladoDerecha = false;
+	}
 	
 	
 
@@ -138,19 +116,17 @@ void Personaje::cambiarAccionA(int nroAccion){
 	
 	//~ puts("----------------------------------------------------------------------------------");	
 	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
-	//~ cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
 	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
 	
 	if (this->nroAccionActual != nuevaAccion){
 		cambiarAccionA(nuevaAccion);
 		this->imagenActual = this->accionActual->getImagenActual();
-		return;// this->imagenActual;
+		return;
 	}
 	
 	this->accionActual->execute(tmp);
-	//~ cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
-	return;// this->imagenActual;
+	return;
 	
 }
 Personaje::~Personaje(){
@@ -184,6 +160,18 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
 }
+
+
+/***********************************************************************
+ * 
+ * 							AUXILIAR
+ *
+ **********************************************************************/  
+
+//~ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
+	//~ os << msg << " : " << num << std::endl;
+//~ }
+
 
 //~ 
 //~ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){

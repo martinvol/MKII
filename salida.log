@@ -525,3 +525,135 @@
 [DEBUG [18:08:40 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
 [DEBUG [18:08:40 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
 [DEBUG [18:08:44 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:13:12 14/04/15]] -------------------------------------
+[DEBUG [18:13:12 14/04/15]] Empieza el juego
+[DEBUG [18:13:12 14/04/15]] SDL cargada correctamente
+[DEBUG [18:13:12 14/04/15]] Inicializando parser
+[DEBUG [18:13:12 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:13:12 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:13:12 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:13:12 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:13:12 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:13:12 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:13:12 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:13:19 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:14:28 14/04/15]] -------------------------------------
+[DEBUG [18:14:28 14/04/15]] Empieza el juego
+[DEBUG [18:14:28 14/04/15]] SDL cargada correctamente
+[DEBUG [18:14:28 14/04/15]] Inicializando parser
+[DEBUG [18:14:28 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:14:28 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:14:28 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:14:28 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:14:28 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:14:28 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:14:28 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:14:47 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:16:00 14/04/15]] -------------------------------------
+[DEBUG [18:16:00 14/04/15]] Empieza el juego
+[DEBUG [18:16:00 14/04/15]] SDL cargada correctamente
+[DEBUG [18:16:00 14/04/15]] Inicializando parser
+[DEBUG [18:16:00 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:16:00 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:16:00 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:16:00 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:16:00 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:16:00 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:16:01 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:16:16 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:16:33 14/04/15]] -------------------------------------
+[DEBUG [18:16:33 14/04/15]] Empieza el juego
+[DEBUG [18:16:34 14/04/15]] SDL cargada correctamente
+[DEBUG [18:16:34 14/04/15]] Inicializando parser
+[DEBUG [18:16:34 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:16:34 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:16:34 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:16:34 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:16:34 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:16:34 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:16:34 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:16:44 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:17:41 14/04/15]] -------------------------------------
+[DEBUG [18:17:41 14/04/15]] Empieza el juego
+[DEBUG [18:17:41 14/04/15]] SDL cargada correctamente
+[DEBUG [18:17:41 14/04/15]] Inicializando parser
+[DEBUG [18:17:41 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:17:41 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:17:41 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:17:41 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:17:41 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:17:41 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:17:41 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:17:49 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:18:05 14/04/15]] -------------------------------------
+[DEBUG [18:18:05 14/04/15]] Empieza el juego
+[DEBUG [18:18:06 14/04/15]] SDL cargada correctamente
+[DEBUG [18:18:06 14/04/15]] Inicializando parser
+[DEBUG [18:18:06 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:18:06 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:18:06 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:18:06 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:18:06 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:18:06 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:18:06 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:18:14 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:19:00 14/04/15]] -------------------------------------
+[DEBUG [18:19:00 14/04/15]] Empieza el juego
+[DEBUG [18:19:00 14/04/15]] SDL cargada correctamente
+[DEBUG [18:19:00 14/04/15]] Inicializando parser
+[DEBUG [18:19:00 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:19:00 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:19:00 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:19:00 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:19:00 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:19:00 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:19:00 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:19:07 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:19:26 14/04/15]] -------------------------------------
+[DEBUG [18:19:26 14/04/15]] Empieza el juego
+[DEBUG [18:19:27 14/04/15]] SDL cargada correctamente
+[DEBUG [18:19:27 14/04/15]] Inicializando parser
+[DEBUG [18:19:27 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:19:27 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:19:27 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:19:27 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:19:27 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:19:27 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:19:27 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:19:33 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:21:09 14/04/15]] -------------------------------------
+[DEBUG [18:21:09 14/04/15]] Empieza el juego
+[DEBUG [18:21:09 14/04/15]] SDL cargada correctamente
+[DEBUG [18:21:09 14/04/15]] Inicializando parser
+[DEBUG [18:21:09 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:21:09 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:21:09 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:21:09 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:21:09 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:21:09 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:21:10 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:21:13 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:23:44 14/04/15]] -------------------------------------
+[DEBUG [18:23:44 14/04/15]] Empieza el juego
+[DEBUG [18:23:44 14/04/15]] SDL cargada correctamente
+[DEBUG [18:23:44 14/04/15]] Inicializando parser
+[DEBUG [18:23:44 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:23:44 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:23:44 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:23:44 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:23:44 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:23:44 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:23:44 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:23:52 14/04/15]] Cerrando el archivo de log.
+[DEBUG [18:26:29 14/04/15]] -------------------------------------
+[DEBUG [18:26:29 14/04/15]] Empieza el juego
+[DEBUG [18:26:29 14/04/15]] SDL cargada correctamente
+[DEBUG [18:26:29 14/04/15]] Inicializando parser
+[DEBUG [18:26:29 14/04/15]] Intenta cargar configuraciones desde pruebas/integracion.json
+[DEBUG [18:26:29 14/04/15]] Intentando cargar capa 'resources/background/fondo.png'
+[DEBUG [18:26:29 14/04/15]] Intentando cargar capa 'resources/background/p_4b.png'
+[DEBUG [18:26:29 14/04/15]] Intentando cargar capa 'resources/background/p_3.png'
+[DEBUG [18:26:29 14/04/15]] Intentando cargar capa 'resources/background/ScorpionsLair/p_2.png'
+[DEBUG [18:26:29 14/04/15]] Intentando cargar capa 'resources/background/p_1.png'
+[WARNING [18:26:29 14/04/15]] No hay JOYSTICK conectado
+[DEBUG [18:26:35 14/04/15]] Cerrando el archivo de log.

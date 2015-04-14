@@ -15,15 +15,20 @@ using namespace std;
 
 class Personaje {
 		Conf* parser;
+		
 		int posicion_x;
 		int posicion_y;
+		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
+		
 		Accion* accionActual;
 		Estado* estado;
+		
 		bool ladoDerecha;
-		int lastTime;
+
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
+		
 		int nroAccionActual;
 		
 		//void Dibujarse(int x, int y, int alto, int ancho);
@@ -33,13 +38,13 @@ class Personaje {
 		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser);
 		~Personaje();
 		void definir_imagen(float tmp, int accion);
-		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
-		void mirar_al_otro_lado();
+		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
+		//~ void mirar_al_otro_lado();
 		void cambiarAccionA(int nroACcion);
 		void Dibujarse(int x, int y);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
-		int getSpriteActual();
+		//~ int getSpriteActual();
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
