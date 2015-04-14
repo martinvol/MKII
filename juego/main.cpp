@@ -232,7 +232,7 @@ public:
         //~ delete this->escenario;
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
-        delete this->director;
+        delete this->director; // o sólo cambiar cosas?
         //~ delete this->personajeJuego;
     };
 //----------------------------------------------------------------
@@ -399,18 +399,18 @@ void DibujarTodo(){
                     if (pausa) this->director->pausar();
                     else this->director->despausar();
                 }
-                if(evento->key.keysym.sym == SDLK_a)  {
+                if(evento->key.keysym.sym == SDLK_a && !pausa)  {
                     barraDeVida1.Aliviar(20);
                     barraDeVida2.Aliviar(20);
                 }
-                if(evento->key.keysym.sym == SDLK_c)  {
+                if(evento->key.keysym.sym == SDLK_c && !pausa)  {
                     if (cansandoPJ == false){
                         barraDeVida1.Cansar(50);
                         barraDeVida2.Cansar(50);
                         cansandoPJ = true;
                     }
                 }
-                if((evento->key.keysym.sym == SDLK_d))  {
+                if((evento->key.keysym.sym == SDLK_d && !pausa))  {
                     if (golpeandoPJ == false){
                         barraDeVida1.Lastimar(90);
                         barraDeVida2.Lastimar(750);
