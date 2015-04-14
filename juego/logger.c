@@ -2,6 +2,7 @@
 #include <string>
 #include "logger.h"
 #include <iostream>
+#include <fstream>
 #include <time.h>       /* time_t, struct tm, time, localtime, strftime */
 
 using namespace std;
@@ -11,11 +12,18 @@ void tiempo(char* buffer){
 	struct tm * timeinfo;
 	time (&rawtime);
  	timeinfo = localtime (&rawtime);
-	strftime (buffer, 80, "%I:%M%p", timeinfo);
+	strftime (buffer, 80, "%X %d/%m/%y", timeinfo);
 }
 
 Logger::Logger(){
+	archivo = new ofstream("salida.log", ios::app);
 	log_debug("Logger inicializado");
+	//myfile.close();
+}
+
+Logger::~Logger(){
+	log_debug("Cerrando el archivo de log.");
+	archivo->close();
 }
 
 Logger* Logger::instance(){
@@ -29,7 +37,8 @@ void Logger::log_debug(std::string const &message){
 
 	if (debug){
 		printf("\x1b[%dm", 32); // imprime en color verde
-		cout <<"[DEBUG [" << buffer << "]] " << message<<endl;
+		cout <<"[DEBUG [" << buffer << "]] " << message << endl;
+		(*archivo) <<"[DEBUG [" << buffer << "]] " << message << endl << std::flush;
 		printf("\x1b[%dm", 0);  // Vuelve al color estandar
 	}
 }
@@ -38,7 +47,8 @@ void Logger::log_warning(std::string const &message){
     tiempo(buffer);
 	if (warning){
 		printf("\x1b[%dm", 33); // imprime en color amarillo
-		cout<<"[WARNING [" << buffer << "]] " << message<<endl;
+		cout<<"[WARNING [" << buffer << "]] " << message << endl;
+		(*archivo) <<"[WARNING [" << buffer << "]] " << message << endl << std::flush;
 		printf("\x1b[%dm", 0); // Vuelve al color estandar
 	}
 }
@@ -47,7 +57,8 @@ void Logger::log_error(std::string const &message){
     tiempo(buffer);
 	if (error){
 		printf("\x1b[%dm", 31); // imprime en color rojo
-		cout<<"[ERROR [" << buffer << "]] " << message<<endl;
+		cout<<"[ERROR [" << buffer << "]] " << message << endl;
+		(*archivo) <<"[ERROR [" << buffer << "]] " << message << endl << std::flush;
 		printf("\x1b[%dm", 0); // Vuelve al color estandar
 	}
 }
