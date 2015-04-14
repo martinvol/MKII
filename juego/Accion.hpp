@@ -67,16 +67,9 @@ class Quieto:public Accion{
 	public:
 		Quieto(string ruta, SDL_Renderer* ren,Conf* parser):Accion(0,ruta,ren,parser){};
 		void execute(float tmp){
-			unsigned int currentTime = SDL_GetTicks();
-			unsigned int tiempoTranscurrido = tmp - lastTime;
+					
+			Accion::cambiarModo();
 			
-			//~ if (tiempoTranscurrido > TEMPO){
-					//~ 
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPO;
-			//~ }			
-		Accion::cambiarModo();
-		lastTime = lastTime + TEMPO;
 		};
 		bool permite(int nuevaAccion){
 			return true;
@@ -110,22 +103,11 @@ class CaminarIzquierda: public Accion{
 		
 		CaminarIzquierda(string ruta, SDL_Renderer* ren, Conf* parser):Accion(2,ruta,ren, parser){};
 		void execute(float tmp){
-			//~ unsigned int currentTime = SDL_GetTicks();
-			//~ unsigned int tiempoTranscurrido = tmp - lastTime;
 			
 			Accion::cambiarModo();
-			lastTime = lastTime + TEMPO;
 		
+		};
 		
-			//~ if (tiempoTranscurrido > TEMPO){
-					//~ 
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPO;
-			//~ }			
-		};
-		bool permite(int nuevaAccion){
-			return true;
-		};
 };
 #define TEMPOSALTO 150
 class Saltar:public Accion{
@@ -138,7 +120,6 @@ class Saltar:public Accion{
 			this->lastTime = 0;
 			this->contadorDeLoops=0;
 			this->contador = 0;
-			//~ puts("resetear");
 		};
 		void cambiarModo(){
 			
@@ -153,24 +134,6 @@ class Saltar:public Accion{
 		};
 			
 		void execute(float tmp){
-			//~ unsigned int currentTime = SDL_GetTicks();
-			//~ unsigned int tiempoTranscurrido = tmp - lastTime;
-			//~ cout<<"imprimir saltom, modo actual: "<<Accion::getModoActual()<<endl;
-			//~ if (Accion::getModoActual()==1){
-				//~ if (tiempoTranscurrido>TEMPOSALTO){
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPOSALTO;
-				//~ }
-			//~ }
-			//~ else{
-				//~ if (tiempoTranscurrido > 50){		
-						//~ Accion::cambiarModo();
-						//~ lastTime = lastTime + TEMPO;
-				//~ }	
-			//~ }		
-			//~ puts("hola");
-			contador++;
-			//~ cout<<"contador"<<contador<<endl;
 			if (this->getModoActual()==1){
 				if(contadorDeLoops<21){
 					contadorDeLoops+=1;
@@ -178,10 +141,6 @@ class Saltar:public Accion{
 				}
 			}
 			Saltar::cambiarModo();
-		};
-		bool permite(int nuevaAccion){
-			//~ cout<<"no permite"<<endl;
-			return false;
 		};
 };
 class SaltarDiagonal: public Accion{

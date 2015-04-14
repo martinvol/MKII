@@ -24,7 +24,7 @@ class Personaje {
 		int lastTime;
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
-		
+		int nroAccionActual;
 		
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		
