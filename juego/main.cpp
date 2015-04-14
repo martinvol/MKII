@@ -516,7 +516,7 @@ enum Estados{
                     if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 1.5*MOVER_PIXELES;
 
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
-                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_anchopx- conf->ventana_anchopx*(100-conf->margen)/200)))
+                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200)))
                         borde_izquierdo_logico_pantalla += 1.5*MOVER_PIXELES;
                 }
 
