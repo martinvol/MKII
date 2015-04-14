@@ -73,6 +73,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
+	
 	if (nroAccion == 0){ 
 			this->accionActual = this->estado->quieto;
 	}if (nroAccion == 1){
@@ -110,6 +111,10 @@ void Personaje::cambiarAccionA(int nroAccion){
 				this->accionActual->setInvertirSecuencia();
 				this->ladoDerecha = true;
 				return;	
+			}if(!this->parser->personaje_mirar_derecha){
+					//espeja
+					this->ladoDerecha = false;
+					return;
 			}
 	}
 	this->ladoDerecha = true;
@@ -129,12 +134,8 @@ void Personaje::cambiarAccionA(int nroAccion){
 	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
 	//~ cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
 	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-	//~ if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
-	//~ else if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
-	//~ if(nuevaAccion == 5){nuevaAccion=4;}
 	
 	if (this->nroAccionActual != nuevaAccion){
-		//~ puts("entra Aca");
 		cambiarAccionA(nuevaAccion);
 		this->imagenActual = this->accionActual->getImagenActual();
 		return;// this->imagenActual;
@@ -149,7 +150,6 @@ void Personaje::cambiarAccionA(int nroAccion){
 Personaje::~Personaje(){
 	
 	delete this->estado;
-	//~ delete this->accionActual;
 	
 }
 /**
