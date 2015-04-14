@@ -21,11 +21,12 @@ using namespace std;
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
-#define FRAMERATE 60
+#define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
 Logger *logger = Logger::instance();
 
+    
 //----------------------------------------------------------------
 
 int InicializarSDL() {
@@ -216,7 +217,9 @@ public:
 
         SDL_Event evento;
         while (!salir){
+
             timerFps = SDL_GetTicks();
+            
             this->mileTmp = timerFps;
             Controlador(&evento);       //Controlador
             if (!pausa){
@@ -226,9 +229,10 @@ public:
 
             SDL_FlushEvent(SDL_KEYDOWN);
 
+
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < 1000/FRAMERATE){
-                SDL_Delay((75) - timerFps);
+                SDL_Delay(timerFps);
             }
         }
 
