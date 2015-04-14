@@ -16,7 +16,8 @@ using namespace std;
 #define CAMINAR_DERECHA 1
 #define CAMINAR_IZQUIERDA 2
 #define SALTAR 3
-#define SALTODIAGONAL 4
+#define SALTODIAGONAL_IZQ 4
+#define SALTODIAGONAL_DER 5
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
@@ -529,7 +530,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Der_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_DER);
 
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
@@ -539,7 +540,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_IZQ);
 
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -581,13 +582,13 @@ enum Estados{
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_DER);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
 
-                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_IZQ);
                 //Camino --> sigo caminando
                 }else if (Der_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
@@ -616,7 +617,10 @@ enum Estados{
     //SALTANDO_DIAGONAL
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
-                this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL);
+                if (saltoDiagonalDER)
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_DER);
+                else
+                    this->personajeJuego->definir_imagen(this->mileTmp,SALTODIAGONAL_IZQ);
 
                 break;
             default:
