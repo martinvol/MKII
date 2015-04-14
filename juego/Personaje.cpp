@@ -104,14 +104,20 @@ void Personaje::cambiarAccionA(int nroAccion){
 			this->accionActual = this->estado->saltar;
 	}if (nroAccion == 4){
 			this->accionActual = this->estado->saltardiagonal;
+			if(!this->parser->personaje_mirar_derecha){
+					//espejar e invertir las imagenes
+				this->accionActual->setInvertirSecuencia();
+				this->ladoDerecha = false;
+				return;
+			}
 	}if (nroAccion == 5){
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->parser->personaje_mirar_derecha){
-				
 				this->accionActual->setInvertirSecuencia();
 				this->ladoDerecha = true;
 				return;	
-			}if(!this->parser->personaje_mirar_derecha){
+			}
+			if(!this->parser->personaje_mirar_derecha){
 					//espeja
 					this->ladoDerecha = false;
 					return;
