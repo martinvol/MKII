@@ -111,6 +111,10 @@ clean:
 	find . -name "main" -type f -delete
 	rm -f juego_ejecutable testScreen testDraw testFloor testVida testTiempo integracionI
 
+cleanLog:
+	clean
+	rm -f salida.log
+
 commit: clean
 	git add -u
 	git add .
