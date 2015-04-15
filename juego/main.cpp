@@ -488,7 +488,7 @@ enum Estados{
                 alturaMaxima = false;
                 estadoPersonaje1 = Quieto_State;
                 this->personajeJuego->definir_imagen(QUIETO);
-                cout<<"QUIERO IR A QUIETOOOO"<<endl;
+                //~ cout<<"QUIERO IR A QUIETOOOO"<<endl;
                 t = 5.0;
             }else{
             //alturaMaxima

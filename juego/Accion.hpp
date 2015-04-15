@@ -47,14 +47,12 @@ class Accion{
 		SDL_Texture* getImagenActual();
 		int getModoActual();
 	
-		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
 	
 		virtual void execute();
 		virtual bool permite(int nuevaAccion){return true;};
 
-		//SDL_Texture* getImagenNro(int numeroDeSprite);
 		~Accion();
 		virtual void resetear(){
 			this->modoActual = 0;

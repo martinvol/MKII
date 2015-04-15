@@ -22,20 +22,16 @@ using namespace std;
  
 int Accion::cuentaArchivos(string ruta){
 	
-	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
-	/* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
 	struct dirent *ent;
 	
 	dir = opendir (ruta.c_str());
 	Logger* logger = Logger::instance();
-	/* Miramos que no haya error */
+	
 	if (dir == NULL){
 		string ruta = "resources/Default/"+to_string(this->accionNro);
 		logger->log_error("No se puede abrir el directorio del Personaje");
 		dir = opendir (ruta.c_str());
-		//exit(EXIT_FAILURE);
-		return 0;
 	}
 
 	int i = 0;
@@ -161,18 +157,6 @@ Accion::~Accion(){
 	}
 }
 
-/**Devuelve true si el entero pasado por parametro 
- * (que representa una accion determinada)
- * es la misma que el correspondiente a la accion actual.
- * false, en caso contrario
- * */
-bool Accion::esDistintaA(int nroAccion){
-	//cout<<"nroAccionACtual"<<this->accionNro<<"nueva"<<nroAccion<<endl;
-	if (this->accionNro != nroAccion)
-		return true;
-	return false;
-}
-
 /**Devuelve true si se alcanzo el ultimo 
  * modo posible
  * false, en caso contrario.
@@ -193,12 +177,11 @@ bool Accion::esUltimoModo(){
  * */
   	
 void Accion::cambiarModo(){
-	if (esUltimoModo()){
+	if (esUltimoModo())
 		setModoActual(0);	
-	}
-	else{
+	
+	else
 		setModoActual(this->modoActual+1);
-	}
 }
 
 void Accion::execute(){}
