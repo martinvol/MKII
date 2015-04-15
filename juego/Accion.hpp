@@ -26,12 +26,11 @@ class Accion{
 		SDL_Renderer* renderer;
 		vector<SDL_Texture*> imagenes;
 		int modoActual;
-		int lastTime;
-		Conf* parser;
+		
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren, Conf* parser); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
@@ -52,14 +51,13 @@ class Accion{
 		bool esUltimoModo();
 		void cambiarModo();
 	
-		virtual void execute(float tmp);
+		virtual void execute();
 		virtual bool permite(int nuevaAccion){return true;};
 
 		//SDL_Texture* getImagenNro(int numeroDeSprite);
 		~Accion();
 		virtual void resetear(){
 			this->modoActual = 0;
-			this->lastTime = 0;
 			this->secuenciaInversa = false;
 		}
 		void cambiarModoInversamente();
@@ -67,8 +65,8 @@ class Accion{
 #define TEMPO 30
 class Quieto:public Accion{
 	public:
-		Quieto(string ruta, SDL_Renderer* ren,Conf* parser):Accion(0,ruta,ren,parser){};
-		void execute(float tmp){
+		Quieto(string ruta, SDL_Renderer* ren):Accion(0,ruta,ren){};
+		void execute(){
 					
 			Accion::cambiarModo();
 			
@@ -79,7 +77,7 @@ class Quieto:public Accion{
 };
 class CaminarDerecha: public Accion{
 	public:
-		CaminarDerecha(string ruta, SDL_Renderer* ren, Conf* parser):Accion(1,ruta,ren, parser){};
+		CaminarDerecha(string ruta, SDL_Renderer* ren):Accion(1,ruta,ren){};
 		void cambiarModoInversamente(){
 			if (this->modoActual==0){
 				if(this->cantModos>0)
@@ -91,7 +89,7 @@ class CaminarDerecha: public Accion{
 			}
 		
 		};
-		void execute(float tmp){
+		void execute(){
 			if(secuenciaInversa){
 				CaminarDerecha::cambiarModoInversamente();
 			}
@@ -106,7 +104,7 @@ class Saltar:public Accion{
 	public:
 		int contadorDeLoops;
 		int contador;
-		Saltar(string ruta, SDL_Renderer* ren, Conf* parser):Accion(3,ruta,ren, parser){this->contadorDeLoops=0;contador= 0;};
+		Saltar(string ruta, SDL_Renderer* ren):Accion(3,ruta,ren){this->contadorDeLoops=0;contador= 0;};
 		void resetear(){
 			this->modoActual = 0;
 			this->contadorDeLoops=0;
@@ -125,7 +123,7 @@ class Saltar:public Accion{
 			
 		};
 			
-		void execute(float tmp){
+		void execute(){
 			if (this->getModoActual() == 1){
 				if(contadorDeLoops<21){
 					contadorDeLoops+=1;
@@ -137,7 +135,7 @@ class Saltar:public Accion{
 };
 class SaltarDiagonal: public Accion{
 	public:
-		SaltarDiagonal(string ruta, SDL_Renderer* ren, Conf* parser):Accion(4,ruta,ren, parser){};	
+		SaltarDiagonal(string ruta, SDL_Renderer* ren):Accion(4,ruta,ren){};	
 		void cambiarModo(){
 			if (esUltimoModo()){
 				///puts("entre aca");
@@ -159,7 +157,7 @@ class SaltarDiagonal: public Accion{
 				}
 			}
 		};
-		void execute(float tmp){
+		void execute(){
 			if(secuenciaInversa){
 				SaltarDiagonal::cambiarModoInversamente();
 			}

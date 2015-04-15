@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include "Accion.hpp"
-#include "parser.h"
+
 
 class Estado{
 	
@@ -19,13 +19,12 @@ class Estado{
 		Saltar* saltar;
 		SaltarDiagonal* saltardiagonal;
 		
-		//Conf* parser;
 
-		Estado(string ruta, SDL_Renderer* ren, Conf* parser){
-			this->quieto = new Quieto(ruta, ren,parser);
-			this->saltar = new Saltar(ruta, ren,parser);
-			this->saltardiagonal = new SaltarDiagonal(ruta, ren,parser);
-			this->caminarder = new CaminarDerecha(ruta, ren,parser);
+		Estado(string ruta, SDL_Renderer* ren){
+			this->quieto = new Quieto(ruta, ren);
+			this->saltar = new Saltar(ruta, ren);
+			this->saltardiagonal = new SaltarDiagonal(ruta, ren);
+			this->caminarder = new CaminarDerecha(ruta, ren);
 		};
 		~Estado(){
 			delete this->quieto;

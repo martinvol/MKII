@@ -38,7 +38,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
 
 	this->parser = parser;
 	//~ this->parser->personaje_mirar_derecha = false;
-	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren, this->parser);
+	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren);
 	this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->nroAccionActual = 0;
 	
@@ -112,7 +112,7 @@ void Personaje::cambiarAccionA(int nroAccion){
  * quiere que el Personaje represente, 
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  */ 
- void Personaje::definir_imagen(float tmp, int nuevaAccion){
+ void Personaje::definir_imagen(int nuevaAccion){
 	
 	//~ puts("----------------------------------------------------------------------------------");	
 	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
@@ -124,7 +124,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 		return;
 	}
 	
-	this->accionActual->execute(tmp);
+	this->accionActual->execute();
 	this->imagenActual = this->accionActual->getImagenActual();
 	return;
 	

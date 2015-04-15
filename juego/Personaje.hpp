@@ -37,7 +37,7 @@ class Personaje {
 		
 		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser);
 		~Personaje();
-		void definir_imagen(float tmp, int accion);
+		void definir_imagen(int accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
 		void cambiarAccionA(int nroACcion);
