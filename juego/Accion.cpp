@@ -1,14 +1,4 @@
-#include <stdio.h>
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <vector>
-#include <string>
-#include <thread>         
-#include <chrono> 
-#include <stdlib.h>
 #include <dirent.h>
-#include <sys/stat.h>
 
 #include "Accion.hpp"
 
@@ -91,6 +81,13 @@ void Accion::setImagenes (){
 	}
 }
 
+void Accion::setInvertirSecuencia(){
+	this->secuenciaInversa = true;
+	if(this->cantModos>0)
+		this->setModoActual(this->cantModos-1);
+};
+
+
 
 /***********************************************************************
  * 
@@ -155,6 +152,11 @@ Accion::~Accion(){
 		if(imagenes[i]!=NULL)
 			SDL_DestroyTexture(imagenes[i]);
 	}
+}
+
+void Accion::resetear(){
+	this->modoActual = 0;
+	this->secuenciaInversa = false;
 }
 
 /**Devuelve true si se alcanzo el ultimo 

@@ -8,6 +8,10 @@
 #include <string>
 #include <vector>
 #include "Accion.hpp"
+#include "Quieto.hpp"
+#include "SaltarVertical.hpp"
+#include "SaltarDiagonal.hpp"
+#include "CaminarDerecha.hpp"
 
 
 class Estado{

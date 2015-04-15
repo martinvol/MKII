@@ -62,20 +62,47 @@ logger.o: juego/logger.c
 Accion.o: juego/Accion.cpp
 	$(CC) "juego/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+Quieto.o: juego/Quieto.cpp
+	$(CC) "juego/Quieto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	
+SaltarVertical.o: juego/SaltarVertical.cpp
+	$(CC) "juego/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	
+SaltarDiagonal.o: juego/SaltarDiagonal.cpp
+	$(CC) "juego/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+CaminarDerecha.o: juego/CaminarDerecha.cpp
+	$(CC) "juego/CaminarDerecha.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+		
 Estado.o: juego/Estado.cpp
 	$(CC) "juego/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o
+	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Personaje.o: juego/Personaje.cpp
 	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
-Personaje: Personaje.o Accion.o	Estado.o
-	$(CC)  Personaje.o Accion.o Estado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
-
-Estado: Estado.o
-	$(CC)  Estado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
-
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
+
+Quieto: Accion.o Quieto.o
+	$(CC)  Accion.o Quieto.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Quieto"
+
+SaltarVertical: Accion.o SaltarVertical.o
+	$(CC)  Accion.o  SaltarVertical.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "SaltarVertical"
+
+CaminarDerecha: Accion.o CaminarDerecha.o
+	$(CC)  Accion.o  CaminarDerecha.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "CaminarDerecha"
+	
+SaltarDiagonal: Accion.o SaltarDiagonal.o
+	$(CC)  Accion.o  SaltarDiagonal.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "SaltarDiagonal"
+
+
+Personaje: Personaje.o Accion.o	Estado.o
+	$(CC)   Accion.o Estado.o Personaje.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
+
+
 
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
