@@ -13,6 +13,7 @@
 #include "SaltarDiagonal.hpp"
 #include "CaminarDerecha.hpp"
 
+using namespace std;
 
 class Estado{
 	
@@ -24,18 +25,8 @@ class Estado{
 		SaltarDiagonal* saltardiagonal;
 		
 
-		Estado(string ruta, SDL_Renderer* ren){
-			this->quieto = new Quieto(ruta, ren);
-			this->saltar = new Saltar(ruta, ren);
-			this->saltardiagonal = new SaltarDiagonal(ruta, ren);
-			this->caminarder = new CaminarDerecha(ruta, ren);
-		};
-		~Estado(){
-			delete this->quieto;
-			delete this->caminarder;
-			delete this->saltar;
-			delete this->saltardiagonal;
-		}
+		Estado(string ruta, SDL_Renderer* ren);
+		~Estado();
 
 };
 

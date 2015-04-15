@@ -139,7 +139,7 @@ void Conf::set_values (char* my_file) {
                 float ancho_logico_capa = cargarValidar(capas[index], 700, "anchoLogico","Ancho lógico de capa no encontrado, se toma 700 por default");
 
                 if (ancho_logico_capa < ventana_ancho){
-                    logger->log_error("La cap no puede tener un ancho lógico menor menor al de la ventana, se usa como ancho de esta el ancho de la ventana");
+                    logger->log_error("La capa no puede tener un ancho lógico menor menor al de la ventana, se usa como ancho de esta el ancho de la ventana");
                     ancho_logico_capa = ventana_ancho;
 
                 }

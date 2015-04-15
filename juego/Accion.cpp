@@ -63,7 +63,7 @@ void Accion::setAccionNro(int nroAccion){
 void Accion::setImagenes (){
 	
 	string numeroImagen, rutaCompleta; 
-	
+	bool ninguna = true;
 	int numero;
 	
 	for (int i = 0; i<this->cantModos; i++){
@@ -76,8 +76,15 @@ void Accion::setImagenes (){
 			this->logger->log_debug("IMG_LoadTexture error: " + (string)(SDL_GetError()));
 			//cout<<"error en: "<<numeroImagen<<endl;
 		}
+		else{ninguna = false;}
 		this->imagenes.push_back(imagen);
 	
+	}
+	if (ninguna){
+		setRutaArchivo("resources/Default/"+to_string(this->accionNro));
+		logger->log_debug("La carpeta ubicada en: "+ruta+" no contiene imagenes. \n \t\t\t Se paso por default: resources/Default/");
+		setCantModos();
+		setImagenes();
 	}
 }
 
