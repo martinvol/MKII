@@ -16,7 +16,8 @@ using namespace std;
 
 class Accion{
 	
-	
+	private: 
+		int cuentaArchivos(string ruta);
 	public:
 			
 		int accionNro;
