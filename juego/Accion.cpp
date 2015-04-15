@@ -20,7 +20,7 @@ using namespace std;
  *
  **********************************************************************/   
  
-int cuentaArchivos(string ruta){
+int Accion::cuentaArchivos(string ruta){
 	
 	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
@@ -31,8 +31,10 @@ int cuentaArchivos(string ruta){
 	Logger* logger = Logger::instance();
 	/* Miramos que no haya error */
 	if (dir == NULL){
+		string ruta = "resources/Default/"+to_string(this->accionNro);
 		logger->log_error("No se puede abrir el directorio del Personaje");
-		exit(EXIT_FAILURE);
+		dir = opendir (ruta.c_str());
+		//exit(EXIT_FAILURE);
 		return 0;
 	}
 
@@ -58,7 +60,7 @@ void Accion::setRutaArchivo(const string directorio){
 	this->ruta = directorio;
 }
 void Accion::setCantModos(){
-	this->cantModos = cuentaArchivos(this->ruta);
+	this->cantModos = this->cuentaArchivos(this->ruta);
 }
 void Accion::setModoActual(int modo){
 	this->modoActual = modo;
@@ -134,6 +136,12 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, Conf* parser){
 	setRutaArchivo(ruta+to_string(nroAccion));
 	setRenderer(ren);
 	setCantModos();
+	if (this->cantModos == 0){
+		//Se cargan imagenes desde una carpeta por defecto.
+		setRutaArchivo("resources/Default/"+to_string(nroAccion));
+		logger->log_debug("La carpeta ubicada en: "+ruta+" no contiene imagenes. \n \t\t\t Se paso por default: resources/Default/");
+		setCantModos();
+	}
 	setImagenes();
 	setModoActual(0);	
 	
@@ -172,6 +180,9 @@ bool Accion::esDistintaA(int nroAccion){
  * false, en caso contrario.
  * */
 bool Accion::esUltimoModo(){
+	if(this->cantModos == 1){
+		return true;
+	}
 	if (this->modoActual == (this->cantModos-1)){
 		return true;
 	}
