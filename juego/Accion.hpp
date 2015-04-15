@@ -82,10 +82,12 @@ class CaminarDerecha: public Accion{
 		CaminarDerecha(string ruta, SDL_Renderer* ren, Conf* parser):Accion(1,ruta,ren, parser){};
 		void cambiarModoInversamente(){
 			if (this->modoActual==0){
-				setModoActual(this->cantModos-1);	
+				if(this->cantModos>0)
+					setModoActual(this->cantModos-1);	
 			}
 			else{
-				setModoActual(this->modoActual-1);
+				if (this->modoActual>0)
+					setModoActual(this->modoActual-1);
 			}
 		
 		};
@@ -107,24 +109,24 @@ class Saltar:public Accion{
 		Saltar(string ruta, SDL_Renderer* ren, Conf* parser):Accion(3,ruta,ren, parser){this->contadorDeLoops=0;contador= 0;};
 		void resetear(){
 			this->modoActual = 0;
-			this->lastTime = 0;
 			this->contadorDeLoops=0;
 			this->contador = 0;
 		};
 		void cambiarModo(){
 			
 			if (esUltimoModo()){
-				///puts("entre aca");
-				setModoActual(2);	
-			}
-			else{
+				if(this->cantModos>=3){///puts("entre aca");
+					setModoActual(2);	
+				}else
+					setModoActual(0);
+			}else{
 				setModoActual(this->modoActual+1);
 			}
 			
 		};
 			
 		void execute(float tmp){
-			if (this->getModoActual()==1){
+			if (this->getModoActual() == 1){
 				if(contadorDeLoops<21){
 					contadorDeLoops+=1;
 					return;
@@ -139,19 +141,23 @@ class SaltarDiagonal: public Accion{
 		void cambiarModo(){
 			if (esUltimoModo()){
 				///puts("entre aca");
-				setModoActual(1);	
+				if(this->cantModos>=2)
+					setModoActual(1);
+				else
+					setModoActual(0);
 			}else{
 				setModoActual(this->modoActual+1);
 			}
 		};
 		void cambiarModoInversamente(){
-			if (this->modoActual==1){
-				setModoActual(this->cantModos-1);	
+			if(this->cantModos >= 2){
+				if (this->modoActual==1){
+					setModoActual(this->cantModos-1);	
+				}
+				else{
+					setModoActual(this->modoActual-1);
+				}
 			}
-			else{
-				setModoActual(this->modoActual-1);
-			}
-		
 		};
 		void execute(float tmp){
 			if(secuenciaInversa){
@@ -161,9 +167,7 @@ class SaltarDiagonal: public Accion{
 				SaltarDiagonal::cambiarModo();
 			}
 		};
-		bool permite(int nuevaAccion){
-			return false;
-		};
+		
 };
 
 #endif

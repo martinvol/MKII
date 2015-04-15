@@ -159,6 +159,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, Conf* parser){
 Accion::~Accion(){
 	
 	for (int i = 0; i < this->cantModos; i++){
+		if(imagenes[i]!=NULL)
 			SDL_DestroyTexture(imagenes[i]);
 	}
 }
@@ -204,6 +205,7 @@ void Accion::cambiarModo(){
 }
 
 void Accion::execute(float tmp){}
+
 
 
 
