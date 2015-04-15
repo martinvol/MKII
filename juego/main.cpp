@@ -20,7 +20,7 @@ using namespace std;
 #define SALTODIAGONAL_DER 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
-#define MOVER_PIXELES_VERTICAL 3*(conf->ventana_altopx/conf->personaje_alto)
+#define MOVER_PIXELES_VERTICAL 0.8*(conf->ventana_altopx/conf->personaje_alto)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
@@ -240,8 +240,8 @@ public:
     void reiniciarJuego(){
         logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();
-        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
         cargar_configuracion();
+        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
         cargar_capas();
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
@@ -509,17 +509,17 @@ enum Estados{
                 //posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
                 //this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 if(saltoDiagonalIZQ){
-                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= 1.5*MOVER_PIXELES;
+                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= MOVER_PIXELES;
 
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 1.5*MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 1.5*MOVER_PIXELES;
+                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
 
                     if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200)))
-                        borde_izquierdo_logico_pantalla += 1.5*MOVER_PIXELES;
+                        borde_izquierdo_logico_pantalla += MOVER_PIXELES;
                 }
 
             }
