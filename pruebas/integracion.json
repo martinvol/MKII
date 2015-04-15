@@ -17,15 +17,15 @@
       }, 
       {
          "imagen_fondo":"resources/background/p_4b.png",
-         "anchoLogico": 504 
+         "anchoLogico": 800 
       }, 
       {
          "imagen_fondo":"resources/background/p_3.png",
-         "anchoLogico": 700
+         "anchoLogico": 550
       }, 
       {
          "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
-         "anchoLogico":1000
+         "anchoLogico":399
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
@@ -37,7 +37,7 @@
       "alto":268,
       "zindex":60,
       "sprites":{
-            "personaje1":"resources/jugador/SubZero/"
+            "personaje1":"resources/jugador/Kabal/"
       },
       "mirar_derecha": true
    }
