@@ -77,8 +77,8 @@ CaminarDerecha.o: juego/CaminarDerecha.cpp
 Estado.o: juego/Estado.cpp
 	$(CC) "juego/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o
-	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o Accion.o
+	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Personaje.o: juego/Personaje.cpp
 	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -107,7 +107,7 @@ Personaje: Personaje.o Accion.o	Estado.o
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o
+compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego
