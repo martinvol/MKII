@@ -20,9 +20,10 @@ using namespace std;
 #define SALTODIAGONAL_DER 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
-#define MOVER_PIXELES_VERTICAL 0.8*(conf->escenario_alto/(float)conf->personaje_alto)
+#define MOVER_PIXELES_VERTICAL 0.8*(conf->escenario_alto/conf->personaje_alto)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
+#define ALTURA_MAX_SALTO conf->personaje_alto
 
 Logger *logger = Logger::instance();
 
@@ -483,8 +484,8 @@ enum Estados{
       Caminando_State */
     //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
     if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
-            if(posicionPJ_Piso > conf->escenario_alto - conf->personaje_alto - conf->escenario_ypiso){
-                posicionPJ_Piso = conf->escenario_alto - conf->personaje_alto - conf->escenario_ypiso;
+            if(posicionPJ_Piso < conf->escenario_ypiso){
+                posicionPJ_Piso = conf->escenario_ypiso;
                 saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
                 //Despues de caer vuelve a quieto.
                 alturaMaxima = false;
@@ -498,14 +499,15 @@ enum Estados{
                 t+=0.01;
                 //||*/ (posicionPJ_Piso <(conf->escenario_ypiso- posicionPJ_Piso))
                 //Nota: posicionPJ_Piso = 0 no es en la parte superior de la pantalla :-/
-                if ( (posicionPJ_Piso) <= 0) {
+                if (posicionPJ_Piso  >= ALTURA_MAX_SALTO) {
                     alturaMaxima = true;
                     t = 5.0;
                 }
                 if (alturaMaxima){
-                    posicionPJ_Piso += MOVER_PIXELES_VERTICAL*t;//*t;
-                }else{
                     posicionPJ_Piso -= MOVER_PIXELES_VERTICAL*t;//*t;
+                    //alturaMaxima = false;
+                }else{
+                    posicionPJ_Piso += MOVER_PIXELES_VERTICAL*t;//*t;
                 }
                 //posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
                 //posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
