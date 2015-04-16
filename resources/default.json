@@ -8,7 +8,7 @@
    "escenario":{
       "ancho":1216,
       "alto":255,
-      "ypiso":60
+      "ypiso":0
    },
    "capas":[
       {
@@ -34,7 +34,7 @@
    ],
    "personaje":{
       "ancho":63,
-      "alto":129,
+      "alto":180,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/",
