@@ -20,7 +20,7 @@ using namespace std;
 #define SALTODIAGONAL_DER 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
-#define MOVER_PIXELES_VERTICAL 0.8*(conf->ventana_altopx/conf->personaje_alto)
+#define MOVER_PIXELES_VERTICAL 0.8*(conf->escenario_alto/(float)conf->personaje_alto)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
@@ -300,13 +300,14 @@ void DibujarTodo(){
 */
 
             if (i==conf->personaje_zindex){
-                cout << posicionPJ_Piso << endl; ///
+                
                 this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
                     (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
+            cout << posicionPJ_Piso << endl; ///
         }
 
         if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
@@ -482,8 +483,8 @@ enum Estados{
       Caminando_State */
     //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
     if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
-            if(posicionPJ_Piso > conf->escenario_ypiso){
-                posicionPJ_Piso = conf->escenario_ypiso;
+            if(posicionPJ_Piso > conf->escenario_alto - conf->personaje_alto - conf->escenario_ypiso){
+                posicionPJ_Piso = conf->escenario_alto - conf->personaje_alto - conf->escenario_ypiso;
                 saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
                 //Despues de caer vuelve a quieto.
                 alturaMaxima = false;
