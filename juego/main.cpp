@@ -20,7 +20,7 @@ using namespace std;
 #define SALTODIAGONAL_DER 4
 
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
-#define MOVER_PIXELES_VERTICAL 0.8*(conf->escenario_alto/conf->personaje_alto)
+#define MOVER_PIXELES_VERTICAL 95*(conf->personaje_alto/conf->escenario_ancho)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define ALTURA_MAX_SALTO conf->personaje_alto
