@@ -83,7 +83,9 @@ Personaje.o: juego/Personaje.cpp
 Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o Accion.o
 	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
-		
+Timer.o: 
+	$(CC) "juego/timer.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -c
+	
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
 
@@ -108,7 +110,7 @@ Personaje: Personaje.o Accion.o	Estado.o
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o CaminarDerecha.o SaltarVertical.o SaltarDiagonal.o
+compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o Timer.o CaminarDerecha.o SaltarVertical.o SaltarDiagonal.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

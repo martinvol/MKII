@@ -9,6 +9,7 @@
 #include "Personaje.hpp"
 #include "logger.h"
 #include "ConversorDeCoordenadas.h"
+#include "timer.hpp"
 
 using namespace std;
 
@@ -19,12 +20,13 @@ using namespace std;
 #define SALTODIAGONAL_IZQ 5
 #define SALTODIAGONAL_DER 4
 
-#define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
-#define MOVER_PIXELES_VERTICAL 95*(conf->personaje_alto/conf->escenario_ancho)
+#define MOVER_PIXELES 60*(conf->personaje_ancho/conf->ventana_ancho)
+#define MOVER_PIXELES_VERTICAL 75*(conf->personaje_alto/conf->escenario_ancho)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define ALTURA_MAX_SALTO conf->personaje_alto + conf->escenario_ypiso
-
+#define IMG_DEFAULT "resources/miscelaneo/06.gif" ///
+#define CONST_MAXI_DELAY 50
 Logger *logger = Logger::instance();
 
     
@@ -101,6 +103,7 @@ public:
     SDL_Window * window = NULL;
     Conf *conf;
     Personaje *personajeJuego;
+    Timer* timer;
 
     Juego(int argc_, char* argv_[]){
         argc = argc_;
@@ -149,6 +152,7 @@ public:
 
 
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
+        this->timer = new Timer(1000, IMG_DEFAULT, conv, renderer);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -230,8 +234,8 @@ public:
 
 
             timerFps = SDL_GetTicks() - timerFps;
-            if(timerFps < 1000/FRAMERATE){
-                SDL_Delay(timerFps);
+            if(timerFps < int(1000/24)){
+                SDL_Delay(CONST_MAXI_DELAY);
             }
         }
 
@@ -247,6 +251,7 @@ public:
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
+        this->timer->reset();
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -255,6 +260,7 @@ public:
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
         delete this->personajeJuego;
+        delete this->timer;
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
     };
 //----------------------------------------------------------------
@@ -308,7 +314,7 @@ void DibujarTodo(){
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
-            cout << posicionPJ_Piso << endl; ///
+            
         }
 
         if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
@@ -329,6 +335,7 @@ void DibujarTodo(){
 
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
+        this->timer->dibujarse(250, 250, 200, 200);
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
@@ -660,6 +667,8 @@ enum Estados{
                     }
                 }
             }
+            
+            this->timer->avanzarTimer(SDL_GetTicks()); 
     };
 
 };//FIN CLASE JUEGO
