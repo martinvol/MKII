@@ -12,9 +12,6 @@
 #include "ConversorDeCoordenadas.hpp"
 
 
-// Cuánto ancho lógico se mueve al scrollear.
-#define FACTOR_SCROLL 5
-
 using namespace std;
 
 enum num_jugador {jugador1 = 0, jugador2};
@@ -28,6 +25,7 @@ class Director {
 		Escenario* escenario;
 		Ventana* ventana;
 		ConversorDeCoordenadas* conversor;
+		float factor_scroll;
 		// Atributos necesarios para recopilar la información del loop y actualizar al final ambos jugadores.
 		movimiento mov1 = Nada;
 		movimiento mov2 = Nada;

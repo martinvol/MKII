@@ -1,11 +1,12 @@
 #include "Director.hpp"
 
-Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2){
+Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
 	jugadores.push_back(new Jugador(personaje1, barra1));
 	jugadores.push_back(new Jugador(personaje2, barra2));
+	this->factor_scroll = factor_scroll;
 }
 
 Director::~Director(){
@@ -146,17 +147,17 @@ bool Director::sePuedeScrollearIzquierda(){
 void Director::scrollearDerecha(){
 	if (not this->sePuedeScrollearDerecha()) return;
 	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
-	if (this->escenario->esLimiteDerecho(borde_der+float(FACTOR_SCROLL)))
+	if (this->escenario->esLimiteDerecho(borde_der+float(factor_scroll)))
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteDerecho() - borde_der);
-	else this->conversor->seMueveVentana(float(FACTOR_SCROLL));
+	else this->conversor->seMueveVentana(float(factor_scroll));
 }
 
 void Director::scrollearIzquierda(){
 	if (not this->sePuedeScrollearIzquierda()) return;
 	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
-	if (this->escenario->esLimiteIzquierdo(borde_izq-float(FACTOR_SCROLL)))
+	if (this->escenario->esLimiteIzquierdo(borde_izq-float(factor_scroll)))
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteIzquierdo() - borde_izq);
-	else this->conversor->seMueveVentana(- float(FACTOR_SCROLL));
+	else this->conversor->seMueveVentana(- float(factor_scroll));
 }
 
 
