@@ -8,6 +8,7 @@ public:
     float y;
 
 	CoordenadaLogica(float x, float y);
+	CoordenadaLogica(CoordenadaLogica* coord);
 	void multiplicarPor(float f_x, float f_y);
 	void sumar(CoordenadaLogica* coord);
 	void desplazarX(float x);

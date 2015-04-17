@@ -7,8 +7,9 @@ using namespace std;
  * 
  **********************************************************************/  
 
-void Quieto::execute(){
+CoordenadaLogica* Quieto::execute(CoordenadaLogica* coord_personaje){
 	Accion::cambiarModo();
+	return new CoordenadaLogica(coord_personaje);
 };
 
 bool Quieto::permiteAccion(accion_posible nuevaAccion){

@@ -321,13 +321,6 @@ void DibujarTodo(){
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
         }
-        //cout <<"x_logico personaeje " << x_logico_personaje << "\n"; ///
-        //cout <<"borde izquierdo pantalla " << borde_izquierdo_logico_pantalla << "\n"; ///
-
-
-       /* printf("X logico personaje %f \n", x_logico_personaje);
-        printf("Donde dibujo el personaje %f \n", (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho);
-*/
 
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();

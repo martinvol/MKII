@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-
+#include "CoordenadaLogica.h"
 #include "logger.h"
 
 typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER} accion_posible;
@@ -52,8 +52,9 @@ class Accion{
 	
 		bool esUltimoModo();
 		void cambiarModo();
-	
-		virtual void execute();
+		
+		/* Devuelve una NUEVA coordenada. */
+		virtual CoordenadaLogica* execute(CoordenadaLogica* coord_personaje){return NULL;}
 		
 		/* Devuelve true si puede ser interrumpida por alguna OTRA acción.
 		 * Es decir, se supone que no le va a llegar la misma acción que es. */

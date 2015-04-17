@@ -5,6 +5,11 @@ CoordenadaLogica::CoordenadaLogica(float x, float y){
 	this->y = y;
 }
 
+CoordenadaLogica::CoordenadaLogica(CoordenadaLogica* coord){
+	this->x = coord->x;
+	this->y = coord->y;
+}
+
 void CoordenadaLogica::multiplicarPor(float f_x, float f_y){
 	this->x *= f_x;
 	this->y *= f_y;
@@ -26,3 +31,4 @@ void CoordenadaLogica::desplazarY(float y){
 bool CoordenadaLogica::estaALaDerechaDe(CoordenadaLogica* coord){
 	return (this->x > coord->x);
 }
+

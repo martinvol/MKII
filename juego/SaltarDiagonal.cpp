@@ -29,7 +29,11 @@ void SaltarDiagonal::cambiarModoInversamente(){
 	}
 }
 
-void SaltarDiagonal::execute(){
+CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
+	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
+	coord.desplazarX(despl_x);
+	if (dist_virtual < H_MAX) coord.desplazarY(despl_y);
+	else coord.desplazarY(-despl_y);
 	if(secuenciaInversa){
 		SaltarDiagonal::cambiarModoInversamente();
 	}
@@ -40,4 +44,8 @@ void SaltarDiagonal::execute(){
 
 bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
 	return false;
+}
+
+void SaltarDiagonal::resetear(){
+	dist_virtual = 0;
 }

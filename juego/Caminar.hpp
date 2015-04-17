@@ -7,7 +7,7 @@ class Caminar: public Accion{
 	public:
 		Caminar(string ruta, SDL_Renderer* ren, float despl_x, float despl_y):Accion(1,ruta,ren, despl_x, despl_y){};
 		void cambiarModoInversamente();
-		void execute();
+		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);
 		bool permiteAccion(accion_posible nuevaAccion);		
 };
 
