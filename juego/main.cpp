@@ -23,7 +23,7 @@ using namespace std;
 #define MOVER_PIXELES_VERTICAL 95*(conf->personaje_alto/conf->escenario_ancho)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
-#define ALTURA_MAX_SALTO conf->personaje_alto
+#define ALTURA_MAX_SALTO conf->personaje_alto + conf->escenario_ypiso
 
 Logger *logger = Logger::instance();
 
