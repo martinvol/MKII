@@ -318,7 +318,7 @@ void DibujarTodo(){
    //~ } estadoPersonaje1;
 
 
-    void Controlador(SDL_Event *evento){
+void Controlador(SDL_Event *evento){
         SDL_PollEvent( evento );
 
         //Ahora anda este tambien.
@@ -393,8 +393,6 @@ void DibujarTodo(){
                 if (evento->key.keysym.sym == SDLK_p)  {
                     //~ cambiarModo = true;
                     pausa = !pausa;
-                    if (pausa) this->director->pausar();
-                    else this->director->despausar();
                 }
                 if(evento->key.keysym.sym == SDLK_a && !pausa)  {
                     barraDeVida1->Aliviar(20);

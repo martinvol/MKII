@@ -50,9 +50,6 @@ class Director {
 		/* Sólo va a recibir Derecha, Izquierda, Arriba o Nada. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
 		
-		void pausar();
-		void despausar();
-		
 		/* Si un personaje se mueve, debe validar:
 		 * que si se va de margen, scrollee la ventana.
 		 * que no se pase del escenario.
