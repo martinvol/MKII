@@ -12,7 +12,7 @@
    },
    "capas":[
       {
-         "imagen_fondo":0,
+         "imagen_fondo":"resources/background/fondo.png",
          "anchoLogico": 400
       }, 
       {

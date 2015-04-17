@@ -116,7 +116,12 @@ void Conf::set_values (char* my_file) {
             const Json::Value sprites = personaje["sprites"];
 
             for (auto const& id : sprites.getMemberNames()) {
-                sprites_map[id] = sprites.get(id, "Esto nunca se va a mostrar").asString();
+                try{
+                    sprites_map[id] = sprites.get(id, "Esto nunca se va a mostrar").asString();
+                } catch(const runtime_error& error) {
+                    logger->log_error("El path del personaje es un número, no un string");
+                    sprites_map[id] = "resources/jugador/SubZero/";
+                }
             }
 
             const Json::Value capas = root["capas"];
@@ -124,6 +129,7 @@ void Conf::set_values (char* my_file) {
             for ( int index = 0; index < capas.size(); ++index ){
                 
                 string nombre_archivo;
+                logger->log_debug("Intentando cargar capa '" + nombre_archivo + "'");
 
                 if (!capas[index].isMember("imagen_fondo")){
                     logger->log_error("Esta capa no tiene el valor imagen_fondo, se cargará la capa por default");
@@ -138,7 +144,6 @@ void Conf::set_values (char* my_file) {
                 }
                 
 
-                logger->log_debug("Intentando cargar capa '" + nombre_archivo + "'");
                 
                 if (!exists_test(nombre_archivo)){
                     logger->log_error("La capa no fue encontrada, cargando capa por default");
