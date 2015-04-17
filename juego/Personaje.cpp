@@ -11,18 +11,6 @@ using namespace std;
 
 /***********************************************************************
  * 
- * 							CONSTANTES
- *
- **********************************************************************/  
-#define QUIETO 0
-#define CAMINAR_DERECHA 1
-#define CAMINAR_IZQUIERDA 2
-#define SALTAR 3
-#define SALTODIAGONAL_DER 4
-#define SALTODIAGONAL_IZQ 5
-
-/***********************************************************************
- * 
  * 							CONSTRUCTOR
  *
  **********************************************************************/  
@@ -35,7 +23,7 @@ using namespace std;
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
-Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser){
+Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, Conf* parser){
 
 	this->parser = parser;
 	//~ this->parser->personaje_mirar_derecha = false;
@@ -43,8 +31,7 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
 	this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->nroAccionActual = 0;
 	
-	this->posicion_x = posicion_x;
-	this->posicion_y = posicion_y;
+	this->coordenada = coordenada;
 	
 	this->accionActual = this->estado->quieto;
 	
@@ -67,37 +54,45 @@ Personaje::Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer*
  * un booleano que indica si la accion puede ser interrumpida.
  * y un puntero de tipo SDL_Renderer que indica el renderer.
  * */
-void Personaje::cambiarAccionA(int nroAccion){
+void Personaje::cambiarAccionA(accion_posible nroAccion){
 	
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
 	
-	if (nroAccion == QUIETO){ 
+	switch (nroAccion)
+	{ 
+		case QUIETO:
 			this->accionActual = this->estado->quieto;
-	}if (nroAccion == CAMINAR_DERECHA){
+			break;
+		case CAMINAR_DERECHA:
 			this->accionActual = this->estado->caminarder;
 			if (!this->parser->personaje_mirar_derecha){
 				//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
 			}
-	}if (nroAccion == CAMINAR_IZQUIERDA){
+			break;
+		case CAMINAR_IZQUIERDA:
 			this->accionActual = this->estado->caminarder;
 			if(this->parser->personaje_mirar_derecha){
 				this->accionActual->setInvertirSecuencia();
 			}
-	}if (nroAccion == SALTAR){
+			break;
+		case SALTAR:
 			this->accionActual = this->estado->saltar;
-	}if (nroAccion == SALTODIAGONAL_DER){
+			break;
+		case SALTARDIAGONAL_DER:
 			this->accionActual = this->estado->saltardiagonal;
 			if(!this->parser->personaje_mirar_derecha){
 					//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
 			}
-	}if (nroAccion == SALTODIAGONAL_IZQ){
+			break;
+		default: // SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->parser->personaje_mirar_derecha){
 				this->accionActual->setInvertirSecuencia();
 			}
+			break;
 	}
 	//Se pasaron los casos de sprites especiales
 	if(!this->parser->personaje_mirar_derecha){
@@ -113,7 +108,7 @@ void Personaje::cambiarAccionA(int nroAccion){
  * quiere que el Personaje represente, 
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  */ 
- void Personaje::definir_imagen(int nuevaAccion){
+ void Personaje::definir_imagen(accion_posible nuevaAccion){
 	
 	//~ puts("----------------------------------------------------------------------------------");	
 	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
@@ -207,30 +202,12 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 //~ 
 //~ }
 //~ 
-//~ void Personaje::parar(){
-//~ 
-//~ }
-//~ 
-//~ void Personaje::caminarDerecha(){
-//~ 
-//~ }
-//~ 
-//~ void Personaje::caminarIzquierda(){
-//~ 
-//~ }
-//~ 
-//~ void Personaje::saltar(){
-//~ 
-//~ }
-//~ 
-//~ void Personaje::saltarDerecha(){
-//~ 
-//~ }
-//~ 
-//~ void Personaje::saltarIzquierda(){
-//~ 
-//~ }
-//~ 
+void Personaje::activarAccion(accion_posible accion){
+	//~ if (this->accionActual->permiteAccion(accion)){
+		//~ 
+	//~ }
+}
+
 //~ CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
 	//~ CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
 	//~ coord->sumar(coordenada);

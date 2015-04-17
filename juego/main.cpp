@@ -12,13 +12,6 @@
 
 using namespace std;
 
-#define QUIETO 0
-#define CAMINAR_DERECHA 1
-#define CAMINAR_IZQUIERDA 2
-#define SALTAR 3
-#define SALTODIAGONAL_IZQ 5
-#define SALTODIAGONAL_DER 4
-
 #define MOVER_PIXELES conf->ventana_anchopx/conf->personaje_ancho
 #define MOVER_PIXELES_VERTICAL 95*(conf->personaje_alto/conf->escenario_ancho)
 #define FRAMERATE 40
@@ -174,7 +167,7 @@ public:
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true) ;
        //Derecha
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        Personaje* personaje = new Personaje(1,1,"Subzero",renderer, conf);
+        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf);
         this->personajeJuego = personaje;
 
         Player1 = SDL_JoystickOpen(0);
@@ -242,7 +235,7 @@ public:
         logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();
         cargar_configuracion();
-        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
+        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf);
         cargar_capas();
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
@@ -347,7 +340,7 @@ enum Estados{
    } estadoPersonaje1;
 
 
-    void Controlador(SDL_Event *evento){
+void Controlador(SDL_Event *evento){
        while(SDL_PollEvent( evento )) {
 
         //Ahora anda este tambien.
@@ -537,7 +530,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Der_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_DER);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
 
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
@@ -547,7 +540,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_IZQ);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
 
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -589,13 +582,13 @@ enum Estados{
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_DER);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
 
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_IZQ);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
                 //Camino --> sigo caminando
                 }else if (Der_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
@@ -625,9 +618,9 @@ enum Estados{
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
                 if (saltoDiagonalDER)
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_DER);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
                 else
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_IZQ);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
 
                 break;
             default:
