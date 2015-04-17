@@ -7,13 +7,13 @@ using namespace std;
  *
  **********************************************************************/  
 
-void Saltar::resetear(){
+void SaltarVertical::resetear(){
 	this->modoActual = 0;
 	this->contadorDeLoops=0;
 	this->contador = 0;
 };
 
-void Saltar::cambiarModo(){
+void SaltarVertical::cambiarModo(){
 	if (esUltimoModo()){
 		if(this->cantModos>=3){///puts("entre aca");
 			setModoActual(2);	
@@ -24,12 +24,16 @@ void Saltar::cambiarModo(){
 	}
 };
 
-void Saltar::execute(){
+void SaltarVertical::execute(){
 	if (this->getModoActual() == 1){
 		if(contadorDeLoops<21){
 			contadorDeLoops+=1;
 			return;
 		}
 	}
-	Saltar::cambiarModo();
+	SaltarVertical::cambiarModo();
 };
+
+bool SaltarVertical::permiteAccion(accion_posible nuevaAccion){
+	return false;
+}

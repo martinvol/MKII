@@ -11,12 +11,14 @@
 #include "CoordenadaLogica.h"
 #include "parser.h"
 
-typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER} accion_posible;
-
 using namespace std;
 
 class Personaje {
 		Conf* parser;
+	
+		/* Sus anchos y altos lógicos. */
+		float ancho;
+		float alto;
 		
 		/* Coordenada inferior izquierda. */
 		CoordenadaLogica* coordenada;
@@ -37,7 +39,7 @@ class Personaje {
 		
 	public:
 		
-		Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, Conf* parser);
+		Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
 		~Personaje();
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);

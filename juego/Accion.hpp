@@ -11,6 +11,8 @@
 
 #include "logger.h"
 
+typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER} accion_posible;
+
 
 using namespace std;
 
@@ -19,7 +21,11 @@ class Accion{
 	private: 
 		int cuentaArchivos(string ruta);
 	public:
-			
+		
+		/* Constante de desplazamiento. */
+		float despl_x;
+		float despl_y;
+		
 		int accionNro;
 		int cantModos;
 		string ruta;
@@ -30,7 +36,7 @@ class Accion{
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
@@ -48,7 +54,10 @@ class Accion{
 		void cambiarModo();
 	
 		virtual void execute();
-		virtual bool permite(int nuevaAccion){return true;};
+		
+		/* Devuelve true si puede ser interrumpida por alguna OTRA acción.
+		 * Es decir, se supone que no le va a llegar la misma acción que es. */
+		virtual bool permiteAccion(accion_posible nuevaAccion){return true;}
 
 		~Accion();
 		virtual void resetear();

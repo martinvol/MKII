@@ -11,7 +11,7 @@ using namespace std;
 
 /***********************************************************************
  * 
- * 							CONSTRUCTOR
+ * 						CONSTRUCTOR Y DESTRUCTOR
  *
  **********************************************************************/  
 
@@ -23,11 +23,14 @@ using namespace std;
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
-Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, Conf* parser){
+Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
 
-	this->parser = parser;
+	this->parser= parser;
+
+	this->ancho = ancho;
+	this->alto = alto;
 	//~ this->parser->personaje_mirar_derecha = false;
-	this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]), ren);
+	this->estado = estado;
 	this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->nroAccionActual = 0;
 	
@@ -39,6 +42,13 @@ Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* r
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
+}
+
+
+Personaje::~Personaje(){
+	
+	delete this->estado;
+	
 }
 
 /***********************************************************************
@@ -65,20 +75,20 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->quieto;
 			break;
 		case CAMINAR_DERECHA:
-			this->accionActual = this->estado->caminarder;
+			this->accionActual = this->estado->caminar;
 			if (!this->parser->personaje_mirar_derecha){
 				//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
 			}
 			break;
 		case CAMINAR_IZQUIERDA:
-			this->accionActual = this->estado->caminarder;
+			this->accionActual = this->estado->caminar;
 			if(this->parser->personaje_mirar_derecha){
 				this->accionActual->setInvertirSecuencia();
 			}
 			break;
 		case SALTAR:
-			this->accionActual = this->estado->saltar;
+			this->accionActual = this->estado->saltarvertical;
 			break;
 		case SALTARDIAGONAL_DER:
 			this->accionActual = this->estado->saltardiagonal;
@@ -102,34 +112,29 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	
 
 }
-/**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
- * se debe mostrar por pantalla.
- * Recibe por parametro la nueva Accion que el loop del juego
- * quiere que el Personaje represente, 
- * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- */ 
- void Personaje::definir_imagen(accion_posible nuevaAccion){
-	
+//~ /**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
+ //~ * se debe mostrar por pantalla.
+ //~ * Recibe por parametro la nueva Accion que el loop del juego
+ //~ * quiere que el Personaje represente, 
+ //~ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
+ //~ */ 
+ //~ void Personaje::definir_imagen(accion_posible nuevaAccion){
+	//~ 
 	//~ puts("----------------------------------------------------------------------------------");	
 	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
 	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-	
-	if (this->nroAccionActual != nuevaAccion){
-		cambiarAccionA(nuevaAccion);
-		this->imagenActual = this->accionActual->getImagenActual();
-		return;
-	}
-	
-	this->accionActual->execute();
-	this->imagenActual = this->accionActual->getImagenActual();
-	return;
-	
-}
-Personaje::~Personaje(){
-	
-	delete this->estado;
-	
-}
+	//~ 
+	//~ if (this->nroAccionActual != nuevaAccion){
+		//~ cambiarAccionA(nuevaAccion);
+		//~ this->imagenActual = this->accionActual->getImagenActual();
+		//~ return;
+	//~ }
+	//~ 
+	//~ this->accionActual->execute();
+	//~ this->imagenActual = this->accionActual->getImagenActual();
+	//~ return;	
+//~ }
+
 /**
  * 
  */ 
@@ -202,10 +207,31 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 //~ 
 //~ }
 //~ 
+
+/* Reemplaza al DEFINIR_IMAGEN, con más cosas */
 void Personaje::activarAccion(accion_posible accion){
-	//~ if (this->accionActual->permiteAccion(accion)){
-		//~ 
-	//~ }
+	definir_imagen(accion);
+}
+
+void Personaje::definir_imagen(accion_posible accion){
+	//~ if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
+	if (this->nroAccionActual != accion){
+		cambiarAccionA(accion);
+	} else { 
+		this->accionActual->execute();
+		switch (nroAccionActual){
+			case SALTAR:
+			case SALTARDIAGONAL_DER:
+			case SALTARDIAGONAL_IZQ:
+				// if (bajé tanto como subí){
+				//  cambiarAccionA(QUIETO);
+				// }
+			default:
+				break;
+		}
+	}
+	this->imagenActual = this->accionActual->getImagenActual();
+	return;
 }
 
 //~ CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
