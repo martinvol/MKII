@@ -3,12 +3,12 @@
       "anchopx":800,
       "altopx":600,
       "ancho":400,
-      "margen":90
+      "margen":100
    },
    "escenario":{
       "ancho":1216,
-      "alto":400,
-      "ypiso":0
+      "alto":255,
+      "ypiso":-70
    },
    "capas":[
       {
@@ -34,7 +34,7 @@
    ],
    "personaje":{
       "ancho":63,
-      "alto":200,
+      "alto":120,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/",
