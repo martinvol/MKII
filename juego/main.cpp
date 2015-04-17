@@ -146,7 +146,7 @@ public:
 
 
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
-        this->timer = new Timer(1000, IMG_DEFAULT, conv, renderer);
+        this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 

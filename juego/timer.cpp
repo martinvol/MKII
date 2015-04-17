@@ -16,17 +16,17 @@ Timer::Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoo
     this->divisor = divisor;
     this->conv = conv;
     this->ren = ren;
-    this->actualD = 9;
-    this->actualU = 9;
+    this->actualD = 8;
+    this->actualU = 8;
 }
 
 void Timer::reset() { 
-    this->actualD = 9;
-    this->actualU = 9;
+    this->actualD = 8;
+    this->actualU = 8;
 }
 
 bool Timer::terminoElTiempo() {
-    return (this->actualD == this->actualU == 0);
+    return ((this->actualD == 9) && (this->actualU == 9));
 }
   
 bool Timer::dibujarse(float altoLogico, float anchoLogico) {
@@ -45,12 +45,12 @@ bool Timer::dibujarse(float altoLogico, float anchoLogico) {
 }   
 
 void Timer::avanzarTimer(unsigned int ticks) {
-    //if (!this->terminoElTiempo()) {
+    if (!this->terminoElTiempo()) {
         this->actualU = 8 - ((ticks / this->divisor)) % 10;
         if (this->actualU > 8) this->actualU = 9;
         this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
         if (this->actualD > 8) this->actualD = 9; 
-    //}   
+    }   
 }
 
 Timer::~Timer() {
