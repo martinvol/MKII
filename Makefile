@@ -71,8 +71,8 @@ SaltarVertical.o: juego/SaltarVertical.cpp
 SaltarDiagonal.o: juego/SaltarDiagonal.cpp
 	$(CC) "juego/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-CaminarDerecha.o: juego/CaminarDerecha.cpp
-	$(CC) "juego/CaminarDerecha.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Caminar.o: juego/Caminar.cpp
+	$(CC) "juego/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
 Estado.o: juego/Estado.cpp
 	$(CC) "juego/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -80,8 +80,8 @@ Estado.o: juego/Estado.cpp
 Personaje.o: juego/Personaje.cpp
 	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o Accion.o
-	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o CaminarDerecha.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Accion.o
+	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Timer.o: 
 	$(CC) "juego/timer.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -c
@@ -95,8 +95,8 @@ Quieto: Accion.o Quieto.o
 SaltarVertical: Accion.o SaltarVertical.o
 	$(CC)  Accion.o  SaltarVertical.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "SaltarVertical"
 
-CaminarDerecha: Accion.o CaminarDerecha.o
-	$(CC)  Accion.o  CaminarDerecha.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "CaminarDerecha"
+Caminar: Accion.o Caminar.o
+	$(CC)  Accion.o  Caminar.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Caminar"
 	
 SaltarDiagonal: Accion.o SaltarDiagonal.o
 	$(CC)  Accion.o  SaltarDiagonal.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "SaltarDiagonal"
@@ -110,7 +110,8 @@ Personaje: Personaje.o Accion.o	Estado.o
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o Timer.o CaminarDerecha.o SaltarVertical.o SaltarDiagonal.o
+
+compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o Timer.o Caminar.o SaltarVertical.o SaltarDiagonal.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

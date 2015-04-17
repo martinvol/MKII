@@ -117,7 +117,7 @@ int Accion::getModoActual(){
 }
 /***********************************************************************
  * 
- * 						CONSTRUCTOR
+ * 						CONSTRUCTOR Y DESTRUCTOR
  * 
  **********************************************************************/  
 
@@ -126,7 +126,7 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y){
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;
 	setAccionNro(nroAccion);
@@ -140,8 +140,19 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
 		setCantModos();
 	}
 	setImagenes();
-	setModoActual(0);	
-	
+	setModoActual(0);
+	this->despl_x = despl_x;
+	this->despl_y = despl_y;
+}
+
+/**Se destruye el vector, liberando la memoria 
+ * ocupada por las imagenes guardadas en el vector.
+ * */
+Accion::~Accion(){	
+	for (int i = 0; i < this->cantModos; i++){
+		if(imagenes[i]!=NULL)
+			SDL_DestroyTexture(imagenes[i]);
+	}
 }
 
 /***********************************************************************
@@ -150,16 +161,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
  * 
  **********************************************************************/  
 
-/**Se destruye el vector, liberando la memoria 
- * ocupada por las imagenes guardadas en el vector.
- * */
-Accion::~Accion(){
-	
-	for (int i = 0; i < this->cantModos; i++){
-		if(imagenes[i]!=NULL)
-			SDL_DestroyTexture(imagenes[i]);
-	}
-}
+
 
 void Accion::resetear(){
 	this->modoActual = 0;

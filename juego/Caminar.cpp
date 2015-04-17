@@ -1,4 +1,4 @@
-#include "CaminarDerecha.hpp"
+#include "Caminar.hpp"
 
 using namespace std;
 /***********************************************************************
@@ -6,7 +6,7 @@ using namespace std;
  * 						CAMINAR
  * 
  **********************************************************************/  
-void CaminarDerecha::cambiarModoInversamente(){
+void Caminar::cambiarModoInversamente(){
 	if (this->modoActual==0){
 		if(this->cantModos>0)
 			setModoActual(this->cantModos-1);	
@@ -17,11 +17,15 @@ void CaminarDerecha::cambiarModoInversamente(){
 	}
 
 }
-void CaminarDerecha::execute(){
+void Caminar::execute(){
 	if(secuenciaInversa){
-		CaminarDerecha::cambiarModoInversamente();
+		Caminar::cambiarModoInversamente();
 	}
 	else{
 		Accion::cambiarModo();
 	}
 };
+
+bool Caminar::permiteAccion(accion_posible nuevaAccion){
+	return true;
+}

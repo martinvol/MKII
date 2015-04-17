@@ -11,7 +11,10 @@
 #include "Quieto.hpp"
 #include "SaltarVertical.hpp"
 #include "SaltarDiagonal.hpp"
-#include "CaminarDerecha.hpp"
+#include "Caminar.hpp"
+
+#define VELOCIDAD_VERTICAL 75
+#define VELOCIDAD_HORIZONTAL 50
 
 using namespace std;
 
@@ -20,12 +23,12 @@ class Estado{
 	public:
 	
 		Quieto* quieto;
-		CaminarDerecha* caminarder;
-		Saltar* saltar;
+		Caminar* caminar;
+		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
 		
 
-		Estado(string ruta, SDL_Renderer* ren);
+		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario);
 		~Estado();
 
 };

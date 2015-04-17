@@ -37,3 +37,7 @@ void SaltarDiagonal::execute(){
 		SaltarDiagonal::cambiarModo();
 	}
 }
+
+bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
+	return false;
+}

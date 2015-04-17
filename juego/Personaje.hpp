@@ -15,9 +15,13 @@ using namespace std;
 
 class Personaje {
 		Conf* parser;
+	
+		/* Sus anchos y altos lógicos. */
+		float ancho;
+		float alto;
 		
-		int posicion_x;
-		int posicion_y;
+		/* Coordenada inferior izquierda. */
+		CoordenadaLogica* coordenada;
 		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		
@@ -35,12 +39,12 @@ class Personaje {
 		
 	public:
 		
-		Personaje(int posicion_x, int posicion_y, string nombre,SDL_Renderer* ren, Conf* parser);
+		Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
 		~Personaje();
-		void definir_imagen(int accion);
+		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion);
+		void cambiarAccionA(accion_posible nroACcion);
 		void Dibujarse(int x, int y);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
@@ -48,30 +52,38 @@ class Personaje {
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
-		//MILE: A agregar:
-		
-		CoordenadaLogica* obtenerCoordenada();
+		//MILE: A agregar para Dani:
+
+				
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
-		/* Devuelve la coordenada en la que está.
-		 * Comienza (o sigue) la imagen de parar. */
-		CoordenadaLogica* parar();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar. */
-		CoordenadaLogica* saltar();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar para la derecha. */
-		CoordenadaLogica* saltarDerecha();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar para la izquierda. */
-		CoordenadaLogica* saltarIzquierda();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de caminar para la derecha. */
-		CoordenadaLogica* caminarDerecha();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de caminar para la izquierda. */
-		CoordenadaLogica* caminarIzquierda();
+		
+		/* Sólo te dicen a que acción te están pidiendo que cambies.
+		 * Sólo lo debés hacer si es válido interrumpir tu acción
+		 * para la que te dicen; sino, no cambiás nada. */
+		void activarAccion(accion_posible accion);
+		
+		/* Devuelven coordenadas que deben ser liberadas para no perder
+		 * memoria. */
+		CoordenadaLogica* obtenerCoordenadaIzqSup();
+		CoordenadaLogica* obtenerCoordenadaIzqInf();
+		CoordenadaLogica* obtenerCoordenadaDerSup();
+		CoordenadaLogica* obtenerCoordenadaDerInf();
+		
+		/* Estas corresponden a preguntar dónde deberías estar o a
+		 * dónde te deberías mover la próxima vez de acuerdo a la
+		 * acción que está en transcurso. */
+		 /* Devuelven coordenadas que deben ser liberadas para no perder
+		 * memoria. */
+		CoordenadaLogica* obtenerSiguienteCoordenadaIzqSup();
+		CoordenadaLogica* obtenerSiguienteCoordenadaIzqInf();
+		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
+		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
+		
+		/* Coordenada a la que debe moverse el pesonaje. */
+		void moverseAIzqSup(CoordenadaLogica* coord);
+		void moverseADerSup(CoordenadaLogica* coord);
 		
 };
 

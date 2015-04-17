@@ -13,13 +13,6 @@
 
 using namespace std;
 
-#define QUIETO 0
-#define CAMINAR_DERECHA 1
-#define CAMINAR_IZQUIERDA 2
-#define SALTAR 3
-#define SALTODIAGONAL_IZQ 5
-#define SALTODIAGONAL_DER 4
-
 #define MOVER_PIXELES 60*(conf->personaje_ancho/conf->ventana_ancho)
 #define MOVER_PIXELES_VERTICAL 75*(conf->personaje_alto/conf->escenario_ancho)
 #define FRAMERATE 40
@@ -103,6 +96,7 @@ public:
     SDL_Window * window = NULL;
     Conf *conf;
     Personaje *personajeJuego;
+    Estado* estado;
     Timer* timer;
 
     Juego(int argc_, char* argv_[]){
@@ -178,7 +172,8 @@ public:
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true) ;
        //Derecha
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        Personaje* personaje = new Personaje(1,1,"Subzero",renderer, conf);
+        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
+        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
         this->personajeJuego = personaje;
 
         Player1 = SDL_JoystickOpen(0);
@@ -234,6 +229,7 @@ public:
 
 
             timerFps = SDL_GetTicks() - timerFps;
+
             if(timerFps < int(1000/24)){
                 SDL_Delay(CONST_MAXI_DELAY);
             }
@@ -246,7 +242,8 @@ public:
         logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();
         cargar_configuracion();
-        this->personajeJuego = new Personaje(1,1,"Subzero",renderer, conf);
+        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
+        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
         cargar_capas();
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
@@ -259,7 +256,7 @@ public:
         escenario->Borrar();
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
-        delete this->personajeJuego;
+        delete this->personajeJuego; // Elimina el estado también
         delete this->timer;
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
     };
@@ -314,7 +311,6 @@ void DibujarTodo(){
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
-            
         }
 
         if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
@@ -354,7 +350,7 @@ enum Estados{
    } estadoPersonaje1;
 
 
-    void Controlador(SDL_Event *evento){
+void Controlador(SDL_Event *evento){
        while(SDL_PollEvent( evento )) {
 
         //Ahora anda este tambien.
@@ -504,7 +500,7 @@ enum Estados{
             }else{
             //alturaMaxima
                 //Vo = 10px/t ; g = 6px/t*t
-                t+=0.01;
+               //t+=0.01;
                 //||*/ (posicionPJ_Piso <(conf->escenario_ypiso- posicionPJ_Piso))
                 //Nota: posicionPJ_Piso = 0 no es en la parte superior de la pantalla :-/
                 if (posicionPJ_Piso  >= ALTURA_MAX_SALTO) {
@@ -521,17 +517,17 @@ enum Estados{
                 //posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
                 //this->personajeJuego->definir_imagen(SALTODIAGONAL);
                 if(saltoDiagonalIZQ){
-                    if (x_logico_personaje - MOVER_PIXELES >= 0) x_logico_personaje -= MOVER_PIXELES;
+                    if (x_logico_personaje - 3*MOVER_PIXELES >= 0) x_logico_personaje -= 3*MOVER_PIXELES;
 
                     if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
-                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
+                    borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 3*MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
+                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 3*MOVER_PIXELES;
 
-                    if ((borde_izquierdo_logico_pantalla + MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
+                    if ((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200)))
-                        borde_izquierdo_logico_pantalla += MOVER_PIXELES;
+                        borde_izquierdo_logico_pantalla += 3*MOVER_PIXELES;
                 }
 
             }
@@ -544,7 +540,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Der_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_DER);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
 
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
@@ -554,7 +550,7 @@ enum Estados{
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_IZQ);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
 
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -596,13 +592,13 @@ enum Estados{
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_DER);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
 
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_IZQ);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
                 //Camino --> sigo caminando
                 }else if (Der_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
@@ -632,9 +628,9 @@ enum Estados{
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
                 if (saltoDiagonalDER)
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_DER);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
                 else
-                    this->personajeJuego->definir_imagen(SALTODIAGONAL_IZQ);
+                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
 
                 break;
             default:
