@@ -6,9 +6,9 @@
       "margen":80
    },
    "escenario":{
-      "ancho":1200,
+      "ancho":"1200",
       "alto":768,
-      "ypiso":400
+      "ypiso":0
    },
    "capas":[
       {

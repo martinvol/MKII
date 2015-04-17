@@ -1,3 +1,4 @@
+#include <sstream>
 #include <cstdio>
 #include <cstring>
 #include <fstream>
@@ -171,11 +172,22 @@ void Conf::set_values (char* my_file) {
 }
 
 float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
+    float result = 0;
    if (!objetoJson.isMember(clave)){
         logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
     }
-    return objetoJson.get(clave, valorDefault).asFloat();
+    
+    try {
+        result = objetoJson.get(clave, valorDefault).asFloat();
+    }
+    catch (const runtime_error& error){
+        std::ostringstream buff;
+        buff << valorDefault;
+        logger->log_error("Se esperaba un número en" + std::string(clave) + ", se usá el valor por default" + buff.str());
+        result = valorDefault;
+    }
+    return result;
 }
 
 bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){

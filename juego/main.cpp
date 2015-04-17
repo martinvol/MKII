@@ -308,7 +308,6 @@ void DibujarTodo(){
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
             }
-            cout << posicionPJ_Piso << endl; ///
         }
 
         if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
