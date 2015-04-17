@@ -129,7 +129,15 @@ void Conf::set_values (char* my_file) {
                     logger->log_error("Esta capa no tiene el valor imagen_fondo, se cargará la capa por default");
                 }
                 
-                nombre_archivo = capas[index].get("imagen_fondo", IMAGEN_DEFAULT).asString(); // este default hay que ponerlo bien
+                try {
+                    nombre_archivo = capas[index].get("imagen_fondo", IMAGEN_DEFAULT).asString(); // este default hay que ponerlo bien
+                } catch(const runtime_error& error){
+                    logger->log_error("No hay un número en el nombre de la capa");
+                    nombre_archivo = "";
+
+                }
+                
+
                 logger->log_debug("Intentando cargar capa '" + nombre_archivo + "'");
                 
                 if (!exists_test(nombre_archivo)){
