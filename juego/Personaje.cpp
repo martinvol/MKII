@@ -35,6 +35,7 @@ Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* r
 	this->nroAccionActual = 0;
 	
 	this->coordenada = coordenada;
+	this->siguiente = NULL;
 	
 	this->accionActual = this->estado->quieto;
 	
@@ -217,7 +218,7 @@ void Personaje::definir_imagen(accion_posible accion){
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
-		delete siguiente;
+		if (siguiente != NULL) delete siguiente;
 		siguiente = this->accionActual->execute(this->coordenada);
 		switch (nroAccionActual){
 			case SALTAR:
