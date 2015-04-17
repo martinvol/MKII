@@ -16,7 +16,7 @@ void SaltarVertical::resetear(){
 
 void SaltarVertical::cambiarModo(){
 	if (esUltimoModo()){
-		if(this->cantModos>=3){///puts("entre aca");
+		if(this->cantModos>=3){
 			setModoActual(2);	
 		}else
 			setModoActual(0);
@@ -26,17 +26,32 @@ void SaltarVertical::cambiarModo(){
 };
 
 CoordenadaLogica* SaltarVertical::execute(CoordenadaLogica* coord_personaje){
+	dist_virtual += despl_y;
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	coord.desplazarX(despl_x);
-	if (dist_virtual < H_MAX) coord.desplazarY(despl_y);
-	else coord.desplazarY(-despl_y);
-	if (this->getModoActual() == 1){
-		if(contadorDeLoops<21){
-			contadorDeLoops+=1;
-			return coord;
-		}
+	if (dist_virtual >= 2*h_max) return NULL;
+	// Cambio de coordenada.
+	coord->desplazarX(despl_x);
+	if (dist_virtual < h_max) coord->desplazarY(despl_y);
+	else coord->desplazarY(-despl_y);
+	// Cambio de imagen.
+	//ANTES:
+	//~ if (modoActual == 1){
+		//~ if(contadorDeLoops<21){
+			//~ contadorDeLoops+=1;
+			//~ return coord;
+		//~ }
+	//~ }
+	//~ SaltarVertical::cambiarModo();
+	//~ return coord;
+	//AHORA:
+	if (impar){
+		// Si es el modo del medio que se mantiene
+		if ((cantModos+1)/2 <= (modoActual+1))
+			if (dist_virtual >= delta*(modoActual+2))
+				cambiarModo();
 	}
-	SaltarVertical::cambiarModo();
+	// Si es impar y está en la primera mitad, o si es par.
+	if (dist_virtual >= delta*(modoActual+1)) cambiarModo(); // Que se supone que para esta implementación sólo va a avanzar al siguiente.
 	return coord;
 };
 

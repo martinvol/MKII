@@ -22,9 +22,10 @@ class Accion{
 		int cuentaArchivos(string ruta);
 	public:
 		
-		/* Constante de desplazamiento. */
+		/* Constantes de desplazamiento. */
 		float despl_x;
 		float despl_y;
+		float h_max;
 		
 		int accionNro;
 		int cantModos;
@@ -36,7 +37,7 @@ class Accion{
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);

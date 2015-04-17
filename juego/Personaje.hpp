@@ -22,6 +22,7 @@ class Personaje {
 		
 		/* Coordenada inferior izquierda. */
 		CoordenadaLogica* coordenada;
+		CoordenadaLogica* siguiente;
 		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		
