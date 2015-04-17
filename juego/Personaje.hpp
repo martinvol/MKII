@@ -48,30 +48,43 @@ class Personaje {
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
-		//MILE: A agregar:
-		
-		CoordenadaLogica* obtenerCoordenada();
+		//MILE: A agregar para Dani:
+
+				
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
-		/* Devuelve la coordenada en la que está.
-		 * Comienza (o sigue) la imagen de parar. */
-		CoordenadaLogica* parar();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar. */
-		CoordenadaLogica* saltar();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar para la derecha. */
-		CoordenadaLogica* saltarDerecha();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de saltar para la izquierda. */
-		CoordenadaLogica* saltarIzquierda();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de caminar para la derecha. */
-		CoordenadaLogica* caminarDerecha();
-		/* Devuelve la coordenada a la que iría.
-		 * Comienza (o sigue) la imagen de caminar para la izquierda. */
-		CoordenadaLogica* caminarIzquierda();
+		
+		/* Sólo te dicen a que acción te están pidiendo que cambies.
+		 * Sólo lo debés hacer si es válido interrumpir tu acción
+		 * para la que te dicen; sino, no cambiás nada. */
+		void parar();
+		void caminarDerecha();
+		void caminarIzquierda();
+		void saltar();
+		void saltarDerecha();
+		void saltarIzquierda();
+		
+		/* Devuelven coordenadas que deben ser liberadas para no perder
+		 * memoria. */
+		CoordenadaLogica* obtenerCoordenadaIzqSup();
+		CoordenadaLogica* obtenerCoordenadaIzqInf();
+		CoordenadaLogica* obtenerCoordenadaDerSup();
+		CoordenadaLogica* obtenerCoordenadaDerInf();
+		
+		/* Estas corresponden a preguntar dónde deberías estar o a
+		 * dónde te deberías mover la próxima vez de acuerdo a la
+		 * acción que está en transcurso. */
+		 /* Devuelven coordenadas que deben ser liberadas para no perder
+		 * memoria. */
+		CoordenadaLogica* obtenerSiguienteCoordenadaIzqSup();
+		CoordenadaLogica* obtenerSiguienteCoordenadaIzqInf();
+		CoordenadaLogica* obtenerSiguienteCoordenadaDerSup();
+		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
+		
+		/* Coordenada a la que debe moverse el pesonaje. */
+		void moverseAIzqSup(CoordenadaLogica* coord);
+		void moverseADerSup(CoordenadaLogica* coord);
 		
 };
 
