@@ -146,7 +146,7 @@ public:
 
 
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
-        this->timer = new Timer(1000, IMG_DEFAULT, conv, renderer);
+        this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -324,7 +324,7 @@ void DibujarTodo(){
 
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
-        this->timer->dibujarse(250, 250, 200, 200);
+        this->timer->Dibujarse();
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){

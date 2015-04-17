@@ -16,42 +16,48 @@ Timer::Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoo
     this->divisor = divisor;
     this->conv = conv;
     this->ren = ren;
-    this->actualD = 0;
-    this->actualU = 0;
+    this->actualD = 8;
+    this->actualU = 8;
 }
 
 void Timer::reset() { 
-    this->actualD = 0;
-    this->actualU = 0;
+    this->actualD = 8;
+    this->actualU = 8;
 }
 
 bool Timer::terminoElTiempo() {
-    return (this->actualD == this->actualU == 0);
+    return ((this->actualD == 9) && (this->actualU == 9));
 }
   
-bool Timer::dibujarse(int xFisico, int yFisico, float altoLogico, float anchoLogico) {
+bool Timer::Dibujarse() {
 
     int w, h;
+    float altoLogico = 70;
+    float anchoLogico = 70;
+    int xFisico = this->conv->ancho_fisico/2 - anchoLogico/2;
     SDL_QueryTexture(this->numeritos, NULL, NULL, &w, &h);
     // int(this->conv->alto_fisico* 0.1f)
-    SDL_Rect srcrect = { this->actualU * (w / 10) - 3,0, (w/10), h };
-    SDL_Rect srcrect2 = { this->actualD * (w / 10) - 3, 0, (w/10), h} ;
-    SDL_Rect dstrect2 = { xFisico - (w/10) - 3, 100, anchoLogico, altoLogico };
-    SDL_Rect dstrect = { xFisico, yFisico, anchoLogico, altoLogico };
+    SDL_Rect srcrect = { this->actualU * ((w / 10) + 1) - 3,0, (w/10), h };
+    SDL_Rect srcrect2 = { this->actualD *((w / 10) + 1) - 3, 0, (w/10), h} ;
+    SDL_Rect dstrect2 = { xFisico - anchoLogico, int(this->conv->alto_fisico* 0.1f), anchoLogico, altoLogico };
+    SDL_Rect dstrect = { xFisico, int(this->conv->alto_fisico* 0.1f), anchoLogico, altoLogico };
     SDL_RenderCopy(this->ren, this->numeritos, &srcrect, &dstrect);
     SDL_RenderCopy(this->ren, this->numeritos, &srcrect2, &dstrect2);
     return true;
 }   
 
 void Timer::avanzarTimer(unsigned int ticks) {
-    this->actualU = (ticks / this->divisor) % 10;
-    this->actualD = (ticks / (this->divisor*10)) % 10;    
+    if (!this->terminoElTiempo()) {
+        this->actualU = 8 - ((ticks / this->divisor)) % 10;
+        if (this->actualU > 8) this->actualU = 9;
+        this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
+        if (this->actualD > 8) this->actualD = 9; 
+    }   
 }
 
 Timer::~Timer() {
     SDL_DestroyTexture(this->numeritos);
 }
-
 
 
 
