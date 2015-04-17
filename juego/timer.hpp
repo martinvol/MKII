@@ -17,7 +17,7 @@ class Timer {
         
     public:
         Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoordenadas* conv, SDL_Renderer* ren);
-        bool dibujarse(float altoLogico, float anchoLogico);
+        bool Dibujarse();
         void reset();
         bool terminoElTiempo();  
         void avanzarTimer(unsigned int ticks); 

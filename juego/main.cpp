@@ -331,7 +331,7 @@ void DibujarTodo(){
 
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
-        this->timer->dibujarse(13, 16);
+        this->timer->Dibujarse();
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
