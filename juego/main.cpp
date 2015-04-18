@@ -307,13 +307,15 @@ void DibujarTodo(){
 */
 
             if (i==conf->personaje_zindex){
-                CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+                //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
                 this->personajeJuego->Dibujarse(
-                    coord->x_fisico,
-                    coord->y_fisico,
+                    //~ coord->x_fisico,
+                    //~ coord->y_fisico,
+                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
+                    (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
-				delete coord;
+				//~ delete coord;
             }
         }
 
@@ -332,7 +334,7 @@ void DibujarTodo(){
 		
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
-        this->timer->Dibujarse();
+        //this->timer->Dibujarse();
 		
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
@@ -520,13 +522,13 @@ void Controlador(SDL_Event *evento){
                 if(saltoDiagonalIZQ){
                     if (x_logico_personaje - 3*MOVER_PIXELES >= 0) x_logico_personaje -= 3*MOVER_PIXELES;
 
-                    if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
+                    if (((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho) < (ANCHO_FISICO*(100-conf->margen)/200))
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 3*MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 3*MOVER_PIXELES;
+                    if (x_logico_personaje <= (conf->escenario_ancho - conf->personaje_ancho)) x_logico_personaje += 3*MOVER_PIXELES;
 
-                    if ((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
+                    if (((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + conf->ventana_ancho) < conf->escenario_ancho)
                     &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200)))
                         borde_izquierdo_logico_pantalla += 3*MOVER_PIXELES;
                 }
