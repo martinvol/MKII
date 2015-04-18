@@ -30,6 +30,7 @@ class Personaje {
 		Accion* accionActual;
 		Estado* estado;
 		
+		bool derecha
 		bool ladoDerecha;
 		
 		SDL_Texture* imagenActual;
@@ -40,17 +41,18 @@ class Personaje {
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		
 	public:
-		
-		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado);
+		//Harcodeo para donde mira.
+		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);
+		//~ Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado);
 		~Personaje();
-		void definir_imagen(float tmp, int accion);
-		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
-		void mirar_al_otro_lado();
-		void cambiarAccionA(int nroACcion);
+		void definir_imagen(accion_posible accion);
+		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
+		//~ void mirar_al_otro_lado();
+		void cambiarAccionA(accion_posible nroACcion);
 		void Dibujarse(int x, int y);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
-		int getSpriteActual();
+		//~ int getSpriteActual();
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
@@ -63,12 +65,7 @@ class Personaje {
 		/* Sólo te dicen a que acción te están pidiendo que cambies.
 		 * Sólo lo debés hacer si es válido interrumpir tu acción
 		 * para la que te dicen; sino, no cambiás nada. */
-		void parar();
-		void caminarDerecha();
-		void caminarIzquierda();
-		void saltar();
-		void saltarDerecha();
-		void saltarIzquierda();
+		void activarAccion(accion_posible accion);
 		
 		/* Devuelven coordenadas que deben ser liberadas para no perder
 		 * memoria. */

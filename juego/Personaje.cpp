@@ -42,7 +42,8 @@ using namespace std;
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha){
+//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 
 	this->alto = alto;
 	this->ancho = ancho;
@@ -52,6 +53,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->siguiente = NULL;
 	
 	this->ladoDerecha = true;
+	this->derecha = derecha;
 	
 	this->estado = estado;
 	this->nroAccionActual = 0;
@@ -181,37 +183,51 @@ void Personaje::moverseADerSup(CoordenadaLogica* coord){
  * un booleano que indica si la accion puede ser interrumpida.
  * y un puntero de tipo SDL_Renderer que indica el renderer.
  * */
-void Personaje::cambiarAccionA(int nroAccion){
+void Personaje::cambiarAccionA(accion_posible nroAccion){
 	
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
-	if (nroAccion == 0){ 
+	
+	switch (nroAccion)
+	{ 
+		case QUIETO:
 			this->accionActual = this->estado->quieto;
-	}if (nroAccion == 1){
-			this->accionActual = this->estado->caminarder;
-			if (!this->parser->personaje_mirar_derecha){
+			break;
+		case CAMINAR_DERECHA:
+			this->accionActual = this->estado->caminar;
+			if (!this->derecha){
 				//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
-				this->ladoDerecha = false;
-				
-				return;
 			}
-	}if (nroAccion == 2){
-			this->accionActual = this->estado->caminarder;
-			if(this->parser->personaje_mirar_derecha){
-				this->ladoDerecha = true;
+			break;
+		case CAMINAR_IZQUIERDA:
+			this->accionActual = this->estado->caminar;
+			if(this->derecha){
 				this->accionActual->setInvertirSecuencia();
-				return;
 			}
-	}if (nroAccion == 3){
-			this->accionActual = this->estado->saltar;
-	}if (nroAccion == 4){
+			break;
+		case SALTAR:
+			this->accionActual = this->estado->saltarvertical;
+			break;
+		case SALTARDIAGONAL_DER:
 			this->accionActual = this->estado->saltardiagonal;
-	}	
-	this->ladoDerecha = true;
+			if(!this->derecha){
+					//espejar e invertir las imagenes
+				this->accionActual->setInvertirSecuencia();
+			}
+			break;
+		default: // SALTARDIAGONAL_IZQ:
+			this->accionActual = this->estado->saltardiagonal;
+			if(this->derecha){
+				this->accionActual->setInvertirSecuencia();
+			}
+			break;
+	}
+	//Se pasaron los casos de sprites especiales
+	if(!this->derecha){
+		this->ladoDerecha = false;
+	}
 	
-	
-
 }
 
 void Personaje::Dibujarse(int x, int y){
@@ -220,9 +236,7 @@ void Personaje::Dibujarse(int x, int y){
 	this->Dibujarse(x, y, float(alto), float(ancho));
 }
 
-/**
- * 
- * */
+
 void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	//Rectangulo destino
 	SDL_Rect destino;
@@ -237,6 +251,8 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
 }
+
+
 void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	
 	

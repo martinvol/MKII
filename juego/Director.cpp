@@ -60,7 +60,8 @@ void Director::actualizar(){
 	verificar_movimientos();
 	// Finalmente, ya movidos, verifica en donde están uno respecto del
 	// otro y les cambia la dirección de la mirada.
-	verificar_orientaciones();
+	// VER BIEN PARA LA PRÓXIMA ENTREGA
+	//~ verificar_orientaciones();
 }
 
 void Director::informar_acciones(){
