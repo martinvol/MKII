@@ -29,11 +29,11 @@ Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* r
 
 	this->ancho = ancho;
 	this->alto = alto;
-	//~ this->parser->personaje_mirar_derecha = false;
 	this->estado = estado;
 	this->ladoDerecha = this->parser->personaje_mirar_derecha;
 	this->nroAccionActual = 0;
-	
+
+	this->y_inicial = coordenada->y;
 	this->coordenada = coordenada;
 	this->siguiente = NULL;
 	
@@ -224,15 +224,18 @@ void Personaje::definir_imagen(accion_posible accion){
 			case SALTAR:
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
-				if (siguiente == NULL){
+				if (siguiente->y < y_inicial){
 					cambiarAccionA(QUIETO);
-					siguiente = coordenada;
+					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
+					delete siguiente;
+					siguiente = coord;
 				}
 			default:
 				break;
 		}
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
+	coordenada = new CoordenadaLogica(siguiente);
 	return;
 }
 

@@ -138,8 +138,7 @@ public:
         // Martin
         // fin de las configuraciones
 
-        this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
-                                          AltoLogico, AnchoLogico, conf->ventana_ancho, 0);
+        
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
@@ -148,6 +147,9 @@ public:
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
         this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
+		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
+												conf->escenario_alto, conf->escenario_ancho, borde_izquierdo_logico_pantalla);
+	
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
 
@@ -194,7 +196,8 @@ public:
                 conf->capas_vector[i]->anchoLogico,
                 conf->capas_vector[i]->x_logico,
                 conf->capas_vector[i]->ren,
-                this->conv
+                this->conv,
+                conf->escenario_ancho
                 )
             );
         }
@@ -316,17 +319,21 @@ void DibujarTodo(){
 
         if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
             // Si no hay capas;
-            this->personajeJuego->Dibujarse(
+            //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+			this->personajeJuego->Dibujarse(
+					//~ coord->x_fisico,
+					//~ coord->y_fisico,
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
                     (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
+			//~ delete coord;
         }
-
+		
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
         this->timer->Dibujarse();
-
+		
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
             SDL_Rect pantalla = {0,0,conf->ventana_anchopx,conf->ventana_altopx};

@@ -32,11 +32,11 @@ void SaltarDiagonal::cambiarModoInversamente(){
 CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 	dist_virtual += despl_y;
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	if (dist_virtual >= 2*h_max) return NULL;
 	// Cambio de coordenada.
 	coord->desplazarX(despl_x);
 	if (dist_virtual < h_max) coord->desplazarY(despl_y);
 	else coord->desplazarY(-despl_y);
+	if (dist_virtual >= 2*h_max) return coord;
 	// Cambio de imagen.
 	// ANTES:	//~ if(secuenciaInversa){
 		//~ SaltarDiagonal::cambiarModoInversamente();
