@@ -31,9 +31,9 @@ void SaltarDiagonal::cambiarModoInversamente(){
 
 CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	coord.desplazarX(despl_x);
-	if (dist_virtual < H_MAX) coord.desplazarY(despl_y);
-	else coord.desplazarY(-despl_y);
+	coord->desplazarX(despl_x);
+	if (dist_virtual < H_MAX) coord->desplazarY(despl_y);
+	else coord->desplazarY(-despl_y);
 	if(secuenciaInversa){
 		SaltarDiagonal::cambiarModoInversamente();
 	}

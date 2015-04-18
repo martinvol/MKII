@@ -218,7 +218,7 @@ void Personaje::definir_imagen(accion_posible accion){
 	if (this->nroAccionActual != accion){
 		cambiarAccionA(accion);
 	} else { 
-		this->accionActual->execute();
+		this->accionActual->execute(this->coordenada);
 		switch (nroAccionActual){
 			case SALTAR:
 			case SALTARDIAGONAL_DER:

@@ -27,9 +27,9 @@ void SaltarVertical::cambiarModo(){
 
 CoordenadaLogica* SaltarVertical::execute(CoordenadaLogica* coord_personaje){
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	coord.desplazarX(despl_x);
-	if (dist_virtual < H_MAX) coord.desplazarY(despl_y);
-	else coord.desplazarY(-despl_y);
+	coord->desplazarX(despl_x);
+	if (dist_virtual < H_MAX) coord->desplazarY(despl_y);
+	else coord->desplazarY(-despl_y);
 	if (this->getModoActual() == 1){
 		if(contadorDeLoops<21){
 			contadorDeLoops+=1;

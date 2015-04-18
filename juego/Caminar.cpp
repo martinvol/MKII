@@ -17,17 +17,19 @@ void Caminar::cambiarModoInversamente(){
 	}
 
 }
+
 CoordenadaLogica* Caminar::execute(CoordenadaLogica* coord_personaje){
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	coord.desplazarY(despl_y);
+	coord->desplazarY(despl_y);
 	if(secuenciaInversa){
 		Caminar::cambiarModoInversamente();
-		coord.desplazarX(-despl_x);
+		coord->desplazarX(-despl_x);
 		return coord;
+	}
 	// else
 	Accion::cambiarModo();
-	coord.desplazarX(despl_x);
-};
+	coord->desplazarX(despl_x);
+}
 
 bool Caminar::permiteAccion(accion_posible nuevaAccion){
 	return true;
