@@ -148,7 +148,7 @@ public:
         this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
 		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
-												conf->escenario_alto, conf->escenario_ancho, borde_izquierdo_logico_pantalla);
+												conf->escenario_alto, conf->ventana_ancho, borde_izquierdo_logico_pantalla);
 	
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
