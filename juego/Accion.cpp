@@ -1,14 +1,4 @@
-#include <stdio.h>
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <vector>
-#include <string>
-#include <thread>         
-#include <chrono> 
-#include <stdlib.h>
 #include <dirent.h>
-#include <sys/stat.h>
 
 #include "Accion.hpp"
 
@@ -20,20 +10,18 @@ using namespace std;
  *
  **********************************************************************/   
  
-int cuentaArchivos(string ruta){
+int Accion::cuentaArchivos(string ruta){
 	
-	/* Con un puntero a DIR abriremos el directorio */
 	DIR *dir;
-	/* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
 	struct dirent *ent;
 	
 	dir = opendir (ruta.c_str());
 	Logger* logger = Logger::instance();
-	/* Miramos que no haya error */
+	
 	if (dir == NULL){
+		string ruta = "resources/Default/"+to_string(this->accionNro);
 		logger->log_error("No se puede abrir el directorio del Personaje");
-		exit(EXIT_FAILURE);
-		return 0;
+		dir = opendir (ruta.c_str());
 	}
 
 	int i = 0;
@@ -58,7 +46,7 @@ void Accion::setRutaArchivo(const string directorio){
 	this->ruta = directorio;
 }
 void Accion::setCantModos(){
-	this->cantModos = cuentaArchivos(this->ruta);
+	this->cantModos = this->cuentaArchivos(this->ruta);
 }
 void Accion::setModoActual(int modo){
 	this->modoActual = modo;
@@ -75,7 +63,7 @@ void Accion::setAccionNro(int nroAccion){
 void Accion::setImagenes (){
 	
 	string numeroImagen, rutaCompleta; 
-	
+	bool ninguna = true;
 	int numero;
 	
 	for (int i = 0; i<this->cantModos; i++){
@@ -88,10 +76,24 @@ void Accion::setImagenes (){
 			this->logger->log_debug("IMG_LoadTexture error: " + (string)(SDL_GetError()));
 			//cout<<"error en: "<<numeroImagen<<endl;
 		}
+		else{ninguna = false;}
 		this->imagenes.push_back(imagen);
 	
 	}
+	if (ninguna){
+		setRutaArchivo("resources/Default/"+to_string(this->accionNro));
+		logger->log_debug("La carpeta ubicada en: "+ruta+" no contiene imagenes. \n \t\t\t Se paso por default: resources/Default/");
+		setCantModos();
+		setImagenes();
+	}
 }
+
+void Accion::setInvertirSecuencia(){
+	this->secuenciaInversa = true;
+	if(this->cantModos>0)
+		this->setModoActual(this->cantModos-1);
+};
+
 
 
 /***********************************************************************
@@ -115,7 +117,7 @@ int Accion::getModoActual(){
 }
 /***********************************************************************
  * 
- * 						CONSTRUCTOR
+ * 						CONSTRUCTOR Y DESTRUCTOR
  * 
  **********************************************************************/  
 
@@ -124,19 +126,34 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
-	
-	this->lastTime = 0;
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max){
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;
-	//cout<<"CONSTRUCTOR ACCION NRO: "<<nroAccion<<endl;
 	setAccionNro(nroAccion);
 	setRutaArchivo(ruta+to_string(nroAccion));
 	setRenderer(ren);
 	setCantModos();
+	if (this->cantModos == 0){
+		//Se cargan imagenes desde una carpeta por defecto.
+		setRutaArchivo("resources/Default/"+to_string(nroAccion));
+		logger->log_debug("La carpeta ubicada en: "+ruta+" no contiene imagenes. \n \t\t\t Se paso por default: resources/Default/");
+		setCantModos();
+	}
 	setImagenes();
 	setModoActual(0);
+	this->despl_x = despl_x;
+	this->despl_y = despl_y;
+	this->h_max = h_max;
+}
 
+/**Se destruye el vector, liberando la memoria 
+ * ocupada por las imagenes guardadas en el vector.
+ * */
+Accion::~Accion(){	
+	for (int i = 0; i < this->cantModos; i++){
+		if(imagenes[i]!=NULL)
+			SDL_DestroyTexture(imagenes[i]);
+	}
 }
 
 /***********************************************************************
@@ -145,26 +162,11 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren){
  * 
  **********************************************************************/  
 
-/**Se destruye el vector, liberando la memoria 
- * ocupada por las imagenes guardadas en el vector.
- * */
-Accion::~Accion(){
-	
-	for (int i = 0; i < this->cantModos; i++){
-			SDL_DestroyTexture(imagenes[i]);
-	}
-}
 
-/**Devuelve true si el entero pasado por parametro 
- * (que representa una accion determinada)
- * es la misma que el correspondiente a la accion actual.
- * false, en caso contrario
- * */
-bool Accion::esDistintaA(int nroAccion){
-	//cout<<"nroAccionACtual"<<this->accionNro<<"nueva"<<nroAccion<<endl;
-	if (this->accionNro != nroAccion)
-		return true;
-	return false;
+
+void Accion::resetear(){
+	this->modoActual = 0;
+	this->secuenciaInversa = false;
 }
 
 /**Devuelve true si se alcanzo el ultimo 
@@ -172,6 +174,9 @@ bool Accion::esDistintaA(int nroAccion){
  * false, en caso contrario.
  * */
 bool Accion::esUltimoModo(){
+	if(this->cantModos == 1){
+		return true;
+	}
 	if (this->modoActual == (this->cantModos-1)){
 		return true;
 	}
@@ -184,13 +189,13 @@ bool Accion::esUltimoModo(){
  * */
   	
 void Accion::cambiarModo(){
-	if (esUltimoModo()){
+	if (esUltimoModo())
 		setModoActual(0);	
-	}
-	else{
+	
+	else
 		setModoActual(this->modoActual+1);
-	}
 }
 
-void Accion::execute(float tmp){}
+
+
 

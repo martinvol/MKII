@@ -8,30 +8,26 @@
 #include <string>
 #include <vector>
 #include "Accion.hpp"
-#include "Parser.hpp"
+#include "Quieto.hpp"
+#include "SaltarVertical.hpp"
+#include "SaltarDiagonal.hpp"
+#include "Caminar.hpp"
+
+using namespace std;
 
 class Estado{
 	
 	public:
 	
 		Quieto* quieto;
-		CaminarDerecha* caminarder;
-		Saltar* saltar;
+		Caminar* caminar;
+		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
+		
 
-		Estado(string ruta, SDL_Renderer* ren){
-			this->quieto = new Quieto(ruta, ren);
-			this->saltar = new Saltar(ruta, ren);
-			this->saltardiagonal = new SaltarDiagonal(ruta, ren);
-			this->caminarder = new CaminarDerecha(ruta, ren);
-		};
-		~Estado(){
-			delete this->quieto;
-			delete this->caminarder;
-			delete this->saltar;
-			delete this->saltardiagonal;
-		}
+		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario);
+		~Estado();
 
 };
 
-#endif // ESTADO_H_INCLUDED
+#endif

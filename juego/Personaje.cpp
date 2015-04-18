@@ -42,18 +42,25 @@ using namespace std;
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, string ruta){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 
-	this->estado = new Estado(ruta, ren);
+	this->alto = alto;
+	this->ancho = ancho;
+	
+	this->y_inicial = coord->y;
 	this->coordenada = coord;
-	this->ladoDerecha = true; //this->parser->personaje_mirar_derecha;
+	this->siguiente = NULL;
+	
+	this->ladoDerecha = true;
+	
+	this->estado = estado;
 	this->nroAccionActual = 0;
 	this->accionActual = this->estado->quieto;
 	this->imagenActual = NULL;
-	this->lastTime = 0;
+	
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
-
+	
 }
 
 Personaje::~Personaje(){
@@ -68,91 +75,83 @@ Personaje::~Personaje(){
  **********************************************************************/  
 
 void Personaje::mirarParaDerecha(){
-
+	ladoDerecha = true;
 }
 
 void Personaje::mirarParaIzquierda(){
-
+	ladoDerecha = false;
 }
 
-void Personaje::parar(){
-
+void Personaje::activarAccion(accion_posible accion){
+	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
+		cambiarAccionA(accion);
+	} else {
+		if (siguiente != NULL){ delete siguiente; }
+		siguiente = this->accionActual->execute(this->coordenada);
+		switch (nroAccionActual){
+			case SALTAR:
+			case SALTARDIAGONAL_DER:
+			case SALTARDIAGONAL_IZQ:
+				if (siguiente->y < y_inicial){
+					cambiarAccionA(QUIETO);
+					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
+					delete siguiente;
+					siguiente = coord;
+				}
+			default:
+				break;
+		}
+	}
+	this->imagenActual = this->accionActual->getImagenActual();
 }
 
-void Personaje::caminarDerecha(){
-
-}
-
-void Personaje::caminarIzquierda(){
-
-}
-
-void Personaje::saltar(){
-
-}
-
-void Personaje::saltarDerecha(){
-
-}
-
-void Personaje::saltarIzquierda(){
-
-}
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
-	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
-	coord->sumar(coordenada);
+	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	coord->desplazarY(alto);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqInf(){
-	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
-	coord->sumar(coordenada);
+	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaDerSup(){
-	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
-	coord->sumar(coordenada);
+	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	coord->desplazarY(alto);
 	coord->desplazarX(ancho);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
-	CoordenadaLogica* coord = new CoordenadaLogica(0.0,0.0);
-	coord->sumar(coordenada);
+	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	coord->desplazarX(ancho);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
-	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
-	//~ Me devuelve una coordenada nueva que debo liberar.
-	//~ coord->desplazarY(alto);
-	//~ return coord;
+	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
+	coord->desplazarY(alto);
+	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
-	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
-	//~ Me devuelve una coordenada nueva que debo liberar.
-	//~ return coord;
+	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
+	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
-	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
-	//~ Me devuelve una coordenada nueva que debo liberar.
-	//~ coord->desplazarY(alto);
-	//~ coord->desplazarX(ancho);
-	//~ return coord;
+	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
+	coord->desplazarY(alto);
+	coord->desplazarX(ancho);
+	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
-	//~ CoordenadaLogica* coord = obtengo la proxima preguntandole a la accion o de alguna forma.
-	//~ Me devuelve una coordenada nueva que debo liberar.
-	//~ coord->desplazarX(ancho);
-	//~ return coord;
+	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
+	coord->desplazarX(ancho);
+	return coord;
 }
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
@@ -214,39 +213,7 @@ void Personaje::cambiarAccionA(int nroAccion){
 	
 
 }
-/**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
- * se debe mostrar por pantalla.
- * Recibe por parametro la nueva Accion que el loop del juego
- * quiere que el Personaje represente, 
- * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- */ 
- void Personaje::definir_imagen(float tmp, int nuevaAccion){
-	
-	//~ puts("----------------------------------------------------------------------------------");	
-	//~ cout<<"Accion actual: "<<this->accionActual->accionNro<<" Accion entratnte: "<<nuevaAccion<<endl;
-	//~ cout<<"La accion actual permite cambio?: "<< this->accionActual->permite(nuevaAccion)<<endl;
-	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-	//~ if(!this->ladoDerecha && nuevaAccion==1){nuevaAccion=2;}
-	//~ else if(!this->ladoDerecha && nuevaAccion==2){nuevaAccion=1;}
-	if(nuevaAccion == 5){nuevaAccion=4;}
-	
-	if (this->nroAccionActual != nuevaAccion){
-		//~ puts("entra Aca");
-		cambiarAccionA(nuevaAccion);
-		this->imagenActual = this->accionActual->getImagenActual();
-		return;// this->imagenActual;
-	}
-	
-	this->accionActual->execute(tmp);
-	//~ cout<<"A la salida muestro la imagen del  modo nro: "<<this->accionActual->getModoActual()<<endl;
-	this->imagenActual = this->accionActual->getImagenActual();
-	return;// this->imagenActual;
-	
-}
 
-/**
- * 
- */ 
 void Personaje::Dibujarse(int x, int y){
     int ancho, alto;
 	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);

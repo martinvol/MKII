@@ -8,29 +8,36 @@
 #include <string>
 #include <vector>
 
-#include "Parser.hpp"
+#include "CoordenadaLogica.hpp"
 #include "Logger.hpp"
+
+typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER} accion_posible;
+
 
 using namespace std;
 
 class Accion{
 	
-	
+	private: 
+		int cuentaArchivos(string ruta);
 	public:
-			
+		
+		/* Constantes de desplazamiento. */
+		float despl_x;
+		float despl_y;
+		float h_max;
+		
 		int accionNro;
 		int cantModos;
 		string ruta;
 		SDL_Renderer* renderer;
 		vector<SDL_Texture*> imagenes;
 		int modoActual;
-		int lastTime;
-		Parser* parser;
+		
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren); //constructor
-		~Accion();
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
@@ -39,131 +46,24 @@ class Accion{
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
 		
-		void setInvertirSecuencia(){
-			this->secuenciaInversa = true;
-		};
+		void setInvertirSecuencia();
 	
 		SDL_Texture* getImagenActual();
 		int getModoActual();
 	
-		bool esDistintaA(int nroAccion);
 		bool esUltimoModo();
 		void cambiarModo();
-	
-		virtual void execute(float tmp);
-		virtual bool permite(int nuevaAccion){return true;};
-
-		//SDL_Texture* getImagenNro(int numeroDeSprite);
 		
-		virtual void resetear(){
-			this->modoActual = 0;
-			this->lastTime = 0;
-			this->secuenciaInversa = false;
-		}
+		/* Devuelve una NUEVA coordenada. */
+		virtual CoordenadaLogica* execute(CoordenadaLogica* coord_personaje){return NULL;}
+		
+		/* Devuelve true si puede ser interrumpida por alguna OTRA acción.
+		 * Es decir, se supone que no le va a llegar la misma acción que es. */
+		virtual bool permiteAccion(accion_posible nuevaAccion){return true;}
+
+		~Accion();
+		virtual void resetear();
 		void cambiarModoInversamente();
 };
 
-#define TEMPO 30
-class Quieto:public Accion{
-	public:
-		Quieto(string ruta, SDL_Renderer* ren):Accion(0,ruta,ren){};
-		void execute(float tmp){
-					
-			Accion::cambiarModo();
-			
-		};
-		bool permite(int nuevaAccion){
-			return true;
-		};	
-};
-
-class CaminarDerecha: public Accion{
-	public:
-		CaminarDerecha(string ruta, SDL_Renderer* ren):Accion(1,ruta,ren){};
-		void cambiarModoInversamente(){
-			if (this->modoActual==0){
-				setModoActual(this->cantModos-1);	
-			}
-			else{
-				setModoActual(this->modoActual-1);
-			}
-		};
-		void execute(float tmp){
-			if(secuenciaInversa){
-				CaminarDerecha::cambiarModoInversamente();
-			}
-			else{
-				Accion::cambiarModo();
-			}
-		};
-};
-
-#define TEMPOSALTO 150
-class Saltar:public Accion{
-	public:
-		int contadorDeLoops;
-		int contador;
-		Saltar(string ruta, SDL_Renderer* ren):Accion(3,ruta,ren){this->contadorDeLoops=0;contador= 0;};
-		void resetear(){
-			this->modoActual = 0;
-			this->lastTime = 0;
-			this->contadorDeLoops=0;
-			this->contador = 0;
-		};
-		void cambiarModo(){
-			
-			if (esUltimoModo()){
-				///puts("entre aca");
-				setModoActual(2);	
-			}
-			else{
-				setModoActual(this->modoActual+1);
-			}
-			
-		};
-		void execute(float tmp){
-			if (this->getModoActual()==1){
-				if(contadorDeLoops<21){
-					contadorDeLoops+=1;
-					return;
-				}
-			}
-			Saltar::cambiarModo();
-		};
-};
-
-class SaltarDiagonal: public Accion{
-	public:
-		SaltarDiagonal(string ruta, SDL_Renderer* ren):Accion(4,ruta,ren){};	
-		void cambiarModo(){
-			if (esUltimoModo()){
-				///puts("entre aca");
-				setModoActual(1);	
-			}
-			else{
-				setModoActual(this->modoActual+1);
-			}
-			
-		};
-		void execute(float tmp){
-			//~ cout<<"imprimir salto diagonal"<<endl;
-			//~ unsigned int currentTime = SDL_GetTicks();
-			//~ unsigned int tiempoTranscurrido = tmp - lastTime;
-			//~ if (Accion::getModoActual()==1){
-				//~ if (tiempoTranscurrido>TEMPOSALTO){
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + TEMPOSALTO;
-				//~ }
-			//~ }
-			//~ if (tiempoTranscurrido > 10){
-					//~ Accion::cambiarModo();
-					//~ lastTime = lastTime + 10;
-			//~ }
-			SaltarDiagonal::cambiarModo();
-		};
-		bool permite(int nuevaAccion){
-			return false;
-		};
-};
-
-#endif // ACCION_H_INCLUDED
+#endif

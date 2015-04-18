@@ -74,22 +74,22 @@ void Director::informar_acciones(){
 void Director::informar_accion(movimiento mov, Jugador* jugador){
 	switch (mov){
 		case Derecha:
-			jugador->caminarDerecha();
+			jugador->activarAccion(CAMINAR_DERECHA);
 			break;
 		case Izquierda:
-			jugador->caminarIzquierda();
+			jugador->activarAccion(CAMINAR_IZQUIERDA);
 			break;
 		case Arriba:
-			jugador->saltar();
+			jugador->activarAccion(SALTAR);
 			break;
 		case ArribaDerecha:
-			jugador->saltarDerecha();
+			jugador->activarAccion(SALTARDIAGONAL_DER);
 			break;
 		case ArribaIzquierda:
-			jugador->saltarIzquierda();
+			jugador->activarAccion(SALTARDIAGONAL_IZQ);
 			break;
 		default: //case Nada:
-			jugador->parar();
+			jugador->activarAccion(QUIETO);
 			break;
 	}
 }

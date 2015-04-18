@@ -16,27 +16,32 @@ using namespace std;
 class Personaje {
 	
 	private:
-		/* Coordenada Logica de la esquina izquierda inferior. */	
-		CoordenadaLogica* coordenada;
-		/* En unidades logicas. */
-		float alto;
+		/* Sus anchos y altos lógicos. */
 		float ancho;
+		float alto;
 		
-		Parser* parser;
+		float y_inicial;
+		/* Coordenada inferior izquierda. */
+		CoordenadaLogica* coordenada;
+		CoordenadaLogica* siguiente;
+		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
+		
 		Accion* accionActual;
 		Estado* estado;
+		
 		bool ladoDerecha;
-		int lastTime;
+		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
+		
 		int nroAccionActual;
 		
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		
 	public:
 		
-		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, string ruta);
+		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado);
 		~Personaje();
 		void definir_imagen(float tmp, int accion);
 		void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);

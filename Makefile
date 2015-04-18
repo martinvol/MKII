@@ -77,6 +77,9 @@ Estado: Estado.o
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
 
+Accion: Accion.o
+	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
+
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
