@@ -347,7 +347,7 @@ enum Estados{
 
 
     void Controlador(SDL_Event *evento){
-        SDL_PollEvent( evento );
+       while(SDL_PollEvent( evento )) {
 
         //Ahora anda este tambien.
         /*if (evento->type == SDL_JOYBUTTONDOWN){
@@ -475,6 +475,7 @@ enum Estados{
             default:
                 ;
            }
+        }
     };
 
 
