@@ -18,7 +18,7 @@ class SaltarDiagonal: public Accion{
 			} else {
 				delta = 2.0 * h_max/cantModos;
 				impar = false;
-			}	
+			}
 		}	
 		
 		void cambiarModo();
