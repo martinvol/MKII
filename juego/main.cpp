@@ -304,12 +304,13 @@ void DibujarTodo(){
 */
 
             if (i==conf->personaje_zindex){
-                
+                CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
                 this->personajeJuego->Dibujarse(
-                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
+                    coord->x_fisico,
+                    coord->y_fisico,
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
+				delete coord;
             }
         }
 
