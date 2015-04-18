@@ -56,9 +56,9 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->derecha = derecha;
 	
 	this->estado = estado;
-	this->nroAccionActual = 0;
+	this->nroAccionActual = QUIETO;
 	this->accionActual = this->estado->quieto;
-	this->imagenActual = NULL;
+	this->imagenActual = this->accionActual->getImagenActual();
 	
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;

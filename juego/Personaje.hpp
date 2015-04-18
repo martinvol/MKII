@@ -36,7 +36,7 @@ class Personaje {
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
 		
-		int nroAccionActual;
+		accion_posible nroAccionActual;
 		
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		
@@ -48,7 +48,7 @@ class Personaje {
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
-		void cambiarAccionA(accion_posible nroACcion);
+		void cambiarAccionA(accion_posible nroAccion);
 		void Dibujarse(int x, int y);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
