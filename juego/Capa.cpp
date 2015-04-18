@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor){
+Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
@@ -23,8 +23,8 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
     
         float a = 0;
         b = this->x_logico;
-        float c = conversor->ancho_logico - (this->conversor->ancho_logico_ventana);
-        float d = w - w*(conversor->ancho_logico_ventana/this->anchoLogico);
+        float c = ancho_logico_escenario - (this->conversor->ancho_logico);
+        float d = w - w*(conversor->ancho_logico/this->anchoLogico);
         //float d = conversor->ancho_logico - this->anchoLogico;
         m = (d -b)/(c-a);
     }
@@ -81,8 +81,8 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     int w, h;
     SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
-    source_rect.x = posi_px;//*(this->anchoLogico/(conversor->ancho_logico));
-    source_rect.w = w*(conversor->ancho_logico_ventana/this->anchoLogico);
+    source_rect.x = posi_px;
+    source_rect.w = w*(conversor->ancho_logico/this->anchoLogico);
     if (source_rect.x < 0) source_rect.x = 0;
     //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
 	source_rect.y = 0;
