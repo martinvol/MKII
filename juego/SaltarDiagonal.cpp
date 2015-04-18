@@ -30,16 +30,53 @@ void SaltarDiagonal::cambiarModoInversamente(){
 }
 
 CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
+	dist_virtual += despl_y;
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
+	// Cambio de coordenada.
 	coord->desplazarX(despl_x);
-	if (dist_virtual < H_MAX) coord->desplazarY(despl_y);
+	if (dist_virtual < h_max) coord->desplazarY(despl_y);
 	else coord->desplazarY(-despl_y);
-	if(secuenciaInversa){
-		SaltarDiagonal::cambiarModoInversamente();
+	if (dist_virtual >= 2*h_max) return coord;
+	// Cambio de imagen.
+	// ANTES:	//~ if(secuenciaInversa){
+		//~ SaltarDiagonal::cambiarModoInversamente();
+	//~ }
+	//~ else{
+		//~ SaltarDiagonal::cambiarModo();
+	//~ }
+	// AHORA:
+	if (impar){
+		// Si es el modo del medio que se mantiene
+		if (secuenciaInversa){
+			if ((cantModos+1)/2 >= (modoActual+1)){
+				if (dist_virtual >= delta*(cantModos+1 -modoActual)){
+					cambiarModoInversamente();
+				}
+				return coord;
+			}
+		} else {
+			if ((cantModos+1)/2 <= (modoActual+1)){
+				if (dist_virtual >= delta*(modoActual+2)){
+					SaltarDiagonal::cambiarModo();	
+				}
+				return coord;
+			}
+		}
 	}
-	else{
-		SaltarDiagonal::cambiarModo();
+	// Si es impar y está en la primera mitad, o si es par.
+	if (secuenciaInversa){
+		if (dist_virtual >= delta*(cantModos-modoActual)){
+			cambiarModoInversamente();
+			
+		}
+	}else{
+		
+		if (dist_virtual >= delta*(modoActual)){
+			SaltarDiagonal::cambiarModo();
+			
+		}
 	}
+	return coord;
 }
 
 bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
@@ -47,5 +84,6 @@ bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
 }
 
 void SaltarDiagonal::resetear(){
+	Accion::resetear();
 	dist_virtual = 0;
 }

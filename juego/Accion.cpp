@@ -126,7 +126,7 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y){
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max){
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;
 	setAccionNro(nroAccion);
@@ -143,6 +143,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, flo
 	setModoActual(0);
 	this->despl_x = despl_x;
 	this->despl_y = despl_y;
+	this->h_max = h_max;
 }
 
 /**Se destruye el vector, liberando la memoria 

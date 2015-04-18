@@ -13,9 +13,6 @@
 #include "SaltarDiagonal.hpp"
 #include "Caminar.hpp"
 
-#define VELOCIDAD_VERTICAL 75
-#define VELOCIDAD_HORIZONTAL 50
-
 using namespace std;
 
 class Estado{

@@ -138,8 +138,7 @@ public:
         // Martin
         // fin de las configuraciones
 
-        this->conv = new ConversorDeCoordenadas(ALTO_FISICO, ANCHO_FISICO,
-                                          AltoLogico, AnchoLogico, conf->ventana_ancho, 0);
+        
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
@@ -148,6 +147,9 @@ public:
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
         this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
+		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
+												conf->escenario_alto, conf->ventana_ancho, borde_izquierdo_logico_pantalla);
+	
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
 
@@ -194,7 +196,8 @@ public:
                 conf->capas_vector[i]->anchoLogico,
                 conf->capas_vector[i]->x_logico,
                 conf->capas_vector[i]->ren,
-                this->conv
+                this->conv,
+                conf->escenario_ancho
                 )
             );
         }
@@ -304,28 +307,36 @@ void DibujarTodo(){
 */
 
             if (i==conf->personaje_zindex){
-                
+                //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
                 this->personajeJuego->Dibujarse(
+                    //~ coord->x_fisico,
+                    //~ coord->y_fisico,
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
                     (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
+				//~ delete coord;
             }
         }
 
         if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
             // Si no hay capas;
-            this->personajeJuego->Dibujarse(
+            //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+			this->personajeJuego->Dibujarse(
+					//~ coord->x_fisico,
+					//~ coord->y_fisico,
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
                     (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
                     (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
+			//~ delete coord;
         }
-
+		
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
-        this->timer->Dibujarse();
 
+        //this->timer->Dibujarse();
+		
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
             SDL_Rect pantalla = {0,0,conf->ventana_anchopx,conf->ventana_altopx};
@@ -512,15 +523,19 @@ void Controlador(SDL_Event *evento){
                 if(saltoDiagonalIZQ){
                     if (x_logico_personaje - 3*MOVER_PIXELES >= 0) x_logico_personaje -= 3*MOVER_PIXELES;
 
-                    if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
+                    if (((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho) < (ANCHO_FISICO*(100-conf->margen)/200))
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 3*MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += 3*MOVER_PIXELES;
+                    if (x_logico_personaje <= (conf->escenario_ancho - conf->personaje_ancho)) {
+						x_logico_personaje += 3*MOVER_PIXELES;
+					}
 
-                    if ((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + conf->ventana_ancho < conf->escenario_ancho)
-                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200)))
+                    if (((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + conf->ventana_ancho) < conf->escenario_ancho)
+                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200))){
+						//~ puts("hola");
                         borde_izquierdo_logico_pantalla += 3*MOVER_PIXELES;
+					}
                 }
 
             }
@@ -644,12 +659,17 @@ void Controlador(SDL_Event *evento){
 
 
             } else if (scrollearDerecha){
-                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) x_logico_personaje += MOVER_PIXELES;
+				cout<<"Posicion logica del personaje: "<<x_logico_personaje<<endl;
+				cout<<"Ancho escenario: "<<conf->escenario_ancho<<endl;
+				cout<<"Personaje ancho: "<<conf->personaje_ancho<<endl;
+				
+                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) 
+					x_logico_personaje += MOVER_PIXELES;
                  if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
                     //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-
+					puts("hola");
                     if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                         this->personajeJuego->definir_imagen(QUIETO);

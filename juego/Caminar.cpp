@@ -29,7 +29,8 @@ CoordenadaLogica* Caminar::execute(CoordenadaLogica* coord_personaje){
 	// else
 	Accion::cambiarModo();
 	coord->desplazarX(despl_x);
-}
+	return coord;
+};
 
 bool Caminar::permiteAccion(accion_posible nuevaAccion){
 	return true;

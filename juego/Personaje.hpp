@@ -20,8 +20,10 @@ class Personaje {
 		float ancho;
 		float alto;
 		
+		float y_inicial;
 		/* Coordenada inferior izquierda. */
 		CoordenadaLogica* coordenada;
+		CoordenadaLogica* siguiente;
 		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		
