@@ -62,23 +62,23 @@ Logger.o: juego/Logger.cpp
 Accion.o: juego/Accion.cpp
 	$(CC) "juego/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+Quieto.o: juego/Quieto.cpp
+	$(CC) "juego/Quieto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	
+SaltarVertical.o: juego/SaltarVertical.cpp
+	$(CC) "juego/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	
+SaltarDiagonal.o: juego/SaltarDiagonal.cpp
+	$(CC) "juego/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+Caminar.o: juego/Caminar.cpp
+	$(CC) "juego/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+		
 Estado.o: juego/Estado.cpp
 	$(CC) "juego/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 Personaje.o: juego/Personaje.cpp
 	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
-		
-Personaje: Personaje.o Accion.o	Estado.o
-	$(CC)  Personaje.o Accion.o Estado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
-
-Estado: Estado.o
-	$(CC)  Estado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
-
-Accion: Accion.o
-	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
-
-Accion: Accion.o
-	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
 
 Jugador.o: juego/Jugador.cpp
 	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -86,7 +86,7 @@ Jugador.o: juego/Jugador.cpp
 Ventana.o: juego/Ventana.cpp
 	$(CC) "juego/Ventana.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Ventana.o Director.o Jugador.o
+compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o Timer.o Caminar.o SaltarVertical.o SaltarDiagonal.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego
@@ -105,7 +105,6 @@ prueba_integracionI: clean Capa.o Escenario.o Parser.o coordenadas.o Logger.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
 	./integracionI
 	make clean
-
 	
 clean:
 	find . -name "*.o" -type f -delete
@@ -113,10 +112,6 @@ clean:
 	find . -name "a.out" -type f -delete
 	find . -name "main" -type f -delete
 	rm -f juego_ejecutable testScreen testDraw testFloor testVida testTiempo integracionI
-
-cleanLog:
-	clean
-	rm -f salida.log
 
 commit: clean
 	git add -u
