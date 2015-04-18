@@ -54,17 +54,25 @@ CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 					cambiarModoInversamente();
 		} else {
 			if ((cantModos+1)/2 <= (modoActual+1))
-				if (dist_virtual >= delta*(modoActual+2))
-					cambiarModo();
+				if (dist_virtual >= delta*(modoActual+2)){
+					SaltarDiagonal::cambiarModo();
+					
+				}
 		}
 	}
 	// Si es impar y está en la primera mitad, o si es par.
-	if (secuenciaInversa)
-		if (dist_virtual >= delta*(cantModos-modoActual))
+	if (secuenciaInversa){
+		if (dist_virtual >= delta*(cantModos-modoActual)){
 			cambiarModoInversamente();
-	else
-		if (dist_virtual >= delta*(modoActual+1))
-			cambiarModo();
+			
+		}
+	}else{
+		
+		if (dist_virtual >= delta*(modoActual)){
+			SaltarDiagonal::cambiarModo();
+			
+		}
+	}
 	return coord;
 }
 
