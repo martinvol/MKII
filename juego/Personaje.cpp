@@ -218,6 +218,7 @@ void Personaje::definir_imagen(accion_posible accion){
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
+
 		if (siguiente != NULL) 
 			delete siguiente;
 		siguiente = this->accionActual->execute(this->coordenada);
