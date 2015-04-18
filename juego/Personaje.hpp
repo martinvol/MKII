@@ -30,7 +30,7 @@ class Personaje {
 		Accion* accionActual;
 		Estado* estado;
 		
-		bool derecha
+		bool derecha;
 		bool ladoDerecha;
 		
 		SDL_Texture* imagenActual;

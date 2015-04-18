@@ -11,35 +11,15 @@ Jugador::~Jugador(){
 }
 
 void Jugador::mirarParaDerecha(){
-	personaje->mirarParaDerecha();
+	//~ personaje->mirarParaDerecha();
 }
 
 void Jugador::mirarParaIzquierda(){
-	personaje->mirarParaIzquierda();
+	//~ personaje->mirarParaIzquierda();
 }
 
-void Jugador::parar(){
-	personaje->parar();
-}
-
-void Jugador::caminarDerecha(){
-	personaje->caminarDerecha();
-}
-
-void Jugador::caminarIzquierda(){
-	personaje->caminarIzquierda();
-}
-
-void Jugador::saltar(){
-	personaje->saltar();
-}
-
-void Jugador::saltarDerecha(){
-	personaje->saltarDerecha();
-}
-
-void Jugador::saltarIzquierda(){
-	personaje->saltarIzquierda();
+void Jugador::activarAccion(accion_posible accion){
+	personaje->activarAccion(accion);
 }
 
 CoordenadaLogica* Jugador::obtenerCoordenadaIzqSup(){

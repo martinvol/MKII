@@ -252,17 +252,6 @@ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
 	}
 }
 
-
-void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
-	
-	
-}
-	
-void Personaje::mirar_al_otro_lado(){
-	
-	
-}
-
 //~ 
 //~ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
 	//~ 

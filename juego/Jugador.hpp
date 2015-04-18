@@ -22,12 +22,7 @@ class Jugador {
 		/* Sólo te dicen a que acción te están pidiendo que cambies.
 		 * Sólo lo debés hacer si es válido interrumpir tu acción
 		 * para la que te dicen; sino, no cambiás nada. */
-		void parar();
-		void caminarDerecha();
-		void caminarIzquierda();
-		void saltar();
-		void saltarDerecha();
-		void saltarIzquierda();
+		void activarAccion(accion_posible accion);
 		
 		// COMENTARIO: No sé qué coordenadas voy a usar de estas y no sé
 		// cuáles te convienen a vos. Esto se puede negociar.

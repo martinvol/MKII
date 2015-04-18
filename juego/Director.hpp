@@ -42,7 +42,7 @@ class Director {
 		void scrollearIzquierda();
 		
 	public:
-		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2);
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll);
 		~Director();
 		
 		/* Sólo va a recibir Derecha, Izquierda, Arriba o Nada. */

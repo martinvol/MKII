@@ -263,23 +263,23 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
-            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
+            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conversor);
 
             /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
-                + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
-                // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
-                , 0, conv);
+                + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conversor->factor_ancho))
+                // mover*((float)escenario->capas[i]->anchoLogico/(float)conversor->x_logico)
+                , 0, conversor);
 
-            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conv);
+            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conversor);
 */
 
             if (i==parser->personaje_zindex){
-                CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+                CoordenadaFisica* coord = conversor->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
                 this->personajeJuego->Dibujarse(
                     coord->x_fisico,
                     coord->y_fisico,
-                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
+                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
                     //~ (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
                     (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
                     (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
@@ -289,22 +289,22 @@ void DibujarTodo(){
 
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
             // Si no hay capas;
-            CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+            CoordenadaFisica* coord = conversor->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
 			this->personajeJuego->Dibujarse(
 					coord->x_fisico,
 					coord->y_fisico,
-                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
+                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
                     //~ (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
                     (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
                     (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
 			delete coord;
         }
 		
-        barraDeVida1.Dibujarse();
-        barraDeVida2.Dibujarse();
+        barraDeVida1->Dibujarse();
+        barraDeVida2->Dibujarse();
         //this->timer->Dibujarse();
 		
-        // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
+        // CoordenadaFisica* c = conversor->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
         if (pausa){
             SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
