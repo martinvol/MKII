@@ -35,23 +35,26 @@ CoordenadaLogica* SaltarVertical::execute(CoordenadaLogica* coord_personaje){
 	else coord->desplazarY(-despl_y);
 	// Cambio de imagen.
 	//ANTES:
-	if (modoActual == 1){
-		if(contadorDeLoops<21){
-			contadorDeLoops+=1;
+	//~ if (modoActual == 1){
+		//~ if(contadorDeLoops<21){
+			//~ contadorDeLoops+=1;
+			//~ return coord;
+		//~ }
+	//~ }
+	//~ SaltarVertical::cambiarModo();
+	//~ return coord;
+	//AHORA:
+	if (impar){
+		// Si es el modo del medio que se mantiene
+		if ((cantModos+1)/2 <= (modoActual+1)){
+			if (dist_virtual >= delta*(modoActual+2)){
+				cambiarModo();
+			}
 			return coord;
 		}
 	}
-	SaltarVertical::cambiarModo();
-	return coord;
-	//~ //AHORA:
-	//~ if (impar){
-		//~ // Si es el modo del medio que se mantiene
-		//~ if ((cantModos+1)/2 <= (modoActual+1))
-			//~ if (dist_virtual >= delta*(modoActual+2))
-				//~ cambiarModo();
-	//~ }
-	//~ // Si es impar y está en la primera mitad, o si es par.
-	//~ if (dist_virtual >= delta*(modoActual+1)) cambiarModo(); // Que se supone que para esta implementación sólo va a avanzar al siguiente.
+	// Si es impar y está en la primera mitad, o si es par.
+	if (dist_virtual >= delta*(modoActual+1)) cambiarModo(); // Que se supone que para esta implementación sólo va a avanzar al siguiente.
 	return coord;
 };
 
