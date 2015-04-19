@@ -27,7 +27,7 @@ using namespace std;
 
 Logger *logger = Logger::instance();
 
-    
+
 //----------------------------------------------------------------
 
 int InicializarSDL() {
@@ -219,7 +219,7 @@ public:
         while (!salir){
 
             timerFps = SDL_GetTicks();
-            
+
             Controlador(&evento);       //Controlador
             if (!pausa){
                 ActualizarModelo();     //Modelo
@@ -301,7 +301,7 @@ void DibujarTodo(){
 */
 
             if (i==conf->personaje_zindex){
-                
+
                 this->personajeJuego->Dibujarse(
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
                     (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
@@ -655,7 +655,6 @@ enum Estados{
 
                     if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
-                        this->personajeJuego->definir_imagen(QUIETO);
                     }
                 }
             }
