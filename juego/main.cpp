@@ -652,30 +652,32 @@ void Controlador(SDL_Event *evento){
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                     if (borde_izquierdo_logico_pantalla<0 && (borde_izquierdo_logico_pantalla - MOVER_PIXELES)<0){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-                        this->personajeJuego->definir_imagen( QUIETO);
+                        //this->personajeJuego->definir_imagen( QUIETO);
                     }
                 }
                 // mover+= 5;
 
 
             } else if (scrollearDerecha){
-				cout<<"Posicion logica del personaje: "<<x_logico_personaje<<endl;
-				cout<<"Ancho escenario: "<<conf->escenario_ancho<<endl;
-				cout<<"Personaje ancho: "<<conf->personaje_ancho<<endl;
+				//cout<<"Posicion logica del personaje: "<<x_logico_personaje<<endl;
+				//cout<<"Ancho escenario: "<<conf->escenario_ancho<<endl;
+				//cout<<"Personaje ancho: "<<conf->personaje_ancho<<endl;
 
                  if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho)
 					x_logico_personaje += MOVER_PIXELES;
+
                  if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
-                    //x_logico_personaje = x_logico_personaje - MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-					puts("hola");
                     if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                     }
                 }
             }
 
+            while (x_logico_personaje > (conf->escenario_ancho - conf->personaje_ancho)){
+                x_logico_personaje -= MOVER_PIXELES;
+            }
             this->timer->avanzarTimer(SDL_GetTicks());
     };
 
