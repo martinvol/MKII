@@ -156,7 +156,10 @@ public:
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
 		//~ personajeJuego2 = new PersonajeMock(parser->personaje_mirar_derecha, parser->escenario_ancho);
-
+		Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser);
+		Personaje* personaje2 = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser);
+        this->personajeJuego = personaje;
+        this->personajeJuego2 = personaje2;
 		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL);
 
         Player1 = SDL_JoystickOpen(0);

@@ -85,6 +85,7 @@ void Personaje::mirarParaIzquierda(){
 }
 
 void Personaje::activarAccion(accion_posible accion){
+	if(this->accionActual == NULL) puts ("por que");
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
