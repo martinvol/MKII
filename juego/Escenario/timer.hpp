@@ -4,9 +4,9 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "parser.h"
-#include "ConversorDeCoordenadas.h"
-#include "logger.h"
+#include "../Parser/parser.h"
+#include "../Coordenadas/ConversorDeCoordenadas.h"
+#include "../Logger/logger.h"
 
 class Timer {
     SDL_Texture* numeritos;

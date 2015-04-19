@@ -2,14 +2,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "BarraDeVida.h"
-#include "Capa.h"
-#include "Escenario.h"
-#include "parser.h"
-#include "Personaje.hpp"
-#include "logger.h"
-#include "ConversorDeCoordenadas.h"
-#include "timer.hpp"
+#include "Escenario/BarraDeVida.h"
+#include "Escenario/Capa.h"
+#include "Escenario/Escenario.h"
+#include "Parser/parser.h"
+#include "Personaje/Personaje.hpp"
+#include "Logger/logger.h"
+#include "Coordenadas/ConversorDeCoordenadas.h"
+#include "Escenario/timer.hpp"
 
 using namespace std;
 

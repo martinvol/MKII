@@ -7,9 +7,9 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "Estado.hpp"
-#include "Accion.hpp"
-#include "CoordenadaLogica.h"
-#include "parser.h"
+#include "../Acciones/Accion.hpp"
+#include "../Coordenadas/CoordenadaLogica.h"
+#include "../Parser/parser.h"
 
 using namespace std;
 

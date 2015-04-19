@@ -2,8 +2,8 @@
 #define JUGADOR_H
 
 #include "Personaje.hpp"
-#include "BarraDeVida.h"
-#include "CoordenadaLogica.h"
+#include "../Escenario/BarraDeVida.h"
+#include "../Coordenadas/CoordenadaLogica.h"
 
 class Jugador {
 	public:

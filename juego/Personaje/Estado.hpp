@@ -7,11 +7,11 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
-#include "Accion.hpp"
-#include "Quieto.hpp"
-#include "SaltarVertical.hpp"
-#include "SaltarDiagonal.hpp"
-#include "Caminar.hpp"
+#include "../Acciones/Accion.hpp"
+#include "../Acciones/Quieto.hpp"
+#include "../Acciones/SaltarVertical.hpp"
+#include "../Acciones/SaltarDiagonal.hpp"
+#include "../Acciones/Caminar.hpp"
 
 using namespace std;
 

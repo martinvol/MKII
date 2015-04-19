@@ -2,9 +2,9 @@
 #define PARSER_H_INCLUDED
 
 #include <unordered_map>
-#include "Capa.h"
+#include "../Escenario/Capa.h"
 #include "jsoncpp/json/json.h"
-#include "logger.h"
+#include "../Logger/logger.h"
 
 class Conf {
 	private:

@@ -36,55 +36,55 @@ testTiempo: clean
 main.o: juego/main.cpp
 	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Capa.o: juego/Capa.cpp
-	$(CC) "juego/Capa.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Capa.o: juego/Escenario/Capa.cpp
+	$(CC) "juego/Escenario/Capa.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Escenario.o: juego/Escenario.cpp
-	$(CC) "juego/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Escenario.o: juego/Escenario/Escenario.cpp
+	$(CC) "juego/Escenario/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-parser.o: juego/parser.cpp
-	$(CC) "juego/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+parser.o: juego/Parser/parser.cpp
+	$(CC) "juego/Parser/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-BarraDeVida.o: juego/BarraDeVida.cpp
-	$(CC) "juego/BarraDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+BarraDeVida.o: juego/Escenario/BarraDeVida.cpp
+	$(CC) "juego/Escenario/BarraDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Coordenadas.o: juego/CoordenadaLogica.cpp juego/CoordenadaFisica.cpp juego/ConversorDeCoordenadas.cpp
-	$(CC) "juego/CoordenadaLogica.cpp" $(CFLAGS) -c
-	$(CC) "juego/CoordenadaFisica.cpp" $(CFLAGS) -c
-	$(CC) "juego/ConversorDeCoordenadas.cpp" $(CFLAGS) -c
+Coordenadas.o: juego/Coordenadas/CoordenadaLogica.cpp juego/Coordenadas/CoordenadaFisica.cpp juego/Coordenadas/ConversorDeCoordenadas.cpp
+	$(CC) "juego/Coordenadas/CoordenadaLogica.cpp" $(CFLAGS) -c
+	$(CC) "juego/Coordenadas/CoordenadaFisica.cpp" $(CFLAGS) -c
+	$(CC) "juego/Coordenadas/ConversorDeCoordenadas.cpp" $(CFLAGS) -c
 
 Director.o: juego/Director.cpp
 	$(CC) "juego/Director.cpp" $(CFLAGS) -c
 
-logger.o: juego/logger.c
-	$(CC) "juego/logger.c" $(CFLAGS) -c
+logger.o: juego/Logger/logger.c
+	$(CC) "juego/Logger/logger.c" $(CFLAGS) -c
 
-Accion.o: juego/Accion.cpp
-	$(CC) "juego/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Accion.o: juego/Acciones/Accion.cpp
+	$(CC) "juego/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Quieto.o: juego/Quieto.cpp
-	$(CC) "juego/Quieto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Quieto.o: juego/Acciones/Quieto.cpp
+	$(CC) "juego/Acciones/Quieto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-SaltarVertical.o: juego/SaltarVertical.cpp
-	$(CC) "juego/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+SaltarVertical.o: juego/Acciones/SaltarVertical.cpp
+	$(CC) "juego/Acciones/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-SaltarDiagonal.o: juego/SaltarDiagonal.cpp
-	$(CC) "juego/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+SaltarDiagonal.o: juego/Acciones/SaltarDiagonal.cpp
+	$(CC) "juego/Acciones/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Caminar.o: juego/Caminar.cpp
-	$(CC) "juego/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Caminar.o: juego/Acciones/Caminar.cpp
+	$(CC) "juego/Acciones/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
-Estado.o: juego/Estado.cpp
-	$(CC) "juego/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Estado.o: juego/Personaje/Estado.cpp
+	$(CC) "juego/Personaje/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Personaje.o: juego/Personaje.cpp
-	$(CC) "juego/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Personaje.o: juego/Personaje/Personaje.cpp
+	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
 Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Accion.o
 	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Timer.o: 
-	$(CC) "juego/timer.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -c
+	$(CC) "juego/Escenario/timer.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -c
 	
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
@@ -107,8 +107,8 @@ Personaje: Personaje.o Accion.o	Estado.o
 
 
 
-Jugador.o: juego/Jugador.cpp
-	$(CC) "juego/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Jugador.o: juego/Personaje/Jugador.cpp
+	$(CC) "juego/Personaje/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 
 compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o Timer.o Caminar.o SaltarVertical.o SaltarDiagonal.o

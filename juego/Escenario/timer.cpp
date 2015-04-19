@@ -1,8 +1,8 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "parser.h"
-#include "ConversorDeCoordenadas.h"
+#include "../Parser/parser.h"
+#include "../Coordenadas/ConversorDeCoordenadas.h"
 #include "timer.hpp"
 
 using namespace std;

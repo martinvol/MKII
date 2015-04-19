@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "CoordenadaLogica.h"
-#include "logger.h"
+#include "../Coordenadas/CoordenadaLogica.h"
+#include "../Logger/logger.h"
 
 typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER} accion_posible;
 

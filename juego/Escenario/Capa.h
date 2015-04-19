@@ -2,7 +2,7 @@
 #ifndef CAPA_H_INCLUDED
 #define CAPA_H_INCLUDED
 
-#include "ConversorDeCoordenadas.h"
+#include "../Coordenadas/ConversorDeCoordenadas.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

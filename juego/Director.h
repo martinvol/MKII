@@ -3,13 +3,13 @@
 
 #include <vector>
 
-#include "Personaje.hpp"
-#include "Jugador.h"
-#include "Escenario.h"
-#include "Ventana.h"
-#include "CoordenadaLogica.h"
-#include "CoordenadaFisica.h"
-#include "ConversorDeCoordenadas.h"
+#include "../Personaje/Personaje.hpp"
+#include "../Personaje/Jugador.h"
+#include "../Escenario/Escenario.h"
+#include "../Escenario/Ventana.h"
+#include "../Coordenadas/CoordenadaLogica.h"
+#include "../Coordenadas/CoordenadaFisica.h"
+#include "../Coordenadas/ConversorDeCoordenadas.h"
 
 using namespace std;
 

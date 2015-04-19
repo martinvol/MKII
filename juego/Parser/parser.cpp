@@ -2,9 +2,9 @@
 #include <cstring>
 #include <fstream>
 #include <unordered_map>
-#include "Capa.h"
+#include "../Escenario/Capa.h"
+#include "../Logger/logger.h"
 #include "parser.h"
-#include "logger.h"
 #include "jsoncpp/json/json.h"
 
 #define IMAGEN_DEFAULT "resources/background/defaultcapa.png"
