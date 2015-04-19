@@ -22,7 +22,7 @@ using namespace std;
 #define CONST_MAXI_DELAY 50
 Logger *logger = Logger::instance();
 
-    
+
 //----------------------------------------------------------------
 
 int InicializarSDL() {
@@ -138,7 +138,7 @@ public:
         // Martin
         // fin de las configuraciones
 
-        
+
 
         // Cargamos al personaje en el medio del mapa
         x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
@@ -149,7 +149,7 @@ public:
 
 		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
 												conf->escenario_alto, conf->ventana_ancho, borde_izquierdo_logico_pantalla);
-	
+
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
 
@@ -221,7 +221,7 @@ public:
         while (!salir){
 
             timerFps = SDL_GetTicks();
-            
+
             Controlador(&evento);       //Controlador
             if (!pausa){
                 ActualizarModelo();     //Modelo
@@ -331,12 +331,12 @@ void DibujarTodo(){
                     (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
 			//~ delete coord;
         }
-		
+
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
 
         //this->timer->Dibujarse();
-		
+
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
             SDL_Rect pantalla = {0,0,conf->ventana_anchopx,conf->ventana_altopx};
@@ -662,8 +662,8 @@ void Controlador(SDL_Event *evento){
 				cout<<"Posicion logica del personaje: "<<x_logico_personaje<<endl;
 				cout<<"Ancho escenario: "<<conf->escenario_ancho<<endl;
 				cout<<"Personaje ancho: "<<conf->personaje_ancho<<endl;
-				
-                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho) 
+
+                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho)
 					x_logico_personaje += MOVER_PIXELES;
                  if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
                 {
@@ -672,12 +672,11 @@ void Controlador(SDL_Event *evento){
 					puts("hola");
                     if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
-                        this->personajeJuego->definir_imagen(QUIETO);
                     }
                 }
             }
-            
-            this->timer->avanzarTimer(SDL_GetTicks()); 
+
+            this->timer->avanzarTimer(SDL_GetTicks());
     };
 
 };//FIN CLASE JUEGO
