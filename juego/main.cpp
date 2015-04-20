@@ -256,6 +256,8 @@ public:
         SDL_DestroyTexture(under);
         delete this->personajeJuego;
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
+        delete this->conf;
+        delete this->conv;
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -664,8 +666,8 @@ enum Estados{
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
-    logger->set_debug(true);
-    logger->set_warning(true);
+    logger->set_debug(false);
+    logger->set_warning(false);
     logger->set_error(true);
 
     logger->log_debug("-------------------------------------");
