@@ -12,7 +12,6 @@ Timer::Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoo
     this->log = Logger::instance();
     this->numeritos = IMG_LoadTexture(ren, pathDeLaImagenDeTiempo.c_str());
     if (!this->numeritos) log->log_error("No se pudo cargar la imagen correspondiente al timer");
-    // Falta cargar una por default
     this->divisor = divisor;
     this->conv = conv;
     this->ren = ren;
@@ -39,8 +38,8 @@ bool Timer::Dibujarse() {
     // int(this->conv->alto_fisico* 0.1f)
     SDL_Rect srcrect = { this->actualU * ((w / 10) + 1) - 3,0, (w/10), h };
     SDL_Rect srcrect2 = { this->actualD *((w / 10) + 1) - 3, 0, (w/10), h} ;
-    SDL_Rect dstrect2 = { xFisico - anchoLogico, int(this->conv->alto_fisico* 0.1f), anchoLogico, altoLogico };
-    SDL_Rect dstrect = { xFisico, int(this->conv->alto_fisico* 0.1f), anchoLogico, altoLogico };
+    SDL_Rect dstrect2 = { xFisico - anchoLogico, 0, anchoLogico, altoLogico };
+    SDL_Rect dstrect = { xFisico, 0, anchoLogico, altoLogico };
     SDL_RenderCopy(this->ren, this->numeritos, &srcrect, &dstrect);
     SDL_RenderCopy(this->ren, this->numeritos, &srcrect2, &dstrect2);
     return true;

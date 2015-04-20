@@ -145,10 +145,11 @@ public:
 
 
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
-        this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
 		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
 												conf->escenario_alto, conf->ventana_ancho, borde_izquierdo_logico_pantalla);
+											
+		this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -343,7 +344,7 @@ void DibujarTodo(){
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
 
-        //this->timer->Dibujarse();
+        this->timer->Dibujarse();
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
