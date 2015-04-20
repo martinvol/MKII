@@ -6,11 +6,16 @@
 #include "timer.hpp"
 
 using namespace std;
-#define IMG_DEFAULT "resources/miscelaneo/06.gif"
+#define IMG_DEFAULT "resources/miscelaneo/06.png"
 
 Timer::Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoordenadas* conv, SDL_Renderer* ren) {
     this->log = Logger::instance();
-    this->numeritos = IMG_LoadTexture(ren, pathDeLaImagenDeTiempo.c_str());
+    this->numeritos = NULL;
+    int intentos = 0;
+    while ((!this->numeritos) && (intentos < 10)) {
+        this->numeritos = IMG_LoadTexture(ren, pathDeLaImagenDeTiempo.c_str());
+        intentos ++;
+    }
     if (!this->numeritos) log->log_error("No se pudo cargar la imagen correspondiente al timer");
     this->divisor = divisor;
     this->conv = conv;

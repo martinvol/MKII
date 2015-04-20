@@ -18,7 +18,7 @@ using namespace std;
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define ALTURA_MAX_SALTO conf->personaje_alto + conf->escenario_ypiso
-#define IMG_DEFAULT "resources/miscelaneo/06.gif" ///
+#define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 50
 Logger *logger = Logger::instance();
 
@@ -110,6 +110,8 @@ public:
         renderer = SDL_CreateRenderer(NULL, -1, 0);
 
         configurar();
+        reiniciarJuego(); /// Esto es una villereada, pero no se 
+                          /// por que arregla el timer *Manuel*
         game_loop();
         // LIBERAR RECURSOS
         terminar_juego();
