@@ -31,15 +31,15 @@ bool Timer::terminoElTiempo() {
 bool Timer::Dibujarse() {
 
     int w, h;
-    float altoLogico = 70;
-    float anchoLogico = 70;
-    int xFisico = this->conv->ancho_fisico/2 - anchoLogico/2;
+    float altoLogico = this->conv->alto_fisico * 0.05f;
+    float anchoLogico = this->conv->ancho_fisico * 0.028f;
+    int xFisico = this->conv->ancho_fisico/2;
     SDL_QueryTexture(this->numeritos, NULL, NULL, &w, &h);
     // int(this->conv->alto_fisico* 0.1f)
     SDL_Rect srcrect = { this->actualU * ((w / 10) + 1) - 3,0, (w/10), h };
     SDL_Rect srcrect2 = { this->actualD *((w / 10) + 1) - 3, 0, (w/10), h} ;
-    SDL_Rect dstrect2 = { xFisico - anchoLogico, 0, anchoLogico, altoLogico };
-    SDL_Rect dstrect = { xFisico, 0, anchoLogico, altoLogico };
+    SDL_Rect dstrect2 = { xFisico - anchoLogico, int(this->conv->alto_fisico* 0.1f), anchoLogico, altoLogico };
+    SDL_Rect dstrect = { xFisico, int(this->conv->alto_fisico* 0.1f), anchoLogico, altoLogico };
     SDL_RenderCopy(this->ren, this->numeritos, &srcrect, &dstrect);
     SDL_RenderCopy(this->ren, this->numeritos, &srcrect2, &dstrect2);
     return true;
