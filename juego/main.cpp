@@ -245,6 +245,12 @@ public:
         logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();
         cargar_configuracion();
+
+	//Habia que reiniciar los estados.
+        estadoPersonaje1 = Quieto_State;
+	Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
+        saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
+
         estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
         cargar_capas();
@@ -453,7 +459,10 @@ void Controlador(SDL_Event *evento){
                 }
                 if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
                 if (evento->key.keysym.sym == SDLK_r){
+                    //delete this->personajeJuego->estado;
+                    //this->personajeJuego->definir_imagen(QUIETO);
                     reiniciarJuego();
+                    return;
                 }
                 break;
             case SDL_KEYUP:
