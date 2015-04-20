@@ -55,7 +55,7 @@ class Juego{
 public:
     // Para no tener que crearlas y destruirlas en cada loop del juego
     //seria un desperdicio.
-    bool Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
+    bool Arriba_PRESIONADO, Abajo_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
     bool saltoDiagonalIZQ = false;
     bool saltoDiagonalDER = false;
     bool golpeandoPJ = false;
@@ -181,7 +181,7 @@ public:
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
 
-        Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO = false;
+        Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
         estadoPersonaje1 = Quieto_State;
     }
 //----------------------------------------------------------------
@@ -350,7 +350,8 @@ enum Estados{
       Quieto_State,
       SaltoDiagonal_State,
       SaltoVertical_State,
-      Caminando_State
+      Caminando_State,
+      Agachado_State
    } estadoPersonaje1;
 
 
@@ -411,6 +412,9 @@ void Controlador(SDL_Event *evento){
                     scrollearDerecha = false;
                     scrollearIzquierda = false;*/
                 }
+                if (evento->key.keysym.sym == SDLK_DOWN)  {
+                    Abajo_PRESIONADO = true;
+                }
                 if (evento->key.keysym.sym == SDLK_RIGHT)  {
                     Der_PRESIONADO = true;
                     /*scrollearDerecha = true;
@@ -460,6 +464,9 @@ void Controlador(SDL_Event *evento){
                 //---------------BASICOS-------------------
                 if((evento->key.keysym.sym == SDLK_UP))  {
                     Arriba_PRESIONADO = false;
+                }
+                if((evento->key.keysym.sym == SDLK_DOWN))  {
+                    Abajo_PRESIONADO = false;
                 }
                 if((evento->key.keysym.sym == SDLK_LEFT))  {
                     Izq_PRESIONADO = false;
@@ -591,6 +598,11 @@ void Controlador(SDL_Event *evento){
                     scrollearIzquierda = false;
                     break;
                 }
+                if (Abajo_PRESIONADO){
+                    estadoPersonaje1 = Agachado_State;
+                    this->personajeJuego->definir_imagen(AGACHARSE);
+                    break;
+                }
                 // Quieto -->Quieto
                 this->personajeJuego->definir_imagen(QUIETO);
                 break;
@@ -623,6 +635,17 @@ void Controlador(SDL_Event *evento){
                 }else{
                     estadoPersonaje1 = Quieto_State;
                     this->personajeJuego->definir_imagen(QUIETO);
+                }
+                break;
+
+    //AGACHADO
+            case Agachado_State:
+                if(!Abajo_PRESIONADO){
+                    estadoPersonaje1 = Quieto_State;
+                    this->personajeJuego->definir_imagen(QUIETO);
+                }else{
+                    this->personajeJuego->definir_imagen(AGACHARSE);
+                    cout<<"agachado"<<endl;
                 }
                 break;
     //SALTANDO_VERTICAL

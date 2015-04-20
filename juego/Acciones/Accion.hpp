@@ -11,7 +11,7 @@
 #include "../Coordenadas/CoordenadaLogica.h"
 #include "../Logger/logger.h"
 
-typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER} accion_posible;
+typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE} accion_posible;
 
 
 using namespace std;

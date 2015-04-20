@@ -91,13 +91,16 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case SALTAR:
 			this->accionActual = this->estado->saltarvertical;
 			break;
+		case AGACHARSE:
+			this->accionActual = this->estado->agacharse;			
+			break;
 		case SALTARDIAGONAL_DER:
 			this->accionActual = this->estado->saltardiagonal;
 			if(!this->parser->personaje_mirar_derecha){
 					//espejar e invertir las imagenes
 				this->accionActual->setInvertirSecuencia();
 			}
-			break;
+			break;		
 		default: // SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->parser->personaje_mirar_derecha){
@@ -237,6 +240,8 @@ void Personaje::definir_imagen(accion_posible accion){
 		}
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
+	if (nroAccionActual == AGACHARSE)
+		cout<<"quiero agacharme"<<endl;
 	coordenada = new CoordenadaLogica(siguiente);
 	return;
 }
