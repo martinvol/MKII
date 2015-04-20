@@ -80,7 +80,7 @@ CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 }
 
 bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
-	return false;
+	return true;
 }
 
 void SaltarDiagonal::resetear(){
