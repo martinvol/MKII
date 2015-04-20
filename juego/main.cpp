@@ -268,6 +268,8 @@ public:
         delete this->personajeJuego; // Elimina el estado también
         delete this->timer;
         for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
+        delete this->conf;
+        delete this->conv;
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -361,7 +363,9 @@ enum Estados{
    } estadoPersonaje1;
 
 
-void Controlador(SDL_Event *evento){
+
+    void Controlador(SDL_Event *evento){
+
        while(SDL_PollEvent( evento )) {
 
         //Ahora anda este tambien.
@@ -717,8 +721,8 @@ void Controlador(SDL_Event *evento){
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
-    logger->set_debug(true);
-    logger->set_warning(true);
+    logger->set_debug(false);
+    logger->set_warning(false);
     logger->set_error(true);
 
     logger->log_debug("-------------------------------------");
