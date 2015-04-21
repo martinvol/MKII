@@ -129,7 +129,6 @@ void Conf::set_values (char* my_file) {
             for ( int index = 0; index < capas.size(); ++index ){
                 
                 string nombre_archivo;
-                logger->log_debug("Intentando cargar capa '" + nombre_archivo + "'");
 
                 if (!capas[index].isMember("imagen_fondo")){
                     logger->log_error("Esta capa no tiene el valor imagen_fondo, se cargará la capa por default");
@@ -138,7 +137,7 @@ void Conf::set_values (char* my_file) {
                 try {
                     nombre_archivo = capas[index].get("imagen_fondo", IMAGEN_DEFAULT).asString(); // este default hay que ponerlo bien
                 } catch(const runtime_error& error){
-                    logger->log_error("No hay un número en el nombre de la capa");
+                    logger->log_error("Hay un número en el nombre de la capa");
                     nombre_archivo = "";
 
                 }
@@ -149,6 +148,8 @@ void Conf::set_values (char* my_file) {
                     logger->log_error("La capa no fue encontrada, cargando capa por default");
                     nombre_archivo = IMAGEN_DEFAULT;
                 }
+                
+                logger->log_debug("Intentando cargar capa '" + nombre_archivo + "'");
 
                 float ancho_logico_capa = cargarValidar(capas[index], 700, "anchoLogico","Ancho lógico de capa no encontrado, se toma 700 por default");
 
