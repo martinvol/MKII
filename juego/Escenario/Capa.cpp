@@ -1,4 +1,5 @@
 #include "Capa.hpp"
+
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -8,27 +9,22 @@
 
 using namespace std;
 
-Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario){
+
+Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, float ancho_escenario, float ancho_ventana_logico){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
     this->x_logico = x_logicoParam;
     textura = CargarTextura();
-     
-    if (conversor != NULL){
-        this->conversor =  conversor;
-        
-        int w, h;
-        SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
-    
-        float a = 0;
-        b = this->x_logico;
-        float c = ancho_logico_escenario - (this->conversor->ancho_logico);
-        float d = w - w*(conversor->ancho_logico/this->anchoLogico);
-        //float d = conversor->ancho_logico - this->anchoLogico;
-        m = (d -b)/(c-a);
-    }
+	int w, h;
+	SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
 
+	float a = 0;
+	b = this->x_logico;
+	float c = ancho_escenario - ancho_ventana_logico;
+	float d = w - w*(ancho_ventana_logico/this->anchoLogico);
+	//float d = conversor->ancho_logico - this->anchoLogico;
+	m = (d -b)/(c-a);
 }
 
 //----------------------------------------------------------------

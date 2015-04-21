@@ -18,41 +18,41 @@ enum movimiento {Nada, Derecha, Izquierda, Arriba, ArribaDerecha, ArribaIzquierd
 
 class Director {
 		
-    public:
-		vector<Personaje*> personajes;
+    private:
+		//~ vector<Personaje*> personajes;
 		vector<Jugador*> jugadores;
 		Escenario* escenario;
 		Ventana* ventana;
 		ConversorDeCoordenadas* conversor;
+		float factor_scroll;
 		// Atributos necesarios para recopilar la información del loop y actualizar al final ambos jugadores.
 		movimiento mov1 = Nada;
 		movimiento mov2 = Nada;
-		bool scrolleo1 = false;
-		bool scrolleo2 = false;
-		CoordenadaLogica* nueva_coord1 = NULL;
-		CoordenadaLogica* nueva_coord2 = NULL;
 		
-		// NO PUEDEN USARSE:
-		
-		void verificar_movimiento_y_scroll();
+	
+		void analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar);
+		void informar_acciones();
+		void informar_accion(movimiento mov, Jugador* jugador);
+		void verificar_movimientos();
 		void verificar_orientaciones();
-		void verificar_necesidad_de_scroll_y_accionar_movimientos();
+		bool sePuedeScrollearDerecha();
+		bool sePuedeScrollearIzquierda();
+		void scrollearDerecha();
+		void scrollearIzquierda();
 		
+	public:
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll);
+		~Director();
 		
-		
-		// PUEDEN USARSE:
-		/* Sólo va a recibir Derecha, Izquierda o Arriba. */
+		/* Sólo va a recibir Derecha, Izquierda, Arriba o Nada. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
-		
-		
 		
 		/* Si un personaje se mueve, debe validar:
 		 * que si se va de margen, scrollee la ventana.
 		 * que no se pase del escenario.
 		 * que no se mueva si ambos jugadores están en el borde y el
 		 *     movimiento del otro no se lo permite.
-		*/
-		/* Debe definir para dónde deben mirar considerando el nuevo 
+		 * Debe definir para dónde deben mirar considerando el nuevo 
 		 * lugar de los personajes.
 		*/
 		void actualizar();

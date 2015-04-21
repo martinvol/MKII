@@ -14,13 +14,19 @@
 using namespace std;
 
 
-#define MOVER_PIXELES 60*(conf->personaje_ancho/conf->ventana_ancho)
-#define MOVER_PIXELES_VERTICAL 75*(conf->personaje_alto/conf->escenario_ancho)
+#define MOVER_PIXELES 60*(parser->personaje_ancho/parser->ventana_ancho)
+#define MOVER_PIXELES_VERTICAL 75*(parser->personaje_alto/parser->escenario_ancho)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
-#define ALTURA_MAX_SALTO conf->personaje_alto + conf->escenario_ypiso
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 50
+#define FACTOR_SCROLL MOVER_PIXELES
+
+#define FRAMERATE 40
+#define JOYSTICK_DEAD_ZONE 8000
+#define ALTURA_MAX_SALTO parser->personaje_alto + parser->escenario_ypiso
+#define CONST_MAXI_DELAY 50
+
 Logger *logger = Logger::instance();
 
 
@@ -61,20 +67,15 @@ public:
     bool saltoDiagonalDER = false;
     bool golpeandoPJ = false;
     bool cansandoPJ = false;
-    bool scrollearDerecha = false;
-    bool scrollearIzquierda = false;
-    bool saltando = false;
-    bool alturaMaxima = false;
+    
     Sint16 presionado=0;
     SDL_Rect r;
-    int posicionPJ_Piso = 0;
     double t = 5.0;
     bool pausa = false;
     bool cambiarModo = false;
 
     int argc;
     char** argv;
-    ConversorDeCoordenadas* conv;
     SDL_Texture *under;
 
     bool usandoJoystick = false;
@@ -85,12 +86,7 @@ public:
     bool salir = false;
     SDL_Renderer * renderer = NULL;
 
-    Escenario *escenario;
-    BarraDeVida barraDeVida1, barraDeVida2;
-
-    unsigned int ANCHO_FISICO, ALTO_FISICO;
-    unsigned int AnchoLogico, AltoLogico;
-
+    Parser* parser;
     float x_logico_personaje;
     float borde_izquierdo_logico_pantalla;
 
@@ -100,10 +96,17 @@ public:
     Estado* estado;
     Timer* timer;
 
+	Estado* estado;
+    Personaje* personajeJuego, *personajeJuego2;
+    BarraDeVida* barraDeVida1, *barraDeVida2;
+    ConversorDeCoordenadas* conversor;
+	Escenario* escenario;
+	Ventana* ventana;
+	Director* director;
+
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
-        this->escenario = new Escenario();
     };
 //----------------------------------------------------------------
     int jugar(){
@@ -117,93 +120,110 @@ public:
         // LIBERAR RECURSOS
         terminar_juego();
         terminar_sdl();
+        Logger::destroy_instance();
         return 0;
     };
 //----------------------------------------------------------------
 
-    void cargar_configuracion(){
-        this->conf = new Conf();
+    void cargar_configuracion(Parser* parser){
         if (argc == 1 )
-            conf->cargarDefault();
+            parser->cargarDefault();
         else
-            conf->set_values(argv[1]);
-        // Se settean configuraciones (con el json)
+            parser->set_values(argv[1]);
+        // Se settean Parseriguraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
+<<<<<<< HEAD
 
         //Pantalla
-        ANCHO_FISICO = conf->ventana_anchopx; //800
-        ALTO_FISICO = conf->ventana_altopx; //416
-        posicionPJ_Piso = conf->escenario_ypiso;
+        ANCHO_FISICO = parser->ventana_anchopx; //800
+        ALTO_FISICO = parser->ventana_altopx; //416
+        posicionPJ_Piso = parser->escenario_ypiso;
         r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
         //Mundo
-        AnchoLogico = conf->escenario_ancho;
-        AltoLogico = conf->escenario_alto;
+        AnchoLogico = parser->escenario_ancho;
+        AltoLogico = parser->escenario_alto;
         // Martin
         // fin de las configuraciones
 
 
 
         // Cargamos al personaje en el medio del mapa
-        x_logico_personaje = (conf->escenario_ancho/2) - (conf->personaje_ancho/2);
+        x_logico_personaje = (parser->escenario_ancho/2) - (parser->personaje_ancho/2);
 
 
-        borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
+        borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
 
-		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
-												conf->escenario_alto, conf->ventana_ancho, borde_izquierdo_logico_pantalla);
+		this->conv = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+												parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
 											
 		this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
 
-    };
+=======
+/*		
+		// Cargamos al personaje y ventana en el medio del mapa.
+        // x_logico del extremo izquierdo.
+        x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho/2.);
+        borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
+
+		r = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
+
+		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
+		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+                             parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
+		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
+        
+        renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
+        under = loadTexture("resources/background/p_under.png", renderer);
+        cargar_capas();
+        
+        estado = new Estado((string)(this->parser->sprites_map["personaje1"]), renderer, parser->personaje_alto, parser->escenario_alto, parser->personaje_ancho, parser->escenario_ancho);
+        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser->personaje_mirar_derecha);
+        this->personajeJuego = personaje;
+    }; */ //--> from director
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void configurar(){
-        cargar_configuracion();
-
-        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
-                                   SDL_WINDOWPOS_CENTERED,
-                                   SDL_WINDOWPOS_CENTERED,
-                                   conf->ventana_anchopx, conf->ventana_altopx,
-                                   SDL_WINDOW_MAXIMIZED);
-
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-
-        under = loadTexture("resources/background/p_under.png", renderer);
-        cargar_capas();
-
+        this->parser = new Parser();
+        cargar_configuracion(this->parser);
+		
         //Izquierda
-        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true) ;
+        barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
        //Derecha
-        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
+        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+        estado = new Estado((string)(this->parser->sprites_map["personaje1"]), renderer, parser->personaje_alto, parser->escenario_alto, parser->personaje_ancho, parser->escenario_ancho);
+        barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+
+		//~ personajeJuego2 = new PersonajeMock(parser->personaje_mirar_derecha, parser->escenario_ancho);
+		Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser);
+		Personaje* personaje2 = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser);
         this->personajeJuego = personaje;
+        this->personajeJuego2 = personaje2;
+		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL);
 
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
-
         Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
         estadoPersonaje1 = Quieto_State;
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void cargar_capas(){
-
-        for (unsigned int i = 0; i < conf->capas_vector.size(); i++){
-            conf->capas_vector[i]->ren = renderer;
-
-            escenario->AgregarCapa( // esto no deberÃ­a estar asÃ­, tendria que andar la lÃ­nea de arriba, pero estuve luchando y no la hago andar (maxi)
-                new Capa (conf->capas_vector[i]->ubicacion,
-                conf->capas_vector[i]->anchoLogico,
-                conf->capas_vector[i]->x_logico,
-                conf->capas_vector[i]->ren,
-                this->conv,
-                conf->escenario_ancho
+        for (unsigned int i = 0; i < parser->capas_vector.size(); i++){
+            //~ parser->capas_vector[i]->ren = renderer;
+			//~ escenario->AgregarCapa(parser->capas_vector[i]);
+            escenario->AgregarCapa( // esto no debería estar así, tendria que andar la lí­nea de arriba, pero estuve luchando y no la hago andar (maxi)
+                new Capa (parser->capas_vector[i]->ubicacion,
+                parser->capas_vector[i]->anchoLogico,
+                parser->capas_vector[i]->x_logico,
+                renderer,
+                this->parser->escenario_ancho,
+                this->parser->ventana_ancho
                 )
             );
+            delete parser->capas_vector[i];
         }
 
     }
@@ -225,18 +245,16 @@ public:
         while (!salir){
 
             timerFps = SDL_GetTicks();
-
             Controlador(&evento);       //Controlador
             if (!pausa){
                 ActualizarModelo();     //Modelo
+                //if (!pausa) this->director->actualizar();    
             }
             DibujarTodo();              //Vista
-
             SDL_FlushEvent(SDL_KEYDOWN);
-
+           // this->mileTmp = timerFps;
 
             timerFps = SDL_GetTicks() - timerFps;
-
             if(timerFps < int(1000/24)){
                 SDL_Delay(CONST_MAXI_DELAY);
             }
@@ -246,7 +264,7 @@ public:
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void reiniciarJuego(){
-        logger->log_debug("Tengo que cambiar las configuraciones");
+        logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
         cargar_configuracion();
 
@@ -255,31 +273,32 @@ public:
 	Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
         saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
 
-        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
+        estado = new Estado((string)(this->parser->sprites_map["personaje1"]), renderer, parser->personaje_alto, parser->escenario_alto, parser->personaje_ancho, parser->escenario_ancho);
+        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, conf);
         cargar_capas();
-        SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
-        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
-        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
+        SDL_SetWindowSize(window, parser->ventana_anchopx, parser->ventana_altopx); // Dani se encarga de poner esto en su objeto
+        barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
+        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
         this->timer->reset(SDL_GetTicks());
+		//configurar(); --> from director
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_juego(){
-        escenario->Borrar();
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
         delete this->personajeJuego; // Elimina el estado también
         delete this->timer;
-        for (unsigned int i = 0; i < conf->capas_vector.size(); i++) delete conf->capas_vector[i];
+        for (unsigned int i = 0; i < parser->capas_vector.size(); i++) delete parser->capas_vector[i];
         delete this->conf;
         delete this->conv;
+        delete this->parser;
+        delete this->director; // o sólo cambiar cosas?
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_sdl(){
         SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
         IMG_Quit();
         SDL_Quit();
     };
@@ -291,7 +310,7 @@ void DibujarTodo(){
         //Limpio y dibujo
         SDL_RenderClear(renderer);
 
-        SDL_Rect fillRect = {0, 0, conf->ventana_anchopx, conf->ventana_altopx};
+        SDL_Rect fillRect = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
@@ -307,40 +326,54 @@ void DibujarTodo(){
             // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
 
-            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conv);
+            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conversor);
 
             /*(escenario->capas[i])->DibujarseAnchoReal(
                 escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
-                + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conv->factor_ancho))
-                // mover*((float)escenario->capas[i]->anchoLogico/(float)conv->x_logico)
-                , 0, conv);
+                + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conversor->factor_ancho))
+                // mover*((float)escenario->capas[i]->anchoLogico/(float)conversor->x_logico)
+                , 0, conversor);
 
-            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conv);
+            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conversor);
 */
 
-            if (i==conf->personaje_zindex){
+<<<<<<< HEAD
+            if (i==parser->personaje_zindex){
                 //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
                 this->personajeJuego->Dibujarse(
                     //~ coord->x_fisico,
                     //~ coord->y_fisico,
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
-                    (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
-                    (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
+                    (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
+                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
+                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
 				//~ delete coord;
+=======
+            if (i==parser->personaje_zindex){
+                CoordenadaFisica* coord = conversor->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+                this->personajeJuego->Dibujarse(
+                    coord->x_fisico,
+                    coord->y_fisico,
+                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
+                    //~ (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
+                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
+                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
+				delete coord;
+>>>>>>> remotes/origin/director
             }
         }
 
-        if (escenario->capas.size()==0 || conf->personaje_zindex >= (escenario->capas.size())){
+        if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
             // Si no hay capas;
+<<<<<<< HEAD
             //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
 			this->personajeJuego->Dibujarse(
 					//~ coord->x_fisico,
 					//~ coord->y_fisico,
                     (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (conf->escenario_alto - posicionPJ_Piso - (conf->personaje_alto))*(conf->ventana_altopx/conf->escenario_alto),
-                    (conf->ventana_altopx/conf->escenario_alto)*conf->personaje_alto,
-                    (conf->ventana_anchopx/conf->ventana_ancho)*conf->personaje_ancho);
+                    (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
+                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
+                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
 			//~ delete coord;
         }
 
@@ -349,15 +382,34 @@ void DibujarTodo(){
 
         this->timer->Dibujarse();
 
-        // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
+        // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
+=======
+            CoordenadaFisica* coord = conversor->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
+			this->personajeJuego->Dibujarse(
+					coord->x_fisico,
+					coord->y_fisico,
+                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
+                    //~ (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
+                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
+                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
+			delete coord;
+        }
+		
+        barraDeVida1->Dibujarse();
+        barraDeVida2->Dibujarse();
+        //this->timer->Dibujarse();
+		
+        // CoordenadaFisica* c = conversor->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
+>>>>>>> remotes/origin/director
         if (pausa){
-            SDL_Rect pantalla = {0,0,conf->ventana_anchopx,conf->ventana_altopx};
+            SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
             SDL_RenderFillRect( renderer, &pantalla );
         }
         SDL_RenderPresent(renderer);
 };
 
+<<<<<<< HEAD
 enum Estados{
       Quieto_State,
       SaltoDiagonal_State,
@@ -371,11 +423,16 @@ enum Estados{
     void Controlador(SDL_Event *evento){
 
        while(SDL_PollEvent( evento )) {
+=======
+void Controlador(SDL_Event *evento){
+	while(SDL_PollEvent( evento )) {
+>>>>>>> remotes/origin/director
 
         //Ahora anda este tambien.
         /*if (evento->type == SDL_JOYBUTTONDOWN){
             ;
         }*/
+<<<<<<< HEAD
     if(usandoJoystick){
         x_Joystick = SDL_JoystickGetAxis(Player1, 0);
         y_Joystick = SDL_JoystickGetAxis(Player1, 1);
@@ -519,8 +576,8 @@ enum Estados{
       Caminando_State */
     //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
     if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
-            if(posicionPJ_Piso < conf->escenario_ypiso){
-                posicionPJ_Piso = conf->escenario_ypiso;
+            if(posicionPJ_Piso < parser->escenario_ypiso){
+                posicionPJ_Piso = parser->escenario_ypiso;
                 saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
                 //Despues de caer vuelve a quieto.
                 alturaMaxima = false;
@@ -532,7 +589,7 @@ enum Estados{
             //alturaMaxima
                 //Vo = 10px/t ; g = 6px/t*t
                //t+=0.01;
-                //||*/ (posicionPJ_Piso <(conf->escenario_ypiso- posicionPJ_Piso))
+                //||*/ (posicionPJ_Piso <(parser->escenario_ypiso- posicionPJ_Piso))
                 //Nota: posicionPJ_Piso = 0 no es en la parte superior de la pantalla :-/
                 if (posicionPJ_Piso  >= ALTURA_MAX_SALTO) {
                     alturaMaxima = true;
@@ -550,16 +607,16 @@ enum Estados{
                 if(saltoDiagonalIZQ){
                     if (x_logico_personaje - 3*MOVER_PIXELES >= 0) x_logico_personaje -= 3*MOVER_PIXELES;
 
-                    if (((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho) < (ANCHO_FISICO*(100-conf->margen)/200))
+                    if (((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho) < (ANCHO_FISICO*(100-parser->margen)/200))
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - 3*MOVER_PIXELES;
 
                 }else if(saltoDiagonalDER){
-                    if (x_logico_personaje <= (conf->escenario_ancho - conf->personaje_ancho)) {
+                    if (x_logico_personaje <= (parser->escenario_ancho - parser->personaje_ancho)) {
 						x_logico_personaje += 3*MOVER_PIXELES;
 					}
 
-                    if (((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + conf->ventana_ancho) < conf->escenario_ancho)
-                    &&((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho- conf->ventana_ancho*(100-conf->margen)/200))){
+                    if (((borde_izquierdo_logico_pantalla + 3*MOVER_PIXELES + parser->ventana_ancho) < parser->escenario_ancho)
+                    &&((x_logico_personaje + (parser->personaje_ancho) - borde_izquierdo_logico_pantalla)> (parser->ventana_ancho- parser->ventana_ancho*(100-parser->margen)/200))){
 						//~ puts("hola");
                         borde_izquierdo_logico_pantalla += 3*MOVER_PIXELES;
 					}
@@ -689,7 +746,7 @@ enum Estados{
         }
         if (scrollearIzquierda){
                 if (x_logico_personaje >= 0 && ((x_logico_personaje - MOVER_PIXELES)>=0)) x_logico_personaje -= MOVER_PIXELES;
-                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-conf->margen)/200)
+                if ((x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho < ANCHO_FISICO*(100-parser->margen)/200)
                 {
                     //x_logico_personaje = x_logico_personaje + MOVER_PIXELES;
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
@@ -703,25 +760,137 @@ enum Estados{
 
             } else if (scrollearDerecha){
 				//cout<<"Posicion logica del personaje: "<<x_logico_personaje<<endl;
-				//cout<<"Ancho escenario: "<<conf->escenario_ancho<<endl;
-				//cout<<"Personaje ancho: "<<conf->personaje_ancho<<endl;
+				//cout<<"Ancho escenario: "<<parser->escenario_ancho<<endl;
+				//cout<<"Personaje ancho: "<<parser->personaje_ancho<<endl;
 
-                 if (x_logico_personaje <= conf->escenario_ancho - conf->personaje_ancho)
+                 if (x_logico_personaje <= parser->escenario_ancho - parser->personaje_ancho)
 					x_logico_personaje += MOVER_PIXELES;
 
-                 if ((x_logico_personaje + (conf->personaje_ancho) - borde_izquierdo_logico_pantalla)> (conf->ventana_ancho -conf->ventana_ancho*(100-conf->margen)/200))
+                 if ((x_logico_personaje + (parser->personaje_ancho) - borde_izquierdo_logico_pantalla)> (parser->ventana_ancho -parser->ventana_ancho*(100-parser->margen)/200))
                 {
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-                    if (borde_izquierdo_logico_pantalla + (conf->ventana_ancho) >= conf->escenario_ancho){
+                    if (borde_izquierdo_logico_pantalla + (parser->ventana_ancho) >= parser->escenario_ancho){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                     }
                 }
             }
 
-            while (x_logico_personaje > (conf->escenario_ancho - conf->personaje_ancho)){
+            while (x_logico_personaje > (parser->escenario_ancho - parser->personaje_ancho)){
                 x_logico_personaje -= MOVER_PIXELES;
             }
             this->timer->avanzarTimer(SDL_GetTicks());
+=======
+        
+		if(usandoJoystick){
+			
+			bool nada = false;
+			
+			x_Joystick = SDL_JoystickGetAxis(Player1, 0);
+			y_Joystick = SDL_JoystickGetAxis(Player1, 1);
+			
+			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
+				//  x = -1;
+				this->director->seMuevePersonaje(jugador1, Izquierda);
+
+			}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
+				//  x =  1;
+				this->director->seMuevePersonaje(jugador1, Derecha);
+			}else{
+				//  x = 0;
+				nada = true;
+			}
+
+			//Vertical
+			if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
+				//  y = -1;
+				this->director->seMuevePersonaje(jugador1, Arriba);
+			}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
+				//y =  1;
+				//Abajo_PRESIONADO = true;
+				;
+			}else{
+				//yDir = 0;
+				nada = true;
+			}
+			if (nada) this->director->seMuevePersonaje(jugador1, Nada);
+		
+		} else {
+			//-----------------------------------------
+			//----------EVENTOS NO-JOYSTICK------------
+			//-----------------------------------------
+			bool nada1 = true;
+			bool nada2 = true;
+			
+			switch(evento->type){
+				case SDL_QUIT:
+					salir = true;
+					break;
+				case SDL_KEYDOWN:
+
+					//-----------------------------------------
+					//-----------------------------------------
+					//---------------BASICOS-------------------
+					if (evento->key.keysym.sym == SDLK_UP && !pausa)  {
+						this->director->seMuevePersonaje(jugador1, Arriba);
+						nada1 = false;
+					}
+					if (evento->key.keysym.sym == SDLK_RIGHT && !pausa)  {
+						this->director->seMuevePersonaje(jugador1, Derecha);
+						nada1 = false;
+					}
+					if ((evento->key.keysym.sym == SDLK_LEFT && !pausa))  {
+						this->director->seMuevePersonaje(jugador1, Izquierda);
+						nada1 = false;
+					}
+					if (nada1 && !pausa) this->director->seMuevePersonaje(jugador1, Nada);
+					//-----------------------------------------
+					//-----------------------------------------
+					if (evento->key.keysym.sym == SDLK_p)  {
+						//~ cambiarModo = true;
+						pausa = !pausa;
+					}
+					if(evento->key.keysym.sym == SDLK_a && !pausa)  {
+						barraDeVida1->Aliviar(20);
+						barraDeVida2->Aliviar(20);
+					}
+					if(evento->key.keysym.sym == SDLK_c && !pausa)  {
+						if (cansandoPJ == false){
+							barraDeVida1->Cansar(50);
+							barraDeVida2->Cansar(50);
+							cansandoPJ = true;
+						}
+					}
+					if((evento->key.keysym.sym == SDLK_d && !pausa))  {
+						if (golpeandoPJ == false){
+							barraDeVida1->Lastimar(90);
+							barraDeVida2->Lastimar(750);
+							golpeandoPJ = true;
+						}
+						break;
+					}
+					if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
+					if (evento->key.keysym.sym == SDLK_r){
+						reiniciarJuego();
+					}
+					break;
+				case SDL_KEYUP:
+					//~ if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
+						//~ cambiarModo = false;
+						//~ pausa = !pausa;
+					//~ }
+					if((evento->key.keysym.sym == SDLK_d))  {
+						golpeandoPJ = false;
+					}
+					if((evento->key.keysym.sym == SDLK_c))  {
+						cansandoPJ = false;
+					}
+					break;
+				default:
+					;
+			   }
+		   }
+		}
+>>>>>>> remotes/origin/director
     };
 
 };//FIN CLASE JUEGO

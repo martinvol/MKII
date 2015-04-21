@@ -48,6 +48,7 @@ parser.o: juego/Parser/Parser.cpp
 BarraDeVida.o: juego/Escenario/BarraDeVida.cpp
 	$(CC) "juego/Escenario/BarraDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+
 Coordenadas.o: juego/Coordenadas/CoordenadaLogica.cpp juego/Coordenadas/CoordenadaFisica.cpp juego/Coordenadas/ConversorDeCoordenadas.cpp
 	$(CC) "juego/Coordenadas/CoordenadaLogica.cpp" $(CFLAGS) -c
 	$(CC) "juego/Coordenadas/CoordenadaFisica.cpp" $(CFLAGS) -c
@@ -58,6 +59,7 @@ Director.o: juego/Director.cpp
 
 logger.o: juego/Logger/Logger.cpp
 	$(CC) "juego/Logger/Logger.cpp" $(CFLAGS) -c
+
 
 Accion.o: juego/Acciones/Accion.cpp
 	$(CC) "juego/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -92,6 +94,7 @@ Timer.o:
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
 
+
 Quieto: Accion.o Quieto.o
 	$(CC)  Accion.o Quieto.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Quieto"
 
@@ -117,7 +120,10 @@ Jugador.o: juego/Personaje/Jugador.cpp
 	$(CC) "juego/Personaje/Jugador.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 
-compilar_juego: main.o Capa.o Escenario.o parser.o BarraDeVida.o logger.o Accion.o Personaje.o Coordenadas.o Estado.o Quieto.o Timer.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o
+Ventana.o: juego/Escenario/Ventana.cpp
+	$(CC) "juego/Escenario/Ventana.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+compilar_juego: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Director.o Jugador.o Ventana.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego
@@ -131,7 +137,7 @@ juegoJsonTest: compilar_juego
 prueba_personaje:
 	$(CC) "pruebas/PruebaMoverse/prueba_Personaje.cpp" "pruebas/PruebaMoverse/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -o juego_ejecutable
 	
-prueba_integracionI: clean Capa.o Escenario.o parser.o Coordenadas.o logger.o
+prueba_integracionI: clean Capa.o Escenario.o Parser.o coordenadas.o Logger.o
 	$(CC) "pruebas/IntegracionI.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o integracionI 	
 	./integracionI

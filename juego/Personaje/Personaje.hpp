@@ -15,7 +15,7 @@ using namespace std;
 
 class Personaje {
 		Conf* parser;
-	
+	private:
 		/* Sus anchos y altos lógicos. */
 		float ancho;
 		float alto;
@@ -30,23 +30,27 @@ class Personaje {
 		Accion* accionActual;
 		Estado* estado;
 		
+		//int nroAccionActual;
+		bool derecha;
 		bool ladoDerecha;
-
+		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
 		
-		int nroAccionActual;
-		
+		accion_posible nroAccionActual;		
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		
 	public:
-		
 		Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
+
+		//Harcodeo para donde mira.
+		//Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha); -->
+		//~ Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado);
 		~Personaje();
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
-		void cambiarAccionA(accion_posible nroACcion);
+		void cambiarAccionA(accion_posible nroAccion);
 		void Dibujarse(int x, int y);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
@@ -54,9 +58,9 @@ class Personaje {
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
-		//MILE: A agregar para Dani:
 
-				
+		//MILE: A agregar para DANI:
+		
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();

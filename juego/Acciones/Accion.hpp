@@ -13,7 +13,6 @@
 
 typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE} accion_posible;
 
-
 using namespace std;
 
 class Accion{

@@ -27,3 +27,28 @@ void Escenario::Borrar(){
     capas.clear();
 
 }
+
+Escenario::~Escenario(){
+	Borrar();
+}
+
+Escenario::Escenario(float ancho, float alto){
+	this->ancho = ancho;
+	this->alto = alto;
+}
+
+bool Escenario::esLimiteDerecho(float x){
+	return (x >= ancho);
+}
+
+bool Escenario::esLimiteIzquierdo(float x){
+	return (x <= 0);
+}
+
+float Escenario::obtenerLimiteDerecho(){
+	return ancho;
+}
+
+float Escenario::obtenerLimiteIzquierdo(){
+	return 0;
+}
