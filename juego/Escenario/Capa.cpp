@@ -1,9 +1,9 @@
-#include "Capa.h"
+#include "Capa.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
-#include "../Coordenadas/ConversorDeCoordenadas.h"
+#include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include <string>
 
 using namespace std;

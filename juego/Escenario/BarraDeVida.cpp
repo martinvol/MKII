@@ -1,4 +1,4 @@
-#include "BarraDeVida.h"
+#include "BarraDeVida.hpp"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

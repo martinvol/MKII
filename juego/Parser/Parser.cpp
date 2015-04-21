@@ -3,9 +3,9 @@
 #include <cstring>
 #include <fstream>
 #include <unordered_map>
-#include "../Escenario/Capa.h"
-#include "../Logger/logger.h"
-#include "parser.h"
+#include "../Escenario/Capa.hpp"
+#include "../Logger/Logger.hpp"
+#include "Parser.hpp"
 #include "jsoncpp/json/json.h"
 
 #define IMAGEN_DEFAULT "resources/background/defaultcapa.png"

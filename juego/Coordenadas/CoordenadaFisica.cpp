@@ -1,4 +1,4 @@
-#include "CoordenadaFisica.h"
+#include "CoordenadaFisica.hpp"
 
 CoordenadaFisica::CoordenadaFisica(int x, int y){
 	this->x_fisico = x;

@@ -1,4 +1,4 @@
-#include "Jugador.h"
+#include "Jugador.hpp"
 
 Personaje* Jugador::obtenerPersonaje(){
 	return this->personaje;

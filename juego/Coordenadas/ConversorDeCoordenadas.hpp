@@ -1,8 +1,8 @@
 #ifndef CONVERSOR_H_INCLUDED
 #define CONVERSOR_H_INCLUDED
 
-#include "CoordenadaLogica.h"
-#include "CoordenadaFisica.h"
+#include "CoordenadaLogica.hpp"
+#include "CoordenadaFisica.hpp"
 
 class ConversorDeCoordenadas{
 

@@ -1,7 +1,7 @@
 #ifndef VENTANA_H
 #define VENTANA_H
 
-#include "../Coordenadas/CoordenadaFisica.h"
+#include "../Coordenadas/CoordenadaFisica.hpp"
 
 enum lugarEnVentana {bordeIzq, medio, bordeDer};
 

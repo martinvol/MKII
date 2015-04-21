@@ -1,4 +1,4 @@
-#include "CoordenadaLogica.h"
+#include "CoordenadaLogica.hpp"
 
 CoordenadaLogica::CoordenadaLogica(float x, float y){
 	this->x = x;

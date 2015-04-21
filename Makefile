@@ -42,8 +42,8 @@ Capa.o: juego/Escenario/Capa.cpp
 Escenario.o: juego/Escenario/Escenario.cpp
 	$(CC) "juego/Escenario/Escenario.cpp"  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-parser.o: juego/Parser/parser.cpp
-	$(CC) "juego/Parser/parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+parser.o: juego/Parser/Parser.cpp
+	$(CC) "juego/Parser/Parser.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 BarraDeVida.o: juego/Escenario/BarraDeVida.cpp
 	$(CC) "juego/Escenario/BarraDeVida.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -56,8 +56,8 @@ Coordenadas.o: juego/Coordenadas/CoordenadaLogica.cpp juego/Coordenadas/Coordena
 Director.o: juego/Director.cpp
 	$(CC) "juego/Director.cpp" $(CFLAGS) -c
 
-logger.o: juego/Logger/logger.c
-	$(CC) "juego/Logger/logger.c" $(CFLAGS) -c
+logger.o: juego/Logger/Logger.cpp
+	$(CC) "juego/Logger/Logger.cpp" $(CFLAGS) -c
 
 Accion.o: juego/Acciones/Accion.cpp
 	$(CC) "juego/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c

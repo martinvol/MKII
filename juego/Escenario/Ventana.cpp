@@ -1,4 +1,4 @@
-#include "Ventana.h"
+#include "Ventana.hpp"
 
 Ventana::Ventana(char* titulo, int ancho_fisico, int alto_fisico, float margen){
 	this->window = SDL_CreateWindow(titulo, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ancho_fisico, alto_fisico, SDL_WINDOW_MAXIMIZED);

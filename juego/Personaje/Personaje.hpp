@@ -8,8 +8,8 @@
 #include <string>
 #include "Estado.hpp"
 #include "../Acciones/Accion.hpp"
-#include "../Coordenadas/CoordenadaLogica.h"
-#include "../Parser/parser.h"
+#include "../Coordenadas/CoordenadaLogica.hpp"
+#include "../Parser/Parser.hpp"
 
 using namespace std;
 

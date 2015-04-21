@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <string>
-#include "logger.h"
+#include "Logger.hpp"
 #include <iostream>
 #include <fstream>
 #include <time.h>       /* time_t, struct tm, time, localtime, strftime */
