@@ -22,9 +22,12 @@ Timer::Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoo
     this->ren = ren;
     this->actualD = 8;
     this->actualU = 8;
+    this->ticks = 0;
+    this->freezed = false;
 }
 
-void Timer::reset() { 
+void Timer::reset(unsigned int ticks) {
+    this->ticks = ticks; 
     this->actualD = 8;
     this->actualU = 8;
 }
@@ -51,12 +54,24 @@ bool Timer::Dibujarse() {
 }   
 
 void Timer::avanzarTimer(unsigned int ticks) {
-    if (!this->terminoElTiempo()) {
-        this->actualU = 8 - ((ticks / this->divisor)) % 10;
-        if (this->actualU > 8) this->actualU = 9;
-        this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
-        if (this->actualD > 8) this->actualD = 9; 
+    if (!this->terminoElTiempo() && !this->freezed) {
+        //this->actualU = 8 - ((ticks / this->divisor)) % 10;
+        if (ticks - this->ticks > this->divisor) {
+            this->actualU--;
+            if (this->actualU > 8) this->actualU = 9;
+            this->ticks = ticks;
+            if (this->actualU == 8) this->actualD--;
+            if (this->actualD > 8) this->actualD = 9;
+        }        
+        
+        //this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
+        
     }   
+}
+
+void Timer::pausarTimer(unsigned int ticks) {
+    this->freezed = !this->freezed;
+    this->ticks = ticks;
 }
 
 Timer::~Timer() {

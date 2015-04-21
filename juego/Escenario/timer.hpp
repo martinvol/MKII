@@ -14,13 +14,16 @@ class Timer {
     ConversorDeCoordenadas* conv;
     Logger* log;
     SDL_Renderer* ren;
+    unsigned long long ticks;
+    bool freezed;
         
     public:
         Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoordenadas* conv, SDL_Renderer* ren);
         bool Dibujarse();
-        void reset();
+        void reset(unsigned int ticks);
         bool terminoElTiempo();  
         void avanzarTimer(unsigned int ticks); 
+        void pausarTimer(unsigned int ticks);
         ~Timer();    
 };
 

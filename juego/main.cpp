@@ -260,7 +260,7 @@ public:
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        this->timer->reset();
+        this->timer->reset(SDL_GetTicks());
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -495,6 +495,9 @@ enum Estados{
                 if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
                     cambiarModo = false;
                     pausa = !pausa;
+                    //Extraer esto si es posible. El metodo depende del estado del
+                    //estado de la variable pausa.
+                    this->timer->pausarTimer(SDL_GetTicks());
                 }
                 if((evento->key.keysym.sym == SDLK_d))  {
                     golpeandoPJ = false;
