@@ -125,10 +125,13 @@ void Conf::set_values (char* my_file) {
             }
 
             const Json::Value capas = root["capas"];
-            
+            int cantidad_de_capas = 0;
+
             for ( int index = 0; index < capas.size(); ++index ){
                 
                 string nombre_archivo;
+
+                cantidad_de_capas++;
 
                 if (!capas[index].isMember("imagen_fondo")){
                     logger->log_error("Esta capa no tiene el valor imagen_fondo, se cargará la capa por default");
@@ -165,6 +168,17 @@ void Conf::set_values (char* my_file) {
                     NULL
                 );
 
+                capas_vector.push_back(temp);
+            }
+
+            if (cantidad_de_capas == 0){
+                logger->log_error("No se encontró ninguna capa");
+                logger->log_warning("Se carga una capa por default, con el ancho de la ventana/2");
+                Capa *temp = new Capa(
+                    IMAGEN_DEFAULT, ventana_ancho/2, DEFAULT_X_LOGICO, 
+                    NULL,
+                    NULL
+                );
                 capas_vector.push_back(temp);
             }
 
