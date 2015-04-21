@@ -9,7 +9,7 @@
 #include "Personaje/Personaje.hpp"
 #include "Logger/logger.h"
 #include "Coordenadas/ConversorDeCoordenadas.h"
-#include "Escenario/timer.hpp"
+#include "Escenario/Timer.hpp"
 
 using namespace std;
 

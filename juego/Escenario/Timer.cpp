@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include "../Parser/parser.h"
 #include "../Coordenadas/ConversorDeCoordenadas.h"
-#include "timer.hpp"
+#include "Timer.hpp"
 
 using namespace std;
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
