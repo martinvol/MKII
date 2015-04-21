@@ -6,21 +6,28 @@
 #include "timer.hpp"
 
 using namespace std;
-#define IMG_DEFAULT "resources/miscelaneo/06.gif"
+#define IMG_DEFAULT "resources/miscelaneo/06.png"
 
 Timer::Timer(unsigned int divisor, string pathDeLaImagenDeTiempo, ConversorDeCoordenadas* conv, SDL_Renderer* ren) {
     this->log = Logger::instance();
-    this->numeritos = IMG_LoadTexture(ren, pathDeLaImagenDeTiempo.c_str());
+    this->numeritos = NULL;
+    int intentos = 0;
+    while ((!this->numeritos) && (intentos < 10)) {
+        this->numeritos = IMG_LoadTexture(ren, pathDeLaImagenDeTiempo.c_str());
+        intentos ++;
+    }
     if (!this->numeritos) log->log_error("No se pudo cargar la imagen correspondiente al timer");
-    // Falta cargar una por default
     this->divisor = divisor;
     this->conv = conv;
     this->ren = ren;
     this->actualD = 8;
     this->actualU = 8;
+    this->ticks = 0;
+    this->freezed = false;
 }
 
-void Timer::reset() { 
+void Timer::reset(unsigned int ticks) {
+    this->ticks = ticks; 
     this->actualD = 8;
     this->actualU = 8;
 }
@@ -32,9 +39,9 @@ bool Timer::terminoElTiempo() {
 bool Timer::Dibujarse() {
 
     int w, h;
-    float altoLogico = 70;
-    float anchoLogico = 70;
-    int xFisico = this->conv->ancho_fisico/2 - anchoLogico/2;
+    float altoLogico = this->conv->alto_fisico * 0.05f;
+    float anchoLogico = this->conv->ancho_fisico * 0.028f;
+    int xFisico = this->conv->ancho_fisico/2;
     SDL_QueryTexture(this->numeritos, NULL, NULL, &w, &h);
     // int(this->conv->alto_fisico* 0.1f)
     SDL_Rect srcrect = { this->actualU * ((w / 10) + 1) - 3,0, (w/10), h };
@@ -47,12 +54,24 @@ bool Timer::Dibujarse() {
 }   
 
 void Timer::avanzarTimer(unsigned int ticks) {
-    if (!this->terminoElTiempo()) {
-        this->actualU = 8 - ((ticks / this->divisor)) % 10;
-        if (this->actualU > 8) this->actualU = 9;
-        this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
-        if (this->actualD > 8) this->actualD = 9; 
+    if (!this->terminoElTiempo() && !this->freezed) {
+        //this->actualU = 8 - ((ticks / this->divisor)) % 10;
+        if (ticks - this->ticks > this->divisor) {
+            this->actualU--;
+            if (this->actualU > 8) this->actualU = 9;
+            this->ticks = ticks;
+            if (this->actualU == 8) this->actualD--;
+            if (this->actualD > 8) this->actualD = 9;
+        }        
+        
+        //this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
+        
     }   
+}
+
+void Timer::pausarTimer(unsigned int ticks) {
+    this->freezed = !this->freezed;
+    this->ticks = ticks;
 }
 
 Timer::~Timer() {

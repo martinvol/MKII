@@ -18,7 +18,7 @@ using namespace std;
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define ALTURA_MAX_SALTO conf->personaje_alto + conf->escenario_ypiso
-#define IMG_DEFAULT "resources/miscelaneo/06.gif" ///
+#define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 50
 Logger *logger = Logger::instance();
 
@@ -110,6 +110,8 @@ public:
         renderer = SDL_CreateRenderer(NULL, -1, 0);
 
         configurar();
+        reiniciarJuego(); /// Esto es una villereada, pero no se 
+                          /// por que arregla el timer *Manuel*
         game_loop();
         // LIBERAR RECURSOS
         terminar_juego();
@@ -145,10 +147,11 @@ public:
 
 
         borde_izquierdo_logico_pantalla = (conf->escenario_ancho/2.) - (conf->ventana_ancho/2.);
-        this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
 		this->conv = new ConversorDeCoordenadas(conf->ventana_altopx, conf->ventana_anchopx,
 												conf->escenario_alto, conf->ventana_ancho, borde_izquierdo_logico_pantalla);
+											
+		this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
 
         // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
 
@@ -257,7 +260,7 @@ public:
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
         barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        this->timer->reset();
+        this->timer->reset(SDL_GetTicks());
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -343,7 +346,7 @@ void DibujarTodo(){
         barraDeVida1.Dibujarse();
         barraDeVida2.Dibujarse();
 
-        //this->timer->Dibujarse();
+        this->timer->Dibujarse();
 
         // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(conf->personaje_ancho, conf->personaje_alto));
         if (pausa){
@@ -492,6 +495,9 @@ enum Estados{
                 if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
                     cambiarModo = false;
                     pausa = !pausa;
+                    //Extraer esto si es posible. El metodo depende del estado del
+                    //estado de la variable pausa.
+                    this->timer->pausarTimer(SDL_GetTicks());
                 }
                 if((evento->key.keysym.sym == SDLK_d))  {
                     golpeandoPJ = false;
