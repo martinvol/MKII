@@ -22,6 +22,7 @@ int Accion::cuentaArchivos(string ruta){
 		string ruta = "resources/Default/"+to_string(this->accionNro);
 		logger->log_error("No se puede abrir el directorio del Personaje");
 		dir = opendir (ruta.c_str());
+		this->ruta = ruta;
 	}
 
 	int i = 0;
@@ -32,6 +33,7 @@ int Accion::cuentaArchivos(string ruta){
 	}
 	
 	closedir (dir);
+
 
 	return i;
 }

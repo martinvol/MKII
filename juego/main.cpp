@@ -13,6 +13,7 @@
 
 using namespace std;
 
+
 #define MOVER_PIXELES 60*(conf->personaje_ancho/conf->ventana_ancho)
 #define MOVER_PIXELES_VERTICAL 75*(conf->personaje_alto/conf->escenario_ancho)
 #define FRAMERATE 40
@@ -727,8 +728,8 @@ enum Estados{
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 int main(int argc, char* argv[]){
-    logger->set_debug(false);
-    logger->set_warning(false);
+    logger->set_debug(true);
+    logger->set_warning(true);
     logger->set_error(true);
 
     logger->log_debug("-------------------------------------");
