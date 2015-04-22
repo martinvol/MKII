@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include "jsoncpp/json/json.h"
 
-#include "Capa.hpp"
-#include "Logger.hpp"
+#include "../Escenario/Capa.hpp"
+#include "../Logger/Logger.hpp"
 
 class Parser {
 	private:

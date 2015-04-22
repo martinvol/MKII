@@ -2,8 +2,8 @@
 #define JUGADOR_H
 
 #include "Personaje.hpp"
-#include "BarraDeVida.hpp"
-#include "CoordenadaLogica.hpp"
+#include "../Escenario/BarraDeVida.hpp"
+#include "../Coordenadas/CoordenadaLogica.hpp"
 
 class Jugador {
 	public:
@@ -35,6 +35,7 @@ class Jugador {
 		CoordenadaLogica* obtenerCoordenadaIzqInf();
 		CoordenadaLogica* obtenerCoordenadaDerSup();
 		CoordenadaLogica* obtenerCoordenadaDerInf();
+		float obtenerAnchoLogico();
 		
 		/* Estas corresponden a preguntar dónde deberías estar o a
 		 * dónde te deberías mover la próxima vez de acuerdo a la
@@ -49,6 +50,15 @@ class Jugador {
 		/* Coordenada a la que debe moverse el pesonaje. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
+		
+		/* Activa las imágenes.
+		 * Y devuelve a dónde se movería. */
+		CoordenadaLogica* parar();
+		CoordenadaLogica* saltar();
+		CoordenadaLogica* saltarDerecha();
+		CoordenadaLogica* saltarIzquierda();
+		CoordenadaLogica* caminarDerecha();
+		CoordenadaLogica* caminarIzquierda();
 	
 	// Para BARRA DE VIDA:
 		
