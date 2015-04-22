@@ -191,6 +191,12 @@ void Conf::set_values (char* my_file) {
                 personaje_zindex = capas.size();
             }
 
+
+            if ((escenario_ypiso + personaje_alto > escenario_alto*0.8) || escenario_ypiso<0){
+                logger->log_error("El piso es inválido, se pone 0 por default");
+                escenario_ypiso = 0;
+            }            
+
         } else {
             logger->log_error("Error de sytaxis en el archivo");
             logger->log_error(reader.getFormatedErrorMessages());
@@ -212,7 +218,7 @@ float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clav
     catch (const runtime_error& error){
         std::ostringstream buff;
         buff << valorDefault;
-        logger->log_error("Se esperaba un número en" + std::string(clave) + ", se usá el valor por default" + buff.str());
+        logger->log_error("Se esperaba un número en " + std::string(clave) + ", se usá el valor por default" + buff.str());
         result = valorDefault;
     }
     return result;
