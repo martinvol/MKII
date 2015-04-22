@@ -4,8 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "CoordenadaFisica.hpp"
-#include "ConversorDeCoordenadas.hpp"
+#include "../Coordenadas/CoordenadaFisica.hpp"
+#include "../Coordenadas/ConversorDeCoordenadas.hpp"
 
 enum lugarEnVentana {bordeIzq, medio, bordeDer};
 
