@@ -12,7 +12,7 @@ void Escenario::AgregarCapa(Capa *capaParam){
 //----------------------------------------------------------------
 void Escenario::Dibujar(CoordenadaFisica* coordenada){
     for (unsigned int i = 0; i<= capas.size()-1; i++){
-        capas[i]->DibujarseAnchoReal(coordenadas->x_fisico, coordenadas->y_fisico);
+        capas[i]->DibujarseAnchoReal(coordenada->x_fisico, coordenada->y_fisico);
     }
 }
 
