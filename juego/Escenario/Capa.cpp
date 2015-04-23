@@ -38,38 +38,8 @@ SDL_Texture* Capa::CargarTextura(){
 }
 
 //----------------------------------------------------------------
-void Capa::Dibujarse(int x, int y){
-    int ancho, alto;
-	SDL_QueryTexture(this->textura, NULL, NULL, &ancho, &alto);
-	Dibujarse(x, y, alto, ancho);
-}
-
 void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
-	//Dibujarse(x,y, conversor->alto_fisico, conversor->factor_ancho*this->anchoLogico);
-	
-	float posi_px = (((this->m)*x + (this->b)));
-	cout <<"posi_px " << posi_px << "\n"; ///
-
-	posi_px = posi_px*(conversor->factor_ancho) - x;
-
-
-
-	SDL_Rect destination_rect;
-
-	destination_rect.x = posi_px + (this->x_logico)*conversor->factor_ancho;
-	destination_rect.y = y;
-	destination_rect.w = conversor->factor_ancho*this->anchoLogico;
-	destination_rect.h = conversor->alto_fisico;
-	
-	SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
-	//SDL_RenderCopy(ren, textura, NULL, &destination_rect);
-
-
-}
-
-void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     // Este metodo va a tratar de dibujar los rectangulos bonitos usando el rect de source
-    
 	
 	float posi_px = (((this->m)*x + (this->b)));
 
@@ -85,28 +55,6 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
 	source_rect.h = h;
 	
 	SDL_RenderCopy(ren, textura, &source_rect, NULL);
-}
-
-//----------------------------------------------------------------
-void Capa::Dibujarse(int x, int y, int alto, int ancho){
-	//Rectangulo destino
-	SDL_Rect destino;
-	destino.h = alto;
-	destino.w = ancho;
-	destino.x = x;
-	destino.y = y;
-	// printf("%d\n", destino.w);
-	SDL_RenderCopy(this->ren, this->textura, NULL, &destino);
-}
-
-//----------------------------------------------------------------
-void Capa::Dibujarse2(int x, int y, ConversorDeCoordenadas* conversor){
-	int ancho, alto;
-	SDL_QueryTexture(this->textura, NULL, NULL, &ancho, &alto);
-    SDL_Rect loQueSeCorta = {x, y, ancho*0.5, alto};
-
-
-	SDL_RenderCopy(ren, textura, &loQueSeCorta, NULL);//;, 0.0, NULL, SDL_FLIP_NONE);
 }
 
 //----------------------------------------------------------------
