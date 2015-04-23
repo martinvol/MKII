@@ -51,6 +51,7 @@ void Director::actualizar(){
 	// Les dice que cambien la "imagen" y "comportamiento" a la que le
 	// piden, si debe.
 	informar_acciones();
+	
 	// Haya cambiado o no de acción, yo sólo debo verificar que no se
 	// vaya del margen o debería scrollear y si no puedo decirle que se
 	// quede en donde está de ancho, pero la imagen está bien que si
@@ -58,9 +59,10 @@ void Director::actualizar(){
 	// Verifica, saca una posición válida y se la informa para que se
 	// mueva allí.
 	verificar_movimientos();
+	
 	// Finalmente, ya movidos, verifica en donde están uno respecto del
 	// otro y les cambia la dirección de la mirada.
-	// VER BIEN PARA LA PRÓXIMA ENTREGA
+	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
 	//~ verificar_orientaciones();
 }
 
