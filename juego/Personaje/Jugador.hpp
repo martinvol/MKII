@@ -14,6 +14,9 @@ class Jugador {
 		~Jugador();
 		
 	// Para PERSONAJE:
+	
+		// Si se necesita
+		Personaje* obtenerPersonaje();
 		
 		/* Sólo espejan o no espejan la imagen. */
 		void mirarParaDerecha();
@@ -23,19 +26,13 @@ class Jugador {
 		 * Sólo lo debés hacer si es válido interrumpir tu acción
 		 * para la que te dicen; sino, no cambiás nada. */
 		void activarAccion(accion_posible accion);
-		
-		// COMENTARIO: No sé qué coordenadas voy a usar de estas y no sé
-		// cuáles te convienen a vos. Esto se puede negociar.
-		// De todas formas sabiendo una y el ancho y el alto lógicos
-		// del personaje podrías calcularme todas y no me parece mal que
-		// guardes tu ancho y alto lógico.
+
 		/* Devuelven coordenadas que deben ser liberadas para no perder
 		 * memoria. */
 		CoordenadaLogica* obtenerCoordenadaIzqSup();
 		CoordenadaLogica* obtenerCoordenadaIzqInf();
 		CoordenadaLogica* obtenerCoordenadaDerSup();
 		CoordenadaLogica* obtenerCoordenadaDerInf();
-		float obtenerAnchoLogico();
 		
 		/* Estas corresponden a preguntar dónde deberías estar o a
 		 * dónde te deberías mover la próxima vez de acuerdo a la
@@ -50,15 +47,7 @@ class Jugador {
 		/* Coordenada a la que debe moverse el pesonaje. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
-		
-		/* Activa las imágenes.
-		 * Y devuelve a dónde se movería. */
-		CoordenadaLogica* parar();
-		CoordenadaLogica* saltar();
-		CoordenadaLogica* saltarDerecha();
-		CoordenadaLogica* saltarIzquierda();
-		CoordenadaLogica* caminarDerecha();
-		CoordenadaLogica* caminarIzquierda();
+	
 	
 	// Para BARRA DE VIDA:
 		

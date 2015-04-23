@@ -49,6 +49,7 @@ class Personaje {
 		
 		~Personaje();
 		
+		/* VIEJO
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
@@ -59,6 +60,7 @@ class Personaje {
 		//~ int getSpriteActual();
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
+		*/
 
 
 		// Dibujarse que debería usarse finalmente

@@ -1,11 +1,14 @@
 #include "Jugador.hpp"
 
+
+/******************************************************************
+ *
+ *						para PERSONAJE
+ * 
+ ******************************************************************/
+
 Personaje* Jugador::obtenerPersonaje(){
 	return this->personaje;
-}
-
-CoordenadaLogica* obtenerCoordenada(){
-	return (this->personaje)->obtenerCoordenada();
 }
 
 void Jugador::mirarParaDerecha(){
@@ -16,26 +19,46 @@ void Jugador::mirarParaIzquierda(){
 	(this->personaje)->mirarParaIzquierda();
 }
 
-CoordenadaLogica* Jugador::parar(){
-	(this->personaje)->parar();
+void Jugador::activarAccion(accion_posible accion){
+	(this->personaje)->activarAccion(accion);
 }
 
-CoordenadaLogica* Jugador::saltar(){
-	(this->personaje)->saltar();
+CoordenadaLogica* Jugador::obtenerCoordenadaIzqSup(){
+	return (this->personaje)->obtenerCoordenadaIzqSup();
 }
 
-CoordenadaLogica* Jugador::saltarDerecha(){
-	(this->personaje)->saltarDerecha();
+CoordenadaLogica* Jugador::obtenerCoordenadaIzqInf(){
+	return (this->personaje)->obtenerCoordenadaIzqInf();
 }
 
-CoordenadaLogica* Jugador::saltarIzquierda(){
-	(this->personaje)->saltarIzquierda();
+CoordenadaLogica* Jugador::obtenerCoordenadaDerSup(){
+	return (this->personaje)->obtenerCoordenadaDerSup();
 }
 
-CoordenadaLogica* Jugador::caminarDerecha(){
-	(this->personaje)->caminarDerecha();
+CoordenadaLogica* Jugador::obtenerCoordenadaDerInf(){
+	return (this->personaje)->obtenerCoordenadaDerInf();
 }
 
-CoordenadaLogica* Jugador::caminarIzquierda(){
-	(this->personaje)->caminarIzquierda();
+CoordenadaLogica* Jugador::obtenerSiguienteCoordenadaIzqSup(){
+	return (this->personaje)->obtenerSiguienteCoordenadaIzqSup();
+}
+
+CoordenadaLogica* Jugador::obtenerSiguienteCoordenadaIzqInf(){
+	return (this->personaje)->obtenerSiguienteCoordenadaIzqInf();
+}
+
+CoordenadaLogica* Jugador::obtenerSiguienteCoordenadaDerSup(){
+	return (this->personaje)->obtenerSiguienteCoordenadaDerSup();
+}
+
+CoordenadaLogica* Jugador::obtenerSiguienteCoordenadaDerInf(){
+	return (this->personaje)->obtenerSiguienteCoordenadaDerInf();
+}
+
+void Jugador::moverseAIzqSup(CoordenadaLogica* coord){
+	(this->personaje)->moverseAIzqSup();
+}
+
+void Jugador::moverseADerSup(CoordenadaLogica* coord){
+	(this->personaje)->moverseADerSup();
 }
