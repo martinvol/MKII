@@ -56,11 +56,17 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
     }
     return texture;
 }
+
+
+
 //---------------------------------------------------
 //---------------------------------------------------
 //---------------------------------------------------
 //-----------------------MAIN------------------------
 //---------------------------------------------------
+//---------------------------------------------------
+//---------------------------------------------------
+
 class Juego{
 public:
     // Para no tener que crearlas y destruirlas en cada loop del juego
@@ -106,12 +112,13 @@ public:
 
 	Director* director;
 
-
+//----------------------------------------------------------------
 
     Juego(int argc_, char* argv_[]){
         argc = argc_;
         argv = argv_;
     };
+
 //----------------------------------------------------------------
     int jugar(){
         if (InicializarSDL() != 0) return 1;
@@ -196,9 +203,9 @@ public:
         cargar_configuracion(this->parser);
 		
 		//~ // Para dos personajes:
-		//~ director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL);
+		//~ director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
 		//~ // Con un personaje:
-		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL);
+		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL, this->timer);
 
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
