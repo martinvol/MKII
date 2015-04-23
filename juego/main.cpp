@@ -251,12 +251,13 @@ public:
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
             if (!pausa){
+                // Por ahora:
                 ActualizarModelo();     //Modelo
-                //if (!pausa) this->director->actualizar();    
+                // Después:
+                //~ this->director->actualizar();    
             }
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
-           // this->mileTmp = timerFps;
 
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < int(1000/24)){
@@ -312,86 +313,27 @@ void DibujarTodo(){
         for (int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
         // Así respeto los Z index
-        //for (int i = 0; i<escenario->capas.size(); i++){
-            // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
-            // esa cuenta cancha la deería hacer por afuera, pero comofunciona, por ahora la dejo
 
+			// Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
+			// esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
+			(escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conversor);
 
-            (escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conversor);
-
-            /*(escenario->capas[i])->DibujarseAnchoReal(
-                escenario->capas[i]->x_logico - borde_izquierdo_logico_pantalla
-                + (AnchoLogico - escenario->capas[i]->anchoLogico)*(borde_izquierdo_logico_pantalla )/(AnchoLogico-(((float)ANCHO_FISICO)/conversor->factor_ancho))
-                // mover*((float)escenario->capas[i]->anchoLogico/(float)conversor->x_logico)
-                , 0, conversor);
-
-            //(escenario->capas[i])->DibujarseAnchoReal(escenario->capas[i]->x_logico + mover, 0, conversor);
-*/
-
-<<<<<<< HEAD
+			// Si el z_index del personaje está entre medio de las capas:
             if (i==parser->personaje_zindex){
-                //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
-                this->personajeJuego->Dibujarse(
-                    //~ coord->x_fisico,
-                    //~ coord->y_fisico,
-                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
-                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
-                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
-				//~ delete coord;
-=======
-            if (i==parser->personaje_zindex){
-                CoordenadaFisica* coord = conversor->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
-                this->personajeJuego->Dibujarse(
-                    coord->x_fisico,
-                    coord->y_fisico,
-                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
-                    //~ (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
-                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
-                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
-				delete coord;
->>>>>>> remotes/origin/director
-            }
+                this->personajeJuego->Dibujarse(conversor);
+			}
         }
 
+		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
-            // Si no hay capas;
-<<<<<<< HEAD
-            //~ CoordenadaFisica* coord = conv->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
-			this->personajeJuego->Dibujarse(
-					//~ coord->x_fisico,
-					//~ coord->y_fisico,
-                    (x_logico_personaje - borde_izquierdo_logico_pantalla)*conv->factor_ancho,
-                    (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
-                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
-                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
-			//~ delete coord;
-        }
-
-        barraDeVida1.Dibujarse();
-        barraDeVida2.Dibujarse();
+			this->personajeJuego->Dibujarse(conversor);
+		}
+		
+        this->barraDeVida1->Dibujarse();
+        this->barraDeVida2->Dibujarse();
 
         this->timer->Dibujarse();
 
-        // CoordenadaFisica* c = conv->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
-=======
-            CoordenadaFisica* coord = conversor->aFisica(personajeJuego->obtenerCoordenadaIzqSup());
-			this->personajeJuego->Dibujarse(
-					coord->x_fisico,
-					coord->y_fisico,
-                    //~ (x_logico_personaje - borde_izquierdo_logico_pantalla)*conversor->factor_ancho,
-                    //~ (parser->escenario_alto - posicionPJ_Piso - (parser->personaje_alto))*(parser->ventana_altopx/parser->escenario_alto),
-                    (parser->ventana_altopx/parser->escenario_alto)*parser->personaje_alto,
-                    (parser->ventana_anchopx/parser->ventana_ancho)*parser->personaje_ancho);
-			delete coord;
-        }
-		
-        barraDeVida1->Dibujarse();
-        barraDeVida2->Dibujarse();
-        //this->timer->Dibujarse();
-		
-        // CoordenadaFisica* c = conversor->aFisica(new CoordenadaLogica(parser->personaje_ancho, parser->personaje_alto));
->>>>>>> remotes/origin/director
         if (pausa){
             SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
