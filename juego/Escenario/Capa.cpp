@@ -19,6 +19,8 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
 	int w, h;
 	SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
 
+	this->ancho_logico_ventana = ancho_ventana_logico;
+
 	float a = 0;
 	b = this->x_logico;
 	float c = ancho_escenario - ancho_ventana_logico;
@@ -37,8 +39,7 @@ SDL_Texture* Capa::CargarTextura(){
 	return texturaAux;
 }
 
-//----------------------------------------------------------------
-void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
+void Capa::DibujarseAnchoReal(int x, int y){
     // Este metodo va a tratar de dibujar los rectangulos bonitos usando el rect de source
 	
 	float posi_px = (((this->m)*x + (this->b)));
@@ -48,7 +49,7 @@ void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
     SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
     source_rect.x = posi_px;
-    source_rect.w = w*(conversor->ancho_logico/this->anchoLogico);
+    source_rect.w = w*(ancho_logico_ventana/this->anchoLogico);
     if (source_rect.x < 0) source_rect.x = 0;
     //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
 	source_rect.y = 0;

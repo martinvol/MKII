@@ -10,9 +10,9 @@ void Escenario::AgregarCapa(Capa *capaParam){
 }
 
 //----------------------------------------------------------------
-void Escenario::Dibujar(CoordenadaFisica* coordenadas){
+void Escenario::Dibujar(CoordenadaFisica* coordenada){
     for (unsigned int i = 0; i<= capas.size()-1; i++){
-        capas[i]->Dibujarse(coordenadas->x_fisico, coordenadas->y_fisico);
+        capas[i]->DibujarseAnchoReal(coordenadas->x_fisico, coordenadas->y_fisico);
     }
 }
 

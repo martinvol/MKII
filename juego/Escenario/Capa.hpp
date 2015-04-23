@@ -17,16 +17,17 @@ class Capa{
 		float anchoLogico;
 		float x_logico;
 		
+		float ancho_logico_ventana;
+		
 		float b, m;
 		
-		// Antes:
-		//~ Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario);
 		
 		Capa (string ubicacionParam, float anchoLogicoParam,  
 			float x_logicoParam, SDL_Renderer *rendererParam, 
 			float ancho_escenario, float ancho_ventana_logico);
 		~Capa ();
-		void DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor);
+		
+		void DibujarseAnchoReal(int x, int y);
 		SDL_Texture* CargarTextura();
 
 		SDL_Texture* textura;

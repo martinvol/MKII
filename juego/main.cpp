@@ -318,7 +318,7 @@ void DibujarTodo(){
 
 			// Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
 			// esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
-			(escenario->capas[i])->DibujarseAnchoReal(borde_izquierdo_logico_pantalla, 0, conversor);
+			(escenario->capas[i])->DibujarseAnchoReal(borde_izquierdo_logico_pantalla, 0);
 
 			// Si el z_index del personaje está entre medio de las capas:
             if (i==parser->personaje_zindex){

@@ -26,7 +26,7 @@ public:
 
     //De Manu con puntero a funcion. Igual ver...
     //void Dibujar(CoordenadasFisicas Conversor(CoordenadasLogicas));
-    void Dibujar(CoordenadaFisica* coordenadas);
+    void Dibujar(CoordenadaFisica* coordenada);
     
     float obtenerLimiteDerecho();
     float obtenerLimiteIzquierdo();
