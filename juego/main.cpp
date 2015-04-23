@@ -10,6 +10,7 @@
 #include "Logger/Logger.hpp"
 #include "Coordenadas/ConversorDeCoordenadas.hpp"
 #include "Escenario/Timer.hpp"
+#include "Director/Director.hpp"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ using namespace std;
 #define ALTURA_MAX_SALTO parser->personaje_alto + parser->escenario_ypiso
 #define CONST_MAXI_DELAY 50
 
+
+// Esto no debería ser global, o si?
 Logger *logger = Logger::instance();
 
 
@@ -87,22 +90,23 @@ public:
     SDL_Renderer * renderer = NULL;
 
     Parser* parser;
+    
     float x_logico_personaje;
     float borde_izquierdo_logico_pantalla;
 
-    SDL_Window * window = NULL;
-    Conf *conf;
-    Personaje *personajeJuego;
-    Estado* estado;
-    Timer* timer;
-
-	Estado* estado;
-    Personaje* personajeJuego, *personajeJuego2;
-    BarraDeVida* barraDeVida1, *barraDeVida2;
-    ConversorDeCoordenadas* conversor;
 	Escenario* escenario;
 	Ventana* ventana;
+    Timer* timer;
+
+    ConversorDeCoordenadas* conversor;
+
+	Estado* estado, *estado2;
+    Personaje* personajeJuego, *personajeJuego2;
+    BarraDeVida* barraDeVida1, *barraDeVida2;
+
 	Director* director;
+
+
 
     Juego(int argc_, char* argv_[]){
         argc = argc_;
@@ -114,9 +118,9 @@ public:
         renderer = SDL_CreateRenderer(NULL, -1, 0);
 
         configurar();
-        reiniciarJuego(); /// Esto es una villereada, pero no se 
-                          /// por que arregla el timer *Manuel*
+        
         game_loop();
+        
         // LIBERAR RECURSOS
         terminar_juego();
         terminar_sdl();
@@ -132,44 +136,14 @@ public:
             parser->set_values(argv[1]);
         // Se settean Parseriguraciones (con el json)
         // Esto tiene que cambiarse cuando se aprieta la letra R
-<<<<<<< HEAD
-
-        //Pantalla
-        ANCHO_FISICO = parser->ventana_anchopx; //800
-        ALTO_FISICO = parser->ventana_altopx; //416
-        posicionPJ_Piso = parser->escenario_ypiso;
-        r = {0, 0, ALTO_FISICO, ANCHO_FISICO};
-        //Mundo
-        AnchoLogico = parser->escenario_ancho;
-        AltoLogico = parser->escenario_alto;
-        // Martin
         // fin de las configuraciones
-
-
-
-        // Cargamos al personaje en el medio del mapa
-        x_logico_personaje = (parser->escenario_ancho/2) - (parser->personaje_ancho/2);
-
-
+		// Se crean todos los objetos que dependen de ellas:
+		
+		// Tomamos la ventana en el medio del escenario.
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
 
-		this->conv = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
-												parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
-											
-		this->timer = new Timer(100, IMG_DEFAULT, conv, renderer);
-
-        // printf("%f %f\n", x_logico_personaje, borde_izquierdo_logico_pantalla);
-
-
-=======
-/*		
-		// Cargamos al personaje y ventana en el medio del mapa.
-        // x_logico del extremo izquierdo.
-        x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho/2.);
-        borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
-
-		r = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
-
+		this->r = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
+		
 		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
 		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
                              parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
@@ -179,29 +153,52 @@ public:
         under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
         
-        estado = new Estado((string)(this->parser->sprites_map["personaje1"]), renderer, parser->personaje_alto, parser->escenario_alto, parser->personaje_ancho, parser->escenario_ancho);
-        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser->personaje_mirar_derecha);
-        this->personajeJuego = personaje;
-    }; */ //--> from director
+        
+    // PERSONAJE 1
+		// Cargamos al personaje en el medio de la ventana, pero del lado izquierdo.
+		// Este x_logico es del extremo izquierdo del personaje.
+        x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho);
+        
+        estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
+							renderer, parser->personaje_alto, parser->escenario_alto,
+							parser->personaje_ancho, parser->escenario_ancho);
+        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),
+										"Subzero", renderer, parser->personaje_ancho,
+										parser->personaje_alto, estado,
+										parser->personaje_mirar_derecha);       
+
+        //Izquierda
+        barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
+
+	//~ // PERSONAJE 2
+		//~ // Cargamos al personaje en el medio de la ventana, pero del lado derecho.
+		//~ // Este x_logico es del extremo izquierdo del personaje.
+        //~ x_logico_personaje2 = (parser->escenario_ancho/2.);
+		//~ estado = new Estado((string)(this->parser->sprites_map["personaje2"]),
+							//~ renderer, parser->personaje2_alto, parser->escenario_alto,
+							//~ parser->personaje2_ancho, parser->escenario_ancho);
+        //~ this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje2,parser->escenario_ypiso),
+										//~ "Kabal", renderer, parser->personaje2_ancho,
+										//~ parser->personaje2_alto, estado,
+										//~ parser->personaje2_mirar_derecha); 
+       //~ //Derecha
+        //~ barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+        
+        this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
+        this->timer->reset(SDL_GetTicks());
+
+}
+
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void configurar(){
         this->parser = new Parser();
         cargar_configuracion(this->parser);
 		
-        //Izquierda
-        barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
-       //Derecha
-        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
-        estado = new Estado((string)(this->parser->sprites_map["personaje1"]), renderer, parser->personaje_alto, parser->escenario_alto, parser->personaje_ancho, parser->escenario_ancho);
-        barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
-
-		//~ personajeJuego2 = new PersonajeMock(parser->personaje_mirar_derecha, parser->escenario_ancho);
-		Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser);
-		Personaje* personaje2 = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, parser);
-        this->personajeJuego = personaje;
-        this->personajeJuego2 = personaje2;
-		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL);
+		//~ // Para dos personajes:
+		//~ director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL);
+		//~ // Con un personaje:
+		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL);
 
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
@@ -212,9 +209,11 @@ public:
 //----------------------------------------------------------------
     void cargar_capas(){
         for (unsigned int i = 0; i < parser->capas_vector.size(); i++){
+            //~ // Debería funcionar esto:
             //~ parser->capas_vector[i]->ren = renderer;
 			//~ escenario->AgregarCapa(parser->capas_vector[i]);
-            escenario->AgregarCapa( // esto no debería estar así, tendria que andar la lí­nea de arriba, pero estuve luchando y no la hago andar (maxi)
+            //~ // Pero no lo conseguimos (Maxi luchó bastante)
+            escenario->AgregarCapa( 
                 new Capa (parser->capas_vector[i]->ubicacion,
                 parser->capas_vector[i]->anchoLogico,
                 parser->capas_vector[i]->x_logico,
@@ -223,9 +222,7 @@ public:
                 this->parser->ventana_ancho
                 )
             );
-            delete parser->capas_vector[i];
         }
-
     }
 //----------------------------------------------------------------
 //---------------------------------------------------------------
@@ -266,34 +263,21 @@ public:
     void reiniciarJuego(){
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
-        cargar_configuracion();
+        configurar();
 
 	//Habia que reiniciar los estados.
         estadoPersonaje1 = Quieto_State;
-	Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
+		Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
         saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
 
-        estado = new Estado((string)(this->parser->sprites_map["personaje1"]), renderer, parser->personaje_alto, parser->escenario_alto, parser->personaje_ancho, parser->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),"Subzero",renderer, parser->personaje_alto, parser->personaje_ancho, estado, conf);
-        cargar_capas();
-        SDL_SetWindowSize(window, parser->ventana_anchopx, parser->ventana_altopx); // Dani se encarga de poner esto en su objeto
-        barraDeVida1.Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
-        barraDeVida2.Inicializar(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
-        this->timer->reset(SDL_GetTicks());
-		//configurar(); --> from director
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void terminar_juego(){
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
-        delete this->personajeJuego; // Elimina el estado también
-        delete this->timer;
-        for (unsigned int i = 0; i < parser->capas_vector.size(); i++) delete parser->capas_vector[i];
-        delete this->conf;
-        delete this->conv;
-        delete this->parser;
-        delete this->director; // o sólo cambiar cosas?
+        delete this->parser;	// Elimina sus propias capas.
+        delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------

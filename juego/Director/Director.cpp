@@ -1,4 +1,11 @@
 #include "Director.hpp"
+
+/*********************************************************************
+ * 
+ * 					CONSTRUCTOR Y DESTRUCTOR
+ * 
+ *********************************************************************/
+
 //~ // Debería ser:
 //~ Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer){
 //~ // Pero por ahora es:
@@ -7,6 +14,7 @@ Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenada
 	this->ventana = ventana;
 	this->conversor = conversor;
 	jugadores.push_back(new Jugador(personaje1, barra1));
+	//~ // Cuando haya dos jugadores se descomenta:
 	//~ jugadores.push_back(new Jugador(personaje2, barra2));
 	this->factor_scroll = factor_scroll;
 	this->timer = timer;
@@ -23,6 +31,13 @@ Director::~Director(){
     delete timer;
 }
 
+/*********************************************************************
+ * 
+ * 						AUXILIARES ṔRIVADAS
+ * 
+ *********************************************************************/
+
+
 void Director::analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar){
 	if (*mov == Arriba){
 		if (lugar == Derecha) *mov = ArribaDerecha;
@@ -37,42 +52,10 @@ void Director::analizar_multievento_de_un_jugador(movimiento* mov, movimiento lu
 	} else *mov = lugar;
 }
 
-
-/* Siempre va a pasar por acá antes del actualizar porque si no apretan
- * nada le va a mandar Nada (que sería parar). */
-void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
-	switch (jugador){
-		case jugador1:
-			analizar_multievento_de_un_jugador(&mov1, lugar);
-			break;
-		default: //jugador2
-			analizar_multievento_de_un_jugador(&mov2, lugar);
-			break;
-	}
-}
-
-void Director::actualizar(){
-	// Les dice que cambien la "imagen" y "comportamiento" a la que le
-	// piden, si debe.
-	informar_acciones();
-	
-	// Haya cambiado o no de acción, yo sólo debo verificar que no se
-	// vaya del margen o debería scrollear y si no puedo decirle que se
-	// quede en donde está de ancho, pero la imagen está bien que si
-	// cambie igual. (Por eso se puede separar).
-	// Verifica, saca una posición válida y se la informa para que se
-	// mueva allí.
-	verificar_movimientos();
-	
-	// Finalmente, ya movidos, verifica en donde están uno respecto del
-	// otro y les cambia la dirección de la mirada.
-	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
-	//~ verificar_orientaciones();
-}
-
 void Director::informar_acciones(){
 	informar_accion(mov1, jugadores[jugador1]);
-	informar_accion(mov2, jugadores[jugador2]);
+	//~ // Cuando haya dos jugadores se descomenta:
+	//~ informar_accion(mov2, jugadores[jugador2]);
 }
 
 /* Le va a decir al Jugador/Personaje que le dijeron de hacer
@@ -170,15 +153,54 @@ void Director::scrollearIzquierda(){
 
 
 void Director::verificar_orientaciones(){
-	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerCoordenadaIzqSup();
-	CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
-	if (coord1->estaALaDerechaDe(coord2)){
-		jugadores[jugador1]->mirarParaIzquierda();
-		jugadores[jugador2]->mirarParaDerecha();
-	} else {
-		jugadores[jugador1]->mirarParaDerecha();
-		jugadores[jugador2]->mirarParaIzquierda();
+	//~ // Cuando haya dos jugadores, se descomenta.
+	//~ CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerCoordenadaIzqSup();
+	//~ CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
+	//~ if (coord1->estaALaDerechaDe(coord2)){
+		//~ jugadores[jugador1]->mirarParaIzquierda();
+		//~ jugadores[jugador2]->mirarParaDerecha();
+	//~ } else {
+		//~ jugadores[jugador1]->mirarParaDerecha();
+		//~ jugadores[jugador2]->mirarParaIzquierda();
+	//~ }
+	//~ delete coord1;
+	//~ delete coord2;
+}
+
+/*********************************************************************
+ * 
+ * 						FUNCIONES PUBLICAS
+ * 
+ *********************************************************************/
+
+/* Siempre va a pasar por acá antes del actualizar porque si no apretan
+ * nada le va a mandar Nada (que sería parar). */
+void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
+	switch (jugador){
+		case jugador1:
+			analizar_multievento_de_un_jugador(&mov1, lugar);
+			break;
+		default: //jugador2
+			analizar_multievento_de_un_jugador(&mov2, lugar);
+			break;
 	}
-	delete coord1;
-	delete coord2;
+}
+
+void Director::actualizar(){
+	// Les dice que cambien la "imagen" y "comportamiento" a la que le
+	// piden, si debe.
+	informar_acciones();
+	
+	// Haya cambiado o no de acción, yo sólo debo verificar que no se
+	// vaya del margen o debería scrollear y si no puedo decirle que se
+	// quede en donde está de ancho, pero la imagen está bien que si
+	// cambie igual. (Por eso se puede separar).
+	// Verifica, saca una posición válida y se la informa para que se
+	// mueva allí.
+	verificar_movimientos();
+	
+	// Finalmente, ya movidos, verifica en donde están uno respecto del
+	// otro y les cambia la dirección de la mirada.
+	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
+	//~ verificar_orientaciones();
 }
