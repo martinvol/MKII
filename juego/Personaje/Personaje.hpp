@@ -30,16 +30,14 @@ class Personaje {
 		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		
+		accion_posible nroAccionActual;
 		Accion* accionActual;
 		Estado* estado;
 		
-		int nroAccionActual;
 		bool mirarDerecha;
 		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
-		
-		accion_posible nroAccionActual;
 		
 	public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -50,7 +48,7 @@ class Personaje {
 		
 		~Personaje();
 		
-		/* VIEJO
+		/* VIEJO:
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
