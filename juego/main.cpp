@@ -175,11 +175,11 @@ public:
         cargar_capas();
 
         //Izquierda
-        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true) ;
+        
        //Derecha
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
         estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
+        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),&barraDeVida1,"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
         this->personajeJuego = personaje;
 
         Player1 = SDL_JoystickOpen(0);
@@ -256,10 +256,10 @@ public:
         saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
 
         estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
+        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),&barraDeVida1,"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
         cargar_capas();
         SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
-        barraDeVida1.Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
+        this->personajeJuego->barraDeVida->Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
         barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
         this->timer->reset(SDL_GetTicks());
     };
@@ -344,7 +344,7 @@ void DibujarTodo(){
 			//~ delete coord;
         }
 
-        barraDeVida1.Dibujarse();
+		//~ tthis->personajeJuego->barraDeVida.Dibujarse();
         barraDeVida2.Dibujarse();
 
         this->timer->Dibujarse();
@@ -447,19 +447,19 @@ enum Estados{
                     cambiarModo = true;
                 }
                 if(evento->key.keysym.sym == SDLK_a)  {
-                    barraDeVida1.Aliviar(20);
+                    this->personajeJuego->barraDeVida->Aliviar(20);
                     barraDeVida2.Aliviar(20);
                 }
                 if(evento->key.keysym.sym == SDLK_c)  {
                     if (cansandoPJ == false){
-                        barraDeVida1.Cansar(50);
+                        this->personajeJuego->barraDeVida->Cansar(50);
                         barraDeVida2.Cansar(50);
                         cansandoPJ = true;
                     }
                 }
                 if((evento->key.keysym.sym == SDLK_d))  {
                     if (golpeandoPJ == false){
-                        barraDeVida1.Lastimar(90);
+                        this->personajeJuego->barraDeVida->Lastimar(90);
                         barraDeVida2.Lastimar(750);
                         golpeandoPJ = true;
                     }

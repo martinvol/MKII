@@ -10,12 +10,14 @@
 #include "../Acciones/Accion.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Parser/Parser.hpp"
+#include "../Escenario/BarraDeVida.hpp"
+
 
 using namespace std;
 
 class Personaje {
 		Conf* parser;
-	
+		
 		/* Sus anchos y altos lógicos. */
 		float ancho;
 		float alto;
@@ -41,7 +43,8 @@ class Personaje {
 		
 	public:
 		
-		Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
+		BarraDeVida* barraDeVida;
+		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
 		~Personaje();
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);

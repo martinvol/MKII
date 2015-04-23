@@ -23,10 +23,12 @@ using namespace std;
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.
  * */
-Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
+Personaje::Personaje(CoordenadaLogica* coordenada, BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
 
 	this->parser= parser;
-
+	
+	this->barraDeVida = barra;
+	this->barraDeVida->Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true) ;
 	this->ancho = ancho;
 	this->alto = alto;
 	this->estado = estado;
@@ -146,6 +148,7 @@ void Personaje::Dibujarse(int x, int y){
     int ancho, alto;
 	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
 	this->Dibujarse(x, y, float(alto), float(ancho));
+	this->barraDeVida->Dibujarse();
 }
 
 /**
