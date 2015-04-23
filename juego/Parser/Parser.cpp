@@ -189,8 +189,8 @@ void Conf::set_values (char* my_file) {
                 Capa *temp = new Capa(
                     nombre_archivo, ancho_logico_capa, DEFAULT_X_LOGICO, 
                     NULL,
-                    NULL,
-                    escenario_ancho
+                    escenario_ancho,
+                    ventana_ancho
                 );
 
                 capas_vector.push_back(temp);
@@ -202,8 +202,8 @@ void Conf::set_values (char* my_file) {
                 Capa *temp = new Capa(
                     IMAGEN_DEFAULT, ventana_ancho/2, DEFAULT_X_LOGICO, 
                     NULL,
-                    NULL,
-                    escenario_ancho
+                    escenario_ancho,
+                    ventana_ancho
                 );
                 capas_vector.push_back(temp);
             }

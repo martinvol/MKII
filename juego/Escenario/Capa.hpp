@@ -18,8 +18,13 @@ class Capa{
 		float x_logico;
 		
 		float b, m;
-
-		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario);
+		
+		// Antes:
+		//~ Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario);
+		
+		Capa (string ubicacionParam, float anchoLogicoParam,  
+			float x_logicoParam, SDL_Renderer *rendererParam, 
+			float ancho_escenario, float ancho_ventana_logico);
 		~Capa ();
 		void DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor);
 		SDL_Texture* CargarTextura();

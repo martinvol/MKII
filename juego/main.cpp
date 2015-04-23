@@ -209,8 +209,9 @@ public:
 
         Player1 = SDL_JoystickOpen(0);
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
-        Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
-        estadoPersonaje1 = Quieto_State;
+		//~ // De antes:
+        //~ Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
+        //~ estadoPersonaje1 = Quieto_State;
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -272,11 +273,12 @@ public:
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
         configurar();
-
-	//Habia que reiniciar los estados.
-        estadoPersonaje1 = Quieto_State;
-		Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
-        saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
+	
+	//~ // De antes:
+	//~ //Habia que reiniciar los estados.
+        //~ estadoPersonaje1 = Quieto_State;
+		//~ Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = erre_PRESIONADO =Abajo_PRESIONADO  = false;
+        //~ saltando = saltoDiagonalIZQ = saltoDiagonalDER = false;
 
     };
 //----------------------------------------------------------------
@@ -316,7 +318,7 @@ void DibujarTodo(){
 
 			// Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
 			// esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
-			(escenario->capas[i])->DibujarseAnchoReal2(borde_izquierdo_logico_pantalla, 0, conversor);
+			(escenario->capas[i])->DibujarseAnchoReal(borde_izquierdo_logico_pantalla, 0, conversor);
 
 			// Si el z_index del personaje está entre medio de las capas:
             if (i==parser->personaje_zindex){
