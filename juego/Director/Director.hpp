@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "../Personaje/Personaje.hpp"
-#include "../Personaje/Jugador.h"
-#include "../Escenario/Escenario.h"
-#include "../Escenario/Ventana.h"
-#include "../Coordenadas/CoordenadaLogica.h"
-#include "../Coordenadas/CoordenadaFisica.h"
-#include "../Coordenadas/ConversorDeCoordenadas.h"
+#include "../Personaje/Jugador.hpp"
+#include "../Escenario/Escenario.hpp"
+#include "../Escenario/Ventana.hpp"
+#include "../Coordenadas/CoordenadaLogica.hpp"
+#include "../Coordenadas/CoordenadaFisica.hpp"
+#include "../Coordenadas/ConversorDeCoordenadas.hpp"
 
 using namespace std;
 
