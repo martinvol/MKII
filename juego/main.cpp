@@ -251,10 +251,10 @@ public:
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
             if (!pausa){
-                // Por ahora:
-                ActualizarModelo();     //Modelo
-                // Después:
-                //~ this->director->actualizar();    
+                // Antes:
+                //~ ActualizarModelo();     //Modelo
+                // Ahora:
+                this->director->actualizar();	//Modelo  
             }
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
@@ -342,7 +342,121 @@ void DibujarTodo(){
         SDL_RenderPresent(renderer);
 };
 
-<<<<<<< HEAD
+/* El de ahora debería ser avisándole al director */
+void Controlador(SDL_Event *evento){
+	while(SDL_PollEvent( evento )) {
+		if(usandoJoystick){
+			
+			bool nada = false;
+			
+			x_Joystick = SDL_JoystickGetAxis(Player1, 0);
+			y_Joystick = SDL_JoystickGetAxis(Player1, 1);
+			
+			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
+				//  x = -1;
+				this->director->seMuevePersonaje(jugador1, Izquierda);
+
+			}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
+				//  x =  1;
+				this->director->seMuevePersonaje(jugador1, Derecha);
+			}else{
+				//  x = 0;
+				nada = true;
+			}
+
+			//Vertical
+			if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
+				//  y = -1;
+				this->director->seMuevePersonaje(jugador1, Arriba);
+			}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
+				//y =  1;
+				//Abajo_PRESIONADO = true;
+				;
+			}else{
+				//yDir = 0;
+				nada = true;
+			}
+			if (nada) this->director->seMuevePersonaje(jugador1, Nada);
+		
+		}
+		//-----------------------------------------
+		//----------EVENTOS NO-JOYSTICK------------
+		//-----------------------------------------
+		bool nada1 = true;
+		bool nada2 = true;
+		
+		switch(evento->type){
+			case SDL_QUIT:
+				salir = true;
+				break;
+			case SDL_KEYDOWN:
+
+				//-----------------------------------------
+				//-----------------------------------------
+				//---------------BASICOS-------------------
+				if (evento->key.keysym.sym == SDLK_UP && !pausa)  {
+					this->director->seMuevePersonaje(jugador1, Arriba);
+					nada1 = false;
+				}
+				if (evento->key.keysym.sym == SDLK_RIGHT && !pausa)  {
+					this->director->seMuevePersonaje(jugador1, Derecha);
+					nada1 = false;
+				}
+				if ((evento->key.keysym.sym == SDLK_LEFT && !pausa))  {
+					this->director->seMuevePersonaje(jugador1, Izquierda);
+					nada1 = false;
+				}
+				if (nada1 && !pausa) this->director->seMuevePersonaje(jugador1, Nada);
+				//-----------------------------------------
+				//-----------------------------------------
+				if (evento->key.keysym.sym == SDLK_p)  {
+					//~ cambiarModo = true;
+					pausa = !pausa;
+				}
+				if(evento->key.keysym.sym == SDLK_a && !pausa)  {
+					barraDeVida1->Aliviar(20);
+					barraDeVida2->Aliviar(20);
+				}
+				if(evento->key.keysym.sym == SDLK_c && !pausa)  {
+					if (cansandoPJ == false){
+						barraDeVida1->Cansar(50);
+						barraDeVida2->Cansar(50);
+						cansandoPJ = true;
+					}
+				}
+				if((evento->key.keysym.sym == SDLK_d && !pausa))  {
+					if (golpeandoPJ == false){
+						barraDeVida1->Lastimar(90);
+						barraDeVida2->Lastimar(750);
+						golpeandoPJ = true;
+					}
+					break;
+				}
+				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
+				if (evento->key.keysym.sym == SDLK_r){
+					reiniciarJuego();
+				}
+				break;
+			case SDL_KEYUP:
+				//~ if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
+					//~ cambiarModo = false;
+					//~ pausa = !pausa;
+				//~ }
+				if((evento->key.keysym.sym == SDLK_d))  {
+					golpeandoPJ = false;
+				}
+				if((evento->key.keysym.sym == SDLK_c))  {
+					cansandoPJ = false;
+				}
+				break;
+			default:
+				;
+		}
+	};
+}
+
+/* El de antes: 
+
 enum Estados{
       Quieto_State,
       SaltoDiagonal_State,
@@ -351,21 +465,8 @@ enum Estados{
       Agachado_State
    } estadoPersonaje1;
 
-
-
-    void Controlador(SDL_Event *evento){
-
-       while(SDL_PollEvent( evento )) {
-=======
 void Controlador(SDL_Event *evento){
 	while(SDL_PollEvent( evento )) {
->>>>>>> remotes/origin/director
-
-        //Ahora anda este tambien.
-        /*if (evento->type == SDL_JOYBUTTONDOWN){
-            ;
-        }*/
-<<<<<<< HEAD
     if(usandoJoystick){
         x_Joystick = SDL_JoystickGetAxis(Player1, 0);
         y_Joystick = SDL_JoystickGetAxis(Player1, 1);
@@ -411,25 +512,25 @@ void Controlador(SDL_Event *evento){
                 //---------------BASICOS-------------------
                 if (evento->key.keysym.sym == SDLK_UP)  {
                     Arriba_PRESIONADO = true;
-                    /*saltando = true;
-                    this->personajeJuego->definir_imagen(SALTAR);
-                    scrollearDerecha = false;
-                    scrollearIzquierda = false;*/
+                    //saltando = true;
+                    //this->personajeJuego->activarAccion(SALTAR);
+                    //scrollearDerecha = false;
+                    //scrollearIzquierda = false;
                 }
                 if (evento->key.keysym.sym == SDLK_DOWN)  {
                     Abajo_PRESIONADO = true;
                 }
                 if (evento->key.keysym.sym == SDLK_RIGHT)  {
                     Der_PRESIONADO = true;
-                    /*scrollearDerecha = true;
-                    scrollearIzquierda = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);*/
+                    //scrollearDerecha = true;
+                    //scrollearIzquierda = false;
+                    //this->personajeJuego->activarAccion(CAMINAR_DERECHA);
                 }
                 if ((evento->key.keysym.sym == SDLK_LEFT))  {
                     Izq_PRESIONADO = true;
-                    /*scrollearIzquierda = true;
-                    scrollearDerecha = false;
-                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);*/
+                    //scrollearIzquierda = true;
+                    //scrollearDerecha = false;
+                    //this->personajeJuego->activarAccion(CAMINAR_IZQUIERDA);
                 }
                 //-----------------------------------------
                 //-----------------------------------------
@@ -458,7 +559,7 @@ void Controlador(SDL_Event *evento){
                 if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
                 if (evento->key.keysym.sym == SDLK_r){
                     //delete this->personajeJuego->estado;
-                    //this->personajeJuego->definir_imagen(QUIETO);
+                    //this->personajeJuego->activarAccion(QUIETO);
                     reiniciarJuego();
                     return;
                 }
@@ -502,11 +603,12 @@ void Controlador(SDL_Event *evento){
            }
         }
     };
+*/
 
-
-    void ActualizarModelo(){
-      /*Quieto_State,      SaltoDiagonal_State,      SaltoVertical_State,
-      Caminando_State */
+/*  El actualizar modelo de antes, que ahora se supone que se encarga el director:
+void ActualizarModelo(){
+      //Quieto_State,      SaltoDiagonal_State,      SaltoVertical_State,
+      //Caminando_State 
     //Arriba_PRESIONADO, Izq_PRESIONADO, Der_PRESIONADO, erre_PRESIONADO;
     if(saltando || saltoDiagonalIZQ || saltoDiagonalDER){
             if(posicionPJ_Piso < parser->escenario_ypiso){
@@ -515,14 +617,14 @@ void Controlador(SDL_Event *evento){
                 //Despues de caer vuelve a quieto.
                 alturaMaxima = false;
                 estadoPersonaje1 = Quieto_State;
-                this->personajeJuego->definir_imagen(QUIETO);
+                this->personajeJuego->activarAccion(QUIETO);
                 //~ cout<<"QUIERO IR A QUIETOOOO"<<endl;
                 t = 5.0;
             }else{
             //alturaMaxima
                 //Vo = 10px/t ; g = 6px/t*t
                //t+=0.01;
-                //||*/ (posicionPJ_Piso <(parser->escenario_ypiso- posicionPJ_Piso))
+                // (posicionPJ_Piso <(parser->escenario_ypiso- posicionPJ_Piso))
                 //Nota: posicionPJ_Piso = 0 no es en la parte superior de la pantalla :-/
                 if (posicionPJ_Piso  >= ALTURA_MAX_SALTO) {
                     alturaMaxima = true;
@@ -536,7 +638,7 @@ void Controlador(SDL_Event *evento){
                 }
                 //posicionPJ_Piso -= MOVER_PIXELES*10*t; //Vo *t
                 //posicionPJ_Piso += MOVER_PIXELES*6*t*t; // -g *t * t
-                //this->personajeJuego->definir_imagen(SALTODIAGONAL);
+                //this->personajeJuego->activarAccion(SALTODIAGONAL);
                 if(saltoDiagonalIZQ){
                     if (x_logico_personaje - 3*MOVER_PIXELES >= 0) x_logico_personaje -= 3*MOVER_PIXELES;
 
@@ -565,7 +667,7 @@ void Controlador(SDL_Event *evento){
                 if(Arriba_PRESIONADO && Der_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
+                    this->personajeJuego->activarAccion(SALTARDIAGONAL_DER);
 
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
@@ -575,7 +677,7 @@ void Controlador(SDL_Event *evento){
                 if(Arriba_PRESIONADO && Izq_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
-                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
+                    this->personajeJuego->activarAccion(SALTARDIAGONAL_IZQ);
 
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -584,7 +686,7 @@ void Controlador(SDL_Event *evento){
                 //Quieto --> camina izq.
                 if(Izq_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
-                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                    this->personajeJuego->activarAccion(CAMINAR_IZQUIERDA);
 
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
@@ -593,7 +695,7 @@ void Controlador(SDL_Event *evento){
                 // Quieto --> camina der
                 if (Der_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
-                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                    this->personajeJuego->activarAccion(CAMINAR_DERECHA);
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
                     break;
@@ -602,7 +704,7 @@ void Controlador(SDL_Event *evento){
                 if (Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoVertical_State;
                     saltando = true;
-                    this->personajeJuego->definir_imagen(SALTAR);
+                    this->personajeJuego->activarAccion(SALTAR);
 
                     scrollearDerecha = false;
                     scrollearIzquierda = false;
@@ -610,11 +712,11 @@ void Controlador(SDL_Event *evento){
                 }
                 if (Abajo_PRESIONADO){
                     estadoPersonaje1 = Agachado_State;
-                    this->personajeJuego->definir_imagen(AGACHARSE);
+                    this->personajeJuego->activarAccion(AGACHARSE);
                     break;
                 }
                 // Quieto -->Quieto
-                this->personajeJuego->definir_imagen(QUIETO);
+                this->personajeJuego->activarAccion(QUIETO);
                 break;
     //CAMINANDO
             case Caminando_State:
@@ -622,29 +724,29 @@ void Controlador(SDL_Event *evento){
                 if (Der_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalDER = true;
-                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
+                    this->personajeJuego->activarAccion(SALTARDIAGONAL_DER);
                 //Camino --> Salto diagonal izq
                 }else if(Izq_PRESIONADO && Arriba_PRESIONADO){
                     estadoPersonaje1 = SaltoDiagonal_State;
                     saltoDiagonalIZQ = true;
 
-                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
+                    this->personajeJuego->activarAccion(SALTARDIAGONAL_IZQ);
                 //Camino --> sigo caminando
                 }else if (Der_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
-                    this->personajeJuego->definir_imagen(CAMINAR_DERECHA);
+                    this->personajeJuego->activarAccion(CAMINAR_DERECHA);
                     scrollearDerecha = true;
                     scrollearIzquierda = false;
                 //Camino --> sigo caminando
                 }else if (Izq_PRESIONADO){
                     estadoPersonaje1 = Caminando_State;
-                    this->personajeJuego->definir_imagen(CAMINAR_IZQUIERDA);
+                    this->personajeJuego->activarAccion(CAMINAR_IZQUIERDA);
                     scrollearIzquierda = true;
                     scrollearDerecha = false;
                 //Camino y no hay accion--> quieto
                 }else{
                     estadoPersonaje1 = Quieto_State;
-                    this->personajeJuego->definir_imagen(QUIETO);
+                    this->personajeJuego->activarAccion(QUIETO);
                 }
                 break;
 
@@ -652,16 +754,16 @@ void Controlador(SDL_Event *evento){
             case Agachado_State:
                 if(!Abajo_PRESIONADO){
                     estadoPersonaje1 = Quieto_State;
-                    this->personajeJuego->definir_imagen(QUIETO);
+                    this->personajeJuego->activarAccion(QUIETO);
                 }else{
-                    this->personajeJuego->definir_imagen(AGACHARSE);
+                    this->personajeJuego->activarAccion(AGACHARSE);
                     cout<<"agachado"<<endl;
                 }
                 break;
     //SALTANDO_VERTICAL
             case SaltoVertical_State:
                 estadoPersonaje1 = SaltoVertical_State;
-                this->personajeJuego->definir_imagen(SALTAR);
+                this->personajeJuego->activarAccion(SALTAR);
                 scrollearDerecha = false;
                 scrollearIzquierda = false;
                 break;
@@ -669,13 +771,13 @@ void Controlador(SDL_Event *evento){
             case SaltoDiagonal_State:
                 estadoPersonaje1 = SaltoDiagonal_State;
                 if (saltoDiagonalDER)
-                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_DER);
+                    this->personajeJuego->activarAccion(SALTARDIAGONAL_DER);
                 else
-                    this->personajeJuego->definir_imagen(SALTARDIAGONAL_IZQ);
+                    this->personajeJuego->activarAccion(SALTARDIAGONAL_IZQ);
 
                 break;
             default:
-                this->personajeJuego->definir_imagen(QUIETO);
+                this->personajeJuego->activarAccion(QUIETO);
         }
         if (scrollearIzquierda){
                 if (x_logico_personaje >= 0 && ((x_logico_personaje - MOVER_PIXELES)>=0)) x_logico_personaje -= MOVER_PIXELES;
@@ -685,7 +787,7 @@ void Controlador(SDL_Event *evento){
                     borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla - MOVER_PIXELES;
                     if (borde_izquierdo_logico_pantalla<0 && (borde_izquierdo_logico_pantalla - MOVER_PIXELES)<0){
                         borde_izquierdo_logico_pantalla = borde_izquierdo_logico_pantalla + MOVER_PIXELES;
-                        //this->personajeJuego->definir_imagen( QUIETO);
+                        //this->personajeJuego->activarAccion( QUIETO);
                     }
                 }
                 // mover+= 5;
@@ -712,123 +814,16 @@ void Controlador(SDL_Event *evento){
                 x_logico_personaje -= MOVER_PIXELES;
             }
             this->timer->avanzarTimer(SDL_GetTicks());
-=======
+   
+		};          
+*/
         
-		if(usandoJoystick){
-			
-			bool nada = false;
-			
-			x_Joystick = SDL_JoystickGetAxis(Player1, 0);
-			y_Joystick = SDL_JoystickGetAxis(Player1, 1);
-			
-			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
-				//  x = -1;
-				this->director->seMuevePersonaje(jugador1, Izquierda);
 
-			}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
-				//  x =  1;
-				this->director->seMuevePersonaje(jugador1, Derecha);
-			}else{
-				//  x = 0;
-				nada = true;
-			}
+};  //FIN CLASE JUEGO
 
-			//Vertical
-			if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
-				//  y = -1;
-				this->director->seMuevePersonaje(jugador1, Arriba);
-			}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
-				//y =  1;
-				//Abajo_PRESIONADO = true;
-				;
-			}else{
-				//yDir = 0;
-				nada = true;
-			}
-			if (nada) this->director->seMuevePersonaje(jugador1, Nada);
-		
-		} else {
-			//-----------------------------------------
-			//----------EVENTOS NO-JOYSTICK------------
-			//-----------------------------------------
-			bool nada1 = true;
-			bool nada2 = true;
-			
-			switch(evento->type){
-				case SDL_QUIT:
-					salir = true;
-					break;
-				case SDL_KEYDOWN:
-
-					//-----------------------------------------
-					//-----------------------------------------
-					//---------------BASICOS-------------------
-					if (evento->key.keysym.sym == SDLK_UP && !pausa)  {
-						this->director->seMuevePersonaje(jugador1, Arriba);
-						nada1 = false;
-					}
-					if (evento->key.keysym.sym == SDLK_RIGHT && !pausa)  {
-						this->director->seMuevePersonaje(jugador1, Derecha);
-						nada1 = false;
-					}
-					if ((evento->key.keysym.sym == SDLK_LEFT && !pausa))  {
-						this->director->seMuevePersonaje(jugador1, Izquierda);
-						nada1 = false;
-					}
-					if (nada1 && !pausa) this->director->seMuevePersonaje(jugador1, Nada);
-					//-----------------------------------------
-					//-----------------------------------------
-					if (evento->key.keysym.sym == SDLK_p)  {
-						//~ cambiarModo = true;
-						pausa = !pausa;
-					}
-					if(evento->key.keysym.sym == SDLK_a && !pausa)  {
-						barraDeVida1->Aliviar(20);
-						barraDeVida2->Aliviar(20);
-					}
-					if(evento->key.keysym.sym == SDLK_c && !pausa)  {
-						if (cansandoPJ == false){
-							barraDeVida1->Cansar(50);
-							barraDeVida2->Cansar(50);
-							cansandoPJ = true;
-						}
-					}
-					if((evento->key.keysym.sym == SDLK_d && !pausa))  {
-						if (golpeandoPJ == false){
-							barraDeVida1->Lastimar(90);
-							barraDeVida2->Lastimar(750);
-							golpeandoPJ = true;
-						}
-						break;
-					}
-					if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
-					if (evento->key.keysym.sym == SDLK_r){
-						reiniciarJuego();
-					}
-					break;
-				case SDL_KEYUP:
-					//~ if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
-						//~ cambiarModo = false;
-						//~ pausa = !pausa;
-					//~ }
-					if((evento->key.keysym.sym == SDLK_d))  {
-						golpeandoPJ = false;
-					}
-					if((evento->key.keysym.sym == SDLK_c))  {
-						cansandoPJ = false;
-					}
-					break;
-				default:
-					;
-			   }
-		   }
-		}
->>>>>>> remotes/origin/director
-    };
-
-};//FIN CLASE JUEGO
 //----------------------------------------------------------------
 //----------------------------------------------------------------
+
 int main(int argc, char* argv[]){
     logger->set_debug(true);
     logger->set_warning(true);
