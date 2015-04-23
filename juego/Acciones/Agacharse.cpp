@@ -7,10 +7,20 @@ using namespace std;
  * 
  **********************************************************************/  
 
+void Agacharse::cambiarModo(){
+	if (esUltimoModo()){
+	}else{
+		setModoActual(this->modoActual+1);
+	}
+}
+
 CoordenadaLogica* Agacharse::execute(CoordenadaLogica* coord_personaje){	
-	return coord_personaje;
+	
+	Agacharse::cambiarModo();
+	return new CoordenadaLogica(coord_personaje);
 };
 
 bool Agacharse::permiteAccion(accion_posible nuevaAccion){
 	return true;
 }
+
