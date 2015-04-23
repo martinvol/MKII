@@ -13,6 +13,30 @@
 
 using namespace std;
 
+/*********************************************************************
+ * 
+ * 					CONSTRUCTOR Y DESTRUCTOR
+ * 
+ *********************************************************************/
+ 
+ // El constructor no lo hacemos porque se supone que siempre después de
+ // crearlo se llama a set_values inmediatamente, antes de llamar a
+ // cualquier otra función.
+
+Parser::~Parser(){
+	for (unsigned int i = 0; i < this->capas_vector.size(); i++)
+		delete this->capas_vector[i];
+	capas_vector.clear();
+}
+
+
+
+/*********************************************************************
+ * 
+ * 								DEMAS
+ * 
+ *********************************************************************/
+
 bool exists_test(const std::string& name) {
     ifstream f(name.c_str());
     if (f.good()) {

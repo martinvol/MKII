@@ -14,6 +14,12 @@ class Parser {
 		Logger *logger;
 
     public:
+		// El constructor no lo hacemos porque se supone que siempre después de
+		// crearlo se llama a set_values inmediatamente, antes de llamar a
+		// cualquier otra función.
+		Parser();
+		~Parser();
+
         void set_values (char* file_name);
         void cargarDefault();
         float ventana_anchopx, ventana_altopx, ventana_ancho;
