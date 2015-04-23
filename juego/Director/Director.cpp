@@ -1,12 +1,15 @@
 #include "Director.hpp"
-
-Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll){
+//~ // Debería ser:
+//~ Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer){
+//~ // Pero por ahora es:
+Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
 	jugadores.push_back(new Jugador(personaje1, barra1));
-	jugadores.push_back(new Jugador(personaje2, barra2));
+	//~ jugadores.push_back(new Jugador(personaje2, barra2));
 	this->factor_scroll = factor_scroll;
+	this->timer = timer;
 }
 
 Director::~Director(){
@@ -17,6 +20,7 @@ Director::~Director(){
         delete jugadores[i];
     }
     jugadores.clear();
+    delete timer;
 }
 
 void Director::analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar){

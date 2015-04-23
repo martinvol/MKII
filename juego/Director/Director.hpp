@@ -23,6 +23,7 @@ class Director {
 		vector<Jugador*> jugadores;
 		Escenario* escenario;
 		Ventana* ventana;
+		Timer* timer;
 		ConversorDeCoordenadas* conversor;
 		float factor_scroll;
 		// Atributos necesarios para recopilar la información del loop y actualizar al final ambos jugadores.
@@ -41,7 +42,10 @@ class Director {
 		void scrollearIzquierda();
 		
 	public:
-		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll);
+		//~ // Debería ser:
+		//~ Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer);
+		//~ // Pero por ahora, recibe un solo personaje:
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer);
 		~Director();
 		
 		/* Sólo va a recibir Derecha, Izquierda, Arriba o Nada. */
