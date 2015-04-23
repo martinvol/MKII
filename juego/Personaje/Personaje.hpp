@@ -42,8 +42,9 @@ class Personaje {
 		accion_posible nroAccionActual;
 		
 	public:
+		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
 		//Harcodeo para donde mira.
-		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);
+		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);
 		//~ Después debería ser
 		//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 		
@@ -63,7 +64,7 @@ class Personaje {
 		*/
 
 
-		// Dibujarse que debería usarse finalmente
+		// Dibujarse que debería usarse finalmente así
 		void Dibujarse(ConversorDeCoordenadas* conv);
 
 		/* Sólo espejan o no espejan. */
