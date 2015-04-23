@@ -2,7 +2,7 @@
 #define ESCENARIO_H_INCLUDED
 
 #include "Capa.hpp"
-#include "CoordenadaFisica.hpp"
+#include "../Coordenadas/CoordenadaFisica.hpp"
 
 
 class Escenario{

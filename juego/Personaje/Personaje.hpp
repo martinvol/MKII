@@ -9,18 +9,21 @@
 #include "Estado.hpp"
 #include "../Acciones/Accion.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
+#include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
 
 using namespace std;
 
 class Personaje {
-		Conf* parser;
+	
 	private:
 		/* Sus anchos y altos lógicos. */
 		float ancho;
 		float alto;
 		
+		/* Para saltos */
 		float y_inicial;
+		
 		/* Coordenada inferior izquierda. */
 		CoordenadaLogica* coordenada;
 		CoordenadaLogica* siguiente;
@@ -30,28 +33,27 @@ class Personaje {
 		Accion* accionActual;
 		Estado* estado;
 		
-		//int nroAccionActual;
-		bool derecha;
-		bool ladoDerecha;
+		int nroAccionActual;
+		bool mirarDerecha;
 		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
 		
-		accion_posible nroAccionActual;		
-		//void Dibujarse(int x, int y, int alto, int ancho);
+		accion_posible nroAccionActual;
 		
 	public:
-		Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
-
 		//Harcodeo para donde mira.
-		//Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha); -->
-		//~ Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado);
+		Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);
+		//~ Después debería ser
+		//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
+		
 		~Personaje();
+		
 		void definir_imagen(accion_posible accion);
 		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
 		//~ void mirar_al_otro_lado();
 		void cambiarAccionA(accion_posible nroAccion);
-		void Dibujarse(int x, int y);
+		void Dibujarse(float alto, float ancho);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
 		//~ int getSpriteActual();
@@ -59,8 +61,9 @@ class Personaje {
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 
 
-		//MILE: A agregar para DANI:
-		
+		// Dibujarse que debería usarse finalmente
+		void Dibujarse(ConversorDeCoordenadas* conv);
+
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
@@ -88,6 +91,7 @@ class Personaje {
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
 		
 		/* Coordenada a la que debe moverse el pesonaje. */
+		/* Se queda con la coordenada, no la deben liberar por afuera. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
 		
