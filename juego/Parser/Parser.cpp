@@ -48,7 +48,7 @@ bool exists_test(const std::string& name) {
     }   
 }
 
-void Conf::set_values (char* my_file) {
+void Parser::set_values (char* my_file) {
     logger = Logger::instance();
     logger->log_debug("Inicializando parser");
 
@@ -225,7 +225,7 @@ void Conf::set_values (char* my_file) {
     }
 }
 
-float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
+float Parser::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
     float result = 0;
    if (!objetoJson.isMember(clave)){
         logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
@@ -244,7 +244,7 @@ float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clav
     return result;
 }
 
-bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){
+bool Parser::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){
    if (!objetoJson.isMember(clave)){
         logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
@@ -253,8 +253,8 @@ bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* cl
 }
 
 
-void Conf::cargarDefault(){
+void Parser::cargarDefault(){
     logger = Logger::instance();
     logger->log_debug("Cargando configuración default");
-    Conf::set_values("resources/default.json");
+    Parser::set_values("resources/default.json");
 }

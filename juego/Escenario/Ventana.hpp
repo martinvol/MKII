@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "../Coordenadas/CoordenadaFisica.hpp"
+#include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 
 enum lugarEnVentana {bordeIzq, medio, bordeDer};
@@ -17,6 +18,7 @@ class Ventana {
 		// y el inicio del borde derecho.
 		int borde_izq, borde_der;
 		int ancho_fisico;
+		int alto_fisico;
 		
 	public:	
 		SDL_Window * window = NULL;

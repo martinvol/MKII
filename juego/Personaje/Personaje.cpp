@@ -114,6 +114,9 @@ void Personaje::mirarParaIzquierda(){
 }
 
 void Personaje::activarAccion(accion_posible accion){
+//~ puts("----------------------------------------------------------------------------------");	
+//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
+//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
 //	if(this->accionActual == NULL) puts ("por que");
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
@@ -134,45 +137,10 @@ void Personaje::activarAccion(accion_posible accion){
 				break;
 		}
 	}
+//~ if (nroAccionActual == AGACHARSE)
+//~ cout<<"quiero agacharme"<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
 }
-
-/*
-// Reemplaza al DEFINIR_IMAGEN, con más cosas
-void Personaje::activarAccion(accion_posible accion){
-	definir_imagen(accion);
-}
-
-void Personaje::definir_imagen(accion_posible accion){
-	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
-		cambiarAccionA(accion);
-	} else {
-
-		if (siguiente != NULL) 
-			delete siguiente;
-		siguiente = this->accionActual->execute(this->coordenada);
-		switch (nroAccionActual){
-			case SALTAR:
-			case SALTARDIAGONAL_DER:
-			case SALTARDIAGONAL_IZQ:
-				if (siguiente->y < y_inicial){
-					cambiarAccionA(QUIETO);
-					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
-					delete siguiente;
-					siguiente = coord;
-				}
-			default:
-				break;
-		}
-	}
-	this->imagenActual = this->accionActual->getImagenActual();
-	if (nroAccionActual == AGACHARSE)
-		cout<<"quiero agacharme"<<endl;
-	coordenada = new CoordenadaLogica(siguiente);
-	return;
-}
-*/
-
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
 	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
@@ -238,13 +206,13 @@ void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
 }
-* 
+
 /***********************************************************************
  * 
  * 							DEMAS
  *
  **********************************************************************/  
-/**Cuando se espera que el personaje represente una nueva accion, 
+/* Cuando se espera que el personaje represente una nueva accion, 
  * se destruye la Accion guardada
  * y se inicializa una nueva.
  * El tiempo se setea nuevamente en 0.
@@ -293,52 +261,23 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			}
 			break;
 	}
-	//Se pasaron los casos de sprites especiales
-//<<<<<<< HEAD
+}
 
-
-//~ /**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
- //~ * se debe mostrar por pantalla.
- //~ * Recibe por parametro la nueva Accion que el loop del juego
- //~ * quiere que el Personaje represente, 
- //~ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- //~ */ 
- //~ void Personaje::definir_imagen(accion_posible nuevaAccion){
-	//~ 
-	//~ puts("----------------------------------------------------------------------------------");	
-	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
-	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-	//~ 
-	//~ if (this->nroAccionActual != nuevaAccion){
-		//~ cambiarAccionA(nuevaAccion);
-		//~ this->imagenActual = this->accionActual->getImagenActual();
-		//~ return;
-	//~ }
-	//~ 
-	//~ this->accionActual->execute();
-	//~ this->imagenActual = this->accionActual->getImagenActual();
-	//~ return;	
-//~ }
 
 void Personaje::Dibujarse(ConversorDeCoordenadas* conv){
 	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
-	CoordenadaFisica* coord1_fis = conv->pasarAFisica(coord1);
+	CoordenadaFisica* coord1_fis = conv->aFisica(coord1);
 	
 	CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
-	CoordenadaFisica* coord2_fis = conv->pasarAFisica(coord2);
+	CoordenadaFisica* coord2_fis = conv->aFisica(coord2);
 	
-	int ancho_fisico = abs(coord1->x - coord2->x);		// Función de std
-	int alto_fisico = abs(coord1->y - coord2->y);
-	
-	delete coord1;
-	delete coord1_fis;
-	delete coord2;
-	delete coord2_fis;
+	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
+	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 	
 	//Rectangulo destino
 	SDL_Rect destino;
-	destino.x = x;
-	destino.y = y;
+	destino.x = coord1_fis->x_fisico;
+	destino.y = coord2_fis->y_fisico;
 	destino.w = ancho_fisico;
 	destino.h = alto_fisico;
 	
@@ -348,6 +287,12 @@ void Personaje::Dibujarse(ConversorDeCoordenadas* conv){
 	} else {
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
+	
+	delete coord1;
+	delete coord1_fis;
+	delete coord2;
+	delete coord2_fis;
+	
 }
 
 
@@ -379,21 +324,6 @@ void Personaje::Dibujarse(ConversorDeCoordenadas* conv){
  *
  **********************************************************************/  
 
-//~ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
-	//~ os << msg << " : " << num << std::endl;
-//~ }
-
-
-//~ 
-//~ void Personaje::cambiar_posicion(int cant_pasos_x,int cant_pasos_y){
-	//~ 
-	//~ 
-//~ }
-	//~ 
-//~ void Personaje::mirar_al_otro_lado(){
-	//~ 
-	//~ 
-//~ }
 //~ SDL_Texture* Personaje::DibujarSpriteNumero(int numeroDeSprite){
 	//~ return this->accionActual->getImagenNro(numeroDeSprite);
 //~ }

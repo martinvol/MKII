@@ -7,6 +7,7 @@
 #include "../Personaje/Jugador.hpp"
 #include "../Escenario/Escenario.hpp"
 #include "../Escenario/Ventana.hpp"
+#include "../Escenario/Timer.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Coordenadas/CoordenadaFisica.hpp"
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"

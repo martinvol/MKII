@@ -9,7 +9,7 @@
 
 class Parser {
 	private:
-		float cargarValidar(Json::Value, float, char*, std::string);
+		float cargarValidar(Json::Value, float, char*, char*);
         bool cargarValidarBool(Json::Value, bool, char*, char*);
 		Logger *logger;
 
@@ -17,7 +17,6 @@ class Parser {
 		// El constructor no lo hacemos porque se supone que siempre después de
 		// crearlo se llama a set_values inmediatamente, antes de llamar a
 		// cualquier otra función.
-		Parser();
 		~Parser();
 
         void set_values (char* file_name);

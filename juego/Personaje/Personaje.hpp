@@ -49,9 +49,6 @@ class Personaje {
 		~Personaje();
 		
 		/* VIEJO:
-		void definir_imagen(accion_posible accion);
-		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
-		//~ void mirar_al_otro_lado();
 		void cambiarAccionA(accion_posible nroAccion);
 		void Dibujarse(float alto, float ancho);
 		//void Dibujarse(int x, int y, int alto, int ancho);
@@ -61,6 +58,8 @@ class Personaje {
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
 		*/
 
+		// Funciones internas
+		void cambiarAccionA(accion_posible nroAccion);
 
 		// Dibujarse que debería usarse finalmente así
 		void Dibujarse(ConversorDeCoordenadas* conv);

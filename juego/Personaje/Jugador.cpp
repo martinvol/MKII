@@ -1,5 +1,21 @@
 #include "Jugador.hpp"
 
+/******************************************************************
+ *
+ *					CONSTRUCTOR Y DESTRUCTOR
+ * 
+ ******************************************************************/
+
+Jugador::Jugador(Personaje* personaje, BarraDeVida* barra){
+	this->personaje = personaje;
+	this->barra = barra;	
+}
+
+Jugador::~Jugador(){
+	delete personaje;
+	delete barra;
+}
+
 
 /******************************************************************
  *
@@ -56,9 +72,9 @@ CoordenadaLogica* Jugador::obtenerSiguienteCoordenadaDerInf(){
 }
 
 void Jugador::moverseAIzqSup(CoordenadaLogica* coord){
-	(this->personaje)->moverseAIzqSup();
+	(this->personaje)->moverseAIzqSup(coord);
 }
 
 void Jugador::moverseADerSup(CoordenadaLogica* coord){
-	(this->personaje)->moverseADerSup();
+	(this->personaje)->moverseADerSup(coord);
 }
