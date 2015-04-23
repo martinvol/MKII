@@ -8,12 +8,12 @@
    "escenario":{
       "ancho":1200,
       "alto":868,
-      "ypiso":w00
+      "ypiso":"-1"
    },
    "capas":[
       {
          "imagen_fondo":"resources/background/fondo.png",
-         "anchoLogico": 400
+         "anchoLogico": 900
       }, 
       {
          "imagen_fondo":"resources/background/p_4b.png",
@@ -25,7 +25,7 @@
       }, 
       {
          "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
-         "anchoLogico":399
+         "anchoLogico":700
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
