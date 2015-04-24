@@ -195,13 +195,13 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
 }
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
-	delete coordenada;
+	if (!this->coordenada) delete coordenada;
 	coordenada = coord;
 	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
-	delete coordenada;
+	if (!this->coordenada) delete coordenada;
 	coordenada = coord;
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
