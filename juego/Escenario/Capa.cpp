@@ -5,22 +5,36 @@
 #include <vector>
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include <string>
+#include <math.h>
 
 using namespace std;
-#define PROPORCIONDIBUJABLE 0.95
+#define OFFSET 0.05
+#define DIVISORDETIEMPO 100.0
+
+int calcularYSegunTicks(unsigned int ticks, unsigned int t0) {
+// Funcion auxiliar
+// Dada una cantidad de ticks, permite calcular la posicion en y en la que
+// deberia posicionarse la capa. El t0 o t inicial es this->ticks.
+
+    
+    float t = (ticks - t0) / DIVISORDETIEMPO;
+    if (t > 200 || t < -200) return 0;
+    return ((-OFFSET/2) * (sin(t*t) / t) + OFFSET/2)*100;
+}
 
 Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
-    this->x_logico = x_logicoParam;    
+    this->x_logico = x_logicoParam; 
+    this->ticks = -1;   
     textura = CargarTextura();
      
     if (conversor != NULL){
         this->conversor =  conversor;
         int w, h;
         SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
-        this->y_fisico = (h - PROPORCIONDIBUJABLE*h)*0.5;
+        this->y_fisico = (OFFSET*h)*0.5;
         float a = 0;
         b = this->x_logico;
         float c = ancho_logico_escenario - (this->conversor->ancho_logico);
@@ -85,8 +99,9 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     source_rect.w = w*(conversor->ancho_logico/this->anchoLogico);
     if (source_rect.x < 0) source_rect.x = 0;
     //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
-	source_rect.y = this->y_fisico;
-	source_rect.h = h*PROPORCIONDIBUJABLE;
+	//source_rect.y = this->y_fisico;
+	source_rect.y = calcularYSegunTicks(SDL_GetTicks(), this->ticks);
+	source_rect.h = h - h*OFFSET;
 	
 	SDL_RenderCopy(ren, textura, &source_rect, NULL);
 }
@@ -113,6 +128,17 @@ void Capa::Dibujarse2(int x, int y, ConversorDeCoordenadas* conversor){
 	SDL_RenderCopy(ren, textura, &loQueSeCorta, NULL);//;, 0.0, NULL, SDL_FLIP_NONE);
 }
 
+//----------------------------------------------------------------
+
+void Capa::Temblar(unsigned int ticks) {
+// Esta funcion hace que haga variar el y_fisico de la capa. Dado
+// que necesito una referencia de tiempo, recibe la cantidad de 
+// tiempo en ms que pasaron desde que se inicializo SDL.
+// y_fisico pertenece a [0, OFFSET]. 
+// Los ticks los manejo en una funcion auxiliar y asi calculo 
+// el y_fisico correspondiente.
+    this->ticks = ticks;
+}
 //----------------------------------------------------------------
 Capa::~Capa(){
     // Martin ver si imprimo algo en un logger.

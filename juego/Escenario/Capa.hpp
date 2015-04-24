@@ -10,7 +10,8 @@
 using namespace std;
 
 class Capa{
-// private:
+    private:
+        unsigned long long ticks;
 	public:
 		SDL_Renderer *ren;
 		string ubicacion;
@@ -26,6 +27,7 @@ class Capa{
 		void Dibujarse2(int x, int y, ConversorDeCoordenadas* conversor);
 		void DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor);
 		void DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor);
+		void Temblar(unsigned int ticks);
 		SDL_Texture* CargarTextura();
 
 		SDL_Texture* textura;

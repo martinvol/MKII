@@ -27,3 +27,9 @@ void Escenario::Borrar(){
     capas.clear();
 
 }
+
+void Escenario::Temblar(unsigned int ticks) {
+     for (unsigned int i = 0; i <= capas.size() -1; i++){
+        this->capas[i]->Temblar(ticks);
+    }
+}

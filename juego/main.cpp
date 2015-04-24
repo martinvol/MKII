@@ -461,6 +461,7 @@ enum Estados{
                     if (golpeandoPJ == false){
                         this->personajeJuego->barraDeVida->Lastimar(90);
                         barraDeVida2.Lastimar(750);
+                        this->escenario->Temblar(SDL_GetTicks());
                         golpeandoPJ = true;
                     }
                     break;
