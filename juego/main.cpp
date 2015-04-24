@@ -189,7 +189,7 @@ public:
 										//~ parser->personaje2_alto, estado,
 										//~ parser->personaje2_mirar_derecha); 
        //~ //Derecha
-        //~ barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+        barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
