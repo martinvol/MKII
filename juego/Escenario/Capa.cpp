@@ -18,8 +18,8 @@ int calcularYSegunTicks(unsigned int ticks, unsigned int t0) {
 
     
     float t = (ticks - t0) / DIVISORDETIEMPO;
-    if (t0 == 0) return 0;
-    if (t > 200 || t < -200) return 0;
+    if (t0 == 0) return OFFSET/2;
+    //if (t > 100 || t < -100) return OFFSET/2;
     return ((-OFFSET/2) * (sin(t*t) / t) + OFFSET/2)*100;
 }
 
