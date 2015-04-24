@@ -16,7 +16,7 @@ class Capa{
 		string ubicacion;
 		float anchoLogico;
 		float x_logico;
-		
+		float y_fisico;
 		float b, m;
 
 		Capa (string ubicacionParam, float anchoLogicoParam, float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario);

@@ -7,20 +7,20 @@
 #include <string>
 
 using namespace std;
+#define PROPORCIONDIBUJABLE 0.95
 
 Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
-    this->x_logico = x_logicoParam;
+    this->x_logico = x_logicoParam;    
     textura = CargarTextura();
      
     if (conversor != NULL){
         this->conversor =  conversor;
-        
         int w, h;
         SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
-    
+        this->y_fisico = (h - PROPORCIONDIBUJABLE*h)*0.5;
         float a = 0;
         b = this->x_logico;
         float c = ancho_logico_escenario - (this->conversor->ancho_logico);
@@ -85,8 +85,8 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     source_rect.w = w*(conversor->ancho_logico/this->anchoLogico);
     if (source_rect.x < 0) source_rect.x = 0;
     //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
-	source_rect.y = 0;
-	source_rect.h = h;
+	source_rect.y = this->y_fisico;
+	source_rect.h = h*PROPORCIONDIBUJABLE;
 	
 	SDL_RenderCopy(ren, textura, &source_rect, NULL);
 }
