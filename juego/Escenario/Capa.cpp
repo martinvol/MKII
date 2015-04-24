@@ -18,6 +18,7 @@ int calcularYSegunTicks(unsigned int ticks, unsigned int t0) {
 
     
     float t = (ticks - t0) / DIVISORDETIEMPO;
+    if (t0 == 0) return 0;
     if (t > 200 || t < -200) return 0;
     return ((-OFFSET/2) * (sin(t*t) / t) + OFFSET/2)*100;
 }
@@ -27,7 +28,7 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
     this->x_logico = x_logicoParam; 
-    this->ticks = -1;   
+    this->ticks = 0;   
     textura = CargarTextura();
      
     if (conversor != NULL){
