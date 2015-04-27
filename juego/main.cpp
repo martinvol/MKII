@@ -171,7 +171,8 @@ public:
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje_ancho,
 										parser->personaje_alto, estado,
-										parser->personaje_mirar_derecha);       
+										parser->personaje_mirar_derecha);
+		printf("Personaje creado con estado: %s", (personajeJuego->nroAccionActual == QUIETO) ? "QUIETO\n" : "NO QUIETO\n");      
 
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -346,10 +347,10 @@ void DibujarTodo(){
 
 /* El de ahora debería ser avisándole al director */
 void Controlador(SDL_Event *evento){
+	bool nada1 = true;
+	bool nada2 = true;
 	while(SDL_PollEvent( evento )) {
 		if(usandoJoystick){
-			
-			bool nada = false;
 			
 			x_Joystick = SDL_JoystickGetAxis(Player1, 0);
 			y_Joystick = SDL_JoystickGetAxis(Player1, 1);
@@ -357,35 +358,33 @@ void Controlador(SDL_Event *evento){
 			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
 				//  x = -1;
 				this->director->seMuevePersonaje(jugador1, Izquierda);
+				nada1 = false;
 
 			}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
 				//  x =  1;
 				this->director->seMuevePersonaje(jugador1, Derecha);
+				nada1 = false;
 			}else{
 				//  x = 0;
-				nada = true;
 			}
 
 			//Vertical
 			if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
 				//  y = -1;
 				this->director->seMuevePersonaje(jugador1, Arriba);
+				nada1 = false;
 			}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
 				//y =  1;
 				//Abajo_PRESIONADO = true;
 				;
 			}else{
 				//yDir = 0;
-				nada = true;
 			}
-			if (nada) this->director->seMuevePersonaje(jugador1, Nada);
 		
 		}
 		//-----------------------------------------
 		//----------EVENTOS NO-JOYSTICK------------
 		//-----------------------------------------
-		bool nada1 = true;
-		bool nada2 = true;
 		
 		switch(evento->type){
 			case SDL_QUIT:
@@ -408,11 +407,9 @@ void Controlador(SDL_Event *evento){
 					this->director->seMuevePersonaje(jugador1, Izquierda);
 					nada1 = false;
 				}
-				if (nada1 && !pausa) this->director->seMuevePersonaje(jugador1, Nada);
 				//-----------------------------------------
 				//-----------------------------------------
 				if (evento->key.keysym.sym == SDLK_p)  {
-					//~ cambiarModo = true;
 					pausa = !pausa;
 				}
 				if(evento->key.keysym.sym == SDLK_a && !pausa)  {
@@ -440,10 +437,6 @@ void Controlador(SDL_Event *evento){
 				}
 				break;
 			case SDL_KEYUP:
-				//~ if((evento->key.keysym.sym == SDLK_p) && (cambiarModo))  {
-					//~ cambiarModo = false;
-					//~ pausa = !pausa;
-				//~ }
 				if((evento->key.keysym.sym == SDLK_d))  {
 					golpeandoPJ = false;
 				}
@@ -454,7 +447,8 @@ void Controlador(SDL_Event *evento){
 			default:
 				;
 		}
-	};
+	}
+	if (nada1 && !pausa) this->director->seMuevePersonaje(jugador1, Nada);
 }
 
 /* El de antes: 

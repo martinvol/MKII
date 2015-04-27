@@ -7,7 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "Estado.hpp"
-#include "../Acciones/Accion.hpp"
+#include "../Personaje/Acciones/Accion.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
@@ -15,8 +15,9 @@
 using namespace std;
 
 class Personaje {
+	public:
 	
-	private:
+	//~ private:
 		/* Sus anchos y altos lógicos. */
 		float ancho;
 		float alto;
@@ -39,7 +40,7 @@ class Personaje {
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
 		
-	public:
+	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
 		//Harcodeo para donde mira.
 		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);

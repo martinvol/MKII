@@ -105,11 +105,8 @@ void Personaje::mirarParaIzquierda(){
 }
 
 void Personaje::activarAccion(accion_posible accion){
-//~ puts("----------------------------------------------------------------------------------");	
-//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
-//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-//	if(this->accionActual == NULL) puts ("por que");
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
+		if (accion == SALTAR) printf("Voy a cambiar a SALTAR\n");
 		cambiarAccionA(accion);
 	} else {
 		if (siguiente != NULL){ delete siguiente; }
@@ -252,6 +249,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			}
 			break;
 	}
+	
 }
 
 

@@ -11,8 +11,8 @@
 enum lugarEnVentana {bordeIzq, medio, bordeDer};
 
 class Ventana {
-	public: ///
-	//~ private:
+	
+	private:
 		
 		// Anchos físicos que identifican el final del borde izquierdo
 		// y el inicio del borde derecho.
@@ -20,7 +20,7 @@ class Ventana {
 		int ancho_fisico;
 		int alto_fisico;
 		
-	//~ public:	
+	public:	
 		SDL_Window * window = NULL;
 	
 		// Margen identifica cuánto porcentaje de la ventana no es borde.		

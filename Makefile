@@ -61,23 +61,23 @@ Logger.o: juego/Logger/Logger.cpp
 	$(CC) "juego/Logger/Logger.cpp" $(CFLAGS) -c
 
 
-Accion.o: juego/Acciones/Accion.cpp
-	$(CC) "juego/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Accion.o: juego/Personaje/Acciones/Accion.cpp
+	$(CC) "juego/Personaje/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Quieto.o: juego/Acciones/Quieto.cpp
-	$(CC) "juego/Acciones/Quieto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Quieto.o: juego/Personaje/Acciones/Quieto.cpp
+	$(CC) "juego/Personaje/Acciones/Quieto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-SaltarVertical.o: juego/Acciones/SaltarVertical.cpp
-	$(CC) "juego/Acciones/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+SaltarVertical.o: juego/Personaje/Acciones/SaltarVertical.cpp
+	$(CC) "juego/Personaje/Acciones/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-SaltarDiagonal.o: juego/Acciones/SaltarDiagonal.cpp
-	$(CC) "juego/Acciones/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+SaltarDiagonal.o: juego/Personaje/Acciones/SaltarDiagonal.cpp
+	$(CC) "juego/Personaje/Acciones/SaltarDiagonal.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Caminar.o: juego/Acciones/Caminar.cpp
-	$(CC) "juego/Acciones/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Caminar.o: juego/Personaje/Acciones/Caminar.cpp
+	$(CC) "juego/Personaje/Acciones/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-Agacharse.o: juego/Acciones/Agacharse.cpp
-	$(CC) "juego/Acciones/Agacharse.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+Agacharse.o: juego/Personaje/Acciones/Agacharse.cpp
+	$(CC) "juego/Personaje/Acciones/Agacharse.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
 Estado.o: juego/Personaje/Estado.cpp
 	$(CC) "juego/Personaje/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c

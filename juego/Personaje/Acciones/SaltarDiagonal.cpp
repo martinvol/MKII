@@ -33,7 +33,6 @@ CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 	dist_virtual += despl_y;
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
 	// Cambio de coordenada.
-	coord->desplazarX(despl_x);
 	if (dist_virtual < h_max) coord->desplazarY(despl_y);
 	else coord->desplazarY(-despl_y);
 	if (dist_virtual >= 2*h_max) return coord;
@@ -52,35 +51,39 @@ CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 				if (dist_virtual >= delta*(cantModos+1 -modoActual)){
 					cambiarModoInversamente();
 				}
+				coord->desplazarX(-despl_x);
 				return coord;
 			}
+			coord->desplazarX(-despl_x);
 		} else {
 			if ((cantModos+1)/2 <= (modoActual+1)){
 				if (dist_virtual >= delta*(modoActual+2)){
 					SaltarDiagonal::cambiarModo();	
 				}
+				coord->desplazarX(despl_x);
 				return coord;
 			}
+			coord->desplazarX(despl_x);
 		}
 	}
 	// Si es impar y está en la primera mitad, o si es par.
 	if (secuenciaInversa){
 		if (dist_virtual >= delta*(cantModos-modoActual)){
 			cambiarModoInversamente();
-			
 		}
+		coord->desplazarX(-despl_x);
 	}else{
 		
 		if (dist_virtual >= delta*(modoActual)){
 			SaltarDiagonal::cambiarModo();
-			
 		}
+		coord->desplazarX(despl_x);
 	}
 	return coord;
 }
 
 bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
-	return true; // return false; ?
+	return false;
 }
 
 void SaltarDiagonal::resetear(){

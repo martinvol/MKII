@@ -59,5 +59,5 @@ CoordenadaLogica* SaltarVertical::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool SaltarVertical::permiteAccion(accion_posible nuevaAccion){
-	return true; // return false; ?
+	return false;
 }

@@ -66,21 +66,27 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 	switch (mov){
 		case Derecha:
 			jugador->activarAccion(CAMINAR_DERECHA);
+			printf("APRETARON CAMINAR_DERECHA\n");
 			break;
 		case Izquierda:
 			jugador->activarAccion(CAMINAR_IZQUIERDA);
+			printf("APRETARON CAMINAR_IZQUIERDA\n");
 			break;
 		case Arriba:
 			jugador->activarAccion(SALTAR);
+			printf("APRETARON SALTAR_VERTICAL\n");
 			break;
 		case ArribaDerecha:
 			jugador->activarAccion(SALTARDIAGONAL_DER);
+			printf("APRETARON SALTAR_DERECHA\n");
 			break;
 		case ArribaIzquierda:
 			jugador->activarAccion(SALTARDIAGONAL_IZQ);
+			printf("APRETARON SALTAR_IZQUIERDA\n");
 			break;
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
+			printf("NO APRETARON, ENTONCES QUIETO\n");
 			break;
 	}
 }
@@ -96,8 +102,8 @@ void Director::verificar_movimientos(){
 	}
 	
 	// Caso: scrollear a la derecha.
-	
 	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
+		printf("Se fue para la derecha.\n");
 		scrollearDerecha();
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (coord1->x > margen_der) coord1->setearX(margen_der);
