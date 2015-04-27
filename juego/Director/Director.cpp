@@ -88,7 +88,7 @@ void Director::verificar_movimientos(){
 	// Verifica altura.
 	if (this->ventana->superaTecho(coord1_fis)){
 		coord1->setearY(this->ventana->obtenerBordeSuperior(this->conversor));
-	}
+	}	
 	
 	// Caso: scrollear a la derecha.
 	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
@@ -112,14 +112,17 @@ void Director::verificar_movimientos(){
 	}
 	
 	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeIzq) {
+	    scrollearIzquierda();
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
 		if (coord1->x < margen_izq) coord1->setearX(margen_izq);
 		jugadores[jugador1]->moverseAIzqSup(coord1);
 	}
-	
+	// Verifica que no se salga de escenario
+	if (this->escenario->ancho - jugadores[jugador1]->personaje->ancho <= coord1->x)
+	    coord1->setearX(this->escenario->ancho - jugadores[jugador1]->personaje->ancho);
+	    
 	// Caso: la posición era válida en ancho.
 	jugadores[jugador1]->moverseAIzqSup(coord1);
-	
 }
 
 bool Director::sePuedeScrollearDerecha(){
