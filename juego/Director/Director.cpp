@@ -39,20 +39,6 @@ Director::~Director(){
  *********************************************************************/
 
 
-void Director::analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar){
-	if (*mov == Arriba){
-		if (lugar == Derecha) *mov = ArribaDerecha;
-		else if (lugar == Izquierda) *mov = ArribaIzquierda;
-		else *mov = lugar;
-	} else if (*mov == Derecha) {
-		if (lugar == Arriba) *mov = ArribaDerecha;
-		else *mov = lugar;
-	} else if (*mov == Izquierda) {
-		if (lugar == Arriba) *mov = ArribaIzquierda;
-		else  *mov = lugar;
-	} else *mov = lugar;
-}
-
 void Director::informar_acciones(){
 	informar_accion(mov1, jugadores[jugador1]);
 	//~ // Cuando haya dos jugadores se descomenta:
@@ -66,27 +52,30 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 	switch (mov){
 		case Derecha:
 			jugador->activarAccion(CAMINAR_DERECHA);
-			printf("APRETARON CAMINAR_DERECHA\n");
 			break;
 		case Izquierda:
 			jugador->activarAccion(CAMINAR_IZQUIERDA);
-			printf("APRETARON CAMINAR_IZQUIERDA\n");
 			break;
 		case Arriba:
 			jugador->activarAccion(SALTAR);
-			printf("APRETARON SALTAR_VERTICAL\n");
 			break;
 		case ArribaDerecha:
 			jugador->activarAccion(SALTARDIAGONAL_DER);
-			printf("APRETARON SALTAR_DERECHA\n");
 			break;
 		case ArribaIzquierda:
 			jugador->activarAccion(SALTARDIAGONAL_IZQ);
-			printf("APRETARON SALTAR_IZQUIERDA\n");
 			break;
+		case Abajo:
+			jugador->activarAccion(AGACHARSE);
+			break;
+		//~ case AbajoDerecha:
+			//~ jugador->activarAccion(AGACHARSE_DER);
+			//~ break;
+		//~ case AbajoIzquierda:
+			//~ jugador->activarAccion(AGACHARSE_IZQ);
+			//~ break;
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
-			printf("NO APRETARON, ENTONCES QUIETO\n");
 			break;
 	}
 }
@@ -104,8 +93,10 @@ void Director::verificar_movimientos(){
 	// Caso: scrollear a la derecha.
 	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
 		printf("Se fue para la derecha.\n");
+		printf("Coordenada Logica Derecha ANTES: %f\n", this->ventana->obtenerMargenLogicoDerecho(this->conversor));
 		scrollearDerecha();
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
+		printf("Coordenada Logica Derecha DESPUES: %f\n", margen_der);
 		if (coord1->x > margen_der) coord1->setearX(margen_der);
 		jugadores[jugador1]->moverseADerSup(coord1);		
 	}
@@ -146,17 +137,17 @@ bool Director::sePuedeScrollearIzquierda(){
 void Director::scrollearDerecha(){
 	if (not this->sePuedeScrollearDerecha()) return;
 	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
-	if (this->escenario->esLimiteDerecho(borde_der+float(factor_scroll)))
+	if (this->escenario->esLimiteDerecho(borde_der+factor_scroll))
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteDerecho() - borde_der);
-	else this->conversor->seMueveVentana(float(factor_scroll));
+	else this->conversor->seMueveVentana(factor_scroll);
 }
 
 void Director::scrollearIzquierda(){
 	if (not this->sePuedeScrollearIzquierda()) return;
 	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
-	if (this->escenario->esLimiteIzquierdo(borde_izq-float(factor_scroll)))
+	if (this->escenario->esLimiteIzquierdo(borde_izq-factor_scroll))
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteIzquierdo() - borde_izq);
-	else this->conversor->seMueveVentana(- float(factor_scroll));
+	else this->conversor->seMueveVentana(- factor_scroll);
 }
 
 
@@ -187,10 +178,10 @@ void Director::verificar_orientaciones(){
 void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 	switch (jugador){
 		case jugador1:
-			analizar_multievento_de_un_jugador(&mov1, lugar);
+			mov1 = lugar;
 			break;
 		default: //jugador2
-			analizar_multievento_de_un_jugador(&mov2, lugar);
+			mov2 = lugar;
 			break;
 	}
 }

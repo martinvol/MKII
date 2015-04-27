@@ -26,13 +26,14 @@ class Director {
 		Ventana* ventana;
 		Timer* timer;
 		ConversorDeCoordenadas* conversor;
+		
 		float factor_scroll;
+		
 		// Atributos necesarios para recopilar la información del loop y actualizar al final ambos jugadores.
 		movimiento mov1 = Nada;
 		movimiento mov2 = Nada;
 		
 	
-		void analizar_multievento_de_un_jugador(movimiento* mov, movimiento lugar);
 		void informar_acciones();
 		void informar_accion(movimiento mov, Jugador* jugador);
 		void verificar_movimientos();
