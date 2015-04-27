@@ -121,6 +121,10 @@ void Director::verificar_movimientos(){
 	if (this->escenario->ancho - jugadores[jugador1]->personaje->ancho <= coord1->x)
 	    coord1->setearX(this->escenario->ancho - jugadores[jugador1]->personaje->ancho);
 	    
+	// Verifica que no se vaya por abajo del piso
+    // Me falta hacerlo generico con y_piso *Manuel*
+	if (coord1->y <= 0 + jugadores[jugador1]->personaje->alto) coord1->y = 0 + jugadores[jugador1]->personaje->alto; 
+	    
 	// Caso: la posición era válida en ancho.
 	jugadores[jugador1]->moverseAIzqSup(coord1);
 }
