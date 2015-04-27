@@ -15,7 +15,7 @@
 using namespace std;
 
 enum num_jugador {jugador1 = 0, jugador2};
-enum movimiento {Nada, Derecha, Izquierda, Arriba, ArribaDerecha, ArribaIzquierda};
+enum movimiento {Nada, Derecha, Izquierda, Arriba, Abajo, ArribaDerecha, ArribaIzquierda, AbajoDerecha, AbajoIzquierda};
 
 class Director {
 		
@@ -49,7 +49,7 @@ class Director {
 		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer);
 		~Director();
 		
-		/* Sólo va a recibir Derecha, Izquierda, Arriba o Nada. */
+		/* Va a recibir donde intenta moverse, qué intenta hacer. */
 		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
 		
 		/* Si un personaje se mueve, debe validar:
