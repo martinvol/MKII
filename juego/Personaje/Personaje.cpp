@@ -7,13 +7,6 @@
 
 using namespace std;
 
-/***********************************************************************
- * 
- * 						CONSTRUCTOR Y DESTRUCTOR
- * 							CONSTANTES
- *
- **********************************************************************/  
-
 
 /***********************************************************************
  * 
@@ -34,9 +27,7 @@ using namespace std;
  **********************************************************************/  
 
 /**Recibe por parametro la posicion inicial del personaje, representado
- * por dos enteros: 
- * uno) marca la posicion en el eje x,
- * dos) marcla la posicion en el eje y.
+ * por una coordenada.
  * El nombre del personaje, que coincide con el nombre de la carpeta donde
  * se guardan las imagenes de las acciones.
  * y un puntero de tipo SDL_Renderer que indica el renderer usado.

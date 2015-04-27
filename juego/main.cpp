@@ -154,6 +154,7 @@ public:
 		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
 		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
                              parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
+		printf("MARGEN DESDE PARSER: %d  \n", parser->margen);
 		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
         
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
@@ -169,7 +170,7 @@ public:
         estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
 							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,parser->escenario_ypiso),
+        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje_ancho,
 										parser->personaje_alto, estado,
 										parser->personaje_mirar_derecha);       
@@ -267,6 +268,36 @@ public:
         }
 
     };
+    
+   /* Imprime cuadrado rojo en el borde izquierdo inferior de la ventana. */
+void imprimir_cuadrado_rojo(){
+	//Rectangulo destino
+	SDL_Rect destino;
+    
+	
+	int ancho_fisico = 80;
+	int alto_fisico = 240;
+	
+	CoordenadaLogica* coord = new CoordenadaLogica(borde_izquierdo_logico_pantalla, 0);
+	CoordenadaFisica* coord_fis = conversor->aFisica(coord);
+	
+	printf("X: %d    ;     Y: %d    CUANDO  ancho ventana: %d   y margen derecho es: %d\n", coord_fis->x_fisico, coord_fis->y_fisico, this->parser->ventana_anchopx, this->ventana->borde_der);
+	
+	destino.x = coord_fis->x_fisico;
+	destino.y = coord_fis->y_fisico;
+	//~ destino.x = 0;
+	//~ destino.y = 0;
+	destino.w = ancho_fisico;
+	destino.h = alto_fisico;
+	
+	delete coord_fis;
+	delete coord;
+	
+	SDL_SetRenderDrawColor( renderer, 255, 0, 0 , 150 );
+    SDL_RenderFillRect(renderer, &destino );
+    
+}
+    
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void reiniciarJuego(){
@@ -336,6 +367,8 @@ void DibujarTodo(){
 
         this->timer->Dibujarse();
 
+		imprimir_cuadrado_rojo(); ///
+		
         if (pausa){
             SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
             SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
