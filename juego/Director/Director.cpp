@@ -87,7 +87,7 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 
 /* Por ahora, sólo valida el movimiento de UN JUGADOR. */
 void Director::verificar_movimientos(){
-/*	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
+	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
 	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaDerSup();
 	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
 	// Verifica altura.
@@ -96,21 +96,8 @@ void Director::verificar_movimientos(){
 	}
 	
 	// Caso: scrollear a la derecha.
-	/// CAMBIÉ
-	lugarEnVentana lugar = this->ventana->coordenadaEnPantalla(coord1_fis);
-	switch (lugar){
-		case bordeIzq:
-			printf("Está en IZQUIERDO:    valor %d,  margen %d\n", coord1_fis->x_fisico, this->ventana->borde_izq);
-			break;
-		case medio:
-			printf("Está en MEDIO:    valor %d \n", coord1_fis->x_fisico);
-			break;		
-		case bordeDer:
-			printf("Está en DERECHO:    valor %d,  margen %d\n", coord1_fis->x_fisico, this->ventana->borde_der);
-			break;
-	}
 	
-	if (lugar == bordeDer){
+	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
 		scrollearDerecha();
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (coord1->x > margen_der) coord1->setearX(margen_der);
@@ -135,7 +122,7 @@ void Director::verificar_movimientos(){
 	
 	// Caso: la posición era válida en ancho.
 	jugadores[jugador1]->moverseAIzqSup(coord1);
-	*/
+	
 }
 
 bool Director::sePuedeScrollearDerecha(){
@@ -156,7 +143,6 @@ void Director::scrollearDerecha(){
 	if (this->escenario->esLimiteDerecho(borde_der+float(factor_scroll)))
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteDerecho() - borde_der);
 	else this->conversor->seMueveVentana(float(factor_scroll));
-	printf("SCROLLEAR DERECHA LLAMA A MOVER VENTANA \n"); ///
 }
 
 void Director::scrollearIzquierda(){

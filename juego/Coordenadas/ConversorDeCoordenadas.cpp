@@ -1,5 +1,4 @@
 #include "ConversorDeCoordenadas.hpp"
-#include <iostream> ///
 
 // Se va a hacer:
 // Si ALTO_FISICO --> ALTO_LOGICO,
@@ -39,11 +38,9 @@ CoordenadaLogica* ConversorDeCoordenadas::aLogica(CoordenadaFisica* coord){
 }
 
 void ConversorDeCoordenadas::seMueveVentana(int pixeles){
-	printf("SE MOVIÓ VENTANA PIXELES");
 	x_logico += pixeles * 1.0 / factor_ancho;
 }
 
 void ConversorDeCoordenadas::seMueveVentana(float metros){
-	printf("SE MOVIÓ VENTANA LOGICAS");
 	x_logico += metros;
 }

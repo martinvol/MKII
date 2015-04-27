@@ -1,19 +1,14 @@
 #include "Ventana.hpp"
 
 Ventana::Ventana(char* titulo, int ancho_fisico, int alto_fisico, float margen){
+	
 	this->window = SDL_CreateWindow(titulo, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, ancho_fisico, alto_fisico, SDL_WINDOW_MAXIMIZED);
 	
-	printf("MARGEN: %d\n", margen); ///
-	int ancho_de_borde = (ancho_fisico * (margen/100))*1.0 / 2;
-	printf("ANCHO DE BORDE: %d\n", ancho_de_borde); ///
+	int ancho_de_borde = (ancho_fisico * (1 - margen/100))*1.0 / 2;
 	this->borde_izq = ancho_de_borde;
-	printf("BORDE IZQ: %d\n", borde_izq); ///
 	this->borde_der = ancho_fisico - ancho_de_borde;
-	printf("BORDE DER: %d\n", borde_der); ///
 	this->alto_fisico = alto_fisico;
-	printf("ALTO_FISICO: %d\n", alto_fisico); ///
 	this->ancho_fisico = ancho_fisico;
-	printf("ANCHO FISICO: %d\n", ancho_fisico); ///
 }
 
 Ventana::~Ventana(){
