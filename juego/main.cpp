@@ -170,8 +170,6 @@ public:
 										"Subzero", renderer, parser->personaje_ancho,
 										parser->personaje_alto, estado,
 										parser->personaje_mirar_derecha);
-		printf("Personaje creado con estado: %s", (personajeJuego->nroAccionActual == QUIETO) ? "QUIETO\n" : "NO QUIETO\n");      
-
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
@@ -299,7 +297,6 @@ void DibujarTodo(){
 
 
         SDL_RenderCopy(renderer, under, NULL, &r);
-        // Que es esto?
 
         for (int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
@@ -344,12 +341,10 @@ void Controlador(SDL_Event *evento){
 			
 			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
 				//  x = -1;
-				//~ this->director->seMuevePersonaje(jugador1, Izquierda);
 				Izq_PRESIONADO = true;
 
 			}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
 				//  x =  1;
-				//~ this->director->seMuevePersonaje(jugador1, Derecha);
 				Der_PRESIONADO = true;
 			}else{
 				//  x = 0;
@@ -358,7 +353,6 @@ void Controlador(SDL_Event *evento){
 			//Vertical
 			if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
 				//  y = -1;
-				//~ this->director->seMuevePersonaje(jugador1, Arriba);
 				Arriba_PRESIONADO = true;
 			}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
 				//y =  1;
@@ -383,15 +377,12 @@ void Controlador(SDL_Event *evento){
 				//-----------------------------------------
 				//---------------BASICOS-------------------
 				if (evento->key.keysym.sym == SDLK_UP && !pausa)  {
-					//~ this->director->seMuevePersonaje(jugador1, Arriba);
 					Arriba_PRESIONADO = true;
 				}
 				if (evento->key.keysym.sym == SDLK_RIGHT && !pausa)  {
-					//~ this->director->seMuevePersonaje(jugador1, Derecha);
 					Der_PRESIONADO = true;
 				}
 				if ((evento->key.keysym.sym == SDLK_LEFT && !pausa))  {
-					//~ this->director->seMuevePersonaje(jugador1, Izquierda);
 					Izq_PRESIONADO = true;
 				}
 				//-----------------------------------------
@@ -488,7 +479,6 @@ void ActualizarModelo(){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Arriba);
 	} else if (Abajo_PRESIONADO){
-		// SI EXISTE:
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Abajo);
 	} else {

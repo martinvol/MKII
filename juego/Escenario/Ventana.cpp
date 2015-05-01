@@ -67,7 +67,7 @@ float Ventana::obtenerBordeLogicoDerecho(ConversorDeCoordenadas* conv){
 	return borde;
 }
 
-float Ventana::obtenerBordeSuperior(ConversorDeCoordenadas* conv){
+float Ventana::obtenerBordeLogicoSuperior(ConversorDeCoordenadas* conv){
 	// En lo fisico, el y crece para abajo desde el techo. El techo es y = 0.
 	CoordenadaFisica* coord_fis = new CoordenadaFisica(0, 0);
 	CoordenadaLogica* coord_log = conv->aLogica(coord_fis);

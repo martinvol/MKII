@@ -38,7 +38,7 @@ CoordenadaLogica* ConversorDeCoordenadas::aLogica(CoordenadaFisica* coord){
 }
 
 void ConversorDeCoordenadas::seMueveVentana(int pixeles){
-	x_logico += pixeles * 1.0 / factor_ancho;
+	x_logico += (pixeles / factor_ancho);
 }
 
 void ConversorDeCoordenadas::seMueveVentana(float metros){

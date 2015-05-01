@@ -106,7 +106,6 @@ void Personaje::mirarParaIzquierda(){
 
 void Personaje::activarAccion(accion_posible accion){
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
-		if (accion == SALTAR) printf("Voy a cambiar a SALTAR\n");
 		cambiarAccionA(accion);
 	} else {
 		if (siguiente != NULL){ delete siguiente; }
@@ -184,15 +183,15 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
 	if (!this->coordenada) delete coordenada;
+	coord->desplazarY(-alto);
 	coordenada = coord;
-	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	if (!this->coordenada) delete coordenada;
+	coord->desplazarY(-alto);
+	coord->desplazarX(-ancho);
 	coordenada = coord;
-	coordenada->desplazarY(-alto);
-	coordenada->desplazarX(-ancho);
 }
 
 /***********************************************************************
@@ -265,8 +264,10 @@ void Personaje::Dibujarse(ConversorDeCoordenadas* conv){
 	
 	//Rectangulo destino
 	SDL_Rect destino;
-	cout << "x: "<<coordenada->x << endl; ///
-	cout << "y: "<<coordenada->y << endl; ///
+	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
+		cout << "x: "<<coordenada->x << endl; ///
+		cout << "y: "<<coordenada->y << endl; ///
+	}
 	destino.x = coord1_fis->x_fisico;
 	destino.y = coord2_fis->y_fisico;
 	destino.w = ancho_fisico;
