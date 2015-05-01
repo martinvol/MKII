@@ -51,7 +51,7 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
 	dst.y = y;
 	dst.w = w;
 	dst.h = h;
-	SDL_RenderCopy(ren, tex, NULL, &dst);
+	SDL_RenderCopy(ren, tex, &dst, NULL);
 }
 
 /**
@@ -100,8 +100,7 @@ int main(int argc, char* args[]) {
     }
     
     
-    SDL_Texture *background = loadTexture("resources/background/p_bg.png", renderer);
-    SDL_Texture *under = loadTexture("resources/background/p_under.png", renderer);
+    SDL_Texture *background = loadTexture("resources/rgb.png", renderer);
     //Make sure they both loaded ok
     if (background == nullptr){
         SDL_DestroyRenderer(renderer); 
@@ -111,15 +110,13 @@ int main(int argc, char* args[]) {
 	    return 1;
     }
     
-    SDL_SetTextureColorMod(background, 130, 130, 130);
+    SDL_SetTextureColorMod(background, 255, 255, 255);
     
     //Get window surface
     
 	int w, h;
-	SDL_QueryTexture(under, NULL, NULL, &w, &h);
-    renderTexture(under, renderer,0, 0, 640, 480);
 	SDL_QueryTexture(background, NULL, NULL, &w, &h);
-    renderTexture(background, renderer,0, 30, w*1.61, h*1.61);
+    renderTexture(background, renderer,0, 0);
     
     SDL_Surface* screenSurface = SDL_GetWindowSurface(win);
 	SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
@@ -130,7 +127,6 @@ int main(int argc, char* args[]) {
     SDL_Delay(4000);
    
     SDL_DestroyTexture(background);
-    SDL_DestroyTexture(under);
     SDL_DestroyRenderer(renderer); 
     SDL_DestroyWindow(win);
     IMG_Quit();
