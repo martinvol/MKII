@@ -101,16 +101,17 @@ int main(int argc, char* args[]) {
     
     
     SDL_Texture *background = loadTexture("resources/background/p_bg.png", renderer);
-    SDL_Texture *image = loadTexture("resources/background/p_4.png", renderer);
     SDL_Texture *under = loadTexture("resources/background/p_under.png", renderer);
     //Make sure they both loaded ok
-    if (background == nullptr || image == nullptr){
+    if (background == nullptr){
         SDL_DestroyRenderer(renderer); 
         SDL_DestroyWindow(win);
 	    IMG_Quit();
 	    SDL_Quit();
 	    return 1;
     }
+    
+    SDL_SetTextureColorMod(background, 130, 130, 130);
     
     //Get window surface
     
@@ -119,8 +120,6 @@ int main(int argc, char* args[]) {
     renderTexture(under, renderer,0, 0, 640, 480);
 	SDL_QueryTexture(background, NULL, NULL, &w, &h);
     renderTexture(background, renderer,0, 30, w*1.61, h*1.61);
-    SDL_QueryTexture(image, NULL, NULL, &w, &h);
-    renderTexture(image, renderer,0, 120, w*1.61, h*1.61);
     
     SDL_Surface* screenSurface = SDL_GetWindowSurface(win);
 	SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
@@ -131,7 +130,6 @@ int main(int argc, char* args[]) {
     SDL_Delay(4000);
    
     SDL_DestroyTexture(background);
-    SDL_DestroyTexture(image);
     SDL_DestroyTexture(under);
     SDL_DestroyRenderer(renderer); 
     SDL_DestroyWindow(win);
