@@ -84,20 +84,15 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 void Director::verificar_movimientos(){
 	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
 	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaDerSup();
-	cout << "SIGUIENTE COORDENADA: " << "x - " << coord1->x << " y - " << coord1 -> y << endl;
 	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
-	cout << "SIGUIENTE COORDENADA FISICA: " << "x - " << coord1_fis->x_fisico << " y - " << coord1_fis -> y_fisico << endl;
 	// Verifica altura.
 	if (this->ventana->superaTecho(coord1_fis)){
 		coord1->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
 	}
 	
 	// Caso: scrollear a la derecha.
-	cout << "CASO SCROLL DERECHO" << endl << "MARGEN DERECHO FISICO: " << this->ventana->borde_der << endl << "COORDENADA DERECHA FISICA: " << coord1_fis->x_fisico << endl << endl;
 	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
 		scrollearDerecha();
-		cout << endl << "DESPUES" << endl << "El margen fisico es de: " << this->ventana->borde_der << endl << "El margen logico es de: " << this->ventana->obtenerMargenLogicoDerecho(this->conversor) << endl << "El borde fisico es de: " << this->ventana->ancho_fisico << endl << "El borde logico es de: " << this->ventana->obtenerBordeLogicoDerecho(this->conversor) << endl;
-
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (coord1->x > margen_der){
 			cout << endl << "Setea MARGEN " << margen_der << endl;
@@ -122,6 +117,7 @@ void Director::verificar_movimientos(){
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
 		if (coord1->x < margen_izq) coord1->setearX(margen_izq);
 		jugadores[jugador1]->moverseAIzqSup(coord1);
+		return;
 	}
 	// Verifica que no se salga de escenario
 	if (this->escenario->ancho - jugadores[jugador1]->personaje->ancho <= coord1->x)
@@ -149,17 +145,12 @@ bool Director::sePuedeScrollearIzquierda(){
 
 void Director::scrollearDerecha(){
 	if (not this->sePuedeScrollearDerecha()){
-		cout << endl << "ANTES" << endl << "El margen fisico es de: " << this->ventana->borde_der << endl << "El margen logico es de: " << this->ventana->obtenerMargenLogicoDerecho(conversor) << endl << "El borde fisico es de: " << this->ventana->ancho_fisico << endl << "El borde logico es de: " << this->ventana->obtenerBordeLogicoDerecho(conversor) << endl;
-		cout << endl << "NO SE PUEDE SCROLLEAR" << endl << endl;
 		return;
 	}
 	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
 	if (this->escenario->esLimiteDerecho(borde_der+factor_scroll)){
-		cout << endl << "ANTES" << endl << "El margen fisico es de: " << this->ventana->borde_der << endl << "El margen logico es de: " << this->ventana->obtenerMargenLogicoDerecho(conversor) << endl << "El borde fisico es de: " << this->ventana->ancho_fisico << endl << "El borde logico es de: " << this->ventana->obtenerBordeLogicoDerecho(conversor) << endl;
-		cout << endl << "Se va a mover: " << (this->escenario->obtenerLimiteDerecho() - borde_der) << endl << endl;
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteDerecho() - borde_der);
 	} else {
-		cout << endl << "ANTES" << endl << "El margen fisico es de: " << this->ventana->borde_der << endl << "El margen logico es de: " << this->ventana->obtenerMargenLogicoDerecho(conversor) << endl << "El borde fisico es de: " << this->ventana->ancho_fisico << endl << "El borde logico es de: " << this->ventana->obtenerBordeLogicoDerecho(conversor) << endl;
 		this->conversor->seMueveVentana(factor_scroll);
 	}
 }
@@ -200,10 +191,10 @@ void Director::verificar_orientaciones(){
 void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 	switch (jugador){
 		case jugador1:
-			mov1 = lugar;
+			this->mov1 = lugar;
 			break;
 		default: //jugador2
-			mov2 = lugar;
+			this->mov2 = lugar;
 			break;
 	}
 }
