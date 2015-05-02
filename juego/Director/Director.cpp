@@ -99,7 +99,8 @@ void Director::verificar_movimientos(){
 			coord1->setearX(margen_der);
 			cout << "X seteada: " << coord1->x << endl;
 		}
-		jugadores[jugador1]->moverseADerSup(coord1);		
+		jugadores[jugador1]->moverseADerSup(coord1);
+		return;		
 	}
 	
 	// Caso: scrollear a la izquierda.
