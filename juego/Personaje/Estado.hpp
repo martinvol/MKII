@@ -25,7 +25,7 @@ class Estado{
 		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
 		Agacharse* agacharse;
-		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario);
+		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho);
 		~Estado();
 
 };
