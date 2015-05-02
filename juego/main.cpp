@@ -14,13 +14,13 @@
 
 using namespace std;
 
-#define MOVER_PIXELES 60*(parser->personaje_ancho/parser->ventana_ancho)
+#define MOVER_PIXELES 80*(parser->personaje_ancho/parser->ventana_ancho)
 #define MOVER_PIXELES_VERTICAL 75*(parser->personaje_alto/parser->escenario_ancho)
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 50
-#define FACTOR_SCROLL 32
+#define FACTOR_SCROLL 20
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
