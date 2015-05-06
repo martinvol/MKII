@@ -1,5 +1,4 @@
 #include "Director.hpp"
-#include <iostream> ///
 
 /*********************************************************************
  * 
@@ -95,9 +94,7 @@ void Director::verificar_movimientos(){
 		scrollearDerecha();
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (coord1->x > margen_der){
-			cout << endl << "Setea MARGEN " << margen_der << endl;
 			coord1->setearX(margen_der);
-			cout << "X seteada: " << coord1->x << endl;
 		}
 		jugadores[jugador1]->moverseADerSup(coord1);
 		return;		

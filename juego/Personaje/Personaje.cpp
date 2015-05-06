@@ -304,8 +304,6 @@ void Personaje::Dibujarse(ConversorDeCoordenadas* conv){
 	//Rectangulo destino
 	SDL_Rect destino;
 	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
-		cout << "x: "<<coordenada->x << endl; ///
-		cout << "y: "<<coordenada->y << endl; ///
 	}
 	destino.x = coord1_fis->x_fisico;
 	destino.y = coord2_fis->y_fisico;
