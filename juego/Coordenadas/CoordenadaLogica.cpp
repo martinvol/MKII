@@ -32,3 +32,10 @@ bool CoordenadaLogica::estaALaDerechaDe(CoordenadaLogica* coord){
 	return (this->x > coord->x);
 }
 
+void CoordenadaLogica::setearX(float x){
+	this->x = x;
+}
+
+void CoordenadaLogica::setearY(float y){
+	this->y = y;
+}

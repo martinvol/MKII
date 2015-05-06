@@ -5,12 +5,19 @@
 using namespace std;
 
 class Logger{
-    Logger();
-    ~Logger();
-    bool debug, warning, error;
-    ofstream* archivo;
+	
+	private:
+		static Logger* myinstance;
+		Logger();
+		~Logger();
+		bool debug, warning, error;
+		ofstream* archivo;
+		
     public:
-        static Logger * instance();
+		/* La instancia obtenida sólo puede destruirse con destroy_instance. */
+        static Logger* instance();
+        static void destroy_instance();
+        
         void set_debug(bool nuevo_stado);
         void set_warning(bool nuevo_stado);
         void set_error(bool nuevo_stado);

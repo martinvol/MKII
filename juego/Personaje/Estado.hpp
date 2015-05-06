@@ -7,12 +7,12 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
-#include "../Acciones/Accion.hpp"
-#include "../Acciones/Quieto.hpp"
-#include "../Acciones/SaltarVertical.hpp"
-#include "../Acciones/SaltarDiagonal.hpp"
-#include "../Acciones/Caminar.hpp"
-#include "../Acciones/Agacharse.hpp"
+#include "../Personaje/Acciones/Accion.hpp"
+#include "../Personaje/Acciones/Quieto.hpp"
+#include "../Personaje/Acciones/SaltarVertical.hpp"
+#include "../Personaje/Acciones/SaltarDiagonal.hpp"
+#include "../Personaje/Acciones/Caminar.hpp"
+#include "../Personaje/Acciones/Agacharse.hpp"
 
 using namespace std;
 
@@ -25,9 +25,7 @@ class Estado{
 		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
 		Agacharse* agacharse;
-		
-
-		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario);
+		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho);
 		~Estado();
 
 };

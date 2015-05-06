@@ -8,11 +8,10 @@
 #include <string>
 #include <vector>
 
-#include "../Coordenadas/CoordenadaLogica.hpp"
-#include "../Logger/Logger.hpp"
+#include "../../Coordenadas/CoordenadaLogica.hpp"
+#include "../../Logger/Logger.hpp"
 
 typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE} accion_posible;
-
 
 using namespace std;
 

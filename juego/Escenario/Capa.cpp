@@ -1,4 +1,5 @@
 #include "Capa.hpp"
+
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -23,7 +24,8 @@ int calcularYSegunTicks(unsigned int ticks, unsigned int t0) {
     return ((-OFFSET/2) * (sin(t*t) / t) + OFFSET/2)*100;
 }
 
-Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, ConversorDeCoordenadas* conversor, float ancho_logico_escenario){
+
+Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam, SDL_Renderer *rendererParam, float ancho_escenario, float ancho_ventana_logico){
     this->ren = rendererParam;
     this->ubicacion = ubicacionParam;
     this->anchoLogico = anchoLogicoParam;
@@ -38,12 +40,12 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
         this->y_fisico = (OFFSET*h)*0.5;
         float a = 0;
         b = this->x_logico;
-        float c = ancho_logico_escenario - (this->conversor->ancho_logico);
-        float d = w - w*(conversor->ancho_logico/this->anchoLogico);
+        float c = ancho_escenario - ancho_ventana_logico;
+        float d = w - w*(ancho_ventana_logico/this->anchoLogico);
         //float d = conversor->ancho_logico - this->anchoLogico;
         m = (d -b)/(c-a);
     }
-
+	this->ancho_logico_ventana = ancho_ventana_logico;
 }
 
 //----------------------------------------------------------------
@@ -56,39 +58,8 @@ SDL_Texture* Capa::CargarTextura(){
 	return texturaAux;
 }
 
-//----------------------------------------------------------------
-void Capa::Dibujarse(int x, int y){
-    int ancho, alto;
-	SDL_QueryTexture(this->textura, NULL, NULL, &ancho, &alto);
-	Dibujarse(x, y, alto, ancho);
-}
-
-void Capa::DibujarseAnchoReal(int x, int y, ConversorDeCoordenadas* conversor){
-	//Dibujarse(x,y, conversor->alto_fisico, conversor->factor_ancho*this->anchoLogico);
-	
-	float posi_px = (((this->m)*x + (this->b)));
-	cout <<"posi_px " << posi_px << "\n"; ///
-
-	posi_px = posi_px*(conversor->factor_ancho) - x;
-
-
-
-	SDL_Rect destination_rect;
-
-	destination_rect.x = posi_px + (this->x_logico)*conversor->factor_ancho;
-	destination_rect.y = y;
-	destination_rect.w = conversor->factor_ancho*this->anchoLogico;
-	destination_rect.h = conversor->alto_fisico;
-	
-	SDL_RenderCopyEx(ren, textura, NULL, &destination_rect, 0.0, NULL, SDL_FLIP_NONE);
-	//SDL_RenderCopy(ren, textura, NULL, &destination_rect);
-
-
-}
-
-void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
+void Capa::DibujarseAnchoReal(int x, int y){
     // Este metodo va a tratar de dibujar los rectangulos bonitos usando el rect de source
-    
 	
 	float posi_px = (((this->m)*x + (this->b)));
 
@@ -97,7 +68,7 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
     SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
     
     source_rect.x = posi_px;
-    source_rect.w = w*(conversor->ancho_logico/this->anchoLogico);
+    source_rect.w = w*(ancho_logico_ventana/this->anchoLogico);
     if (source_rect.x < 0) source_rect.x = 0;
     //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
 	//source_rect.y = this->y_fisico;
@@ -105,28 +76,6 @@ void Capa::DibujarseAnchoReal2(int x, int y, ConversorDeCoordenadas* conversor){
 	source_rect.h = h - h*OFFSET;
 	
 	SDL_RenderCopy(ren, textura, &source_rect, NULL);
-}
-
-//----------------------------------------------------------------
-void Capa::Dibujarse(int x, int y, int alto, int ancho){
-	//Rectangulo destino
-	SDL_Rect destino;
-	destino.h = alto;
-	destino.w = ancho;
-	destino.x = x;
-	destino.y = y;
-	// printf("%d\n", destino.w);
-	SDL_RenderCopy(this->ren, this->textura, NULL, &destino);
-}
-
-//----------------------------------------------------------------
-void Capa::Dibujarse2(int x, int y, ConversorDeCoordenadas* conversor){
-	int ancho, alto;
-	SDL_QueryTexture(this->textura, NULL, NULL, &ancho, &alto);
-    SDL_Rect loQueSeCorta = {x, y, ancho*0.5, alto};
-
-
-	SDL_RenderCopy(ren, textura, &loQueSeCorta, NULL);//;, 0.0, NULL, SDL_FLIP_NONE);
 }
 
 //----------------------------------------------------------------
@@ -141,6 +90,7 @@ void Capa::Temblar(unsigned int ticks) {
     this->ticks = ticks;
 }
 //----------------------------------------------------------------
+
 Capa::~Capa(){
     // Martin ver si imprimo algo en un logger.
     SDL_DestroyTexture(this->textura);

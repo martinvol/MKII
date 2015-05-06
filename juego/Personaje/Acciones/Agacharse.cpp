@@ -21,6 +21,6 @@ CoordenadaLogica* Agacharse::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool Agacharse::permiteAccion(accion_posible nuevaAccion){
-	return true;
+	return false;
 }
 

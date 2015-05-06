@@ -7,8 +7,9 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include "Estado.hpp"
-#include "../Acciones/Accion.hpp"
+#include "../Personaje/Acciones/Accion.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
+#include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
 #include "../Escenario/BarraDeVida.hpp"
 
@@ -16,50 +17,61 @@
 using namespace std;
 
 class Personaje {
-		Conf* parser;
+		//Conf* parser;
 		
+	public:
+	
+	//~ private:
 		/* Sus anchos y altos lógicos. */
 		float ancho;
 		float alto;
 		
+		/* Para saltos */
 		float y_inicial;
+		
 		/* Coordenada inferior izquierda. */
 		CoordenadaLogica* coordenada;
 		CoordenadaLogica* siguiente;
 		
 		string nombrePersonaje; 	//Coincide con el nombre de la carpeta.		
 		
+		accion_posible nroAccionActual;
 		Accion* accionActual;
 		Estado* estado;
 		
-		bool ladoDerecha;
-
+		bool mirarDerecha;
+		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
 		
-		int nroAccionActual;
-		
-		//void Dibujarse(int x, int y, int alto, int ancho);
-		
-	public:
+	//~ public:
+		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
+		//Harcodeo para donde mira.
+		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);
+		//~ Después debería ser
+		//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 		
 		BarraDeVida* barraDeVida;
-		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* conf);
+		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
-		void definir_imagen(accion_posible accion);
-		//~ void cambiar_posicion(int cant_pasos_x,int cant_pasos_y);
-		//~ void mirar_al_otro_lado();
-		void cambiarAccionA(accion_posible nroACcion);
-		void Dibujarse(int x, int y);
+		
+		/* VIEJO:
+		void cambiarAccionA(accion_posible nroAccion);
+		void Dibujarse(float alto, float ancho);
 		//void Dibujarse(int x, int y, int alto, int ancho);
 		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
 		//~ int getSpriteActual();
 		//Para Maxi
 		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
+		*/
 
-		//MILE: A agregar para Dani:
+		// Funciones internas
+		void cambiarAccionA(accion_posible nroAccion);
 
-				
+		// Dibujarse que debería usarse finalmente así
+		void Dibujarse(ConversorDeCoordenadas* conv);
+
+        
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
@@ -87,6 +99,7 @@ class Personaje {
 		CoordenadaLogica* obtenerSiguienteCoordenadaDerInf();
 		
 		/* Coordenada a la que debe moverse el pesonaje. */
+		/* Se queda con la coordenada, no la deben liberar por afuera. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
 		

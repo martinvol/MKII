@@ -18,7 +18,6 @@ void tiempo(char* buffer){
 Logger::Logger(){
 	archivo = new ofstream("salida.log", ios::app);
 	log_debug("Logger inicializado");
-	//myfile.close();
 }
 
 Logger::~Logger(){
@@ -26,10 +25,19 @@ Logger::~Logger(){
 	archivo->close();
 }
 
+Logger* Logger::myinstance = NULL;
+
 Logger* Logger::instance(){
-		static Logger myinstance;
-		return &myinstance;
+		if (myinstance == NULL) myinstance = new Logger();
+		return myinstance;
+}
+
+void Logger::destroy_instance(){
+	if (myinstance != NULL){
+		delete myinstance;
+		myinstance = NULL;
 	}
+}
 
 void Logger::log_debug(std::string const &message){
     char buffer [80];

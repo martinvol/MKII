@@ -197,4 +197,3 @@ void Accion::cambiarModo(){
 	else
 		setModoActual(this->modoActual+1);
 }
-

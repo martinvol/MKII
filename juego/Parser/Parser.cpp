@@ -13,6 +13,30 @@
 
 using namespace std;
 
+/*********************************************************************
+ * 
+ * 					CONSTRUCTOR Y DESTRUCTOR
+ * 
+ *********************************************************************/
+ 
+ // El constructor no lo hacemos porque se supone que siempre después de
+ // crearlo se llama a set_values inmediatamente, antes de llamar a
+ // cualquier otra función.
+
+Parser::~Parser(){
+	for (unsigned int i = 0; i < this->capas_vector.size(); i++)
+		delete this->capas_vector[i];
+	capas_vector.clear();
+}
+
+
+
+/*********************************************************************
+ * 
+ * 								DEMAS
+ * 
+ *********************************************************************/
+
 bool exists_test(const std::string& name) {
     ifstream f(name.c_str());
     if (f.good()) {
@@ -24,7 +48,7 @@ bool exists_test(const std::string& name) {
     }   
 }
 
-void Conf::set_values (char* my_file) {
+void Parser::set_values (char* my_file) {
     logger = Logger::instance();
     logger->log_debug("Inicializando parser");
 
@@ -165,8 +189,8 @@ void Conf::set_values (char* my_file) {
                 Capa *temp = new Capa(
                     nombre_archivo, ancho_logico_capa, DEFAULT_X_LOGICO, 
                     NULL,
-                    NULL,
-                    escenario_ancho
+                    escenario_ancho,
+                    ventana_ancho
                 );
 
                 capas_vector.push_back(temp);
@@ -178,8 +202,8 @@ void Conf::set_values (char* my_file) {
                 Capa *temp = new Capa(
                     IMAGEN_DEFAULT, ventana_ancho/2, DEFAULT_X_LOGICO, 
                     NULL,
-                    NULL,
-                    escenario_ancho
+                    escenario_ancho,
+                    ventana_ancho
                 );
                 capas_vector.push_back(temp);
             }
@@ -207,7 +231,7 @@ void Conf::set_values (char* my_file) {
     }
 }
 
-float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
+float Parser::cargarValidar(Json::Value objetoJson, float valorDefault, char* clave, char* mensaje){
     float result = 0;
    if (!objetoJson.isMember(clave)){
         logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
@@ -226,7 +250,7 @@ float Conf::cargarValidar(Json::Value objetoJson, float valorDefault, char* clav
     return result;
 }
 
-bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){
+bool Parser::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* clave, char* mensaje){
    if (!objetoJson.isMember(clave)){
         logger->log_warning(std::string("Json no tiene el parametro: ") + clave);
         logger->log_debug(mensaje);
@@ -235,8 +259,8 @@ bool Conf::cargarValidarBool(Json::Value objetoJson, bool valorDefault, char* cl
 }
 
 
-void Conf::cargarDefault(){
+void Parser::cargarDefault(){
     logger = Logger::instance();
     logger->log_debug("Cargando configuración default");
-    Conf::set_values("resources/default.json");
+    Parser::set_values("resources/default.json");
 }

@@ -10,9 +10,9 @@ void Escenario::AgregarCapa(Capa *capaParam){
 }
 
 //----------------------------------------------------------------
-void Escenario::Dibujar(CoordenadaFisica* coordenadas){
+void Escenario::Dibujar(CoordenadaFisica* coordenada){
     for (unsigned int i = 0; i<= capas.size()-1; i++){
-        capas[i]->Dibujarse(coordenadas->x_fisico, coordenadas->y_fisico);
+        capas[i]->DibujarseAnchoReal(coordenada->x_fisico, coordenada->y_fisico);
     }
 }
 
@@ -32,4 +32,29 @@ void Escenario::Temblar(unsigned int ticks) {
      for (unsigned int i = 0; i <= capas.size() -1; i++){
         this->capas[i]->Temblar(ticks);
     }
+}
+    
+Escenario::~Escenario(){
+	Borrar();
+}
+
+Escenario::Escenario(float ancho, float alto){
+	this->ancho = ancho;
+	this->alto = alto;
+}
+
+bool Escenario::esLimiteDerecho(float x){
+	return (x >= ancho);
+}
+
+bool Escenario::esLimiteIzquierdo(float x){
+	return (x <= 0);
+}
+
+float Escenario::obtenerLimiteDerecho(){
+	return ancho;
+}
+
+float Escenario::obtenerLimiteIzquierdo(){
+	return 0;
 }
