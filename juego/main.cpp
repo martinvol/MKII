@@ -172,7 +172,7 @@ public:
 										parser->personaje_mirar_derecha, this->conversor);
 
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
-                                        "Segundo", renderer, parser->personaje_ancho,
+                                        "Kabal", renderer, parser->personaje_ancho,
                                         parser->personaje_alto, estado,
                                         parser->personaje_mirar_derecha, this->conversor);
         //Izquierda

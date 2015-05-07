@@ -27,6 +27,8 @@ class Accion{
 		float despl_y;
 		float h_max;
 		
+		bool direccionDerecha;
+		
 		int accionNro;
 		int cantModos;
 		string ruta;
@@ -45,7 +47,8 @@ class Accion{
 		void setImagenes();
 		void setRenderer(SDL_Renderer* ren);
 		void setCantModos();
-		
+		void setDireccionDerecha();
+		void setDireccionIzquierda();
 		void setInvertirSecuencia();
 	
 		SDL_Texture* getImagenActual();

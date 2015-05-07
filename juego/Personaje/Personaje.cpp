@@ -263,12 +263,14 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			if (!this->mirarDerecha){
 				this->accionActual->setInvertirSecuencia();
 			}
+			this->accionActual->setDireccionDerecha();
 			break;
 		case CAMINAR_IZQUIERDA:
 			this->accionActual = this->estado->caminar;
 			if(this->mirarDerecha){
 				this->accionActual->setInvertirSecuencia();
 			}
+			this->accionActual->setDireccionIzquierda();
 			break;
 		case SALTAR:
 			this->accionActual = this->estado->saltarvertical;
@@ -281,12 +283,14 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			if(!this->mirarDerecha){
 				this->accionActual->setInvertirSecuencia();
 			}
+			this->accionActual->setDireccionDerecha();
 			break;		
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->mirarDerecha){
 				this->accionActual->setInvertirSecuencia();
 			}
+			this->accionActual->setDireccionIzquierda();
 			break;
 	}
 	

@@ -21,14 +21,16 @@ void Caminar::cambiarModoInversamente(){
 CoordenadaLogica* Caminar::execute(CoordenadaLogica* coord_personaje){
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
 	coord->desplazarY(despl_y);
-	if(secuenciaInversa){
+	if (secuenciaInversa){
 		Caminar::cambiarModoInversamente();
-		coord->desplazarX(-despl_x);
-		return coord;
+	} else {
+		Accion::cambiarModo();
 	}
-	// else
-	Accion::cambiarModo();
-	coord->desplazarX(despl_x);
+	if (direccionDerecha){
+		coord->desplazarX(despl_x);
+	} else {
+		coord->desplazarX(-despl_x);
+	}
 	return coord;
 };
 

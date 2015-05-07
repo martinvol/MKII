@@ -6,15 +6,11 @@
  * 
  *********************************************************************/
 
-//~ // Debería ser:
 Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer){
-//~ // Pero por ahora es:
-//Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
 	jugadores.push_back(new Jugador(personaje1, barra1));
-	//~ // Cuando haya dos jugadores se descomenta:
 	jugadores.push_back(new Jugador(personaje2, barra2));
 	this->factor_scroll = factor_scroll;
 	this->timer = timer;
@@ -40,8 +36,7 @@ Director::~Director(){
 
 void Director::informar_acciones(){
 	informar_accion(mov1, jugadores[jugador1]);
-	//~ // Cuando haya dos jugadores se descomenta:
-	//~ informar_accion(mov2, jugadores[jugador2]);
+	informar_accion(mov2, jugadores[jugador2]);
 }
 
 /* Le va a decir al Jugador/Personaje que le dijeron de hacer
