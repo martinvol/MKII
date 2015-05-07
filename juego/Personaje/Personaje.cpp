@@ -7,7 +7,6 @@
 
 using namespace std;
 
-#define MOSTRAR_RECTANGULOS true
 
 /***********************************************************************
  * 
@@ -319,16 +318,12 @@ void Personaje::Dibujarse(){
 	destino.h = alto_fisico;
 	
 
-	if (MOSTRAR_RECTANGULOS){
-		//this->accionActual->rectangulos->size();
-		for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
-
-			SDL_Rect fillRect = { coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico };
-			SDL_SetRenderDrawColor(this->renderer, 0xFF, 0x00, 0x00, 0xA0);
-	        SDL_RenderFillRect(this->renderer, &fillRect);
-	    
-		}
-
+	
+	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
+		// Para evitar hacer esto acá podría crear un objeto
+		// pero no quiero hacer una clase solo para este loop
+		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer);
+			
 	}
 
 	// Espeja si debe mirar para la izquierda.
