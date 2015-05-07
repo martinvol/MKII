@@ -315,9 +315,8 @@ public:
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
         delete this->parser;	// Elimina sus propias capas.
-        logger->log_debug("termine de borrar todo");
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
-        logger->log_debug("termine de borrar todo");
+        logger->log_debug("Borramos todos los objetos");
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------

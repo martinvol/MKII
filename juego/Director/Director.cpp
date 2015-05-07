@@ -1,4 +1,5 @@
 #include "Director.hpp"
+#include "../Logger/Logger.hpp"
 
 /*********************************************************************
  * 
@@ -122,6 +123,25 @@ void Director::verificar_movimientos(){
 	    
 	// Caso: la posición era válida en ancho.
 	jugadores[jugador1]->moverseAIzqSup(coord1);
+
+
+
+
+	// esta verificación es porque todavíá todo no tiene rectangulos
+	if (jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos->size() && 
+		jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos->size()){
+		// verifico las colisiones
+		SDL_Rect interseccion; // no lo usamos
+		SDL_bool coli = SDL_IntersectRect(
+			jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos->at(0)->sdl_rec, 
+			jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos->at(0)->sdl_rec,
+			&interseccion
+		);
+		
+		if (coli){
+			Logger::instance()->log_debug("colisiono!!");
+		}
+	}
 }
 
 bool Director::sePuedeScrollearDerecha(){

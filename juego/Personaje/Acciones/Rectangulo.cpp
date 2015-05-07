@@ -16,9 +16,16 @@ void Rectangulo::generar_rectanguloSDL(float x_fisico, float y_fisico, float anc
 	if (sdl_rec != NULL){
 		delete sdl_rec;
 	}
-	SDL_Rect fillRect = {x_fisico, y_fisico, ancho_fisico, alto_fisico };
+
+	sdl_rec = new SDL_Rect();
+
+	sdl_rec->x = x_fisico;
+	sdl_rec->y = y_fisico;
+	sdl_rec->w = ancho_fisico;
+	sdl_rec->h = alto_fisico;
+
 	if (MOSTRAR_RECTANGULOS){
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xA0);
-		SDL_RenderFillRect(renderer, &fillRect);
+		SDL_RenderFillRect(renderer, sdl_rec);
 	}
 }
