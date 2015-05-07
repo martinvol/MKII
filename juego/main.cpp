@@ -169,7 +169,7 @@ public:
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje_ancho,
 										parser->personaje_alto, estado,
-										parser->personaje_mirar_derecha);
+										parser->personaje_mirar_derecha, this->conversor);
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
@@ -341,7 +341,7 @@ void DibujarTodo(){
 
 			// Si el z_index del personaje está entre medio de las capas:
             if (i==parser->personaje_zindex){
-                this->personajeJuego->Dibujarse(conversor);
+                this->personajeJuego->Dibujarse();
 			}
         }
 
@@ -351,7 +351,7 @@ void DibujarTodo(){
 //=======
 		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
-			this->personajeJuego->Dibujarse(conversor);
+			this->personajeJuego->Dibujarse();
 		}
 		
         this->barraDeVida1->Dibujarse();

@@ -7,6 +7,7 @@
 
 using namespace std;
 
+#define MOSTRAR_RECTANGULOS true
 
 /***********************************************************************
  * 
@@ -69,12 +70,12 @@ Personaje::~Personaje(){
 }
 */
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor){
 //~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 
 	this->alto = alto;
 	this->ancho = ancho;
-	
+	this->conversor = conversor;
 	this->y_inicial = coord->y;
 	this->coordenada = coord;
 	this->siguiente = NULL;
@@ -166,6 +167,7 @@ void Personaje::activarAccion(accion_posible accion){
 //~ if (nroAccionActual == AGACHARSE)
 //~ cout<<"quiero agacharme"<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
+
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
@@ -291,33 +293,55 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 }
 
 
-void Personaje::Dibujarse(ConversorDeCoordenadas* conv){
+void Personaje::Dibujarse(){
 	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
-	CoordenadaFisica* coord1_fis = conv->aFisica(coord1);
+	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
 	
 	CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
-	CoordenadaFisica* coord2_fis = conv->aFisica(coord2);
+	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
 	
 	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 	
 	//Rectangulo destino
 	SDL_Rect destino;
-	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
-		cout << "x: "<<coordenada->x << endl; ///
-		cout << "y: "<<coordenada->y << endl; ///
-	}
 	destino.x = coord1_fis->x_fisico;
 	destino.y = coord2_fis->y_fisico;
 	destino.w = ancho_fisico;
 	destino.h = alto_fisico;
 	
+	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
+		/// cout << "x: "<<coordenada->x << endl; ///
+		/// cout << "y: "<<coordenada->y << endl; ///
+	}
+
+	if (true){
+		/*if ((this->accionActual == this->estado->quieto || (this->accionActual == this->estado->caminar)
+			|| this->accionActual == this->estado->saltardiagonal) && (MOSTRAR_RECTANGULOS)){*/
+		if (MOSTRAR_RECTANGULOS){
+			//this->accionActual->rectangulos->size();
+			for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
+
+				SDL_Rect fillRect = { coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico };
+				SDL_SetRenderDrawColor(this->renderer, 0xFF, 0x00, 0x00, 0xA0);
+		        SDL_RenderFillRect(this->renderer, &fillRect);
+		    
+			}
+		}
+
+	}
+
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
 	} else {
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
+
+
+
+
+
 	
 	delete coord1;
 	delete coord1_fis;

@@ -146,6 +146,9 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, flo
 	this->despl_x = despl_x;
 	this->despl_y = despl_y;
 	this->h_max = h_max;
+
+	this->rectangulos = new vector<Rectangulo*>();
+	//cout <<" "<< this->rectangulos->size() << " " << nroAccion << '\n';
 }
 
 /**Se destruye el vector, liberando la memoria 

@@ -34,7 +34,7 @@
    ],
    "personaje":{
       "ancho":63,
-      "alto":120,
+      "alto":63,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/",

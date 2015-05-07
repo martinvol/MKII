@@ -122,12 +122,15 @@ Jugador.o: juego/Personaje/Jugador.cpp
 Ventana.o: juego/Escenario/Ventana.cpp
 	$(CC) "juego/Escenario/Ventana.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o Director.o Jugador.o Ventana.o Timer.o
+Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
+	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+compilar_juego: Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o Director.o Jugador.o Ventana.o Timer.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego
 	./juego_ejecutable ${jsonpath}
-	# make clean
+	make clean
 	
 juegoJsonTest: compilar_juego
 	./juego_ejecutable $(JSONTEST)

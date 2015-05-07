@@ -10,6 +10,7 @@
 
 #include "../../Coordenadas/CoordenadaLogica.hpp"
 #include "../../Logger/Logger.hpp"
+#include "Rectangulo.hpp"
 
 typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE} accion_posible;
 
@@ -59,6 +60,8 @@ class Accion{
 		/* Devuelve true si puede ser interrumpida por alguna OTRA acción.
 		 * Es decir, se supone que no le va a llegar la misma acción que es. */
 		virtual bool permiteAccion(accion_posible nuevaAccion){return true;}
+
+		std::vector<Rectangulo*>* rectangulos = NULL;
 
 		~Accion();
 		virtual void resetear();

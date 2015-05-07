@@ -7,6 +7,12 @@ using namespace std;
  * 
  **********************************************************************/  
 
+Quieto::Quieto(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max):Accion(0,ruta,ren, despl_x, despl_y, h_max){
+	cout <<"quieto "<< this->rectangulos->size() << '\n';
+	Rectangulo* todo  = new Rectangulo(0,0,100,100,true);
+	rectangulos->push_back(todo);
+};
+
 CoordenadaLogica* Quieto::execute(CoordenadaLogica* coord_personaje){
 	Accion::cambiarModo();
 	return new CoordenadaLogica(coord_personaje);
