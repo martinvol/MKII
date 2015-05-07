@@ -8,6 +8,7 @@ and may not be redistributed without written permission.*/
 #include <string>
 #include "../juego/LTexture.hpp"
 
+#define MOVER_PIXELES 150
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -29,7 +30,7 @@ SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 
 //Scene textures
-LTexture gFooTexture;
+LTexture* gFooTexture;
 
 bool init()
 {
@@ -91,7 +92,7 @@ bool loadMedia()
 	bool success = true;
 
 	//Load foo' texture
-	if( !gFooTexture.loadFromFile( "resources/background/fondo.png" ) )
+	if( !gFooTexture->loadFromFile( "resources/background/fondo.png" ) )
 	{
 		printf( "Failed to load corner texture!\n" );
 		success = false;
@@ -99,7 +100,7 @@ bool loadMedia()
 	else
 	{
 		//Lock texture
-		if( !gFooTexture.lockTexture() )
+		if( !gFooTexture->lockTexture() )
 		{
 			printf( "Unable to lock Foo' texture!\n" );
 		}
@@ -107,8 +108,8 @@ bool loadMedia()
 		else
 		{
 			//Get pixel data
-			Uint32* pixels = (Uint32*)gFooTexture.getPixels();
-			int pixelCount = ( gFooTexture.getPitch() / 4 ) * gFooTexture.getHeight();
+			Uint32* pixels = (Uint32*)gFooTexture->getPixels();
+			int pixelCount = ( gFooTexture->getPitch() / 4 ) * gFooTexture->getHeight();
 
 			//Map colors
 			Uint32 colorKey = SDL_MapRGB( SDL_GetWindowSurface( gWindow )->format, 0, 0xFF, 0xFF );
@@ -120,12 +121,12 @@ bool loadMedia()
 				if( pixels[ i ] >= colorKey )
 				{
 					//pixels[ i ] = transparent;
-					pixels[ i ] += 100;
+					pixels[ i ] += MOVER_PIXELES;
 				}
 			}
 
 			//Unlock texture
-			gFooTexture.unlockTexture();
+			gFooTexture->unlockTexture();
 		}
 	}
 
@@ -135,8 +136,8 @@ bool loadMedia()
 void close()
 {
 	//Free loaded images
-	gFooTexture.free();
-
+	gFooTexture->free();
+    delete gFooTexture;
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
 	SDL_DestroyWindow( gWindow );
@@ -158,7 +159,7 @@ int main( int argc, char* args[] )
 	else
 	{
 	    //Scene textures
-        gFooTexture = LTexture(gWindow, gRenderer);
+        gFooTexture = new LTexture(gWindow, gRenderer);
 		//Load media
 		if( !loadMedia() )
 		{
@@ -190,7 +191,7 @@ int main( int argc, char* args[] )
 				SDL_RenderClear( gRenderer );
 
 				//Render stick figure
-				gFooTexture.render( ( SCREEN_WIDTH - gFooTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gFooTexture.getHeight() ) / 2 );
+				gFooTexture->render( ( SCREEN_WIDTH - gFooTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gFooTexture->getHeight() ) / 2 );
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
