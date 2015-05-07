@@ -8,8 +8,8 @@ CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
 
-testScreen: clean
-	$(CC) "pruebas/Lesson3.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
+testScreen: clean LTexture.o
+	$(CC) "pruebas/Lesson3.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
 	./testScreen
 	make clean
 	
@@ -60,6 +60,8 @@ Director.o: juego/Director/Director.cpp
 Logger.o: juego/Logger/Logger.cpp
 	$(CC) "juego/Logger/Logger.cpp" $(CFLAGS) -c
 
+LTexture.o:
+	$(CC) "juego/LTexture.cpp" $(CFLAGS) -c
 
 Accion.o: juego/Personaje/Acciones/Accion.cpp
 	$(CC) "juego/Personaje/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
