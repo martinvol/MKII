@@ -170,6 +170,11 @@ public:
 										"Subzero", renderer, parser->personaje_ancho,
 										parser->personaje_alto, estado,
 										parser->personaje_mirar_derecha, this->conversor);
+
+        this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
+                                        "Segundo", renderer, parser->personaje_ancho,
+                                        parser->personaje_alto, estado,
+                                        parser->personaje_mirar_derecha, this->conversor);
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
@@ -221,9 +226,9 @@ public:
         cargar_configuracion(this->parser);
 		
 		//~ // Para dos personajes:
-		//~ director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
+		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
 		//~ // Con un personaje:
-		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL, this->timer);
+		//director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL, this->timer);
 //>>>>>>> remotes/origin/ClonarMaster
 
         Player1 = SDL_JoystickOpen(0);
@@ -342,6 +347,7 @@ void DibujarTodo(){
 			// Si el z_index del personaje está entre medio de las capas:
             if (i==parser->personaje_zindex){
                 this->personajeJuego->Dibujarse();
+                this->personajeJuego2->Dibujarse();
 			}
         }
 
@@ -352,6 +358,7 @@ void DibujarTodo(){
 		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
 			this->personajeJuego->Dibujarse();
+            this->personajeJuego2->Dibujarse();
 		}
 		
         this->barraDeVida1->Dibujarse();

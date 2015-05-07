@@ -8,15 +8,15 @@
  *********************************************************************/
 
 //~ // Debería ser:
-//~ Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer){
+Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer){
 //~ // Pero por ahora es:
-Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer){
+//Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
 	jugadores.push_back(new Jugador(personaje1, barra1));
 	//~ // Cuando haya dos jugadores se descomenta:
-	//~ jugadores.push_back(new Jugador(personaje2, barra2));
+	jugadores.push_back(new Jugador(personaje2, barra2));
 	this->factor_scroll = factor_scroll;
 	this->timer = timer;
 }
@@ -168,17 +168,17 @@ void Director::scrollearIzquierda(){
 
 void Director::verificar_orientaciones(){
 	//~ // Cuando haya dos jugadores, se descomenta.
-	//~ CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerCoordenadaIzqSup();
-	//~ CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
-	//~ if (coord1->estaALaDerechaDe(coord2)){
-		//~ jugadores[jugador1]->mirarParaIzquierda();
-		//~ jugadores[jugador2]->mirarParaDerecha();
-	//~ } else {
-		//~ jugadores[jugador1]->mirarParaDerecha();
-		//~ jugadores[jugador2]->mirarParaIzquierda();
-	//~ }
-	//~ delete coord1;
-	//~ delete coord2;
+	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerCoordenadaIzqSup();
+	CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
+	if (coord1->estaALaDerechaDe(coord2)){
+		jugadores[jugador1]->mirarParaIzquierda();
+		jugadores[jugador2]->mirarParaDerecha();
+	} else {
+		jugadores[jugador1]->mirarParaDerecha();
+		jugadores[jugador2]->mirarParaIzquierda();
+	}
+	delete coord1;
+	delete coord2;
 }
 
 /*********************************************************************
@@ -216,5 +216,5 @@ void Director::actualizar(){
 	// Finalmente, ya movidos, verifica en donde están uno respecto del
 	// otro y les cambia la dirección de la mirada.
 	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
-	//~ verificar_orientaciones();
+	verificar_orientaciones();
 }

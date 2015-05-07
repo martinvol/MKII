@@ -45,9 +45,9 @@ class Director {
 		
 	public:
 		//~ // Debería ser:
-		//~ Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer);
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer);
 		//~ // Pero por ahora, recibe un solo personaje:
-		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer);
+		//Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, BarraDeVida* barra1, float factor_scroll, Timer* timer);
 		~Director();
 		
 		/* Va a recibir donde intenta moverse, qué intenta hacer. */
