@@ -9,7 +9,7 @@ VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
 
 testScreen: clean LTexture.o
-	$(CC) "pruebas/Lesson3.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
+	$(CC) "pruebas/PixelTest.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
 	./testScreen
 	make clean
 	
