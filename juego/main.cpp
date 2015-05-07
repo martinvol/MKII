@@ -173,18 +173,18 @@ public:
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
-	// PERSONAJE 2
-		// Cargamos al personaje en el medio de la ventana, pero del lado derecho.
-		// Este x_logico es del extremo izquierdo del personaje.
-        x_logico_personaje2 = (parser->escenario_ancho/2.);
-		estado = new Estado((string)(this->parser->sprites_map["personaje2"]),
-							renderer, parser->personaje2_alto, parser->escenario_alto,
-							parser->personaje2_ancho, parser->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje2,parser->escenario_ypiso),
-										"Kabal", renderer, parser->personaje2_ancho,
-										parser->personaje2_alto, estado,
-										parser->personaje2_mirar_derecha); 
-       //Derecha
+	//~ // PERSONAJE 2
+		//~ // Cargamos al personaje en el medio de la ventana, pero del lado derecho.
+		//~ // Este x_logico es del extremo izquierdo del personaje.
+        //~ x_logico_personaje2 = (parser->escenario_ancho/2.);
+		//~ estado = new Estado((string)(this->parser->sprites_map["personaje2"]),
+							//~ renderer, parser->personaje2_alto, parser->escenario_alto,
+							//~ parser->personaje2_ancho, parser->escenario_ancho);
+        //~ this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje2,parser->escenario_ypiso),
+										//~ "Kabal", renderer, parser->personaje2_ancho,
+										//~ parser->personaje2_alto, estado,
+										//~ parser->personaje2_mirar_derecha); 
+       //~ //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
@@ -220,7 +220,10 @@ public:
         this->parser = new Parser();
         cargar_configuracion(this->parser);
 		
-		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
+		//~ // Para dos personajes:
+		//~ director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
+		//~ // Con un personaje:
+		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL, this->timer);
 //>>>>>>> remotes/origin/ClonarMaster
 
         Player1 = SDL_JoystickOpen(0);
