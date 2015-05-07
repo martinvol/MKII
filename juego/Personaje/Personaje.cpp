@@ -320,17 +320,13 @@ void Personaje::Dibujarse(){
 	
 
 	if (MOSTRAR_RECTANGULOS){
-		/*if ((this->accionActual == this->estado->quieto || (this->accionActual == this->estado->caminar)
-			|| this->accionActual == this->estado->saltardiagonal) && (MOSTRAR_RECTANGULOS)){*/
-		if (MOSTRAR_RECTANGULOS){
-			//this->accionActual->rectangulos->size();
-			for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
+		//this->accionActual->rectangulos->size();
+		for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 
-				SDL_Rect fillRect = { coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico };
-				SDL_SetRenderDrawColor(this->renderer, 0xFF, 0x00, 0x00, 0xA0);
-		        SDL_RenderFillRect(this->renderer, &fillRect);
-		    
-			}
+			SDL_Rect fillRect = { coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico };
+			SDL_SetRenderDrawColor(this->renderer, 0xFF, 0x00, 0x00, 0xA0);
+	        SDL_RenderFillRect(this->renderer, &fillRect);
+	    
 		}
 
 	}
