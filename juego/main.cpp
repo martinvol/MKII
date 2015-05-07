@@ -163,7 +163,7 @@ public:
 		// Este x_logico es del extremo izquierdo del personaje.
         x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho);
         
-        estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
+        this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
 							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
@@ -171,9 +171,12 @@ public:
 										parser->personaje_alto, estado,
 										parser->personaje_mirar_derecha, this->conversor);
 
+        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+                            renderer, parser->personaje_alto, parser->escenario_alto,
+                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
-                                        "Kabal", renderer, parser->personaje_ancho,
-                                        parser->personaje_alto, estado,
+                                        "Segundo", renderer, parser->personaje_ancho,
+                                        parser->personaje_alto, estado2,
                                         parser->personaje_mirar_derecha, this->conversor);
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -312,7 +315,9 @@ public:
         SDL_JoystickClose(Player1);
         SDL_DestroyTexture(under);
         delete this->parser;	// Elimina sus propias capas.
+        logger->log_debug("termine de borrar todo");
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
+        logger->log_debug("termine de borrar todo");
     };
 //----------------------------------------------------------------
 //----------------------------------------------------------------
