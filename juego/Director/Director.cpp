@@ -24,6 +24,7 @@ Director::~Director(){
 	delete escenario;
 	delete ventana;
 	delete conversor;
+	cout << "hola2" << endl;
 	for (unsigned int i = 0; i <= jugadores.size() -1; i++){
         delete jugadores[i];
     }
