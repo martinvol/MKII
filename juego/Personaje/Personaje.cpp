@@ -319,7 +319,7 @@ void Personaje::Dibujarse(){
 	destino.h = alto_fisico;
 	
 
-	if (true){
+	if (MOSTRAR_RECTANGULOS){
 		/*if ((this->accionActual == this->estado->quieto || (this->accionActual == this->estado->caminar)
 			|| this->accionActual == this->estado->saltardiagonal) && (MOSTRAR_RECTANGULOS)){*/
 		if (MOSTRAR_RECTANGULOS){
