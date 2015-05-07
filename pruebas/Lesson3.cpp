@@ -1,207 +1,480 @@
-#include <iostream>
-#include <string>
-#include <cstdlib>  
+/*This source code copyrighted by Lazy Foo' Productions (2004-2015)
+and may not be redistributed without written permission.*/
+
+//Using SDL, SDL_image, standard IO, and strings
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-//#include <SDL2/SDL_image.h>
+#include <stdio.h>
+#include <string>
 
-using namespace std;
+//Screen dimension constants
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+//Texture wrapper class
+class LTexture
+{
+	public:
+		//Initializes variables
+		LTexture();
 
+		//Deallocates memory
+		~LTexture();
 
-/**
-* Log an SDL error with some error message to the output stream of our choice
-* @param os The output stream to write the message to
-* @param msg The error message to write, format will be msg error: SDL_GetError()
-*/
-void logSDLError(ostream &os, const string &msg){
-	os << msg << " error: " << SDL_GetError() << endl;
+		//Loads image at specified path
+		bool loadFromFile( std::string path );
+		
+		#ifdef _SDL_TTF_H
+		//Creates image from font string
+		bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
+		#endif
+
+		//Deallocates texture
+		void free();
+
+		//Set color modulation
+		void setColor( Uint8 red, Uint8 green, Uint8 blue );
+
+		//Set blending
+		void setBlendMode( SDL_BlendMode blending );
+
+		//Set alpha modulation
+		void setAlpha( Uint8 alpha );
+		
+		//Renders texture at given point
+		void render( int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
+
+		//Gets image dimensions
+		int getWidth();
+		int getHeight();
+
+		//Pixel manipulators
+		bool lockTexture();
+		bool unlockTexture();
+		void* getPixels();
+		int getPitch();
+
+	private:
+		//The actual hardware texture
+		SDL_Texture* mTexture;
+		void* mPixels;
+		int mPitch;
+
+		//Image dimensions
+		int mWidth;
+		int mHeight;
+};
+
+//Starts up SDL and creates window
+bool init();
+
+//Loads media
+bool loadMedia();
+
+//Frees media and shuts down SDL
+void close();
+
+//The window we'll be rendering to
+SDL_Window* gWindow = NULL;
+
+//The window renderer
+SDL_Renderer* gRenderer = NULL;
+
+//Scene textures
+LTexture gFooTexture;
+
+LTexture::LTexture()
+{
+	//Initialize
+	mTexture = NULL;
+	mWidth = 0;
+	mHeight = 0;
+	mPixels = NULL;
+	mPitch = 0;
 }
 
-/**
-* Loads an image into a texture on the rendering device
-* @param file The image file to load
-* @param ren The renderer to load the texture onto
-* @return the loaded texture, or nullptr if something went wrong.
-*/
-SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
-	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
-	if (texture == nullptr){
-		logSDLError(cout, "LoadTexture");
+LTexture::~LTexture()
+{
+	//Deallocate
+	free();
+}
+
+bool LTexture::loadFromFile( std::string path )
+{
+	//Get rid of preexisting texture
+	free();
+
+	//The final texture
+	SDL_Texture* newTexture = NULL;
+
+	//Load image at specified path
+	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+	if( loadedSurface == NULL )
+	{
+		printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
 	}
-	return texture;
+	else
+	{
+		//Convert surface to display format
+		SDL_Surface* formattedSurface = SDL_ConvertSurface( loadedSurface, SDL_GetWindowSurface( gWindow )->format, NULL );
+		if( formattedSurface == NULL )
+		{
+			printf( "Unable to convert loaded surface to display format! SDL Error: %s\n", SDL_GetError() );
+		}
+		else
+		{
+			//Create blank streamable texture
+			newTexture = SDL_CreateTexture( gRenderer, SDL_GetWindowPixelFormat( gWindow ), SDL_TEXTUREACCESS_STREAMING, formattedSurface->w, formattedSurface->h );
+			if( newTexture == NULL )
+			{
+				printf( "Unable to create blank texture! SDL Error: %s\n", SDL_GetError() );
+			}
+			else
+			{
+				//Lock texture for manipulation
+				SDL_LockTexture( newTexture, NULL, &mPixels, &mPitch );
+
+				//Copy loaded/formatted surface pixels
+				memcpy( mPixels, formattedSurface->pixels, formattedSurface->pitch * formattedSurface->h );
+
+				//Unlock texture to update
+				SDL_UnlockTexture( newTexture );
+				mPixels = NULL;
+
+				//Get image dimensions
+				mWidth = formattedSurface->w;
+				mHeight = formattedSurface->h;
+			}
+
+			//Get rid of old formatted surface
+			SDL_FreeSurface( formattedSurface );
+		}	
+		
+		//Get rid of old loaded surface
+		SDL_FreeSurface( loadedSurface );
+	}
+
+	//Return success
+	mTexture = newTexture;
+	return mTexture != NULL;
 }
 
-/**
-* Draw an SDL_Texture to an SDL_Renderer at position x, y, with some desired
-* width and height
-* @param tex The source texture we want to draw
-* @param ren The renderer we want to draw to
-* @param x The x coordinate to draw to
-* @param y The y coordinate to draw to
-* @param w The width of the texture to draw
-* @param h The height of the texture to draw
-*/
-void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h){
-	//Setup the destination rectangle to be at the position we want
-	SDL_Rect dst;
-	dst.x = x;
-	dst.y = y;
-	dst.w = w;
-	dst.h = h;
-	SDL_RenderCopy(ren, tex, &dst, NULL);
+#ifdef _SDL_TTF_H
+bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor )
+{
+	//Get rid of preexisting texture
+	free();
+
+	//Render text surface
+	SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
+	if( textSurface != NULL )
+	{
+		//Create texture from surface pixels
+        mTexture = SDL_CreateTextureFromSurface( gRenderer, textSurface );
+		if( mTexture == NULL )
+		{
+			printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+		}
+		else
+		{
+			//Get image dimensions
+			mWidth = textSurface->w;
+			mHeight = textSurface->h;
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface( textSurface );
+	}
+	else
+	{
+		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
+	}
+
+	
+	//Return success
+	return mTexture != NULL;
+}
+#endif
+
+void LTexture::free()
+{
+	//Free texture if it exists
+	if( mTexture != NULL )
+	{
+		SDL_DestroyTexture( mTexture );
+		mTexture = NULL;
+		mWidth = 0;
+		mHeight = 0;
+		mPixels = NULL;
+		mPitch = 0;
+	}
 }
 
-/**
-* Draw an SDL_Texture to an SDL_Renderer at position x, y, preserving
-* the texture's width and height
-* @param tex The source texture we want to draw
-* @param ren The renderer we want to draw to
-* @param x The x coordinate to draw to
-* @param y The y coordinate to draw to
-*/
-void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
-	int w, h;
-	SDL_QueryTexture(tex, NULL, NULL, &w, &h);
-	renderTexture(tex, ren, x, y, w, h);
+void LTexture::setColor( Uint8 red, Uint8 green, Uint8 blue )
+{
+	//Modulate texture rgb
+	SDL_SetTextureColorMod( mTexture, red, green, blue );
 }
 
+void LTexture::setBlendMode( SDL_BlendMode blending )
+{
+	//Set blending function
+	SDL_SetTextureBlendMode( mTexture, blending );
+}
+		
+void LTexture::setAlpha( Uint8 alpha )
+{
+	//Modulate texture alpha
+	SDL_SetTextureAlphaMod( mTexture, alpha );
+}
 
+void LTexture::render( int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip )
+{
+	//Set rendering space and render to screen
+	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
-int main(int argc, char* args[]) {
+	//Set clip rendering dimensions
+	if( clip != NULL )
+	{
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0){
-	    cout << "SDL_Init Error: " << SDL_GetError() << endl;
-	    return 1;
-    }
-    
-    if ((IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) != IMG_INIT_PNG){
-	    logSDLError(cout, "IMG_Init");
-	    SDL_Quit();
-	    return 1;
-    }   
-    
-    SDL_Window *win = SDL_CreateWindow("Hello World!", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    
-    if (win == nullptr){
-	    cout << "SDL_CreateWindow Error: " << SDL_GetError() << endl;
-	    SDL_Quit();
-	    return 1;
-    }
-    
-    SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED & SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == nullptr){
-	    SDL_DestroyWindow(win);
-	    cout << "SDL_CreateRenderer Error: " << SDL_GetError() << endl;
-	    SDL_Quit();
-	    return 1;
-    }
-    
-    
-    SDL_Texture *background = loadTexture("resources/rgb.png", renderer);
-    //Make sure they both loaded ok
-    if (background == nullptr){
-        SDL_DestroyRenderer(renderer); 
-        SDL_DestroyWindow(win);
-	    IMG_Quit();
-	    SDL_Quit();
-	    return 1;
-    }
-    
-     //Main loop flag
-    bool quit = false;
+	//Render to screen
+	SDL_RenderCopyEx( gRenderer, mTexture, clip, &renderQuad, angle, center, flip );
+}
 
-            //Event handler
-    SDL_Event e;
+int LTexture::getWidth()
+{
+	return mWidth;
+}
 
-            //Modulation components
-     Uint8 r = 255;
-    Uint8 g = 255;
-    Uint8 b = 255;
-    
-    //SDL_SetTextureColorMod(background, 255, 255, 255);
-     //While application is running
-            while( !quit )
-            {
-                //Handle events on queue
-                while( SDL_PollEvent( &e ) != 0 )
-                {
-                    //User requests quit
-                    if( e.type == SDL_QUIT )
-                    {
-                        quit = true;
-                    }
-                    //On keypress change rgb values
-                    else if( e.type == SDL_KEYDOWN )
-                    {
-                        switch( e.key.keysym.sym )
-                        {
-                            //Increase red
-                            case SDLK_q:
-                            r += 32;
-                            break;
-                            
-                            //Increase green
-                            case SDLK_w:
-                            g += 32;
-                            break;
-                            
-                            //Increase blue
-                            case SDLK_e:
-                            b += 32;
-                            break;
-                            
-                            //Decrease red
-                            case SDLK_a:
-                            r -= 32;
-                            break;
-                            
-                            //Decrease green
-                            case SDLK_s:
-                            g -= 32;
-                            break;
-                            
-                            //Decrease blue
-                            case SDLK_d:
-                            b -= 32;
-                            break;
-                            
-                         
-                        }
-                    }
-                }
-    //Clear screen
-                SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-                SDL_RenderClear( renderer );
+int LTexture::getHeight()
+{
+	return mHeight;
+}
 
-                //Modulate and render texture
-                SDL_SetTextureColorMod( background, r, g, b );
-                renderTexture(background, renderer, 0, 0);
+bool LTexture::lockTexture()
+{
+	bool success = true;
 
-                //Update screen
-                SDL_RenderPresent( renderer );
-            }
-    //Get window surface
-    
-	/*int w, h;
-	SDL_QueryTexture(background, NULL, NULL, &w, &h);
-    renderTexture(background, renderer,0, 0);
-    
-    SDL_Surface* screenSurface = SDL_GetWindowSurface(win);
-	SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-			
-	//Update the surface
-	SDL_UpdateWindowSurface(win);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(4000);*/
-   
-    SDL_DestroyTexture(background);
-    SDL_DestroyRenderer(renderer); 
-    SDL_DestroyWindow(win);
-    IMG_Quit();
-    SDL_Quit(); 
-   
-    return 0;
+	//Texture is already locked
+	if( mPixels != NULL )
+	{
+		printf( "Texture is already locked!\n" );
+		success = false;
+	}
+	//Lock texture
+	else
+	{
+		if( SDL_LockTexture( mTexture, NULL, &mPixels, &mPitch ) != 0 )
+		{
+			printf( "Unable to lock texture! %s\n", SDL_GetError() );
+			success = false;
+		}
+	}
+
+	return success;
+}
+
+bool LTexture::unlockTexture()
+{
+	bool success = true;
+
+	//Texture is not locked
+	if( mPixels == NULL )
+	{
+		printf( "Texture is not locked!\n" );
+		success = false;
+	}
+	//Unlock texture
+	else
+	{
+		SDL_UnlockTexture( mTexture );
+		mPixels = NULL;
+		mPitch = 0;
+	}
+
+	return success;
+}
+
+void* LTexture::getPixels()
+{
+	return mPixels;
+}
+
+int LTexture::getPitch()
+{
+	return mPitch;
+}
+
+bool init()
+{
+	//Initialization flag
+	bool success = true;
+
+	//Initialize SDL
+	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
+		success = false;
+	}
+	else
+	{
+		//Set texture filtering to linear
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
+		{
+			printf( "Warning: Linear texture filtering not enabled!" );
+		}
+
+		//Create window
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		if( gWindow == NULL )
+		{
+			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
+			success = false;
+		}
+		else
+		{
+			//Create renderer for window
+			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+			if( gRenderer == NULL )
+			{
+				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
+				success = false;
+			}
+			else
+			{
+				//Initialize renderer color
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
+				//Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;
+				if( !( IMG_Init( imgFlags ) & imgFlags ) )
+				{
+					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+					success = false;
+				}
+			}
+		}
+	}
+
+	return success;
+}
+
+bool loadMedia()
+{
+	//Loading success flag
+	bool success = true;
+
+	//Load foo' texture
+	if( !gFooTexture.loadFromFile( "resources/background/fondo.png" ) )
+	{
+		printf( "Failed to load corner texture!\n" );
+		success = false;
+	}
+	else
+	{
+		//Lock texture
+		if( !gFooTexture.lockTexture() )
+		{
+			printf( "Unable to lock Foo' texture!\n" );
+		}
+		//Manual color key
+		else
+		{
+			//Get pixel data
+			Uint32* pixels = (Uint32*)gFooTexture.getPixels();
+			int pixelCount = ( gFooTexture.getPitch() / 4 ) * gFooTexture.getHeight();
+
+			//Map colors
+			Uint32 colorKey = SDL_MapRGB( SDL_GetWindowSurface( gWindow )->format, 0, 0xFF, 0xFF );
+			Uint32 transparent = SDL_MapRGBA( SDL_GetWindowSurface( gWindow )->format, 0xFF, 0xFF, 0xFF, 0 );
+
+			//Color key pixels
+			for( int i = 0; i < pixelCount; ++i )
+			{
+				if( pixels[ i ] >= colorKey )
+				{
+					//pixels[ i ] = transparent;
+					pixels[ i ] += 100;
+				}
+			}
+
+			//Unlock texture
+			gFooTexture.unlockTexture();
+		}
+	}
+
+	return success;
+}
+
+void close()
+{
+	//Free loaded images
+	gFooTexture.free();
+
+	//Destroy window	
+	SDL_DestroyRenderer( gRenderer );
+	SDL_DestroyWindow( gWindow );
+	gWindow = NULL;
+	gRenderer = NULL;
+
+	//Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+}
+
+int main( int argc, char* args[] )
+{
+	//Start up SDL and create window
+	if( !init() )
+	{
+		printf( "Failed to initialize!\n" );
+	}
+	else
+	{
+		//Load media
+		if( !loadMedia() )
+		{
+			printf( "Failed to load media!\n" );
+		}
+		else
+		{	
+			//Main loop flag
+			bool quit = false;
+
+			//Event handler
+			SDL_Event e;
+
+			//While application is running
+			while( !quit )
+			{
+				//Handle events on queue
+				while( SDL_PollEvent( &e ) != 0 )
+				{
+					//User requests quit
+					if( e.type == SDL_QUIT )
+					{
+						quit = true;
+					}
+				}
+
+				//Clear screen
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_RenderClear( gRenderer );
+
+				//Render stick figure
+				gFooTexture.render( ( SCREEN_WIDTH - gFooTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gFooTexture.getHeight() ) / 2 );
+
+				//Update screen
+				SDL_RenderPresent( gRenderer );
+			}
+		}
+	}
+
+	//Free resources and close SDL
+	close();
+
+	return 0;
 }
