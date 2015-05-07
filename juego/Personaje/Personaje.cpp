@@ -303,6 +303,10 @@ void Personaje::Dibujarse(){
 	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 	
+
+	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
+	}
+
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
@@ -310,10 +314,6 @@ void Personaje::Dibujarse(){
 	destino.w = ancho_fisico;
 	destino.h = alto_fisico;
 	
-	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
-		/// cout << "x: "<<coordenada->x << endl; ///
-		/// cout << "y: "<<coordenada->y << endl; ///
-	}
 
 	if (true){
 		/*if ((this->accionActual == this->estado->quieto || (this->accionActual == this->estado->caminar)

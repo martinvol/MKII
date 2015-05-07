@@ -110,11 +110,82 @@ int main(int argc, char* args[]) {
 	    return 1;
     }
     
-    SDL_SetTextureColorMod(background, 255, 255, 255);
+     //Main loop flag
+    bool quit = false;
+
+            //Event handler
+    SDL_Event e;
+
+            //Modulation components
+     Uint8 r = 255;
+    Uint8 g = 255;
+    Uint8 b = 255;
     
+    //SDL_SetTextureColorMod(background, 255, 255, 255);
+     //While application is running
+            while( !quit )
+            {
+                //Handle events on queue
+                while( SDL_PollEvent( &e ) != 0 )
+                {
+                    //User requests quit
+                    if( e.type == SDL_QUIT )
+                    {
+                        quit = true;
+                    }
+                    //On keypress change rgb values
+                    else if( e.type == SDL_KEYDOWN )
+                    {
+                        switch( e.key.keysym.sym )
+                        {
+                            //Increase red
+                            case SDLK_q:
+                            r += 32;
+                            break;
+                            
+                            //Increase green
+                            case SDLK_w:
+                            g += 32;
+                            break;
+                            
+                            //Increase blue
+                            case SDLK_e:
+                            b += 32;
+                            break;
+                            
+                            //Decrease red
+                            case SDLK_a:
+                            r -= 32;
+                            break;
+                            
+                            //Decrease green
+                            case SDLK_s:
+                            g -= 32;
+                            break;
+                            
+                            //Decrease blue
+                            case SDLK_d:
+                            b -= 32;
+                            break;
+                            
+                         
+                        }
+                    }
+                }
+    //Clear screen
+                SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+                SDL_RenderClear( renderer );
+
+                //Modulate and render texture
+                SDL_SetTextureColorMod( background, r, g, b );
+                renderTexture(background, renderer, 0, 0);
+
+                //Update screen
+                SDL_RenderPresent( renderer );
+            }
     //Get window surface
     
-	int w, h;
+	/*int w, h;
 	SDL_QueryTexture(background, NULL, NULL, &w, &h);
     renderTexture(background, renderer,0, 0);
     
@@ -124,7 +195,7 @@ int main(int argc, char* args[]) {
 	//Update the surface
 	SDL_UpdateWindowSurface(win);
     SDL_RenderPresent(renderer);
-    SDL_Delay(4000);
+    SDL_Delay(4000);*/
    
     SDL_DestroyTexture(background);
     SDL_DestroyRenderer(renderer); 
