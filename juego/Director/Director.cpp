@@ -126,21 +126,29 @@ void Director::verificar_movimientos(){
 
 
 
+	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
+	std::vector<Rectangulo*>* rectangulos_jug2 = jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos;
 
 	// esta verificación es porque todavíá todo no tiene rectangulos
-	if (jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos->size() && 
-		jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos->size()){
-		// verifico las colisiones
-		SDL_Rect interseccion; // no lo usamos
-		SDL_bool coli = SDL_IntersectRect(
-			jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos->at(0)->sdl_rec, 
-			jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos->at(0)->sdl_rec,
-			&interseccion
-		);
-		
-		if (coli){
-			Logger::instance()->log_debug("colisiono!!");
+	if (rectangulos_jug1->size() && rectangulos_jug2->size()){
+
+		for (unsigned int i = 0; i < rectangulos_jug1->size(); i++){
+			for (unsigned int j = 0; j < rectangulos_jug1->size(); j++){
+				// verifico las colisiones
+				SDL_Rect interseccion; // no lo usamos
+				SDL_bool coli = SDL_IntersectRect(
+					rectangulos_jug1->at(j)->sdl_rec,
+					rectangulos_jug2->at(i)->sdl_rec, 
+					&interseccion
+				);
+				if (coli){
+					Logger::instance()->log_debug("colisiono!!");
+				}
+
+			}
 		}
+
+		
 	}
 }
 
