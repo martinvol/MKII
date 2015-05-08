@@ -266,15 +266,69 @@ void RGBaHSV(int* r, int* g, int* b, int* h, int* s, int* v) {
 	float max = max(_r, _g, _b);
 	float min = min(_r, _g, _b);
 	
-	if (max == min) *h = NaN;
+	if (max == min) *h = NaN; // No esta definido
 	if ((max == _r) && (_g >= _b)) *h = 60* ((_g - _b)/(max - min));
 	else if ((max == _r) && (_g < _b))  *h = 60* ((_g - _b)/(max - min)) + 360;
 	else if (max == _g) *h = 60* ((_b - _r)/(max - min)) + 120;
 	else if (max == _b) *h = 60* ((_r - _g)/(max - min)) + 240;
 	
 	// Para los demás no viene al caso aun
+	
+	// H debe pertenecer a [0, 360)
+	*h = ((*h % 360) + 360) % 360;
+	*s = max==0 ? 0:(1 - (min - max));
+	*v = max;
 }
-void HSVaRGB(int* h, int* s, int* v, int* r, int* g, int* b);
+
+void HSVaRGB(int* h, int* s, int* v, int* r, int* g, int* b) {
+	
+	// De Wikipedia:
+	
+	// H debe pertenecer a [0, 360)
+	*h = ((*h % 360) + 360) % 360;
+	
+	int h_i = (*h / 60) % 6;
+	float f = (*h / 60.0) % 6 - h_i;
+	float p = (*v) * (1 - *s);
+	float q = (*v) * (1 - (*s)*f);
+	float t = (*v) * (1 - (1 - *f)*(*s));
+	
+	if (h_i == 0) {
+		*r = (*v)*255;
+		*g = t*255;
+		*b = p*255;
+	}
+	
+	if (h_i == 1) {
+		*r = q*255;
+		*g = (*v)*255;
+		*b = t*255;
+	}
+	
+	if (h_i == 2) {
+		*r = p*255;
+		*g = (*v)*255;
+		*b = t*255;
+	}
+	
+	if (h_i == 3) {
+		*r = p*255;
+		*g = q*255;
+		*b = (*v)*255;
+	}
+	
+	if (h_i == 4) {
+		*r = t*255;
+		*g = p*255;
+		*b = (*v)*255;
+	}
+	
+	if (h_i == 5) {
+		*r = (*v)*255;
+		*g = p*255;
+		*b = q*255;
+	}
+}
 
 bool LTexture::modificarHue(int inicial, int final, int offset) {
 // Esta funcion recibe los valores indicados en el .json tales como
