@@ -488,7 +488,7 @@ void Controlador(SDL_Event *evento){
                 //-----------------------------------------
                 //-----------------------------------------
                 if(evento->key.keysym.sym == SDLK_p)  {
-                    pausa = !pausa;
+                    //pausa = !pausa;
                     //Extraer esto si es posible. El metodo depende del estado del
                     //estado de la variable pausa.
                     this->timer->pausarTimer(SDL_GetTicks());
