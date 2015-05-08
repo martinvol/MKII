@@ -328,9 +328,11 @@ void Personaje::Dibujarse(){
 
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
+		this->imagenActual->render(0,0,&destino,0,NULL,SDL_FLIP_HORIZONTAL);
+		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
 	} else {
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
+		this->imagenActual->render(0,0,&destino,0,NULL,SDL_FLIP_NONE);
+		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
 
 

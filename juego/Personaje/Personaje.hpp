@@ -41,7 +41,7 @@ class Personaje {
 		
 		bool mirarDerecha;
 		
-		SDL_Texture* imagenActual;
+		LTexture* imagenActual;
 		SDL_Renderer* renderer;
 		
 	//~ public:

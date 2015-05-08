@@ -138,7 +138,7 @@ int main( int argc, char* args[] )
 			bool quit = false;
 			//Event handler
 			SDL_Event e;
-			gFooTexture->modificarHue(0, 0, 10);
+			gFooTexture->modificarHue(40, 80, 105);
 			//While application is running
 			while( !quit )
 			{

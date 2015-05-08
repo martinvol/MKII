@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
+#include "../../LTexture.hpp"
 
 #include "../../Coordenadas/CoordenadaLogica.hpp"
 #include "../../Logger/Logger.hpp"
@@ -33,7 +34,8 @@ class Accion{
 		int cantModos;
 		string ruta;
 		SDL_Renderer* renderer;
-		vector<SDL_Texture*> imagenes;
+		SDL_Window* win;
+		vector<LTexture*> imagenes;
 		int modoActual;
 		
 		Logger* logger;
@@ -51,7 +53,7 @@ class Accion{
 		void setDireccionIzquierda();
 		void setInvertirSecuencia();
 	
-		SDL_Texture* getImagenActual();
+		LTexture* getImagenActual();
 		int getModoActual();
 	
 		bool esUltimoModo();

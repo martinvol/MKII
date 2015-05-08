@@ -69,11 +69,13 @@ void Accion::setImagenes (){
 	int numero;
 	
 	for (int i = 0; i<this->cantModos; i++){
-		SDL_Texture* imagen;
+		LTexture* imagen = new LTexture(this->win, this->renderer);
 		numero = i+1;
 		numeroImagen = to_string(numero);
 		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
-		imagen = IMG_LoadTexture (this->renderer,rutaCompleta.c_str());
+		imagen->loadFromFile(rutaCompleta);
+		// Aca falta cambiar la forma de chequeo: la misma LTexture
+		// podria tener un logger para solucionar esto *Manuel*
 		if(imagen == NULL){
 			this->logger->log_debug("IMG_LoadTexture error: " + (string)(SDL_GetError()));
 			//cout<<"error en: "<<numeroImagen<<endl;
@@ -114,7 +116,7 @@ void Accion::setDireccionIzquierda(){
  * que corresponde a la imagen equivalente al
  * modo actual en el que se encuentra la accion
  * */
-SDL_Texture* Accion::getImagenActual(){
+LTexture* Accion::getImagenActual(){
 	return this->imagenes[this->modoActual];
 } 
 //~ SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
@@ -164,8 +166,8 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, flo
  * */
 Accion::~Accion(){	
 	for (int i = 0; i < this->cantModos; i++){
-		if(imagenes[i]!=NULL)
-			SDL_DestroyTexture(imagenes[i]);
+		
+		delete imagenes[i];
 	}
 }
 
