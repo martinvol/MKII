@@ -345,14 +345,14 @@ bool LTexture::modificarHue(int inicial, int finale, int offset) {
 	//Lock texture
 	if(! this->lockTexture()) return false;
 
-		Uint8 r, g, b;
+		Uint8 r, g, b, a;
 		int h, s, v;
 		//Get pixel data
 		Uint32* pixels = (Uint32*)this->getPixels();
 		int pixelCount = ( this->getPitch() / 4 ) * this->getHeight(); // WTF ?
 	
 		for( int i = 0; i < pixelCount; ++i ) {
-			SDL_GetRGB(pixels[i], SDL_GetWindowSurface( gWindow )->format, &r, &g, &b);
+			SDL_GetRGBA(pixels[i], SDL_GetWindowSurface( gWindow )->format, &r, &g, &b, &a);
 			RGBaHSV(&r, &g, &b, &h, &s, &v);
 			if ((inicial <= h) && (h <= finale)) { 
 				h += offset;

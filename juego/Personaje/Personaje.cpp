@@ -325,7 +325,8 @@ void Personaje::Dibujarse(){
 		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer);
 			
 	}
-
+	
+	this->imagenActual->modificarHue(0, 60, 20);
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
 		this->imagenActual->render(destino.x,destino.y,NULL,0,NULL,SDL_FLIP_HORIZONTAL);
