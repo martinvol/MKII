@@ -460,6 +460,7 @@ void Controlador(SDL_Event *evento){
 					if (golpeandoPJ == false){
 						barraDeVida1->Lastimar(90);
 						barraDeVida2->Lastimar(750);
+                        this->escenario->Temblar(SDL_GetTicks());
 						golpeandoPJ = true;
 					}
 					break;
