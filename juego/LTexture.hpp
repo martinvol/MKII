@@ -54,6 +54,8 @@ class LTexture {
 		void* getPixels();
 		int getPitch();
 
+		bool modificarHue(int inicial, int final, int offset);
+		
 	private:
 	    // Auxiliar
 	    SDL_Window* gWindow;
@@ -70,4 +72,4 @@ class LTexture {
 };
 
 
-#endif
+#endif // LTEX_H

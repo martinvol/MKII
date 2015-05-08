@@ -239,3 +239,78 @@ int LTexture::getPitch()
 	return mPitch;
 }
 
+float max(float a, float b, float c) {
+	
+	if ((a >= b) && (a >= c)) return a;
+	if ((b >= a) && (b >= c)) return b;
+	return c;
+}
+
+float min(float a, float b, float c) {
+	// Las cosas que uno tiene que hacer cuando no esta en Python
+	if ((a <= b) && (a <= c)) return a;
+	if ((b <= a) && (b <= c)) return b;
+	return c;
+}
+
+void RGBaHSV(int* r, int* g, int* b, int* h, int* s, int* v) {
+	// Recibe los punteros r, g, b. 'Devuelve' su transformada en
+	// HSV rellenando el contenido de los punteros.
+	
+	// De Wikipedia:
+	
+	float _r = *r / 255.0
+	float _g = *g / 255.0
+	float _b = *b / 255.0
+	
+	float max = max(_r, _g, _b);
+	float min = min(_r, _g, _b);
+	
+	if (max == min) *h = NaN;
+	if ((max == _r) && (_g >= _b)) *h = 60* ((_g - _b)/(max - min));
+	else if ((max == _r) && (_g < _b))  *h = 60* ((_g - _b)/(max - min)) + 360;
+	else if (max == _g) *h = 60* ((_b - _r)/(max - min)) + 120;
+	else if (max == _b) *h = 60* ((_r - _g)/(max - min)) + 240;
+	
+	// Para los demás no viene al caso aun
+}
+void HSVaRGB(int* h, int* s, int* v, int* r, int* g, int* b);
+
+bool LTexture::modificarHue(int inicial, int final, int offset) {
+// Esta funcion recibe los valores indicados en el .json tales como
+// se especifica en el enunciado.
+
+	//~ //Recorrer los pixeles
+	//~ //Obtener valores de R, G, B. (getRGB)
+	//~ //Obtener valor en HSV/HSL
+	//~ //Si esta en el rango, sumarle el offset
+	//~ //Obtener valores R, G, B
+	//~ //Obtener valor de pixel segun mapRGB
+	//~ //Reemplazar el valor del pixel
+	
+	//Lock texture
+	if(this->lockTexture()) return false;
+	
+	else {
+			//Get pixel data
+			Uint32* pixels = (Uint32*)this->getPixels();
+			int pixelCount = ( this->getPitch() / 4 ) * this->getHeight();
+
+			//Map colors
+			Uint32 colorKey = SDL_MapRGB( SDL_GetWindowSurface( gWindow )->format, 0, 0xFF, 0xFF );
+			Uint32 transparent = SDL_MapRGBA( SDL_GetWindowSurface( gWindow )->format, 0xFF, 0xFF, 0xFF, 0 );
+
+			//Color key pixels
+			for( int i = 0; i < pixelCount; ++i )
+			{
+				if( pixels[ i ] >= colorKey )
+				{
+					//pixels[ i ] = transparent;
+					pixels[ i ] += MOVER_PIXELES;
+				}
+			}
+
+			//Unlock texture
+			this->unlockTexture();
+		}
+}
