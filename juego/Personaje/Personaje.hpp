@@ -47,10 +47,10 @@ class Personaje {
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
 		//Harcodeo para donde mira.
-		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha);
+		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor);
 		//~ Después debería ser
 		//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
-		
+		ConversorDeCoordenadas* conversor;
 		BarraDeVida* barraDeVida;
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
@@ -69,7 +69,7 @@ class Personaje {
 		void cambiarAccionA(accion_posible nroAccion);
 
 		// Dibujarse que debería usarse finalmente así
-		void Dibujarse(ConversorDeCoordenadas* conv);
+		void Dibujarse();
 
         
 		/* Sólo espejan o no espejan. */
