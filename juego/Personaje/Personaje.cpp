@@ -316,7 +316,6 @@ void Personaje::Dibujarse(){
 	destino.y = coord2_fis->y_fisico;
 	destino.w = ancho_fisico;
 	destino.h = alto_fisico;
-	
 
 	
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {

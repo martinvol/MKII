@@ -37,6 +37,10 @@ class SaltarVertical:public Accion{
 				delta = 2.0 * h_max/cantModos;
 				impar = false;
 			}
+
+			rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
+			rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
+			rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
 		}
 		
 		void resetear();
