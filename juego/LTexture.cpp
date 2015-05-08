@@ -239,14 +239,14 @@ int LTexture::getPitch()
 	return mPitch;
 }
 
-float max(float a, float b, float c) {
+float max3(float a, float b, float c) {
 	
 	if ((a >= b) && (a >= c)) return a;
 	if ((b >= a) && (b >= c)) return b;
 	return c;
 }
 
-float min(float a, float b, float c) {
+float min3(float a, float b, float c) {
 	// Las cosas que uno tiene que hacer cuando no esta en Python
 	if ((a <= b) && (a <= c)) return a;
 	if ((b <= a) && (b <= c)) return b;
@@ -259,14 +259,14 @@ void RGBaHSV(int* r, int* g, int* b, int* h, int* s, int* v) {
 	
 	// De Wikipedia:
 	
-	float _r = *r / 255.0
-	float _g = *g / 255.0
-	float _b = *b / 255.0
+	float _r = *r / 255.0;
+	float _g = *g / 255.0;
+	float _b = *b / 255.0;
 	
-	float max = max(_r, _g, _b);
-	float min = min(_r, _g, _b);
+	float max = max3(_r, _g, _b);
+	float min = min3(_r, _g, _b);
 	
-	if (max == min) *h = NaN; // No esta definido
+	if (max == min) *h = -1; // No esta definido
 	if ((max == _r) && (_g >= _b)) *h = 60* ((_g - _b)/(max - min));
 	else if ((max == _r) && (_g < _b))  *h = 60* ((_g - _b)/(max - min)) + 360;
 	else if (max == _g) *h = 60* ((_b - _r)/(max - min)) + 120;
@@ -288,10 +288,10 @@ void HSVaRGB(int* h, int* s, int* v, int* r, int* g, int* b) {
 	*h = ((*h % 360) + 360) % 360;
 	
 	int h_i = (*h / 60) % 6;
-	float f = (*h / 60.0) % 6 - h_i;
+	float f = (*h / 60.0) - h_i;
 	float p = (*v) * (1 - *s);
 	float q = (*v) * (1 - (*s)*f);
-	float t = (*v) * (1 - (1 - *f)*(*s));
+	float t = (*v) * (1 - (1 - f)*(*s));
 	
 	if (h_i == 0) {
 		*r = (*v)*255;
@@ -359,12 +359,13 @@ bool LTexture::modificarHue(int inicial, int final, int offset) {
 			{
 				if( pixels[ i ] >= colorKey )
 				{
-					//pixels[ i ] = transparent;
-					pixels[ i ] += MOVER_PIXELES;
+					pixels[ i ] = transparent;
+					//pixels[ i ] += MOVER_PIXELES;
 				}
 			}
 
 			//Unlock texture
 			this->unlockTexture();
 		}
+	return true;
 }
