@@ -9,12 +9,12 @@ using namespace std;
  * 						ESTADO
  * 
  **********************************************************************/  
-Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ancho_ventana){
-	this->quieto = new Quieto(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
-	this->saltarvertical = new SaltarVertical(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje);
-	this->saltardiagonal = new SaltarDiagonal(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje);
-	this->caminar = new Caminar(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
-	this->agacharse = new Agacharse(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
+Estado::Estado(string ruta, SDL_Renderer* ren, SDL_Window* win, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ancho_ventana){
+	this->quieto = new Quieto(ruta, ren, win, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
+	this->saltarvertical = new SaltarVertical(ruta, ren, win, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje);
+	this->saltardiagonal = new SaltarDiagonal(ruta, ren, win, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje);
+	this->caminar = new Caminar(ruta, ren, win, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
+	this->agacharse = new Agacharse(ruta, ren, win, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
 }
 Estado::~Estado(){
 	delete this->quieto;

@@ -164,7 +164,7 @@ public:
         x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho);
         
         this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
-							renderer, parser->personaje_alto, parser->escenario_alto,
+							renderer, this->ventana->window, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje_ancho,
@@ -172,7 +172,7 @@ public:
 										parser->personaje_mirar_derecha, this->conversor);
 
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-                            renderer, parser->personaje_alto, parser->escenario_alto,
+                            renderer, this->ventana->window, parser->personaje_alto, parser->escenario_alto,
                             parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje_ancho,
