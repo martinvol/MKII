@@ -94,7 +94,7 @@ public:
 
     Parser* parser;
     
-    float x_logico_personaje;
+    float x_logico_personaje, x_logico_personaje2;
     float borde_izquierdo_logico_pantalla;
 
 	Escenario* escenario;
@@ -158,10 +158,13 @@ public:
         cargar_capas();
         
         
+        // Separacion entre personajes de un tercio de la ventana.
+        float SEPARACION = parser->ventana_ancho / 3.0;
+        
     // PERSONAJE 1
 		// Cargamos al personaje en el medio de la ventana, pero del lado izquierdo.
 		// Este x_logico es del extremo izquierdo del personaje.
-        x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho);
+        x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho) - SEPARACION/2;
         
         this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
 							renderer, parser->personaje_alto, parser->escenario_alto,
@@ -171,10 +174,12 @@ public:
 										parser->personaje_alto, estado,
 										parser->personaje_mirar_derecha, this->conversor);
 
+		x_logico_personaje2 = (parser->escenario_ancho/2.) + SEPARACION/2;
+
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                             renderer, parser->personaje_alto, parser->escenario_alto,
                             parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
-        this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
+        this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje_ancho,
                                         parser->personaje_alto, estado2,
                                         parser->personaje_mirar_derecha, this->conversor);
