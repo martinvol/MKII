@@ -75,10 +75,10 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 	}
 }
 
-/* Por ahora, sólo valida el movimiento de UN JUGADOR. */
-void Director::verificar_movimientos(){
+void Director::verificar_movimiento(Jugador* jugador){
+
 	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
-	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaDerSup();
+	CoordenadaLogica* coord1 = jugador->obtenerSiguienteCoordenadaDerSup();
 	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
 	// Verifica altura.
 	if (this->ventana->superaTecho(coord1_fis)){
@@ -92,14 +92,14 @@ void Director::verificar_movimientos(){
 		if (coord1->x > margen_der){
 			coord1->setearX(margen_der);
 		}
-		jugadores[jugador1]->moverseADerSup(coord1);
+		jugador->moverseADerSup(coord1);
 		return;		
 	}
 	
 	// Caso: scrollear a la izquierda.
 	delete coord1;
 	delete coord1_fis;
-	coord1 = jugadores[jugador1]->obtenerSiguienteCoordenadaIzqSup();
+	coord1 = jugador->obtenerSiguienteCoordenadaIzqSup();
 	coord1_fis = this->conversor->aFisica(coord1);
 	// Verifica altura.
 	if (this->ventana->superaTecho(coord1_fis)){
@@ -110,21 +110,22 @@ void Director::verificar_movimientos(){
 	    scrollearIzquierda();
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
 		if (coord1->x < margen_izq) coord1->setearX(margen_izq);
-		jugadores[jugador1]->moverseAIzqSup(coord1);
+		jugador->moverseAIzqSup(coord1);
 		return;
 	}
-	// Verifica que no se salga de escenario
-	if (this->escenario->ancho - jugadores[jugador1]->personaje->ancho <= coord1->x)
-	    coord1->setearX(this->escenario->ancho - jugadores[jugador1]->personaje->ancho);
-	    
-	// Verifica que no se vaya por abajo del piso
-    // Me falta hacerlo generico con y_piso *Manuel*
-	if (coord1->y <= 0 + jugadores[jugador1]->personaje->alto) coord1->y = 0 + jugadores[jugador1]->personaje->alto; 
 	    
 	// Caso: la posición era válida en ancho.
-	jugadores[jugador1]->moverseAIzqSup(coord1);
+	jugador->moverseAIzqSup(coord1);
+	
+}
 
+/* Por ahora, sólo valida el movimiento de UN JUGADOR. */
+void Director::verificar_movimientos(){
 
+	verificar_movimiento(jugadores[jugador1]);
+	verificar_movimiento(jugadores[jugador2]);
+	
+	// chequear colisiones:
 
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
 	std::vector<Rectangulo*>* rectangulos_jug2 = jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos;
@@ -142,6 +143,7 @@ void Director::verificar_movimientos(){
 					&interseccion
 				);
 				if (coli){
+					
 					Logger::instance()->log_debug("colisiono!!");
 				}
 
@@ -154,13 +156,41 @@ void Director::verificar_movimientos(){
 
 bool Director::sePuedeScrollearDerecha(){
 	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
+	// Si ya está al limite derecho del escenario, no se puede.
 	bool sePuede = not (this->escenario->esLimiteDerecho(borde_der));
+	// Si algun personaje quiere moverse más allá del borde izquierdo, no se puede scrollear a la derecha.
+		//Jugador1
+	CoordenadaLogica* coord = jugadores[jugador1]->obtenerSiguienteCoordenadaIzqSup();
+	CoordenadaFisica*coord_fis = this->conversor->aFisica(coord);
+	sePuede &= not (this->ventana->coordenadaEnPantalla(coord_fis) == bordeIzq);
+	delete coord;
+	delete coord_fis;
+		//Jugador2
+	coord = jugadores[jugador2]->obtenerSiguienteCoordenadaIzqSup();
+	coord_fis = this->conversor->aFisica(coord);
+	sePuede &= not (this->ventana->coordenadaEnPantalla(coord_fis) == bordeIzq);
+	delete coord;
+	delete coord_fis;
 	return sePuede;
 }
 
 bool Director::sePuedeScrollearIzquierda(){
 	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
+	// Si ya está al limite izquierdo del escenario, no se puede.
 	bool sePuede = not (this->escenario->esLimiteIzquierdo(borde_izq));
+	// Si algun personaje quiere moverse más allá del borde derecho, no se puede scrollear para la izquierda.
+		//Jugador1
+	CoordenadaLogica* coord = jugadores[jugador1]->obtenerSiguienteCoordenadaDerSup();
+	CoordenadaFisica* coord_fis = this->conversor->aFisica(coord);
+	sePuede &= not (this->ventana->coordenadaEnPantalla(coord_fis) == bordeDer);
+	delete coord;
+	delete coord_fis;
+		//Jugador2
+	coord = jugadores[jugador2]->obtenerSiguienteCoordenadaDerSup();
+	coord_fis = this->conversor->aFisica(coord);
+	sePuede &= not (this->ventana->coordenadaEnPantalla(coord_fis) == bordeDer);
+	delete coord;
+	delete coord_fis;
 	return sePuede;
 }
 
