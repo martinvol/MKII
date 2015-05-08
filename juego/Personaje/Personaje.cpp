@@ -322,7 +322,7 @@ void Personaje::Dibujarse(){
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 		// Para evitar hacer esto acá podría crear un objeto
 		// pero no quiero hacer una clase solo para este loop
-		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer);
+		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer, !mirarDerecha);
 			
 	}
 
