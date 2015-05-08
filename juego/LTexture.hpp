@@ -54,7 +54,7 @@ class LTexture {
 		void* getPixels();
 		int getPitch();
 
-		bool modificarHue(int inicial, int final, int offset);
+		bool modificarHue(int inicial, int finale, int offset);
 		
 	private:
 	    // Auxiliar
@@ -69,6 +69,8 @@ class LTexture {
 		//Image dimensions
 		int mWidth;
 		int mHeight;
+		
+		int actualizarTextura();
 };
 
 

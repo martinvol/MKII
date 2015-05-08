@@ -97,39 +97,6 @@ bool loadMedia()
 		printf( "Failed to load corner texture!\n" );
 		success = false;
 	}
-	else
-	{
-		//Lock texture
-		if( !gFooTexture->lockTexture() )
-		{
-			printf( "Unable to lock Foo' texture!\n" );
-		}
-		//Manual color key
-		else
-		{
-			//Get pixel data
-			Uint32* pixels = (Uint32*)gFooTexture->getPixels();
-			int pixelCount = ( gFooTexture->getPitch() / 4 ) * gFooTexture->getHeight();
-
-			//Map colors
-			Uint32 colorKey = SDL_MapRGB( SDL_GetWindowSurface( gWindow )->format, 0, 0xFF, 0xFF );
-			Uint32 transparent = SDL_MapRGBA( SDL_GetWindowSurface( gWindow )->format, 0xFF, 0xFF, 0xFF, 0 );
-
-			//Color key pixels
-			for( int i = 0; i < pixelCount; ++i )
-			{
-				if( pixels[ i ] >= colorKey )
-				{
-					//pixels[ i ] = transparent;
-					pixels[ i ] += MOVER_PIXELES;
-				}
-			}
-
-			//Unlock texture
-			gFooTexture->unlockTexture();
-		}
-	}
-
 	return success;
 }
 
@@ -169,10 +136,9 @@ int main( int argc, char* args[] )
 		{	
 			//Main loop flag
 			bool quit = false;
-
 			//Event handler
 			SDL_Event e;
-
+			gFooTexture->modificarHue(0, 0, 10);
 			//While application is running
 			while( !quit )
 			{
@@ -189,7 +155,6 @@ int main( int argc, char* args[] )
 				//Clear screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
-
 				//Render stick figure
 				gFooTexture->render( ( SCREEN_WIDTH - gFooTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gFooTexture->getHeight() ) / 2 );
 

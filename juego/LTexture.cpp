@@ -253,7 +253,7 @@ float min3(float a, float b, float c) {
 	return c;
 }
 
-void RGBaHSV(int* r, int* g, int* b, int* h, int* s, int* v) {
+void RGBaHSV(Uint8* r, Uint8* g, Uint8* b, int* h, int* s, int* v) {
 	// Recibe los punteros r, g, b. 'Devuelve' su transformada en
 	// HSV rellenando el contenido de los punteros.
 	
@@ -280,7 +280,7 @@ void RGBaHSV(int* r, int* g, int* b, int* h, int* s, int* v) {
 	*v = max;
 }
 
-void HSVaRGB(int* h, int* s, int* v, int* r, int* g, int* b) {
+void HSVaRGB(int* h, int* s, int* v, Uint8* r, Uint8* g, Uint8* b) {
 	
 	// De Wikipedia:
 	
@@ -330,7 +330,7 @@ void HSVaRGB(int* h, int* s, int* v, int* r, int* g, int* b) {
 	}
 }
 
-bool LTexture::modificarHue(int inicial, int final, int offset) {
+bool LTexture::modificarHue(int inicial, int finale, int offset) {
 // Esta funcion recibe los valores indicados en el .json tales como
 // se especifica en el enunciado.
 
@@ -343,29 +343,31 @@ bool LTexture::modificarHue(int inicial, int final, int offset) {
 	//~ //Reemplazar el valor del pixel
 	
 	//Lock texture
-	if(this->lockTexture()) return false;
+	if(! this->lockTexture()) return false;
+
+		Uint8 r, g, b;
+		int h, s, v;
+		//Get pixel data
+		Uint32* pixels = (Uint32*)this->getPixels();
+		int pixelCount = ( this->getPitch() / 4 ) * this->getHeight(); // WTF ?
 	
-	else {
-			//Get pixel data
-			Uint32* pixels = (Uint32*)this->getPixels();
-			int pixelCount = ( this->getPitch() / 4 ) * this->getHeight();
-
-			//Map colors
-			Uint32 colorKey = SDL_MapRGB( SDL_GetWindowSurface( gWindow )->format, 0, 0xFF, 0xFF );
-			Uint32 transparent = SDL_MapRGBA( SDL_GetWindowSurface( gWindow )->format, 0xFF, 0xFF, 0xFF, 0 );
-
-			//Color key pixels
-			for( int i = 0; i < pixelCount; ++i )
-			{
-				if( pixels[ i ] >= colorKey )
-				{
-					pixels[ i ] = transparent;
-					//pixels[ i ] += MOVER_PIXELES;
-				}
+		for( int i = 0; i < pixelCount; ++i ) {
+			SDL_GetRGB(pixels[i], SDL_GetWindowSurface( gWindow )->format, &r, &g, &b);
+			RGBaHSV(&r, &g, &b, &h, &s, &v);
+			if ((inicial <= h) && (h <= finale)) { 
+				h += offset;
+				HSVaRGB(&h, &s, &v, &r, &g, &b);
+				pixels[i] = SDL_MapRGB(SDL_GetWindowSurface( gWindow )->format, r, g, b);
 			}
-
-			//Unlock texture
-			this->unlockTexture();
 		}
+
+
+	this->actualizarTextura();
+	//Unlock texture
+	this->unlockTexture();
 	return true;
+}
+
+int LTexture::actualizarTextura(){
+	return (SDL_UpdateTexture(mTexture, NULL, this->getPixels(), this->getPitch()));
 }
