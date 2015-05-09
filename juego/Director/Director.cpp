@@ -66,6 +66,9 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case PiniaAlta:
 			jugador->activarAccion(PINIAALTA);
 			break;
+		case PiniaBaja:
+			jugador->activarAccion(PINIABAJA);
+			break;
 		//~ case AbajoDerecha:
 			//~ jugador->activarAccion(AGACHARSE_DER);
 			//~ break;

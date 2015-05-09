@@ -12,7 +12,7 @@
 #include "../../Logger/Logger.hpp"
 #include "Rectangulo.hpp"
 
-typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE, PINIAALTA} accion_posible;
+typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE, PINIAALTA, PINIABAJA} accion_posible;
 
 using namespace std;
 
