@@ -72,6 +72,8 @@ public:
     //seria un desperdicio.
     bool Arriba_PRESIONADO = false, Abajo_PRESIONADO = false, Izq_PRESIONADO = false, Der_PRESIONADO = false;
     bool golpeandoPJ = false;
+    bool golpeandoPJalta = false;
+    bool golpeandoPJbaja = false;
     bool cansandoPJ = false;
     
     Sint16 presionado=0;
@@ -288,9 +290,9 @@ public:
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
-            if(timerFps < int(1000/24)){
-                SDL_Delay(CONST_MAXI_DELAY);
-            }
+            //~ if(timerFps < int(1000/24)){
+                SDL_Delay(CONST_MAXI_DELAY+20);
+            //~ }
         }
 
     };
@@ -337,13 +339,14 @@ public:
 //----------------------------------------------------------------
 void DibujarTodo(){
         //Limpio y dibujo
+        
         SDL_RenderClear(renderer);
-
+		
         SDL_Rect fillRect = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
-
+		
         SDL_RenderCopy(renderer, under, NULL, &r);
 
         for (int i = 0; i < escenario->capas.size(); i++){
@@ -447,8 +450,8 @@ void Controlador(SDL_Event *evento){
 					pausa = !pausa;
 				}
 				if(evento->key.keysym.sym == SDLK_a && !pausa)  {
-					barraDeVida1->Aliviar(20);
-					barraDeVida2->Aliviar(20);
+					//~ barraDeVida1->Aliviar(20);
+					//~ barraDeVida2->Aliviar(20);
 				}
 				if(evento->key.keysym.sym == SDLK_c && !pausa)  {
 					if (cansandoPJ == false){
@@ -457,13 +460,20 @@ void Controlador(SDL_Event *evento){
 						cansandoPJ = true;
 					}
 				}
-				if((evento->key.keysym.sym == SDLK_d && !pausa))  {
+				if(evento->key.keysym.sym == SDLK_d && !pausa)  {
 					if (golpeandoPJ == false){
-						barraDeVida1->Lastimar(90);
-						barraDeVida2->Lastimar(750);
+						//~ barraDeVida1->Lastimar(90);
+						//~ barraDeVida2->Lastimar(750);
+                        this->escenario->Temblar(SDL_GetTicks());
 						golpeandoPJ = true;
 					}
 					break;
+				}
+				if(evento->key.keysym.sym == SDLK_s && !pausa)  {
+					golpeandoPJalta=true;
+				}
+				if(evento->key.keysym.sym == SDLK_f && !pausa)  {
+					golpeandoPJbaja=true;
 				}
 				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
 				if (evento->key.keysym.sym == SDLK_r){
@@ -489,7 +499,9 @@ void Controlador(SDL_Event *evento){
                 //-----------------------------------------
                 //-----------------------------------------
                 if(evento->key.keysym.sym == SDLK_p)  {
+
                     //pausa = !pausa;
+
                     //Extraer esto si es posible. El metodo depende del estado del
                     //estado de la variable pausa.
                     this->timer->pausarTimer(SDL_GetTicks());
@@ -499,6 +511,12 @@ void Controlador(SDL_Event *evento){
                 }
                 if((evento->key.keysym.sym == SDLK_c))  {
                     cansandoPJ = false;
+                }
+                if((evento->key.keysym.sym == SDLK_s))  {
+                    golpeandoPJalta = false;
+                }
+                if((evento->key.keysym.sym == SDLK_f))  {
+                    golpeandoPJbaja = false;
                 }
                 break;
 			default:
@@ -537,7 +555,13 @@ void ActualizarModelo(){
 	} else if (Abajo_PRESIONADO){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Abajo);
-	} else {
+	}
+	//MILE
+	else if (golpeandoPJalta){
+		this->director->seMuevePersonaje(jugador1, PiniaAlta);
+	} else if (golpeandoPJbaja){
+		this->director->seMuevePersonaje(jugador1, PiniaBaja);
+	}else {
 		this->director->seMuevePersonaje(jugador1, Nada);
 	}
 	

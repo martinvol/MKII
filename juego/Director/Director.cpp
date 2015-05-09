@@ -63,6 +63,19 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case Abajo:
 			jugador->activarAccion(AGACHARSE);
 			break;
+		case PiniaAlta:
+			jugador->activarAccion(PINIAALTA);
+			break;
+		case PiniaBaja:
+			jugador->activarAccion(PINIABAJA);
+			break;
+		case MirarDerecha:
+			puts("hola?"); ///
+			jugador->activarAccion(MIRARDERECHA);
+			break;
+		case MirarIzquierda:
+			jugador->activarAccion(MIRARIZQUIERDA);
+			break;
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
 			break;
@@ -177,9 +190,26 @@ void Director::verificar_movimientos(){
 					rectangulos_jug2->at(i)->sdl_rec, 
 					&interseccion
 				);
+				
 				if (coli){
-					
-					Logger::instance()->log_debug("colisiono!!");
+					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
+						Jugador* sufre, *pegando;
+
+						if (rectangulos_jug1->at(i)->ataque){
+							pegando = jugadores[jugador1];
+							sufre = jugadores[jugador2];
+						} else {
+							pegando = jugadores[jugador2];
+							sufre = jugadores[jugador1];
+						}
+
+						sufre->barra->Lastimar(
+							pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio
+						);
+						this->escenario->Temblar(SDL_GetTicks());
+						Logger::instance()->log_debug("Le pego!!!");
+
+					}
 				}
 
 			}
@@ -257,10 +287,19 @@ void Director::verificar_orientaciones(){
 	CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
 	if (coord1->estaALaDerechaDe(coord2)){
 		jugadores[jugador1]->mirarParaIzquierda();
-		jugadores[jugador2]->mirarParaDerecha();
+		//~ this->informar_accion(MirarIzquierda,jugadores[jugador1]);
+		if (!jugadores[jugador2]->personaje->mirarDerecha){
+		
+			puts("hola");
+			jugadores[jugador2]->mirarParaDerecha();
+		
+			this->informar_accion(MirarDerecha,jugadores[jugador2]);
+		}
 	} else {
 		jugadores[jugador1]->mirarParaDerecha();
+		//~ this->informar_accion(MirarDerecha,jugadores[jugador1]);
 		jugadores[jugador2]->mirarParaIzquierda();
+		//~ this->informar_accion(MirarIzquierda,jugadores[jugador2]);
 	}
 	delete coord1;
 	delete coord2;

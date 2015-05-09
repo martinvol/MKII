@@ -15,6 +15,9 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	this->saltardiagonal = new SaltarDiagonal(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje);
 	this->caminar = new Caminar(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
 	this->agacharse = new Agacharse(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
+	this->piniaAlta = new PiniaAlta(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
+	this->piniaBaja = new PiniaBaja(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
+	this->girar = new Girar(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0);
 }
 Estado::~Estado(){
 	delete this->quieto;
@@ -22,4 +25,6 @@ Estado::~Estado(){
 	delete this->saltarvertical;
 	delete this->saltardiagonal;
 	delete this->agacharse;
+	delete this->piniaAlta;
+	delete this->piniaBaja;
 }

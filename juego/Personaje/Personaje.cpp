@@ -82,7 +82,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
-	this->accionActual = this->estado->quieto;
+	this->accionActual = this->estado->	quieto;
 	this->imagenActual = this->accionActual->getImagenActual();
 	
 	this->nombrePersonaje = nombre;
@@ -125,6 +125,19 @@ void Personaje::activarAccion(accion_posible accion){
 					delete siguiente;
 					siguiente = coord;
 				}
+				break;
+			case PINIABAJA:
+			case PINIAALTA:
+				if (this->accionActual->esUltimoModo()){
+					cambiarAccionA(QUIETO);
+				}
+			
+			//~ case MIRARIZQUIERDA:
+				//~ if(this->accionActual->esUltimoModo()){
+					//~ puts ("holi");
+					//~ cambiarAccionA(QUIETO);
+				//~ }
+			
 			default:
 				break;
 		}
@@ -221,6 +234,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	switch (nroAccionActual)
 	{ 
 		case QUIETO:
+			puts( "y entre a quieto");
 			this->accionActual = this->estado->quieto;
 			break;
 		case CAMINAR_DERECHA:
@@ -249,7 +263,28 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 				this->accionActual->setInvertirSecuencia();
 			}
 			this->accionActual->setDireccionDerecha();
-			break;		
+			break;	
+		case PINIAALTA:
+			this->accionActual = this->estado->piniaAlta;
+			break;
+		case PINIABAJA:
+			this->accionActual = this->estado->piniaBaja;
+			break;
+			
+		case MIRARDERECHA:
+			this->accionActual = this->estado->girar;
+			if (!this->mirarDerecha){
+				this->accionActual->setInvertirSecuencia();
+			}
+			this->accionActual->setDireccionDerecha();
+			break;
+		case MIRARIZQUIERDA:
+			this->accionActual = this->estado->girar;
+			if(this->mirarDerecha){
+				this->accionActual->setInvertirSecuencia();
+			}
+			this->accionActual->setDireccionIzquierda();
+			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->mirarDerecha){
