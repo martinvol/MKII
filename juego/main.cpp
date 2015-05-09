@@ -290,9 +290,9 @@ public:
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
-            //~ if(timerFps < int(1000/24)){
-                SDL_Delay(CONST_MAXI_DELAY+20);
-            //~ }
+            if(timerFps < int(1000/24)){
+                SDL_Delay(CONST_MAXI_DELAY);
+            }
         }
 
     };
@@ -435,13 +435,13 @@ void Controlador(SDL_Event *evento){
 				//-----------------------------------------
 				//-----------------------------------------
 				//---------------BASICOS-------------------
-				if (evento->key.keysym.sym == SDLK_UP && !pausa)  {
+				if (evento->key.keysym.sym == SDLK_UP)  {
 					Arriba_PRESIONADO = true;
 				}
-				if (evento->key.keysym.sym == SDLK_RIGHT && !pausa)  {
+				if (evento->key.keysym.sym == SDLK_RIGHT)  {
 					Der_PRESIONADO = true;
 				}
-				if ((evento->key.keysym.sym == SDLK_LEFT && !pausa))  {
+				if ((evento->key.keysym.sym == SDLK_LEFT))  {
 					Izq_PRESIONADO = true;
 				}
 				//-----------------------------------------
@@ -449,18 +449,18 @@ void Controlador(SDL_Event *evento){
 				if (evento->key.keysym.sym == SDLK_p)  {
 					pausa = !pausa;
 				}
-				if(evento->key.keysym.sym == SDLK_a && !pausa)  {
+				if(evento->key.keysym.sym == SDLK_a)  {
 					//~ barraDeVida1->Aliviar(20);
 					//~ barraDeVida2->Aliviar(20);
 				}
-				if(evento->key.keysym.sym == SDLK_c && !pausa)  {
+				if(evento->key.keysym.sym == SDLK_c)  {
 					if (cansandoPJ == false){
 						barraDeVida1->Cansar(50);
 						barraDeVida2->Cansar(50);
 						cansandoPJ = true;
 					}
 				}
-				if(evento->key.keysym.sym == SDLK_d && !pausa)  {
+				if(evento->key.keysym.sym == SDLK_d)  {
 					if (golpeandoPJ == false){
 						//~ barraDeVida1->Lastimar(90);
 						//~ barraDeVida2->Lastimar(750);
@@ -469,10 +469,10 @@ void Controlador(SDL_Event *evento){
 					}
 					break;
 				}
-				if(evento->key.keysym.sym == SDLK_s && !pausa)  {
+				if(evento->key.keysym.sym == SDLK_s)  {
 					golpeandoPJalta=true;
 				}
-				if(evento->key.keysym.sym == SDLK_f && !pausa)  {
+				if(evento->key.keysym.sym == SDLK_f)  {
 					golpeandoPJbaja=true;
 				}
 				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
