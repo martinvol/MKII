@@ -69,12 +69,21 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case PiniaBaja:
 			jugador->activarAccion(PINIABAJA);
 			break;
+		case MirarDerecha:
+			puts("hola?"); ///
+			jugador->activarAccion(MIRARDERECHA);
+			break;
+		case MirarIzquierda:
+			jugador->activarAccion(MIRARIZQUIERDA);
+			break;
+	
 		//~ case AbajoDerecha:
 			//~ jugador->activarAccion(AGACHARSE_DER);
 			//~ break;
 		//~ case AbajoIzquierda:
 			//~ jugador->activarAccion(AGACHARSE_IZQ);
 			//~ break;
+		
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
 			break;
@@ -245,10 +254,19 @@ void Director::verificar_orientaciones(){
 	CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
 	if (coord1->estaALaDerechaDe(coord2)){
 		jugadores[jugador1]->mirarParaIzquierda();
-		jugadores[jugador2]->mirarParaDerecha();
+		//~ this->informar_accion(MirarIzquierda,jugadores[jugador1]);
+		if (!jugadores[jugador2]->personaje->mirarDerecha){
+		
+			puts("hola");
+			jugadores[jugador2]->mirarParaDerecha();
+		
+			this->informar_accion(MirarDerecha,jugadores[jugador2]);
+		}
 	} else {
 		jugadores[jugador1]->mirarParaDerecha();
+		//~ this->informar_accion(MirarDerecha,jugadores[jugador1]);
 		jugadores[jugador2]->mirarParaIzquierda();
+		//~ this->informar_accion(MirarIzquierda,jugadores[jugador2]);
 	}
 	delete coord1;
 	delete coord2;

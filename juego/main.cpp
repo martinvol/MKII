@@ -289,9 +289,9 @@ public:
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
-            if(timerFps < int(1000/24)){
-                SDL_Delay(CONST_MAXI_DELAY);
-            }
+            //~ if(timerFps < int(1000/24)){
+                SDL_Delay(CONST_MAXI_DELAY+20);
+            //~ }
         }
 
     };
@@ -449,8 +449,8 @@ void Controlador(SDL_Event *evento){
 					pausa = !pausa;
 				}
 				if(evento->key.keysym.sym == SDLK_a && !pausa)  {
-					barraDeVida1->Aliviar(20);
-					barraDeVida2->Aliviar(20);
+					//~ barraDeVida1->Aliviar(20);
+					//~ barraDeVida2->Aliviar(20);
 				}
 				if(evento->key.keysym.sym == SDLK_c && !pausa)  {
 					if (cansandoPJ == false){
@@ -461,8 +461,8 @@ void Controlador(SDL_Event *evento){
 				}
 				if(evento->key.keysym.sym == SDLK_d && !pausa)  {
 					if (golpeandoPJ == false){
-						barraDeVida1->Lastimar(90);
-						barraDeVida2->Lastimar(750);
+						//~ barraDeVida1->Lastimar(90);
+						//~ barraDeVida2->Lastimar(750);
                         this->escenario->Temblar(SDL_GetTicks());
 						golpeandoPJ = true;
 					}
