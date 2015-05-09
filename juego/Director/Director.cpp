@@ -157,6 +157,7 @@ void Director::verificar_movimientos(){
 						}
 
 						sufre->barra->Lastimar(5);
+						this->escenario->Temblar(SDL_GetTicks());
 						Logger::instance()->log_debug("Le pego!!!");
 
 					}
