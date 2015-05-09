@@ -308,16 +308,18 @@ void Personaje::Dibujarse(){
 	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 	
 
-	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
-	}
+	int _w, _h;
+	
+	SDL_QueryTexture(this->imagenActual, NULL, NULL, &_w, &_h);
 
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
 	destino.y = coord2_fis->y_fisico;
-	destino.w = ancho_fisico;
-	destino.h = alto_fisico;
+	destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
+	destino.h = alto_fisico; //
 
+	SDL_Point point = {_w/2, _h};
 	
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 		// Para evitar hacer esto acá podría crear un objeto
@@ -328,9 +330,9 @@ void Personaje::Dibujarse(){
 
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_HORIZONTAL);
 	} else {
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_NONE);
 	}
 
 
