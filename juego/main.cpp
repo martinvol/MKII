@@ -331,13 +331,14 @@ public:
 //----------------------------------------------------------------
 void DibujarTodo(){
         //Limpio y dibujo
+        
         SDL_RenderClear(renderer);
-
+		
         SDL_Rect fillRect = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
-
+		
         SDL_RenderCopy(renderer, under, NULL, &r);
 
         for (int i = 0; i < escenario->capas.size(); i++){
@@ -451,13 +452,16 @@ void Controlador(SDL_Event *evento){
 						cansandoPJ = true;
 					}
 				}
-				if((evento->key.keysym.sym == SDLK_d && !pausa))  {
+				if(evento->key.keysym.sym == SDLK_d && !pausa)  {
 					if (golpeandoPJ == false){
 						barraDeVida1->Lastimar(90);
 						barraDeVida2->Lastimar(750);
 						golpeandoPJ = true;
 					}
 					break;
+				}
+				if(evento->key.keysym.sym == SDLK_s && !pausa)  {
+					golpeandoPJ=true;
 				}
 				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
 				if (evento->key.keysym.sym == SDLK_r){
@@ -483,7 +487,7 @@ void Controlador(SDL_Event *evento){
                 //-----------------------------------------
                 //-----------------------------------------
                 if(evento->key.keysym.sym == SDLK_p)  {
-                    pausa = !pausa;
+                    //~ pausa = !pausa;
                     //Extraer esto si es posible. El metodo depende del estado del
                     //estado de la variable pausa.
                     this->timer->pausarTimer(SDL_GetTicks());
@@ -493,6 +497,9 @@ void Controlador(SDL_Event *evento){
                 }
                 if((evento->key.keysym.sym == SDLK_c))  {
                     cansandoPJ = false;
+                }
+                if((evento->key.keysym.sym == SDLK_s))  {
+                    golpeandoPJ=false;
                 }
                 break;
 			default:
@@ -531,7 +538,12 @@ void ActualizarModelo(){
 	} else if (Abajo_PRESIONADO){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Abajo);
-	} else {
+	}
+	//MILE
+	else if (golpeandoPJ){
+		this->director->seMuevePersonaje(jugador1, PiniaAlta);
+	} 
+	else {
 		this->director->seMuevePersonaje(jugador1, Nada);
 	}
 	
