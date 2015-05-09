@@ -174,31 +174,33 @@ public:
 										parser->personaje_alto, estado,
 										parser->personaje_mirar_derecha, this->conversor);
 
-		x_logico_personaje2 = (parser->escenario_ancho/2.) + SEPARACION/2;
-
-        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-                            renderer, parser->personaje_alto, parser->escenario_alto,
-                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
-        this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
-                                        "Segundo", renderer, parser->personaje_ancho,
-                                        parser->personaje_alto, estado2,
-                                        parser->personaje_mirar_derecha, this->conversor);
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
-	//~ // PERSONAJE 2
-		//~ // Cargamos al personaje en el medio de la ventana, pero del lado derecho.
-		//~ // Este x_logico es del extremo izquierdo del personaje.
-        //~ x_logico_personaje2 = (parser->escenario_ancho/2.);
-		//~ estado = new Estado((string)(this->parser->sprites_map["personaje2"]),
-							//~ renderer, parser->personaje2_alto, parser->escenario_alto,
-							//~ parser->personaje2_ancho, parser->escenario_ancho);
-        //~ this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje2,parser->escenario_ypiso),
-										//~ "Kabal", renderer, parser->personaje2_ancho,
-										//~ parser->personaje2_alto, estado,
-										//~ parser->personaje2_mirar_derecha); 
-       //~ //Derecha
+
+	// PERSONAJE 2
+		// Cargamos al personaje en el medio de la ventana, pero del lado derecho.
+		// Este x_logico es del extremo izquierdo del personaje.
+		x_logico_personaje2 = (parser->escenario_ancho/2.) + SEPARACION/2;
+
+        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+    	// this->estado2 = new Estado((string)(this->parser->sprites_map["personaje2"]),
+                            renderer, parser->personaje_alto, parser->escenario_alto,
+   							// renderer, parser->personaje2_alto, parser->escenario_alto,
+                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+                            // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+        this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
+                                        "Segundo", renderer, parser->personaje_ancho,
+                                        // "Kabal", renderer, parser->personaje2_ancho,
+                                        parser->personaje_alto, estado2,
+                                        // parser->personaje2_alto, estado2,
+                                        ! parser->personaje_mirar_derecha, this->conversor);
+                                        // parser->personaje2_mirar_derecha, this->conversor);
+
+       //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+
+		cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
@@ -233,10 +235,9 @@ public:
         this->parser = new Parser();
         cargar_configuracion(this->parser);
 		
-		//~ // Para dos personajes:
+		// Para dos personajes:
 		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
-		//~ // Con un personaje:
-		//director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, barraDeVida1, FACTOR_SCROLL, this->timer);
+		
 //>>>>>>> remotes/origin/ClonarMaster
 
         Player1 = SDL_JoystickOpen(0);

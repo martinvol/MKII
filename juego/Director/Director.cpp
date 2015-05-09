@@ -63,70 +63,105 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case Abajo:
 			jugador->activarAccion(AGACHARSE);
 			break;
-		//~ case AbajoDerecha:
-			//~ jugador->activarAccion(AGACHARSE_DER);
-			//~ break;
-		//~ case AbajoIzquierda:
-			//~ jugador->activarAccion(AGACHARSE_IZQ);
-			//~ break;
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
 			break;
 	}
 }
 
-void Director::verificar_movimiento(Jugador* jugador){
+void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 
 	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
-	CoordenadaLogica* coord1 = jugador->obtenerSiguienteCoordenadaDerSup();
-	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
-	// Verifica altura.
-	if (this->ventana->superaTecho(coord1_fis)){
-		coord1->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+	CoordenadaLogica* coordSig = jugador->obtenerSiguienteCoordenadaDerSup();
+	CoordenadaFisica* coordSig_fis = this->conversor->aFisica(coordSig);
+		// Verifica altura.
+	if (this->ventana->superaTecho(coordSig_fis)){
+		coordSig->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
 	}
+	
+	// Si se choca con el otro personaje, no se puede mover.
+	// Lado Derecho de Este jugador:
+	CoordenadaLogica* coordEste = jugador->obtenerCoordenadaDerInf();
+	CoordenadaLogica* coordOtro = elOtro->obtenerCoordenadaIzqSup();
+	  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
+	if ((coordEste->x <= coordOtro->x) && (coordSig->x >= coordOtro->x) && (coordSig->y <= coordOtro->y)){
+		coordSig->setearX(coordOtro->x);
+		jugador->moverseADerSup(coordSig);
+		delete coordSig;
+		delete coordSig_fis;
+		delete coordEste;
+		delete coordOtro;
+		return;
+	}
+	delete coordEste;
+	delete coordOtro;
 	
 	// Caso: scrollear a la derecha.
-	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeDer){
+	if (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeDer){
 		scrollearDerecha();
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
-		if (coord1->x > margen_der){
-			coord1->setearX(margen_der);
+		if (coordSig->x > margen_der){
+			coordSig->setearX(margen_der);
 		}
-		jugador->moverseADerSup(coord1);
+		jugador->moverseADerSup(coordSig);
+		delete coordSig;
+		delete coordSig_fis;
 		return;		
 	}
+	delete coordSig;
+	delete coordSig_fis;
 	
-	// Caso: scrollear a la izquierda.
-	delete coord1;
-	delete coord1_fis;
-	coord1 = jugador->obtenerSiguienteCoordenadaIzqSup();
-	coord1_fis = this->conversor->aFisica(coord1);
-	// Verifica altura.
-	if (this->ventana->superaTecho(coord1_fis)){
-		coord1->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+	// Caso: scrollear izquierda
+	coordSig = jugador->obtenerSiguienteCoordenadaIzqSup();
+	coordSig_fis = this->conversor->aFisica(coordSig);
+		// Verifica altura.
+	if (this->ventana->superaTecho(coordSig_fis)){
+		coordSig->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
 	}
 	
-	if (this->ventana->coordenadaEnPantalla(coord1_fis) == bordeIzq) {
+	// Si se choca con el otro personaje, no se puede mover.
+	// Lado Izquierdo de Este jugador:
+	coordEste = jugador->obtenerCoordenadaIzqInf();
+	coordOtro = elOtro->obtenerCoordenadaDerSup();
+	  // Si estaba a la derecha, y quiere terminar a la izquierda, se choca y no puede.
+	if ((coordEste->x >= coordOtro->x) && (coordSig->x <= coordOtro->x) && (coordSig->y <= coordOtro->y)){
+		coordSig->setearX(coordOtro->x);
+		jugador->moverseAIzqSup(coordSig);
+		delete coordSig;
+		delete coordSig_fis;
+		delete coordEste;
+		delete coordOtro;
+		return;
+	}
+	delete coordEste;
+	delete coordOtro;
+	
+	// Caso: scrollear a la izquierda.
+	if (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeIzq) {
 	    scrollearIzquierda();
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
-		if (coord1->x < margen_izq) coord1->setearX(margen_izq);
-		jugador->moverseAIzqSup(coord1);
+		if (coordSig->x < margen_izq) coordSig->setearX(margen_izq);
+		jugador->moverseAIzqSup(coordSig);
+		delete coordSig;
+		delete coordSig_fis;
 		return;
 	}
 	    
 	// Caso: la posición era válida en ancho.
-	jugador->moverseAIzqSup(coord1);
-	
+	jugador->moverseAIzqSup(coordSig);
+	delete coordSig;
+	delete coordSig_fis;
+
 }
 
 /* Por ahora, sólo valida el movimiento de UN JUGADOR. */
 void Director::verificar_movimientos(){
-
-	verificar_movimiento(jugadores[jugador1]);
-	verificar_movimiento(jugadores[jugador2]);
+	cout << "Jugador 1" << endl;
+	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
+	cout << "Jugador 2" << endl;
+	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
 	
 	// chequear colisiones:
-
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
 	std::vector<Rectangulo*>* rectangulos_jug2 = jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos;
 
@@ -161,7 +196,7 @@ bool Director::sePuedeScrollearDerecha(){
 	// Si algun personaje quiere moverse más allá del borde izquierdo, no se puede scrollear a la derecha.
 		//Jugador1
 	CoordenadaLogica* coord = jugadores[jugador1]->obtenerSiguienteCoordenadaIzqSup();
-	CoordenadaFisica*coord_fis = this->conversor->aFisica(coord);
+	CoordenadaFisica* coord_fis = this->conversor->aFisica(coord);
 	sePuede &= not (this->ventana->coordenadaEnPantalla(coord_fis) == bordeIzq);
 	delete coord;
 	delete coord_fis;

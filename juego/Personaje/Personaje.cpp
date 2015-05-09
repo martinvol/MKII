@@ -70,7 +70,6 @@ Personaje::~Personaje(){
 */
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor){
-//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 
 	this->alto = alto;
 	this->ancho = ancho;
@@ -89,40 +88,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 	
-
 }
-//~ /**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
- //~ * se debe mostrar por pantalla.
- //~ * Recibe por parametro la nueva Accion que el loop del juego
- //~ * quiere que el Personaje represente, 
- //~ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- //~ */ 
- //~ void Personaje::definir_imagen(accion_posible nuevaAccion){
-	//~ 
-	//~ puts("----------------------------------------------------------------------------------");	
-	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
-	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-	//~ 
-	//~ if (this->nroAccionActual != nuevaAccion){
-		//~ cambiarAccionA(nuevaAccion);
-		//~ this->imagenActual = this->accionActual->getImagenActual();
-		//~ return;
-	//~ }
-	//~ 
-	//~ this->accionActual->execute();
-	//~ this->imagenActual = this->accionActual->getImagenActual();
-	//~ return;	
-//~ }
-
-/**
- * 
- */ 
-//void Personaje::Dibujarse(int x, int y){
-//    int ancho, alto;
-//	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
-//	this->Dibujarse(x, y, float(alto), float(ancho));
-//	this->barraDeVida->Dibujarse();
-//}
 
 Personaje::~Personaje(){
 	delete this->coordenada;
@@ -223,15 +189,15 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
 	if (!this->coordenada) delete coordenada;
-	coord->desplazarY(-alto);
-	coordenada = coord;
+	coordenada = new CoordenadaLogica(coord);
+	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	if (!this->coordenada) delete coordenada;
-	coord->desplazarY(-alto);
-	coord->desplazarX(-ancho);
-	coordenada = coord;
+	coordenada = new CoordenadaLogica(coord);
+	coordenada->desplazarY(-alto);
+	coordenada->desplazarX(-ancho);
 }
 
 /***********************************************************************
