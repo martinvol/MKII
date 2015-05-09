@@ -79,14 +79,17 @@ Caminar.o: juego/Personaje/Acciones/Caminar.cpp
 Agacharse.o: juego/Personaje/Acciones/Agacharse.cpp
 	$(CC) "juego/Personaje/Acciones/Agacharse.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
+PiniaAlta.o: juego/Personaje/Acciones/PiniaAlta.cpp
+	$(CC) "juego/Personaje/Acciones/PiniaAlta.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
 Estado.o: juego/Personaje/Estado.cpp
 	$(CC) "juego/Personaje/Estado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 Personaje.o: juego/Personaje/Personaje.cpp
 	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o
-	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o PiniaAlta.o Accion.o 
+	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o PiniaAlta.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Timer.o: 
 	$(CC) "juego/Escenario/Timer.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -c
@@ -110,6 +113,8 @@ Caminar: Accion.o Caminar.o
 SaltarDiagonal: Accion.o SaltarDiagonal.o
 	$(CC)  Accion.o  SaltarDiagonal.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "SaltarDiagonal"
 
+PiniaAlta: Accion.o PiniaAlta.o
+	$(CC)  Accion.o  PiniaAlta.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PiniaAlta"
 
 Personaje: Personaje.o Accion.o	Estado.o
 	$(CC)   Accion.o Estado.o Personaje.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
@@ -125,7 +130,7 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o Director.o Jugador.o Ventana.o Timer.o
+compilar_juego: Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o Director.o Jugador.o Ventana.o Timer.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

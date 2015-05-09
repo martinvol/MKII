@@ -13,6 +13,7 @@
 #include "../Personaje/Acciones/SaltarDiagonal.hpp"
 #include "../Personaje/Acciones/Caminar.hpp"
 #include "../Personaje/Acciones/Agacharse.hpp"
+#include "../Personaje/Acciones/PiniaAlta.hpp"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ class Estado{
 		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
 		Agacharse* agacharse;
+		PiniaAlta* piniaAlta;
 		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho);
 		~Estado();
 
