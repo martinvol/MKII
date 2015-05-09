@@ -315,6 +315,7 @@ void Personaje::Dibujarse(){
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
+	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico - _w;
 	destino.y = coord2_fis->y_fisico;
 	destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
 	destino.h = alto_fisico; //
