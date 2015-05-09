@@ -145,9 +145,21 @@ void Director::verificar_movimientos(){
 					rectangulos_jug2->at(i)->sdl_rec, 
 					&interseccion
 				);
+				
 				if (coli){
-					
-					Logger::instance()->log_debug("colisiono!!");
+					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
+						Jugador* sufre;
+						if (rectangulos_jug1->at(i)->ataque){
+							//Jugador atacante = jugadores[jugador1];
+							sufre = jugadores[jugador2];
+						} else {
+							sufre = jugadores[jugador1];
+						}
+
+						sufre->barra->Lastimar(5);
+						Logger::instance()->log_debug("Le pego!!!");
+
+					}
 				}
 
 			}
