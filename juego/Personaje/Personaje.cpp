@@ -160,6 +160,7 @@ void Personaje::activarAccion(accion_posible accion){
 					siguiente = coord;
 				}
 				break;
+			case PINIABAJA:
 			case PINIAALTA:
 				if (this->accionActual->esUltimoModo()){
 					cambiarAccionA(QUIETO);
@@ -291,6 +292,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;	
 		case PINIAALTA:
 			this->accionActual = this->estado->piniaAlta;
+			break;
+		case PINIABAJA:
+			this->accionActual = this->estado->piniaBaja;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

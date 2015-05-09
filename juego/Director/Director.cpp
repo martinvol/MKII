@@ -66,6 +66,9 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case PiniaAlta:
 			jugador->activarAccion(PINIAALTA);
 			break;
+		case PiniaBaja:
+			jugador->activarAccion(PINIABAJA);
+			break;
 		//~ case AbajoDerecha:
 			//~ jugador->activarAccion(AGACHARSE_DER);
 			//~ break;
@@ -148,15 +151,19 @@ void Director::verificar_movimientos(){
 				
 				if (coli){
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
-						Jugador* sufre;
+						Jugador* sufre, *pegando;
+
 						if (rectangulos_jug1->at(i)->ataque){
-							//Jugador atacante = jugadores[jugador1];
+							pegando = jugadores[jugador1];
 							sufre = jugadores[jugador2];
 						} else {
+							pegando = jugadores[jugador2];
 							sufre = jugadores[jugador1];
 						}
 
-						sufre->barra->Lastimar(5);
+						sufre->barra->Lastimar(
+							pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio
+						);
 						this->escenario->Temblar(SDL_GetTicks());
 						Logger::instance()->log_debug("Le pego!!!");
 

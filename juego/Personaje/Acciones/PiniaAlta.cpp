@@ -12,6 +12,8 @@ PiniaAlta::PiniaAlta(string ruta, SDL_Renderer* ren, float despl_x, float despl_
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(0, 73, 30, 30, true, false));
 	rectangulos->push_back(new Rectangulo(20, 20, 80, 50, false, false)); // piernas
+
+	this->porcentajeDeDanio = 3;
 };
 
 CoordenadaLogica* PiniaAlta::execute(CoordenadaLogica* coord_personaje){	

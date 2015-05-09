@@ -72,6 +72,8 @@ public:
     //seria un desperdicio.
     bool Arriba_PRESIONADO = false, Abajo_PRESIONADO = false, Izq_PRESIONADO = false, Der_PRESIONADO = false;
     bool golpeandoPJ = false;
+    bool golpeandoPJalta = false;
+    bool golpeandoPJbaja = false;
     bool cansandoPJ = false;
     
     Sint16 presionado=0;
@@ -467,7 +469,10 @@ void Controlador(SDL_Event *evento){
 					break;
 				}
 				if(evento->key.keysym.sym == SDLK_s && !pausa)  {
-					golpeandoPJ=true;
+					golpeandoPJalta=true;
+				}
+				if(evento->key.keysym.sym == SDLK_f && !pausa)  {
+					golpeandoPJbaja=true;
 				}
 				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
 				if (evento->key.keysym.sym == SDLK_r){
@@ -507,7 +512,10 @@ void Controlador(SDL_Event *evento){
                     cansandoPJ = false;
                 }
                 if((evento->key.keysym.sym == SDLK_s))  {
-                    golpeandoPJ=false;
+                    golpeandoPJalta = false;
+                }
+                if((evento->key.keysym.sym == SDLK_f))  {
+                    golpeandoPJbaja = false;
                 }
                 break;
 			default:
@@ -548,10 +556,11 @@ void ActualizarModelo(){
 		this->director->seMuevePersonaje(jugador1, Abajo);
 	}
 	//MILE
-	else if (golpeandoPJ){
+	else if (golpeandoPJalta){
 		this->director->seMuevePersonaje(jugador1, PiniaAlta);
-	} 
-	else {
+	} else if (golpeandoPJbaja){
+		this->director->seMuevePersonaje(jugador1, PiniaBaja);
+	}else {
 		this->director->seMuevePersonaje(jugador1, Nada);
 	}
 	
