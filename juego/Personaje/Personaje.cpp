@@ -69,7 +69,7 @@ Personaje::~Personaje(){
 }
 */
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor){
 	// 4 flechas
 	Nada = Izquierda = Derecha = Arriba = Abajo = false;
 	// 2 pinias
@@ -86,7 +86,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->coordenada = coord;
 	this->siguiente = NULL;
 	
-	this->mirarDerecha = derecha;
+	this->mirarDerecha = false;
 	
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;

@@ -174,7 +174,7 @@ public:
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje_ancho,
 										parser->personaje_alto, estado,
-										parser->personaje_mirar_derecha, this->conversor);
+										this->conversor);
 
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -196,7 +196,7 @@ public:
                                         // "Kabal", renderer, parser->personaje2_ancho,
                                         parser->personaje_alto, estado2,
                                         // parser->personaje2_alto, estado2,
-                                        ! parser->personaje_mirar_derecha, this->conversor);
+                                        this->conversor);
                                         // parser->personaje2_mirar_derecha, this->conversor);
 
        //Derecha
