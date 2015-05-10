@@ -157,7 +157,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, f
 	this->h_max = h_max;
 
 	this->direccionDerecha = true;
-
+	
 	this->rectangulos = new vector<Rectangulo*>();
 	//cout <<" "<< this->rectangulos->size() << " " << nroAccion << '\n';
 }

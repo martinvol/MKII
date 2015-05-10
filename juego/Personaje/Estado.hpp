@@ -13,6 +13,9 @@
 #include "../Personaje/Acciones/SaltarDiagonal.hpp"
 #include "../Personaje/Acciones/Caminar.hpp"
 #include "../Personaje/Acciones/Agacharse.hpp"
+#include "../Personaje/Acciones/PiniaAlta.hpp"
+#include "../Personaje/Acciones/PiniaBaja.hpp"
+#include "../Personaje/Acciones/Girar.hpp"
 
 using namespace std;
 
@@ -26,6 +29,9 @@ class Estado{
 		SaltarDiagonal* saltardiagonal;
 		Agacharse* agacharse;
 		Estado(string ruta, SDL_Renderer* ren, SDL_Window* win, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho);
+		PiniaAlta* piniaAlta;
+		PiniaBaja* piniaBaja;
+		Girar* girar;
 		~Estado();
 
 };

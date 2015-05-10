@@ -3,12 +3,12 @@
       "anchopx":800,
       "altopx":600,
       "ancho":400,
-      "margen":80
+      "margen":90
    },
    "escenario":{
       "ancho":1216,
       "alto":255,
-      "ypiso":0
+      "ypiso":5
    },
    "capas":[
       {
@@ -33,7 +33,7 @@
       }
    ],
    "personaje":{
-      "ancho":63,
+      "ancho":127,
       "alto":63,
       "zindex":60,
       "sprites":{

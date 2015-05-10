@@ -12,14 +12,19 @@
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
 #include "../Escenario/BarraDeVida.hpp"
+#define JOYSTICK_DEAD_ZONE 10000
 
 
 using namespace std;
+//enum botones {Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, MirarDerecha, MirarIzquierda};
 
 class Personaje {
 		//Conf* parser;
 		
 	public:
+	bool Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, PatadaAlta, PatadaBaja, ArrojarArma, Cubrirse;
+		
+	void ActualizarControlador(SDL_Joystick *joystick);
 	
 	//~ private:
 		/* Sus anchos y altos lógicos. */

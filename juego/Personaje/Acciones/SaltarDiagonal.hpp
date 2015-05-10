@@ -19,7 +19,9 @@ class SaltarDiagonal: public Accion{
 				delta = 2.0 * h_max/cantModos;
 				impar = false;
 			}
-		}	
+			rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
+			rectangulos->push_back(new Rectangulo(49, 20, 30, 70, false, false)); // piernas
+		}
 		
 		void cambiarModo();
 		void cambiarModoInversamente();

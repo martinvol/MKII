@@ -70,8 +70,15 @@ Personaje::~Personaje(){
 */
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor){
-//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
-
+	// 4 flechas
+	Nada = Izquierda = Derecha = Arriba = Abajo = false;
+	// 2 pinias
+	PiniaAlta = PiniaBaja = false;
+	// 2 patadas
+	PatadaAlta = PatadaBaja = false;
+	// arrojable y cubrirse
+	ArrojarArma = Cubrirse = false;
+	
 	this->alto = alto;
 	this->ancho = ancho;
 	this->conversor = conversor;
@@ -83,46 +90,13 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
-	this->accionActual = this->estado->quieto;
+	this->accionActual = this->estado->	quieto;
 	this->imagenActual = this->accionActual->getImagenActual();
 	
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 	
-
 }
-//~ /**Se encarga de determinar segun el tiempo transcurrido, qué imagen 
- //~ * se debe mostrar por pantalla.
- //~ * Recibe por parametro la nueva Accion que el loop del juego
- //~ * quiere que el Personaje represente, 
- //~ * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- //~ */ 
- //~ void Personaje::definir_imagen(accion_posible nuevaAccion){
-	//~ 
-	//~ puts("----------------------------------------------------------------------------------");	
-	//~ cout<<"Accion actual: "<<this->nroAccionActual<<" Accion entratnte: "<<nuevaAccion<<endl;
-	//~ cout<<"A la entrada estaba en el modo nro: "<<this->accionActual->getModoActual()<<endl;
-	//~ 
-	//~ if (this->nroAccionActual != nuevaAccion){
-		//~ cambiarAccionA(nuevaAccion);
-		//~ this->imagenActual = this->accionActual->getImagenActual();
-		//~ return;
-	//~ }
-	//~ 
-	//~ this->accionActual->execute();
-	//~ this->imagenActual = this->accionActual->getImagenActual();
-	//~ return;	
-//~ }
-
-/**
- * 
- */ 
-//void Personaje::Dibujarse(int x, int y){
-//    int ancho, alto;
-//	SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
-//	this->Dibujarse(x, y, float(alto), float(ancho));
-//	this->barraDeVida->Dibujarse();
-//}
 
 Personaje::~Personaje(){
 	delete this->coordenada;
@@ -159,9 +133,54 @@ void Personaje::activarAccion(accion_posible accion){
 					delete siguiente;
 					siguiente = coord;
 				}
+				break;
+			case PINIABAJA:
+			case PINIAALTA:
+				if (this->accionActual->esUltimoModo()){
+					cambiarAccionA(QUIETO);
+				}
+			
+			//~ case MIRARIZQUIERDA:
+				//~ if(this->accionActual->esUltimoModo()){
+					//~ puts ("holi");
+					//~ cambiarAccionA(QUIETO);
+				//~ }
+			
 			default:
 				break;
 		}
+	}
+	
+	/// MILE!!!
+	/* De las acciones se pueden interrumpir los saltos: con pinias, 
+	 * patadas y el arrojable.
+	 * Ahora 'andan' los saltos con pinias (o sea, muestra el cout).
+	 * 
+	 * */
+	switch(nroAccionActual){		
+		case SALTARDIAGONAL_DER:
+			if (accion == PINIAALTA || accion == PINIABAJA){				
+				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
+			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
+			}
+			break;
+		case SALTARDIAGONAL_IZQ:
+			if (accion == PINIAALTA || accion == PINIABAJA){				
+				cout<<"SALTO CON PINIA"<<endl; ///
+			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cout<< "SALTO CON PATADA"<<endl; ///
+			}			
+			break;
+		case SALTAR:
+			if (accion == PINIAALTA || accion == PINIABAJA){				
+				cout<<"SALTO VERTICAL CON PINIA"<<endl; ///
+			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cout<< "SALTO VERTICAL CON PATADA"<<endl; ///
+			}else if (accion == ARROJARARMA){
+				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
+			}
+			break;			
 	}
 //~ if (nroAccionActual == AGACHARSE)
 //~ cout<<"quiero agacharme"<<endl;
@@ -223,15 +242,15 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
 	if (!this->coordenada) delete coordenada;
-	coord->desplazarY(-alto);
-	coordenada = coord;
+	coordenada = new CoordenadaLogica(coord);
+	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	if (!this->coordenada) delete coordenada;
-	coord->desplazarY(-alto);
-	coord->desplazarX(-ancho);
-	coordenada = coord;
+	coordenada = new CoordenadaLogica(coord);
+	coordenada->desplazarY(-alto);
+	coordenada->desplazarX(-ancho);
 }
 
 /***********************************************************************
@@ -255,6 +274,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	switch (nroAccionActual)
 	{ 
 		case QUIETO:
+			puts( "y entre a quieto");
 			this->accionActual = this->estado->quieto;
 			break;
 		case CAMINAR_DERECHA:
@@ -283,7 +303,28 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 				this->accionActual->setInvertirSecuencia();
 			}
 			this->accionActual->setDireccionDerecha();
-			break;		
+			break;	
+		case PINIAALTA:
+			this->accionActual = this->estado->piniaAlta;
+			break;
+		case PINIABAJA:
+			this->accionActual = this->estado->piniaBaja;
+			break;
+			
+		case MIRARDERECHA:
+			this->accionActual = this->estado->girar;
+			if (!this->mirarDerecha){
+				this->accionActual->setInvertirSecuencia();
+			}
+			this->accionActual->setDireccionDerecha();
+			break;
+		case MIRARIZQUIERDA:
+			this->accionActual = this->estado->girar;
+			if(this->mirarDerecha){
+				this->accionActual->setInvertirSecuencia();
+			}
+			this->accionActual->setDireccionIzquierda();
+			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->mirarDerecha){
@@ -307,22 +348,25 @@ void Personaje::Dibujarse(){
 	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 	
 
-	if ( nroAccionActual == SALTAR || nroAccionActual == SALTARDIAGONAL_DER || nroAccionActual == SALTARDIAGONAL_IZQ ){
-	}
+	int _w, _h;
+	
+	_w = this->imagenActual->getWidth();
+	_h = this->imagenActual->getHeight();
 
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
+	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico - _w;
 	destino.y = coord2_fis->y_fisico;
-	destino.w = ancho_fisico;
-	destino.h = alto_fisico;
-	
+	destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
+	destino.h = alto_fisico; //
 
+	SDL_Point point = {_w/2, _h};
 	
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 		// Para evitar hacer esto acá podría crear un objeto
 		// pero no quiero hacer una clase solo para este loop
-		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer);
+		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer, !mirarDerecha);
 			
 	}
 	
@@ -336,11 +380,6 @@ void Personaje::Dibujarse(){
 		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
 
-
-
-
-
-	
 	delete coord1;
 	delete coord1_fis;
 	delete coord2;
@@ -384,3 +423,75 @@ void Personaje::Dibujarse(){
 //~ int Personaje::getSpriteActual(){
 	//~ return this->accionActual->getModoActual();
 //~ }
+
+/***********************************************************************
+ * 
+ * 							CONTROLADOR
+ *
+ **********************************************************************/  
+ void Personaje::ActualizarControlador(SDL_Joystick *joystick){
+	if (joystick == NULL)
+		return;
+	 
+	int x_Joystick = SDL_JoystickGetAxis(joystick, 0);
+	int y_Joystick = SDL_JoystickGetAxis(joystick, 1);
+	
+//Horizontal
+	if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
+		Izquierda = true;		
+	}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
+		Derecha = true;			
+	}else{	//  x = 0;				
+		Izquierda = false;
+		Derecha = false;
+	}
+//Vertical
+	if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
+		Arriba = true;		
+	}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
+		Abajo = true;		
+	}else{ //yDir = 0;		
+		Arriba = false;
+		Abajo = false;
+	}	 
+	
+	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
+		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
+		if ( boton != 0 ){
+			switch (i){
+				case 0:
+					PiniaBaja = true;					
+					break;
+				case 1:
+					Cubrirse = true;
+					break;
+				case 2:
+					PatadaBaja = true;
+					break;
+				case 3:
+					PiniaAlta = true;
+					break;
+				case 4:
+					ArrojarArma = true;
+					break;
+				case 5:
+					PatadaAlta = true;
+					break;				
+			}
+			cout <<"Apretado boton "<< i <<endl; ///				
+			
+		}else{
+			//Si no se aprieto boton --> todos en falso.
+			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;			
+		}
+		//Si ya estaba apretado lo dejo.
+		if (SDL_JoystickGetButton(joystick,1) == 1){
+			Cubrirse = true;
+			cout<<"cubriendose"<<endl; ///
+		}else{
+			Cubrirse = false;
+		}
+		
+	}
+	 
+}
