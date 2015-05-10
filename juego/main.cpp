@@ -29,6 +29,7 @@ using namespace std;
 
 
 // Esto no debería ser global, o si?
+// Si, ya fue.
 Logger *logger = Logger::instance();
 
 
@@ -72,9 +73,6 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 
 class Juego{
 public:
-    // Para no tener que crearlas y destruirlas en cada loop del juego
-    //seria un desperdicio.
-    //bool Arriba_PRESIONADO = false, Abajo_PRESIONADO = false, Izq_PRESIONADO = false, Der_PRESIONADO = false;
     bool golpeandoPJ = false;
     bool golpeandoPJalta = false;
     bool golpeandoPJbaja = false;
@@ -334,9 +332,8 @@ public:
 //----------------------------------------------------------------
     void reiniciarJuego(){
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
-        terminar_juego();
-        
-		//Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = Abajo_PRESIONADO  = false;
+        terminar_juego();        
+		
         configurar();
 
 /*<<<<<<< HEAD
@@ -426,57 +423,21 @@ void DibujarTodo(){
 /* El de ahora debería ser avisándole al director */
 void Controlador(SDL_Event *evento){		
 	//myID = SDL_JoystickInstanceID(Player1);
-	///cout<< myID<<endl;	
-	if (evento->type == SDL_JOYDEVICEREMOVED)
-		cout<<"AAAAAAAAAAAAA"<<endl;	
-	
-		//myID == -1;
+	///cout<< myID<<endl;			
 		
 	while(SDL_PollEvent( evento )) {
 		if(usandoJoystick){			
 			SDL_JoystickUpdate ();
-			personajeJuego->ActualizarControlador(Player1);
-			/*x_Joystick = SDL_JoystickGetAxis(Player1, 0);
-			y_Joystick = SDL_JoystickGetAxis(Player1, 1);
-			
-			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
-				//  x = -1;
-				Izq_PRESIONADO = true;
-
-			}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){
-				//  x =  1;
-				Der_PRESIONADO = true;
-			}else{
-				//  x = 0;
-				Izq_PRESIONADO = false;
-				Der_PRESIONADO = false;
-			}
-
-			//Vertical
-			if( y_Joystick < -JOYSTICK_DEAD_ZONE ){
-				//  y = -1;
-				Arriba_PRESIONADO = true;
-			}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){
-				//y =  1;
-				Abajo_PRESIONADO = true;
-				;
-			}else{
-				//yDir = 0;
-				Arriba_PRESIONADO = false;
-				Abajo_PRESIONADO = false;
-			}*/
-		
+			personajeJuego->ActualizarControlador(Player1);					
 		}
 		//-----------------------------------------
-		//----------EVENTOS NO-JOYSTICK------------
-		//-----------------------------------------
-		
+		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
+		//-----------------------------------------		
 		switch(evento->type){
 			case SDL_QUIT:
 				salir = true;
 				break;
 			case SDL_KEYDOWN:
-
 				//-----------------------------------------
 				//-----------------------------------------
 				//---------------BASICOS-------------------
@@ -543,12 +504,7 @@ void Controlador(SDL_Event *evento){
                 }
                 //-----------------------------------------
                 //-----------------------------------------
-                if(evento->key.keysym.sym == SDLK_p)  {
-
-                    //pausa = !pausa;
-
-                    //Extraer esto si es posible. El metodo depende del estado del
-                    //estado de la variable pausa.
+                if(evento->key.keysym.sym == SDLK_p)  {                   
                     this->timer->pausarTimer(SDL_GetTicks());
                 }
                 if((evento->key.keysym.sym == SDLK_d))  {
