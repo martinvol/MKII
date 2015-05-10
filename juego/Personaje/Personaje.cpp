@@ -326,7 +326,7 @@ void Personaje::Dibujarse(){
 			
 	}
 	
-	this->imagenActual->modificarHue(0, 60, 20);
+	this->imagenActual->modificarHue(0, 230, 0);
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
 		this->imagenActual->render(destino.x,destino.y,NULL,0,NULL,SDL_FLIP_HORIZONTAL);

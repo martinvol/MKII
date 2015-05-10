@@ -92,7 +92,7 @@ bool loadMedia()
 	bool success = true;
 
 	//Load foo' texture
-	if( !gFooTexture->loadFromFile( "resources/background/fondo.png" ) )
+	if( !gFooTexture->loadFromFile( "resources/jugador/SubZero/0/2.png" ) )
 	{
 		printf( "Failed to load corner texture!\n" );
 		success = false;
@@ -138,7 +138,7 @@ int main( int argc, char* args[] )
 			bool quit = false;
 			//Event handler
 			SDL_Event e;
-			gFooTexture->modificarHue(40, 80, 105);
+			gFooTexture->modificarHue(300, 300, 200);
 			//While application is running
 			while( !quit )
 			{

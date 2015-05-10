@@ -46,6 +46,7 @@ bool LTexture::loadFromFile( string path )
 	}
 	else
 	{
+		
 		//Convert surface to display format
 		SDL_Surface* formattedSurface = SDL_ConvertSurface( loadedSurface, SDL_GetWindowSurface( gWindow )->format, 0 );
 		if( formattedSurface == NULL )
@@ -54,6 +55,8 @@ bool LTexture::loadFromFile( string path )
 		}
 		else
 		{
+			
+			
 			//Create blank streamable texture
 			newTexture = SDL_CreateTexture( gRenderer, SDL_GetWindowPixelFormat( gWindow ), SDL_TEXTUREACCESS_STREAMING, formattedSurface->w, formattedSurface->h );
 			if( newTexture == NULL )
@@ -82,7 +85,7 @@ bool LTexture::loadFromFile( string path )
 		}	
 		
 		//Get rid of old loaded surface
-		SDL_FreeSurface( loadedSurface );
+		//SDL_FreeSurface( loadedSurface );
 	}
 
 	//Return success
@@ -161,6 +164,7 @@ void LTexture::setAlpha( Uint8 alpha )
 
 void LTexture::render( int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip )
 {
+	this->actualizarTextura();
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
@@ -253,82 +257,202 @@ float min3(float a, float b, float c) {
 	return c;
 }
 
-void RGBaHSV(Uint8* r, Uint8* g, Uint8* b, int* h, int* s, int* v) {
-	// Recibe los punteros r, g, b. 'Devuelve' su transformada en
-	// HSV rellenando el contenido de los punteros.
-	
-	// De Wikipedia:
-	
-	float _r = *r / 255.0;
-	float _g = *g / 255.0;
-	float _b = *b / 255.0;
-	
-	float max = max3(_r, _g, _b);
-	float min = min3(_r, _g, _b);
-	
-	if (max == min) *h = -1; // No esta definido
-	if ((max == _r) && (_g >= _b)) *h = 60* ((_g - _b)/(max - min));
-	else if ((max == _r) && (_g < _b))  *h = 60* ((_g - _b)/(max - min)) + 360;
-	else if (max == _g) *h = 60* ((_b - _r)/(max - min)) + 120;
-	else if (max == _b) *h = 60* ((_r - _g)/(max - min)) + 240;
-	
-	// Para los demás no viene al caso aun
-	
-	// H debe pertenecer a [0, 360)
-	*h = ((*h % 360) + 360) % 360;
-	*s = max==0 ? 0:(1 - (min - max));
-	*v = max;
+//~ void RGBaHSV(Uint8* r, Uint8* g, Uint8* b, float* h, float* s, float* v) {
+	//~ // Recibe los punteros r, g, b. 'Devuelve' su transformada en
+	//~ // HSV rellenando el contenido de los punteros.
+	//~ 
+	//~ // De Wikipedia:
+	//~ 
+	//~ float _r = *r / 255.0;
+	//~ float _g = *g / 255.0;
+	//~ float _b = *b / 255.0;
+	//~ 
+	//~ float max = max3(_r, _g, _b);
+	//~ float min = min3(_r, _g, _b);
+	//~ 
+	//~ if (max == min) *h = nanf; // No esta definido
+	//~ if ((max == _r) && (_g >= _b)) *h = 60* ((_g - _b)/(max - min));
+	//~ else if ((max == _r) && (_g < _b))  *h = 60* ((_g - _b)/(max - min)) + 360;
+	//~ else if (max == _g) *h = 60* ((_b - _r)/(max - min)) + 120;
+	//~ else if (max == _b) *h = 60* ((_r - _g)/(max - min)) + 240;
+	//~ 
+	//~ // Para los demás no viene al caso aun
+	//~ 
+	//~ // H debe pertenecer a [0, 360)
+	//~ *h = ((*h % 360) + 360) % 360;
+	//~ *s = max==0 ? 0:(1 - (min/max));
+	//~ *v = max;
+//~ }
+//~ 
+//~ void HSVaRGB(float* h, float* s, float* v, Uint8* r, Uint8* g, Uint8* b) {
+	//~ 
+	//~ // De Wikipedia:
+	//~ 
+	//~ // H debe pertenecer a [0, 360)
+	//~ *h = ((*h % 360) + 360) % 360;
+	//~ 
+	//~ if (isnan(*h) ){
+		//~ *r = 0;
+		//~ *g = 0;
+		//~ *b = 0;
+		//~ return;
+	//~ }
+	//~ 
+	//~ int h_i = (*h / 60);
+	//~ float f = (*h / 60.0) - h_i;
+	//~ float p = (*v) * (1 - *s);
+	//~ float q = (*v) * (1 - (*s)*f);
+	//~ float t = (*v) * (1 - (1 - f)*(*s));
+	//~ 
+	//~ if (h_i == 0) {
+		//~ *r = (*v)*255;
+		//~ *g = t*255;
+		//~ *b = p*255;
+	//~ }
+	//~ 
+	//~ if (h_i == 1) {
+		//~ *r = q*255;
+		//~ *g = (*v)*255;
+		//~ *b = t*255;
+	//~ }
+	//~ 
+	//~ if (h_i == 2) {
+		//~ *r = p*255;
+		//~ *g = (*v)*255;
+		//~ *b = t*255;
+	//~ }
+	//~ 
+	//~ if (h_i == 3) {
+		//~ *r = p*255;
+		//~ *g = q*255;
+		//~ *b = (*v)*255;
+	//~ }
+	//~ 
+	//~ if (h_i == 4) {
+		//~ *r = t*255;
+		//~ *g = p*255;
+		//~ *b = (*v)*255;
+	//~ }
+	//~ 
+	//~ if (h_i == 5) {
+		//~ *r = (*v)*255;
+		//~ *g = p*255;
+		//~ *b = q*255;
+	//~ }
+//~ }
+
+    typedef struct {
+    double r;       // percent
+    double g;       // percent
+    double b;       // percent
+} rgb;
+
+    typedef struct {
+    double h;       // angle in degrees
+    double s;       // percent
+    double v;       // percent
+} hsv;
+
+    static hsv      rgb2hsv(rgb in);
+    static rgb      hsv2rgb(hsv in);
+
+hsv rgb2hsv(rgb in)
+{
+    hsv         out;
+    double      min, max, delta;
+
+    min = in.r < in.g ? in.r : in.g;
+    min = min  < in.b ? min  : in.b;
+
+    max = in.r > in.g ? in.r : in.g;
+    max = max  > in.b ? max  : in.b;
+
+    out.v = max;                                // v
+    delta = max - min;
+    if( max > 0.0 ) { // NOTE: if Max is == 0, this divide would cause a crash
+        out.s = (delta / max);                  // s
+    } else {
+        // if max is 0, then r = g = b = 0              
+            // s = 0, v is undefined
+        out.s = 0.0;
+        out.h = NAN;                            // its now undefined
+        return out;
+    }
+    if( in.r >= max )                           // > is bogus, just keeps compilor happy
+        out.h = ( in.g - in.b ) / delta;        // between yellow & magenta
+    else
+    if( in.g >= max )
+        out.h = 2.0 + ( in.b - in.r ) / delta;  // between cyan & yellow
+    else
+        out.h = 4.0 + ( in.r - in.g ) / delta;  // between magenta & cyan
+
+    out.h *= 60.0;                              // degrees
+
+    if( out.h < 0.0 )
+        out.h += 360.0;
+
+    return out;
 }
 
-void HSVaRGB(int* h, int* s, int* v, Uint8* r, Uint8* g, Uint8* b) {
-	
-	// De Wikipedia:
-	
-	// H debe pertenecer a [0, 360)
-	*h = ((*h % 360) + 360) % 360;
-	
-	int h_i = (*h / 60) % 6;
-	float f = (*h / 60.0) - h_i;
-	float p = (*v) * (1 - *s);
-	float q = (*v) * (1 - (*s)*f);
-	float t = (*v) * (1 - (1 - f)*(*s));
-	
-	if (h_i == 0) {
-		*r = (*v)*255;
-		*g = t*255;
-		*b = p*255;
-	}
-	
-	if (h_i == 1) {
-		*r = q*255;
-		*g = (*v)*255;
-		*b = t*255;
-	}
-	
-	if (h_i == 2) {
-		*r = p*255;
-		*g = (*v)*255;
-		*b = t*255;
-	}
-	
-	if (h_i == 3) {
-		*r = p*255;
-		*g = q*255;
-		*b = (*v)*255;
-	}
-	
-	if (h_i == 4) {
-		*r = t*255;
-		*g = p*255;
-		*b = (*v)*255;
-	}
-	
-	if (h_i == 5) {
-		*r = (*v)*255;
-		*g = p*255;
-		*b = q*255;
-	}
+
+rgb hsv2rgb(hsv in)
+{
+    double      hh, p, q, t, ff;
+    long        i;
+    rgb         out;
+
+    if(in.s <= 0.0) {       // < is bogus, just shuts up warnings
+        out.r = in.v;
+        out.g = in.v;
+        out.b = in.v;
+        return out;
+    }
+    hh = in.h;
+    if(hh >= 360.0) hh = 0.0;
+    hh /= 60.0;
+    i = (long)hh;
+    ff = hh - i;
+    p = in.v * (1.0 - in.s);
+    q = in.v * (1.0 - (in.s * ff));
+    t = in.v * (1.0 - (in.s * (1.0 - ff)));
+
+    switch(i) {
+    case 0:
+        out.r = in.v;
+        out.g = t;
+        out.b = p;
+        break;
+    case 1:
+        out.r = q;
+        out.g = in.v;
+        out.b = p;
+        break;
+    case 2:
+        out.r = p;
+        out.g = in.v;
+        out.b = t;
+        break;
+
+    case 3:
+        out.r = p;
+        out.g = q;
+        out.b = in.v;
+        break;
+    case 4:
+        out.r = t;
+        out.g = p;
+        out.b = in.v;
+        break;
+    case 5:
+    default:
+        out.r = in.v;
+        out.g = p;
+        out.b = q;
+        break;
+    }
+    return out;     
 }
+
 
 bool LTexture::modificarHue(int inicial, int finale, int offset) {
 // Esta funcion recibe los valores indicados en el .json tales como
@@ -346,18 +470,24 @@ bool LTexture::modificarHue(int inicial, int finale, int offset) {
 	if(! this->lockTexture()) return false;
 
 		Uint8 r, g, b, a;
-		int h, s, v;
+		//int h, s, v;
+		
 		//Get pixel data
 		Uint32* pixels = (Uint32*)this->getPixels();
 		int pixelCount = ( this->getPitch() / 4 ) * this->getHeight(); // WTF ?
-	
+
 		for( int i = 0; i < pixelCount; ++i ) {
 			SDL_GetRGBA(pixels[i], SDL_GetWindowSurface( gWindow )->format, &r, &g, &b, &a);
-			RGBaHSV(&r, &g, &b, &h, &s, &v);
-			if ((inicial <= h) && (h <= finale)) { 
-				h += offset;
-				HSVaRGB(&h, &s, &v, &r, &g, &b);
-				pixels[i] = SDL_MapRGB(SDL_GetWindowSurface( gWindow )->format, r, g, b);
+			rgb in;
+			in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
+			//RGBaHSV(&r, &g, &b, &h, &s, &v);
+			hsv out = rgb2hsv(in);
+			if ((inicial <= out.h) && (out.h <= finale)) { 
+				out.h += offset;
+				in = hsv2rgb(out);
+				r = in.r*255; g = in.g*255; b = in.b*255; 
+				//HSVaRGB(&h, &s, &v, &r, &g, &b);
+				pixels[i] = SDL_MapRGBA(SDL_GetWindowSurface( gWindow )->format, r, g, b, a);
 			}
 		}
 
