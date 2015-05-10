@@ -24,7 +24,7 @@ class Personaje {
 	public:
 	bool Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, PatadaAlta, PatadaBaja, ArrojarArma, Cubrirse;
 		
-	void ActualizarControlador(SDL_Joystick *joystick);
+	void ActualizarControlador(SDL_Joystick *joystick, Parser* conf);
 	
 	//~ private:
 		/* Sus anchos y altos lógicos. */

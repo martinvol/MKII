@@ -430,7 +430,7 @@ void Personaje::Dibujarse(){
  * 							CONTROLADOR
  *
  **********************************************************************/  
- void Personaje::ActualizarControlador(SDL_Joystick *joystick){
+ void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf){
 	if (joystick == NULL)
 		return;
 	 
@@ -459,26 +459,28 @@ void Personaje::Dibujarse(){
 	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
 		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
 		if ( boton != 0 ){
-			switch (i){
-				case 0:
-					PiniaBaja = true;					
-					break;
-				case 1:
-					Cubrirse = true;
-					break;
-				case 2:
-					PatadaBaja = true;
-					break;
-				case 3:
-					PiniaAlta = true;
-					break;
-				case 4:
-					ArrojarArma = true;
-					break;
-				case 5:
-					PatadaAlta = true;
-					break;				
+			// Aca había un swich case que Volpe sacó
+			// porque solo interpreta constantes y no
+			// podía cargar las configuraciones
+			if (conf->pinia_baja){
+				PiniaBaja = true;					
 			}
+			else if (conf->pinia_alta){
+				Cubrirse = true;
+			}
+			else if (conf->patada_baja){
+				PatadaBaja = true;
+			}
+			else if (conf->pinia_alta){
+				PiniaAlta = true;
+			}
+			else if (conf->arrojar_arma){
+				ArrojarArma = true;
+			}
+			else if (conf->patada_alta){
+				PatadaAlta = true;
+			}
+				
 			cout <<"Apretado boton "<< i <<endl; ///				
 			
 		}else{

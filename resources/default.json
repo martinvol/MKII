@@ -43,5 +43,15 @@
       "inicio": 150,
       "fin": 200,
       "offset": 200
+   },
+   "joystick": {
+      "pinia_baja": 0,
+      "pinia_alta": 3,
+      "cubrirse": 1,
+      "patada_baja": 2,
+      "patada_alta": 5,
+      "arrojar_arma": 4,
+      "arrojar_arma_baja": 50, // todavíá no esta bien esto
+      "arrojar_arma_alta": 50
    }
 }

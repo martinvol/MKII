@@ -440,8 +440,8 @@ void Controlador(SDL_Event *evento){
 	while(SDL_PollEvent( evento )) {
 		if(usandoJoystick){			
 			SDL_JoystickUpdate ();
-			personajeJuego->ActualizarControlador(Player1);					
-			personajeJuego2->ActualizarControlador(Player2);					
+			personajeJuego->ActualizarControlador(Player1, this->parser);					
+			personajeJuego2->ActualizarControlador(Player2, this->parser);					
 		}
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
