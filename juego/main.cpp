@@ -17,7 +17,7 @@ using namespace std;
 #define MOVER_PIXELES 80*(parser->personaje_ancho/parser->ventana_ancho)
 #define MOVER_PIXELES_VERTICAL 75*(parser->personaje_alto/parser->escenario_ancho)
 #define FRAMERATE 40
-#define JOYSTICK_DEAD_ZONE 8000
+
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 50
 #define FACTOR_SCROLL 20
@@ -45,6 +45,7 @@ int InicializarSDL() {
         return 1;
     }
     logger->log_debug("SDL cargada correctamente");
+    SDL_JoystickEventState(SDL_ENABLE);
     return 0;
 }
 //----------------------------------------------------------------
@@ -156,7 +157,7 @@ public:
 		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
         
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
-        under = loadTexture("resources/background/p_under.png", renderer);
+        //under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
         
         
@@ -206,7 +207,16 @@ public:
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
-
+        
+        Player1 = SDL_JoystickOpen(0); 
+				
+        SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");        
+		if (Player1 == NULL){
+			logger->log_error("Player1 JOYSTICK desconectado");			
+        }else{
+            usandoJoystick = true;
+            logger->log_debug("Player1 JOYSTICK conectado");            
+        }
 }
 
 //----------------------------------------------------------------
@@ -242,8 +252,7 @@ public:
 		
 //>>>>>>> remotes/origin/ClonarMaster
 
-        Player1 = SDL_JoystickOpen(0);
-        SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");
+        
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -272,14 +281,14 @@ public:
         float timerFps;
 
         //uno solo...por ahora (?)
-        if (SDL_NumJoysticks() < 1){
-            logger->log_warning("No hay JOYSTICK conectado");
-        }else{
-            usandoJoystick = true;
-        }
+        SDL_JoystickUpdate(); 
 
         SDL_Event evento;
         while (!salir){
+			SDL_JoystickUpdate();
+			if (SDL_NumJoysticks() < 1){
+				logger->log_warning("No hay JOYSTICK conectado");
+			}
 
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
@@ -391,7 +400,7 @@ void DibujarTodo(){
 
 /* El de ahora debería ser avisándole al director */
 void Controlador(SDL_Event *evento){
-	
+	SDL_JoystickUpdate();
 	while(SDL_PollEvent( evento )) {
 		if(usandoJoystick){
 			

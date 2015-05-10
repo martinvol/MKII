@@ -169,9 +169,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 
 /* Por ahora, sólo valida el movimiento de UN JUGADOR. */
 void Director::verificar_movimientos(){
-	cout << "Jugador 1" << endl;
+	///cout << "Jugador 1" << endl;
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
-	cout << "Jugador 2" << endl;
+	///cout << "Jugador 2" << endl;
 	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
 	
 	// chequear colisiones:
