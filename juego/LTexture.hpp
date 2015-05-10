@@ -60,6 +60,7 @@ class LTexture {
 	    // Auxiliar
 	    SDL_Window* gWindow;
 	    SDL_Renderer* gRenderer;
+	    SDL_PixelFormat* gFormat;
 	    
 		//The actual hardware texture
 		SDL_Texture* mTexture;

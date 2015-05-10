@@ -38,7 +38,7 @@ bool init()
 	bool success = true;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
@@ -138,7 +138,7 @@ int main( int argc, char* args[] )
 			bool quit = false;
 			//Event handler
 			SDL_Event e;
-			gFooTexture->modificarHue(300, 300, 200);
+			gFooTexture->modificarHue(150, 200, 200);
 			//While application is running
 			while( !quit )
 			{
@@ -153,7 +153,7 @@ int main( int argc, char* args[] )
 				}
 
 				//Clear screen
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0x00 );
 				SDL_RenderClear( gRenderer );
 				//Render stick figure
 				gFooTexture->render( ( SCREEN_WIDTH - gFooTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gFooTexture->getHeight() ) / 2 );

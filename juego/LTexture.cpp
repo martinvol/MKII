@@ -48,7 +48,8 @@ bool LTexture::loadFromFile( string path )
 	{
 		
 		//Convert surface to display format
-		SDL_Surface* formattedSurface = SDL_ConvertSurface( loadedSurface, SDL_GetWindowSurface( gWindow )->format, 0 );
+		gFormat = SDL_GetWindowSurface( gWindow )->format;
+		SDL_Surface* formattedSurface = SDL_ConvertSurface( loadedSurface, gFormat, 0 );
 		if( formattedSurface == NULL )
 		{
 			printf( "Unable to convert loaded surface to display format! SDL Error: %s\n", SDL_GetError() );
@@ -58,7 +59,7 @@ bool LTexture::loadFromFile( string path )
 			
 			
 			//Create blank streamable texture
-			newTexture = SDL_CreateTexture( gRenderer, SDL_GetWindowPixelFormat( gWindow ), SDL_TEXTUREACCESS_STREAMING, formattedSurface->w, formattedSurface->h );
+			newTexture = SDL_CreateTexture( gRenderer,SDL_GetWindowPixelFormat(gWindow), SDL_TEXTUREACCESS_STREAMING, formattedSurface->w, formattedSurface->h );
 			if( newTexture == NULL )
 			{
 				printf( "Unable to create blank texture! SDL Error: %s\n", SDL_GetError() );
@@ -85,7 +86,7 @@ bool LTexture::loadFromFile( string path )
 		}	
 		
 		//Get rid of old loaded surface
-		//SDL_FreeSurface( loadedSurface );
+		SDL_FreeSurface( loadedSurface );
 	}
 
 	//Return success
@@ -115,7 +116,9 @@ bool LTexture::loadFromRenderedText( string textureText, SDL_Color textColor )
 			mWidth = textSurface->w;
 			mHeight = textSurface->h;
 		}
-
+		Uint8 alpha;
+		SDL_GetSurfaceAlphaMod(loadedSurface, &alpha);
+		SDL_SetTextureAlphaMod(mTexture, alpha);
 		//Get rid of old surface
 		SDL_FreeSurface( textSurface );
 	}
@@ -124,7 +127,7 @@ bool LTexture::loadFromRenderedText( string textureText, SDL_Color textColor )
 		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
 
-	
+	SDL_FreeSurface(loadedSurface);
 	//Return success
 	return mTexture != NULL;
 }
@@ -477,7 +480,7 @@ bool LTexture::modificarHue(int inicial, int finale, int offset) {
 		int pixelCount = ( this->getPitch() / 4 ) * this->getHeight(); // WTF ?
 
 		for( int i = 0; i < pixelCount; ++i ) {
-			SDL_GetRGBA(pixels[i], SDL_GetWindowSurface( gWindow )->format, &r, &g, &b, &a);
+			SDL_GetRGBA(pixels[i], gFormat, &r, &g, &b, &a);
 			rgb in;
 			in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
 			//RGBaHSV(&r, &g, &b, &h, &s, &v);
@@ -487,7 +490,7 @@ bool LTexture::modificarHue(int inicial, int finale, int offset) {
 				in = hsv2rgb(out);
 				r = in.r*255; g = in.g*255; b = in.b*255; 
 				//HSVaRGB(&h, &s, &v, &r, &g, &b);
-				pixels[i] = SDL_MapRGBA(SDL_GetWindowSurface( gWindow )->format, r, g, b, a);
+				pixels[i] = SDL_MapRGBA(gFormat, r, g, b, a);
 			}
 		}
 
@@ -499,5 +502,7 @@ bool LTexture::modificarHue(int inicial, int finale, int offset) {
 }
 
 int LTexture::actualizarTextura(){
+	this->setBlendMode(SDL_BLENDMODE_BLEND);
+	this->setAlpha(255);
 	return (SDL_UpdateTexture(mTexture, NULL, this->getPixels(), this->getPitch()));
 }
