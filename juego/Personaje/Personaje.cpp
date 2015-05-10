@@ -150,6 +150,38 @@ void Personaje::activarAccion(accion_posible accion){
 				break;
 		}
 	}
+	
+	/// MILE!!!
+	/* De las acciones se pueden interrumpir los saltos: con pinias, 
+	 * patadas y el arrojable.
+	 * Ahora 'andan' los saltos con pinias (o sea, muestra el cout).
+	 * 
+	 * */
+	switch(nroAccionActual){		
+		case SALTARDIAGONAL_DER:
+			if (accion == PINIAALTA || accion == PINIABAJA){				
+				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
+			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
+			}
+			break;
+		case SALTARDIAGONAL_IZQ:
+			if (accion == PINIAALTA || accion == PINIABAJA){				
+				cout<<"SALTO CON PINIA"<<endl; ///
+			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cout<< "SALTO CON PATADA"<<endl; ///
+			}			
+			break;
+		case SALTAR:
+			if (accion == PINIAALTA || accion == PINIABAJA){				
+				cout<<"SALTO VERTICAL CON PINIA"<<endl; ///
+			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cout<< "SALTO VERTICAL CON PATADA"<<endl; ///
+			}else if (accion == ARROJARARMA){
+				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
+			}
+			break;			
+	}
 //~ if (nroAccionActual == AGACHARSE)
 //~ cout<<"quiero agacharme"<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
