@@ -399,6 +399,9 @@ void Personaje::Dibujarse(){
  *
  **********************************************************************/  
  void Personaje::ActualizarControlador(SDL_Joystick *joystick){
+	if (joystick == NULL)
+		return;
+	 
 	int x_Joystick = SDL_JoystickGetAxis(joystick, 0);
 	int y_Joystick = SDL_JoystickGetAxis(joystick, 1);
 	

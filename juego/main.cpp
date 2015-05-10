@@ -89,7 +89,7 @@ public:
     SDL_Texture *under;
 
     bool usandoJoystick = false;
-    SDL_Joystick *Player1;
+    SDL_Joystick *Player1, *Player2;
     SDL_JoystickID myID = -1;
     int x_Joystick, y_Joystick;
 
@@ -218,16 +218,24 @@ public:
         
         
         Player1 = SDL_JoystickOpen(0); 
+        Player2 = SDL_JoystickOpen(1); 
         SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
         ///Por defecto es 0
         ///Si se desconecta es un -1        
         cout<<myID<<endl;				
         
-		if (Player1 == NULL){
-			logger->log_error("Player1 JOYSTICK desconectado");			
+		if (Player1 == NULL ){
+			logger->log_error("Player 1 JOYSTICK desconectado");			
         }else{
             usandoJoystick = true;
-            logger->log_debug("Player1 JOYSTICK conectado");            
+            logger->log_debug("Player 1 JOYSTICK conectado");            
+        }
+        
+        if (Player2 == NULL ){
+			logger->log_error("Player 2 JOYSTICK desconectado");			
+        }else{
+            usandoJoystick = true;
+            logger->log_debug("Player 2 JOYSTICK conectado");            
         }
 }
 
@@ -304,10 +312,14 @@ public:
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
             if (!pausa){								
-                ActualizarModelo();     //Modelo 
+                ActualizarModelo(jugador1, personajeJuego);     //Modelo 
+                ActualizarModelo(jugador2, personajeJuego2);
+                this->director->actualizar();                
                 //Detecto desconectados-conectados en caliente.
                 SDL_JoystickClose(Player1);
+                SDL_JoystickClose(Player2);
                 Player1 = SDL_JoystickOpen(0); 
+                Player2 = SDL_JoystickOpen(1); 
             }
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
@@ -320,7 +332,12 @@ public:
             ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
             ///CODEEN SIN JOYSTICK
             //~ if (Player1 == NULL){
-				//~ logger->log_error("Joystick Desconectado");			
+				//~ logger->log_error("Joystick 1 Desconectado");			
+				//~ pausa = true;			
+			//~ }
+			
+			//~ if (Player2 == NULL){
+				//~ logger->log_error("Joystick 2 Desconectado");			
 				//~ pausa = true;			
 			//~ }
 				
@@ -351,6 +368,7 @@ public:
 //----------------------------------------------------------------
     void terminar_juego(){
         SDL_JoystickClose(Player1);
+        SDL_JoystickClose(Player2);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_DestroyTexture(under);
         delete this->parser;	// Elimina sus propias capas.
@@ -429,6 +447,7 @@ void Controlador(SDL_Event *evento){
 		if(usandoJoystick){			
 			SDL_JoystickUpdate ();
 			personajeJuego->ActualizarControlador(Player1);					
+			personajeJuego2->ActualizarControlador(Player2);					
 		}
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
@@ -528,73 +547,72 @@ void Controlador(SDL_Event *evento){
 
 }
 
-void ActualizarModelo(){
+void ActualizarModelo(num_jugador jugador, Personaje* personaje){
+	
 	//DERECHA		
-	if (personajeJuego->Derecha){
+	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
-		if (personajeJuego->Arriba){
-			this->director->seMuevePersonaje(jugador1, ArribaDerecha);
+		if (personaje->Arriba){
+			this->director->seMuevePersonaje(jugador, ArribaDerecha);
 		}
 		//+ABAJO = ABAJO DERECHA
-		else if (personajeJuego->Abajo){
-			this->director->seMuevePersonaje(jugador1, AbajoDerecha);
+		else if (personaje->Abajo){
+			this->director->seMuevePersonaje(jugador, AbajoDerecha);
 		}
 		//CAMINAR DERECHA
 		else {
-			this->director->seMuevePersonaje(jugador1, Derecha);
+			this->director->seMuevePersonaje(jugador, Derecha);
 		}
 	//IZQUIERDA
-	} else if (personajeJuego->Izquierda) {
+	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
-		if (personajeJuego->Arriba){
-			this->director->seMuevePersonaje(jugador1, ArribaIzquierda);
+		if (personaje->Arriba){
+			this->director->seMuevePersonaje(jugador, ArribaIzquierda);
 		}
 		//+ABAJO = ABAJO IZQUIERDA
-		else if (personajeJuego->Abajo){
-			this->director->seMuevePersonaje(jugador1, AbajoIzquierda);
+		else if (personaje->Abajo){
+			this->director->seMuevePersonaje(jugador, AbajoIzquierda);
 		}
 		//CAMINAR IZQUIERDA
 		else {
-			this->director->seMuevePersonaje(jugador1, Izquierda);
+			this->director->seMuevePersonaje(jugador, Izquierda);
 		}		
 	//ARRIBA--> SALTA
-	} else if (personajeJuego->Arriba){
+	} else if (personaje->Arriba){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
-		this->director->seMuevePersonaje(jugador1, Arriba);
+		this->director->seMuevePersonaje(jugador, Arriba);
 	//ABAJO -->AGACHARSE
-	} else if (personajeJuego->Abajo){
+	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
-		this->director->seMuevePersonaje(jugador1, Abajo);
+		this->director->seMuevePersonaje(jugador, Abajo);
 	}
 	//PINIA BAJA
-	else if (personajeJuego->PiniaBaja){
-		this->director->seMuevePersonaje(jugador1, PiniaBaja);
+	else if (personaje->PiniaBaja){
+		this->director->seMuevePersonaje(jugador, PiniaBaja);
 	//PINIA ALTA
-	}else if (personajeJuego->PiniaAlta){
-		this->director->seMuevePersonaje(jugador1, PiniaAlta);
+	}else if (personaje->PiniaAlta){
+		this->director->seMuevePersonaje(jugador, PiniaAlta);
 	//CUBRIRSE
-	}else if (personajeJuego->Cubrirse){
-		this->director->seMuevePersonaje(jugador1, Cubrirse);
+	}else if (personaje->Cubrirse){
+		this->director->seMuevePersonaje(jugador, Cubrirse);
 	//ARROJAR ARMA
-	}else if (personajeJuego->ArrojarArma){
-		this->director->seMuevePersonaje(jugador1, ArrojarArma);
+	}else if (personaje->ArrojarArma){
+		this->director->seMuevePersonaje(jugador, ArrojarArma);
 	//PATADA BAJA
-	}else if (personajeJuego->PatadaBaja){
-		this->director->seMuevePersonaje(jugador1, PatadaBaja);
+	}else if (personaje->PatadaBaja){
+		this->director->seMuevePersonaje(jugador, PatadaBaja);
 	//PATADA ALTA
-	}else if (personajeJuego->PatadaAlta){
-		this->director->seMuevePersonaje(jugador1, PatadaAlta);
+	}else if (personaje->PatadaAlta){
+		this->director->seMuevePersonaje(jugador, PatadaAlta);
 	}	
 	//MILE
 	else if (golpeandoPJalta){
-		this->director->seMuevePersonaje(jugador1, PiniaAlta);
+		this->director->seMuevePersonaje(jugador, PiniaAlta);
 	} else if (golpeandoPJbaja){
-		this->director->seMuevePersonaje(jugador1, PiniaBaja);
+		this->director->seMuevePersonaje(jugador, PiniaBaja);
 	}else {
-		this->director->seMuevePersonaje(jugador1, Nada);
-	}
-	
-	this->director->actualizar();
+		this->director->seMuevePersonaje(jugador, Nada);
+	}		
 
 }        
 
