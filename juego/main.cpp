@@ -345,7 +345,7 @@ public:
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void reiniciarJuego(){
-        logger->log_debug("Tengo que cambiar las Parseriguraciones");
+        logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();        
 		
         configurar();

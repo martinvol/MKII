@@ -10,64 +10,10 @@ using namespace std;
 
 /***********************************************************************
  * 
- * 							AUXILIAR
- *
- **********************************************************************/  
-
-//~ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
-	//~ os << msg << " : " << num << std::endl;
-//~ }
-
-
-/***********************************************************************
- * 
  * 							CONSTRUCTOR
  * 						   Y DESTRUCTOR
  *
  **********************************************************************/  
-
-/**Recibe por parametro la posicion inicial del personaje, representado
- * por una coordenada.
- * El nombre del personaje, que coincide con el nombre de la carpeta donde
- * se guardan las imagenes de las acciones.
- * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- * */
-//<<<<<<< HEAD
-//Personaje::Personaje(CoordenadaLogica* coordenada, BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
-//=======
-/* HEAD
-Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
->>>>>>> remotes/origin/ClonarMaster
-
-	this->parser= parser;
-	
-	this->barraDeVida = barra;
-	this->barraDeVida->Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true) ;
-	this->ancho = ancho;
-	this->alto = alto;
-	this->estado = estado;
-	this->ladoDerecha = this->parser->personaje_mirar_derecha;
-	this->nroAccionActual = 0;
-
-	this->y_inicial = coordenada->y;
-	this->coordenada = coordenada;
-	this->siguiente = NULL;
-	
-	this->accionActual = this->estado->quieto;
-	
-	this->imagenActual = NULL;
-	this->nombrePersonaje = nombre;
-	this->renderer = ren;
-
-}
-
-
-Personaje::~Personaje(){
-	
-	delete this->estado;
-	
-}
-*/
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor){
 	// 4 flechas
@@ -388,42 +334,6 @@ void Personaje::Dibujarse(){
 	
 }
 
-
-//~ COSAS QUE NO IRÍAN
-//~ void Personaje::Dibujarse(int x, int y){
-    //~ int ancho, alto;
-	//~ SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
-	//~ this->Dibujarse(x, y, float(alto), float(ancho));
-//~ }
-
-//~ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
-	//~ //Rectangulo destino
-	//~ SDL_Rect destino;
-	//~ destino.x = x;
-	//~ destino.y = y;
-	//~ destino.w = ancho;
-	//~ destino.h = alto;
-	//~ if (!this->ladoDerecha){
-		//~ SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
-	//~ }
-	//~ else{
-		//~ SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
-	//~ }
-//~ }
-
-/***********************************************************************
- * 
- * 							AUXILIAR
- *
- **********************************************************************/  
-
-//~ SDL_Texture* Personaje::DibujarSpriteNumero(int numeroDeSprite){
-	//~ return this->accionActual->getImagenNro(numeroDeSprite);
-//~ }
-	//~ 
-//~ int Personaje::getSpriteActual(){
-	//~ return this->accionActual->getModoActual();
-//~ }
 
 /***********************************************************************
  * 
