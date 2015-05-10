@@ -44,8 +44,11 @@ int InicializarSDL() {
         SDL_Quit();
         return 1;
     }
-    logger->log_debug("SDL cargada correctamente");
-    SDL_JoystickEventState(SDL_ENABLE);
+    if (SDL_InitSubSystem ( SDL_INIT_JOYSTICK ) < 0){
+		logger->log_error("No se pudo inizializar SDL_Joystick");
+		return 1;
+	}
+    logger->log_debug("SDL cargada correctamente");    
     return 0;
 }
 //----------------------------------------------------------------
@@ -89,6 +92,7 @@ public:
 
     bool usandoJoystick = false;
     SDL_Joystick *Player1;
+    SDL_JoystickID myID = -1;
     int x_Joystick, y_Joystick;
 
 
@@ -208,9 +212,19 @@ public:
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
         
-        Player1 = SDL_JoystickOpen(0); 
-				
+        if (SDL_InitSubSystem ( SDL_INIT_JOYSTICK ) < 0){
+		logger->log_error("No se pudo inizializar SDL_Joystick");
+		//return 1;
+		}
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS", "1");        
+        
+        
+        Player1 = SDL_JoystickOpen(0); 
+        SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
+        ///Por defecto es 0
+        ///Si se desconecta es un -1        
+        cout<<myID<<endl;				
+        
 		if (Player1 == NULL){
 			logger->log_error("Player1 JOYSTICK desconectado");			
         }else{
@@ -281,19 +295,21 @@ public:
         float timerFps;
 
         //uno solo...por ahora (?)
-        SDL_JoystickUpdate(); 
+        SDL_JoystickEventState (SDL_QUERY);
 
         SDL_Event evento;
-        while (!salir){
-			SDL_JoystickUpdate();
-			if (SDL_NumJoysticks() < 1){
+        if (SDL_NumJoysticks() < 1){
 				logger->log_warning("No hay JOYSTICK conectado");
 			}
+        while (!salir){					
 
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
-            if (!pausa){
+            if (!pausa){								
                 ActualizarModelo();     //Modelo 
+                //Detecto desconectados-conectados en caliente.
+                SDL_JoystickClose(Player1);
+                Player1 = SDL_JoystickOpen(0); 
             }
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
@@ -302,6 +318,14 @@ public:
             if(timerFps < int(1000/24)){
                 SDL_Delay(CONST_MAXI_DELAY);
             }
+            ///ESTO NO ES DEBUG, VA EN EL FINAL.
+            ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
+            ///CODEEN SIN JOYSTICK
+            //~ if (Player1 == NULL){
+				//~ logger->log_error("Joystick Desconectado");			
+				//~ pausa = true;			
+			//~ }
+				
         }
 
     };
@@ -330,6 +354,7 @@ public:
 //----------------------------------------------------------------
     void terminar_juego(){
         SDL_JoystickClose(Player1);
+        SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         SDL_DestroyTexture(under);
         delete this->parser;	// Elimina sus propias capas.
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
@@ -399,8 +424,15 @@ void DibujarTodo(){
 
 
 /* El de ahora debería ser avisándole al director */
-void Controlador(SDL_Event *evento){
-	SDL_JoystickUpdate();
+void Controlador(SDL_Event *evento){	
+	SDL_JoystickUpdate ();
+	//myID = SDL_JoystickInstanceID(Player1);
+	///cout<< myID<<endl;	
+	if (evento->type == SDL_JOYDEVICEREMOVED)
+		cout<<"AAAAAAAAAAAAA"<<endl;	
+	
+		//myID == -1;
+		
 	while(SDL_PollEvent( evento )) {
 		if(usandoJoystick){
 			
@@ -416,6 +448,8 @@ void Controlador(SDL_Event *evento){
 				Der_PRESIONADO = true;
 			}else{
 				//  x = 0;
+				Izq_PRESIONADO = false;
+				Der_PRESIONADO = false;
 			}
 
 			//Vertical
@@ -428,6 +462,8 @@ void Controlador(SDL_Event *evento){
 				;
 			}else{
 				//yDir = 0;
+				Arriba_PRESIONADO = false;
+				Abajo_PRESIONADO = false;
 			}
 		
 		}
