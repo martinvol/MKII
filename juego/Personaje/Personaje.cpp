@@ -444,7 +444,7 @@ void Personaje::Dibujarse(){
 					PatadaAlta = true;
 					break;				
 			}
-			cout <<"Apretado boton "<< i <<endl;					
+			cout <<"Apretado boton "<< i <<endl; ///				
 			
 		}else{
 			//Si no se apreto boton --> todos en falso.
