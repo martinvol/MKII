@@ -74,7 +74,7 @@ class Juego{
 public:
     // Para no tener que crearlas y destruirlas en cada loop del juego
     //seria un desperdicio.
-    bool Arriba_PRESIONADO = false, Abajo_PRESIONADO = false, Izq_PRESIONADO = false, Der_PRESIONADO = false;
+    //bool Arriba_PRESIONADO = false, Abajo_PRESIONADO = false, Izq_PRESIONADO = false, Der_PRESIONADO = false;
     bool golpeandoPJ = false;
     bool golpeandoPJalta = false;
     bool golpeandoPJbaja = false;
@@ -336,7 +336,7 @@ public:
         logger->log_debug("Tengo que cambiar las Parseriguraciones");
         terminar_juego();
         
-		Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = Abajo_PRESIONADO  = false;
+		//Arriba_PRESIONADO = Izq_PRESIONADO = Der_PRESIONADO = Abajo_PRESIONADO  = false;
         configurar();
 
 /*<<<<<<< HEAD
@@ -424,8 +424,7 @@ void DibujarTodo(){
 
 
 /* El de ahora debería ser avisándole al director */
-void Controlador(SDL_Event *evento){	
-	SDL_JoystickUpdate ();
+void Controlador(SDL_Event *evento){		
 	//myID = SDL_JoystickInstanceID(Player1);
 	///cout<< myID<<endl;	
 	if (evento->type == SDL_JOYDEVICEREMOVED)
@@ -434,9 +433,10 @@ void Controlador(SDL_Event *evento){
 		//myID == -1;
 		
 	while(SDL_PollEvent( evento )) {
-		if(usandoJoystick){
-			
-			x_Joystick = SDL_JoystickGetAxis(Player1, 0);
+		if(usandoJoystick){			
+			SDL_JoystickUpdate ();
+			personajeJuego->ActualizarControlador(Player1);
+			/*x_Joystick = SDL_JoystickGetAxis(Player1, 0);
 			y_Joystick = SDL_JoystickGetAxis(Player1, 1);
 			
 			if( x_Joystick < -JOYSTICK_DEAD_ZONE ){
@@ -464,7 +464,7 @@ void Controlador(SDL_Event *evento){
 				//yDir = 0;
 				Arriba_PRESIONADO = false;
 				Abajo_PRESIONADO = false;
-			}
+			}*/
 		
 		}
 		//-----------------------------------------
@@ -481,13 +481,13 @@ void Controlador(SDL_Event *evento){
 				//-----------------------------------------
 				//---------------BASICOS-------------------
 				if (evento->key.keysym.sym == SDLK_UP)  {
-					Arriba_PRESIONADO = true;
+					personajeJuego->Arriba = true;					
 				}
 				if (evento->key.keysym.sym == SDLK_RIGHT)  {
-					Der_PRESIONADO = true;
+					personajeJuego->Derecha = true;										
 				}
 				if ((evento->key.keysym.sym == SDLK_LEFT))  {
-					Izq_PRESIONADO = true;
+					personajeJuego->Izquierda = true;					
 				}
 				//-----------------------------------------
 				//-----------------------------------------
@@ -530,16 +530,16 @@ void Controlador(SDL_Event *evento){
                 //-----------------------------------------
                 //---------------BASICOS-------------------
                 if((evento->key.keysym.sym == SDLK_UP))  {
-                    Arriba_PRESIONADO = false;
+					personajeJuego->Arriba = false;					                    
                 }
                 if((evento->key.keysym.sym == SDLK_DOWN))  {
-                    Abajo_PRESIONADO = false;
+					personajeJuego->Abajo = false;					                    
                 }
                 if((evento->key.keysym.sym == SDLK_LEFT))  {
-                    Izq_PRESIONADO = false;
+                    personajeJuego->Izquierda = false;					
                 }
                 if((evento->key.keysym.sym == SDLK_RIGHT))  {
-                    Der_PRESIONADO = false;
+                    personajeJuego->Derecha = false;					
                 }
                 //-----------------------------------------
                 //-----------------------------------------
@@ -572,32 +572,31 @@ void Controlador(SDL_Event *evento){
 
 }
 
-void ActualizarModelo(){
-		
-	if (Der_PRESIONADO){
-		if (Arriba_PRESIONADO){
+void ActualizarModelo(){		
+	if (personajeJuego->Derecha){
+		if (personajeJuego->Arriba){
 			this->director->seMuevePersonaje(jugador1, ArribaDerecha);
 		}
-		else if (Abajo_PRESIONADO){
+		else if (personajeJuego->Abajo){
 			this->director->seMuevePersonaje(jugador1, AbajoDerecha);
 		}
 		else {
 			this->director->seMuevePersonaje(jugador1, Derecha);
 		}
-	} else if (Izq_PRESIONADO) {
-		if (Arriba_PRESIONADO){
+	} else if (personajeJuego->Izquierda) {
+		if (personajeJuego->Arriba){
 			this->director->seMuevePersonaje(jugador1, ArribaIzquierda);
 		}
-		else if (Abajo_PRESIONADO){
+		else if (personajeJuego->Abajo){
 			this->director->seMuevePersonaje(jugador1, AbajoIzquierda);
 		}
 		else {
 			this->director->seMuevePersonaje(jugador1, Izquierda);
 		}
-	} else if (Arriba_PRESIONADO){
+	} else if (personajeJuego->Arriba){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Arriba);
-	} else if (Abajo_PRESIONADO){
+	} else if (personajeJuego->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Abajo);
 	}

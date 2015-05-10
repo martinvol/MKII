@@ -70,7 +70,15 @@ Personaje::~Personaje(){
 */
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor){
-
+	// 4 flechas
+	Nada = Izquierda = Derecha = Arriba = Abajo = false;
+	// 2 pinias
+	PiniaAlta = PiniaBaja = false;
+	// 2 patadas
+	PatadaAlta = PatadaBaja = false;
+	// arrojable y cubrirse
+	ArrojarArma = Cubrirse = false;
+	
 	this->alto = alto;
 	this->ancho = ancho;
 	this->conversor = conversor;
@@ -384,3 +392,38 @@ void Personaje::Dibujarse(){
 //~ int Personaje::getSpriteActual(){
 	//~ return this->accionActual->getModoActual();
 //~ }
+
+/***********************************************************************
+ * 
+ * 							CONTROLADOR
+ *
+ **********************************************************************/  
+ void Personaje::ActualizarControlador(SDL_Joystick *joystick){
+	int x_Joystick = SDL_JoystickGetAxis(joystick, 0);
+	int y_Joystick = SDL_JoystickGetAxis(joystick, 1);
+	
+//Horizontal
+	if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
+		Izquierda = true;
+		
+	}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
+		Derecha = true;		
+		
+	}else{	//  x = 0;				
+		Izquierda = false;
+		Derecha = false;
+	}
+
+//Vertical
+	if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
+		Arriba = true;
+		
+	}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
+		Abajo = true;	
+		
+	}else{ //yDir = 0;		
+		Arriba = false;
+		Abajo = false;
+	}	 
+	 
+}
