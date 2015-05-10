@@ -54,20 +54,60 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case Arriba:
 			jugador->activarAccion(SALTAR);
 			break;
+		case Abajo:
+///FALTA IMPLEMENTAR AGACHARSE
+			//~ case Abajo:
+			//~ jugador->activarAccion(AGACHARSE);
+			//~ break;	
+			jugador->activarAccion(QUIETO);
+			cout<<"agachado"<<endl; ///
+			break;			
+		case Pararse:
+///FALTA IMPLEMENTAR PARARSE
+			jugador->activarAccion(QUIETO);
+			cout<<"parandose"<<endl; ///
+			break;		
 		case ArribaDerecha:
 			jugador->activarAccion(SALTARDIAGONAL_DER);
 			break;
 		case ArribaIzquierda:
 			jugador->activarAccion(SALTARDIAGONAL_IZQ);
-			break;
-		case Abajo:
-			jugador->activarAccion(AGACHARSE);
-			break;
+			break;		
 		case PiniaAlta:
+			cout<<"pinia alta"<<endl; ///
 			jugador->activarAccion(PINIAALTA);
+			//Una vez que la ejecuto, la desactivo, sino loopea.
+			(jugador->obtenerPersonaje())->PiniaAlta = false;
 			break;
 		case PiniaBaja:
+			cout<<"pinia baja"<<endl; ///
 			jugador->activarAccion(PINIABAJA);
+			//Una vez que la ejecuto, la desactivo, sino loopea.
+			(jugador->obtenerPersonaje())->PiniaBaja = false;
+			break;
+		case PatadaAlta:
+			cout<<"PatadaAlta"<<endl; ///
+			//jugador->activarAccion(PINIAALTA);
+			//Una vez que la ejecuto, la desactivo, sino loopea.
+			(jugador->obtenerPersonaje())->PatadaAlta = false;
+			break;
+		case PatadaBaja:
+			cout<<"PatadaBaja"<<endl; ///
+			//jugador->activarAccion(PINIAALTA);
+			//Una vez que la ejecuto, la desactivo, sino loopea.
+			(jugador->obtenerPersonaje())->PatadaBaja = false;
+			break;
+		case Cubrirse:
+			cout<<"Cubrirse"<<endl; ///
+			//jugador->activarAccion(PINIAALTA);
+			//Una vez que la ejecuto, la desactivo, sino loopea.
+			(jugador->obtenerPersonaje())->Cubrirse = false;
+			break;
+		case ArrojarArma:
+			cout<<"ArrojarArma"<<endl; ///
+			//jugador->activarAccion(PINIAALTA);
+			//Una vez que la ejecuto, la desactivo, sino loopea.
+			(jugador->obtenerPersonaje())->ArrojarArma = false;
 			break;
 		case MirarDerecha:
 			puts("hola?"); ///

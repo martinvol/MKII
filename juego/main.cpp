@@ -528,34 +528,63 @@ void Controlador(SDL_Event *evento){
 
 }
 
-void ActualizarModelo(){		
+void ActualizarModelo(){
+	//DERECHA		
 	if (personajeJuego->Derecha){
+		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personajeJuego->Arriba){
 			this->director->seMuevePersonaje(jugador1, ArribaDerecha);
 		}
+		//+ABAJO = ABAJO DERECHA
 		else if (personajeJuego->Abajo){
 			this->director->seMuevePersonaje(jugador1, AbajoDerecha);
 		}
+		//CAMINAR DERECHA
 		else {
 			this->director->seMuevePersonaje(jugador1, Derecha);
 		}
+	//IZQUIERDA
 	} else if (personajeJuego->Izquierda) {
+		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personajeJuego->Arriba){
 			this->director->seMuevePersonaje(jugador1, ArribaIzquierda);
 		}
+		//+ABAJO = ABAJO IZQUIERDA
 		else if (personajeJuego->Abajo){
 			this->director->seMuevePersonaje(jugador1, AbajoIzquierda);
 		}
+		//CAMINAR IZQUIERDA
 		else {
 			this->director->seMuevePersonaje(jugador1, Izquierda);
-		}
+		}		
+	//ARRIBA--> SALTA
 	} else if (personajeJuego->Arriba){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Arriba);
+	//ABAJO -->AGACHARSE
 	} else if (personajeJuego->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		this->director->seMuevePersonaje(jugador1, Abajo);
 	}
+	//PINIA BAJA
+	else if (personajeJuego->PiniaBaja){
+		this->director->seMuevePersonaje(jugador1, PiniaBaja);
+	//PINIA ALTA
+	}else if (personajeJuego->PiniaAlta){
+		this->director->seMuevePersonaje(jugador1, PiniaAlta);
+	//CUBRIRSE
+	}else if (personajeJuego->Cubrirse){
+		this->director->seMuevePersonaje(jugador1, Cubrirse);
+	//ARROJAR ARMA
+	}else if (personajeJuego->ArrojarArma){
+		this->director->seMuevePersonaje(jugador1, ArrojarArma);
+	//PATADA BAJA
+	}else if (personajeJuego->PatadaBaja){
+		this->director->seMuevePersonaje(jugador1, PatadaBaja);
+	//PATADA ALTA
+	}else if (personajeJuego->PatadaAlta){
+		this->director->seMuevePersonaje(jugador1, PatadaAlta);
+	}	
 	//MILE
 	else if (golpeandoPJalta){
 		this->director->seMuevePersonaje(jugador1, PiniaAlta);

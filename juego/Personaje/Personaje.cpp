@@ -404,26 +404,54 @@ void Personaje::Dibujarse(){
 	
 //Horizontal
 	if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
-		Izquierda = true;
-		
+		Izquierda = true;		
 	}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
-		Derecha = true;		
-		
+		Derecha = true;			
 	}else{	//  x = 0;				
 		Izquierda = false;
 		Derecha = false;
 	}
-
 //Vertical
 	if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
-		Arriba = true;
-		
+		Arriba = true;		
 	}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
-		Abajo = true;	
-		
+		Abajo = true;		
 	}else{ //yDir = 0;		
 		Arriba = false;
 		Abajo = false;
 	}	 
+	
+	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
+		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
+		if ( boton != 0 ){
+			switch (i){
+				case 0:
+					PiniaBaja = true;					
+					break;
+				case 1:
+					Cubrirse = true;
+					break;
+				case 2:
+					PatadaBaja = true;
+					break;
+				case 3:
+					PiniaAlta = true;
+					break;
+				case 4:
+					ArrojarArma = true;
+					break;
+				case 5:
+					PatadaAlta = true;
+					break;				
+			}
+			cout <<"Apretado boton "<< i <<endl;					
+			
+		}else{
+			//Si no se apreto boton --> todos en falso.
+			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;
+			;
+		}
+		
+	}
 	 
 }
