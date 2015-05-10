@@ -208,7 +208,6 @@ void Parser::set_values (char* my_file) {
                 capas_vector.push_back(temp);
             }
 
-            personaje_mirar_derecha = cargarValidarBool(personaje, true, "mirar_derecha", "El personaje no tiene mirar_derecha, se carga por default derecha");
 
             personaje_zindex = cargarValidar(personaje, 0, "zindex", "Usando zindex (personaje) default de 0");
 
@@ -221,7 +220,19 @@ void Parser::set_values (char* my_file) {
             if ((escenario_ypiso + personaje_alto > escenario_alto*0.8) || escenario_ypiso<0){
                 logger->log_error("El piso es inválido, se pone 0 por default");
                 escenario_ypiso = 0;
-            }            
+            }
+
+            color_inicio = cargarValidar(personaje, 150, "inicio", "Usando inicio (color) default de 150");
+
+            color_fin = cargarValidar(personaje, 200, "fin", "Usando inicio (color) default de 200");
+
+            if (((int) color_fin)%360 < ((int) color_inicio)%360){
+                logger->log_error("El fin no puede ser menor que el inicio (color), fin=inicio + 50");
+                color_fin = color_inicio + 50;
+
+            }
+
+            color_offset = cargarValidar(personaje, 200, "offset", "Usando inicio (color) default de 200");
 
         } else {
             logger->log_error("Error de sytaxis en el archivo");

@@ -40,6 +40,8 @@
             "personaje1":"resources/jugador/SubZero/",
             "personaje2":"personaje2.png"
       },
-      "mirar_derecha": true
+      "inicio": 150,
+      "fin": 200,
+      "offset": 200
    }
 }

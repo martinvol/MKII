@@ -36,7 +36,7 @@ void Rectangulo::generar_rectanguloSDL(float x_fisico, float y_fisico, float anc
 		r = 0xFF;
 	} if (this->bloqueo) {
 		b = 0xFF;
-	} if (!this->bloqueo && !this->bloqueo){
+	} if (!this->bloqueo && !this->ataque){
 		g = 0xFF;
 	}
 

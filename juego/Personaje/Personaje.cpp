@@ -69,7 +69,7 @@ Personaje::~Personaje(){
 }
 */
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor){
 	// 4 flechas
 	Nada = Izquierda = Derecha = Arriba = Abajo = false;
 	// 2 pinias
@@ -86,7 +86,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->coordenada = coord;
 	this->siguiente = NULL;
 	
-	this->mirarDerecha = derecha;
+	this->mirarDerecha = false;
 	
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
@@ -366,7 +366,7 @@ void Personaje::Dibujarse(){
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 		// Para evitar hacer esto acá podría crear un objeto
 		// pero no quiero hacer una clase solo para este loop
-		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(coord1_fis->x_fisico, coord2_fis->y_fisico, ancho_fisico, alto_fisico,renderer, !mirarDerecha);
+		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h ,renderer, !mirarDerecha);
 			
 	}
 	
