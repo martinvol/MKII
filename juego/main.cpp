@@ -86,7 +86,6 @@ public:
 
     int argc;
     char** argv;
-    SDL_Texture *under;
 
     bool usandoJoystick = false;
     SDL_Joystick *Player1, *Player2;
@@ -150,8 +149,6 @@ public:
 		
 		// Tomamos la ventana en el medio del escenario.
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
-
-		this->r = {0, 0, parser->ventana_anchopx, parser->ventana_altopx};
 		
 		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
 		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
@@ -370,7 +367,6 @@ public:
         SDL_JoystickClose(Player1);
         SDL_JoystickClose(Player2);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
-        SDL_DestroyTexture(under);
         delete this->parser;	// Elimina sus propias capas.
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         logger->log_debug("Borramos todos los objetos");
@@ -395,8 +391,6 @@ void DibujarTodo(){
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
-		
-        SDL_RenderCopy(renderer, under, NULL, &r);
 
         for (int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
