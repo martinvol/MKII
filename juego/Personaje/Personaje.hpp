@@ -52,7 +52,7 @@ class Personaje {
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
 		//Harcodeo para donde mira.
-		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, bool derecha, ConversorDeCoordenadas* conversor);
+		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, ConversorDeCoordenadas* conversor);
 		//~ Después debería ser
 		//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
 		ConversorDeCoordenadas* conversor;
