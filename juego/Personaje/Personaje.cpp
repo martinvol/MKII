@@ -447,9 +447,15 @@ void Personaje::Dibujarse(){
 			cout <<"Apretado boton "<< i <<endl; ///				
 			
 		}else{
-			//Si no se apreto boton --> todos en falso.
-			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;
-			;
+			//Si no se aprieto boton --> todos en falso.
+			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;			
+		}
+		//Si ya estaba apretado lo dejo.
+		if (SDL_JoystickGetButton(joystick,1) == 1){
+			Cubrirse = true;
+			cout<<"cubriendose"<<endl; ///
+		}else{
+			Cubrirse = false;
 		}
 		
 	}
