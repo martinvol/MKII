@@ -57,19 +57,11 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	destino.x = coord1_fis->x_fisico;
 	destino.y = coord1_fis->y_fisico;
 
-	/*destino.x = 200;
-	destino.y = 200;*/
-
-	//cout << destino.x << endl;
-	//cout << destino.y << endl;
-
-/*	destino.w = 125;//ancho_fisico;
-	destino.h = 125; //*/
-
 	destino.w = this->ancho;//ancho_fisico;
 	destino.h = this->alto;
 
-	this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h, this->ren, false);
+
+
 
 	SDL_Point point = {destino.w/2, destino.h};
 
@@ -86,7 +78,9 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 		rotar = 45*multiplicar;
 	}
 
+	this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y + this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
 
+	
 	if (this->espejado){
 		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
 		/* code */
