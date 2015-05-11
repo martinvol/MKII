@@ -77,6 +77,7 @@ public:
     bool golpeandoPJalta = false;
     bool golpeandoPJbaja = false;
     bool cansandoPJ = false;
+    bool arrojandoPk=false;
     
     Sint16 presionado=0;
     SDL_Rect r;
@@ -351,7 +352,7 @@ public:
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void reiniciarJuego(){
-        logger->log_debug("Tengo que cambiar las Parseriguraciones");
+        logger->log_debug("Tengo que cambiar las configuraciones");
         terminar_juego();        
 		
         configurar();
@@ -446,8 +447,8 @@ void Controlador(SDL_Event *evento){
 	while(SDL_PollEvent( evento )) {
 		if(usandoJoystick){			
 			SDL_JoystickUpdate ();
-			personajeJuego->ActualizarControlador(Player1);					
-			personajeJuego2->ActualizarControlador(Player2);					
+			personajeJuego->ActualizarControlador(Player1, this->parser);					
+			personajeJuego2->ActualizarControlador(Player2, this->parser);					
 		}
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
@@ -500,6 +501,9 @@ void Controlador(SDL_Event *evento){
 				if(evento->key.keysym.sym == SDLK_f)  {
 					golpeandoPJbaja=true;
 				}
+                if(evento->key.keysym.sym == SDLK_e)  {
+                    arrojandoPk=true;
+                }
 				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
 				if (evento->key.keysym.sym == SDLK_r){
 					reiniciarJuego();
@@ -537,6 +541,9 @@ void Controlador(SDL_Event *evento){
                 }
                 if((evento->key.keysym.sym == SDLK_f))  {
                     golpeandoPJbaja = false;
+                }
+                if(evento->key.keysym.sym == SDLK_e)  {
+                    arrojandoPk=false;
                 }
                 break;
 			default:
@@ -605,6 +612,10 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	}else if (personaje->PatadaAlta){
 		this->director->seMuevePersonaje(jugador, PatadaAlta);
 	}	
+    // ARROJABLE
+    else if (arrojandoPk){
+        this->director->seMuevePersonaje(jugador, ArrojarArma);
+    }
 	//MILE
 	else if (golpeandoPJalta){
 		this->director->seMuevePersonaje(jugador, PiniaAlta);

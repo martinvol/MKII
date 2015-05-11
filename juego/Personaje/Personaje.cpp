@@ -5,18 +5,8 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 
+
 using namespace std;
-
-
-/***********************************************************************
- * 
- * 							AUXILIAR
- *
- **********************************************************************/  
-
-//~ void imprimirMensaje (std::ostream &os, const std::string &msg, int num = NULL){
-	//~ os << msg << " : " << num << std::endl;
-//~ }
 
 
 /***********************************************************************
@@ -25,49 +15,6 @@ using namespace std;
  * 						   Y DESTRUCTOR
  *
  **********************************************************************/  
-
-/**Recibe por parametro la posicion inicial del personaje, representado
- * por una coordenada.
- * El nombre del personaje, que coincide con el nombre de la carpeta donde
- * se guardan las imagenes de las acciones.
- * y un puntero de tipo SDL_Renderer que indica el renderer usado.
- * */
-//<<<<<<< HEAD
-//Personaje::Personaje(CoordenadaLogica* coordenada, BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
-//=======
-/* HEAD
-Personaje::Personaje(CoordenadaLogica* coordenada, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Conf* parser){
->>>>>>> remotes/origin/ClonarMaster
-
-	this->parser= parser;
-	
-	this->barraDeVida = barra;
-	this->barraDeVida->Inicializar(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true) ;
-	this->ancho = ancho;
-	this->alto = alto;
-	this->estado = estado;
-	this->ladoDerecha = this->parser->personaje_mirar_derecha;
-	this->nroAccionActual = 0;
-
-	this->y_inicial = coordenada->y;
-	this->coordenada = coordenada;
-	this->siguiente = NULL;
-	
-	this->accionActual = this->estado->quieto;
-	
-	this->imagenActual = NULL;
-	this->nombrePersonaje = nombre;
-	this->renderer = ren;
-
-}
-
-
-Personaje::~Personaje(){
-	
-	delete this->estado;
-	
-}
-*/
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor){
 	// 4 flechas
@@ -103,6 +50,15 @@ Personaje::~Personaje(){
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 }
 
+void Personaje::Arrojar(){
+	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
+	arrojable = new Arrojable("/home/martin/Desktop/evilFighter.png", true, this->renderer);
+
+	//arrojable->setCoordenadas(new CoordenadaLogica(this->coordenada->x, this->coordenada->y), this->alto, this->ancho);
+	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), this->alto, this->ancho);
+	arrojable->tirar();
+
+}
 /***********************************************************************
  * 
  * 					FUNCIONES PARA EL DIRECTOR
@@ -383,51 +339,27 @@ void Personaje::Dibujarse(){
 	delete coord2;
 	delete coord2_fis;
 	
+	if (this->arrojable){
+
+		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_NONE);
+
+		this->arrojable->dibujar(this->conversor);
+	
+		if (this->arrojable->salioDeLaPantalla(this->conversor->ancho_logico)){
+			Logger::instance()->log_debug("Borré el arma, salió de la pantalla");
+			//delete this->arrojable;
+			this->arrojable = NULL;
+		}
+	}
 }
 
-
-//~ COSAS QUE NO IRÍAN
-//~ void Personaje::Dibujarse(int x, int y){
-    //~ int ancho, alto;
-	//~ SDL_QueryTexture(this->imagenActual, NULL, NULL, &ancho, &alto);
-	//~ this->Dibujarse(x, y, float(alto), float(ancho));
-//~ }
-
-//~ void Personaje::Dibujarse(int x, int y, float alto, float ancho){
-	//~ //Rectangulo destino
-	//~ SDL_Rect destino;
-	//~ destino.x = x;
-	//~ destino.y = y;
-	//~ destino.w = ancho;
-	//~ destino.h = alto;
-	//~ if (!this->ladoDerecha){
-		//~ SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
-	//~ }
-	//~ else{
-		//~ SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
-	//~ }
-//~ }
-
-/***********************************************************************
- * 
- * 							AUXILIAR
- *
- **********************************************************************/  
-
-//~ SDL_Texture* Personaje::DibujarSpriteNumero(int numeroDeSprite){
-	//~ return this->accionActual->getImagenNro(numeroDeSprite);
-//~ }
-	//~ 
-//~ int Personaje::getSpriteActual(){
-	//~ return this->accionActual->getModoActual();
-//~ }
 
 /***********************************************************************
  * 
  * 							CONTROLADOR
  *
  **********************************************************************/  
- void Personaje::ActualizarControlador(SDL_Joystick *joystick){
+ void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf){
 	if (joystick == NULL)
 		return;
 	 
@@ -456,26 +388,28 @@ void Personaje::Dibujarse(){
 	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
 		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
 		if ( boton != 0 ){
-			switch (i){
-				case 0:
-					PiniaBaja = true;					
-					break;
-				case 1:
-					Cubrirse = true;
-					break;
-				case 2:
-					PatadaBaja = true;
-					break;
-				case 3:
-					PiniaAlta = true;
-					break;
-				case 4:
-					ArrojarArma = true;
-					break;
-				case 5:
-					PatadaAlta = true;
-					break;				
+			// Aca había un swich case que Volpe sacó
+			// porque solo interpreta constantes y no
+			// podía cargar las configuraciones
+			if (conf->pinia_baja){
+				PiniaBaja = true;					
 			}
+			else if (conf->pinia_alta){
+				Cubrirse = true;
+			}
+			else if (conf->patada_baja){
+				PatadaBaja = true;
+			}
+			else if (conf->pinia_alta){
+				PiniaAlta = true;
+			}
+			else if (conf->arrojar_arma){
+				ArrojarArma = true;
+			}
+			else if (conf->patada_alta){
+				PatadaAlta = true;
+			}
+				
 			cout <<"Apretado boton "<< i <<endl; ///				
 			
 		}else{

@@ -8,10 +8,13 @@
 #include <string>
 #include "Estado.hpp"
 #include "../Personaje/Acciones/Accion.hpp"
+#include "../Personaje/Acciones/Arrojable.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
 #include "../Escenario/BarraDeVida.hpp"
+#include "../Logger/Logger.hpp"
+
 #define JOYSTICK_DEAD_ZONE 10000
 
 
@@ -24,7 +27,7 @@ class Personaje {
 	public:
 	bool Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, PatadaAlta, PatadaBaja, ArrojarArma, Cubrirse;
 		
-	void ActualizarControlador(SDL_Joystick *joystick);
+	void ActualizarControlador(SDL_Joystick *joystick, Parser* conf);
 	
 	//~ private:
 		/* Sus anchos y altos lógicos. */
@@ -48,6 +51,8 @@ class Personaje {
 		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
+
+		Arrojable* arrojable = NULL;
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -59,6 +64,7 @@ class Personaje {
 		BarraDeVida* barraDeVida;
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
+		void Arrojar();
 		
 		/* VIEJO:
 		void cambiarAccionA(accion_posible nroAccion);
