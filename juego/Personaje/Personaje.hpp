@@ -13,6 +13,8 @@
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
 #include "../Escenario/BarraDeVida.hpp"
+#include "../Logger/Logger.hpp"
+
 #define JOYSTICK_DEAD_ZONE 10000
 
 

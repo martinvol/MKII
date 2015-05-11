@@ -23,7 +23,7 @@ class Arrojable{
 		
 		void tirar();
 		
-		void tirar_diagonal(bool arriba);
+		void tirarDiagonal(bool arriba);
 
 		void dibujar(ConversorDeCoordenadas* conv);
 

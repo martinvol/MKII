@@ -342,8 +342,13 @@ void Personaje::Dibujarse(){
 		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_NONE);
 
 		this->arrojable->dibujar(this->conversor);
+	
+		if (this->arrojable->salioDeLaPantalla(this->conversor->ancho_logico)){
+			Logger::instance()->log_debug("Borré el arma, salió de la pantalla");
+			//delete this->arrojable;
+			this->arrojable = NULL;
+		}
 	}
-	// si se fue de la pantalla, destruilo
 }
 
 

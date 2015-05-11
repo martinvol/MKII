@@ -25,6 +25,18 @@ void Arrojable::tirar(){
 
 }
 
+void Arrojable::tirarDiagonal(bool arriba){
+}
+
+bool Arrojable::salioDeLaPantalla(float tamanio_escenario){
+	// quizás haya que ver que hacemos si está espejada
+
+	cout << "ancho lógico" << tamanio_escenario << endl;
+	return false;
+	return this->coord->x >= tamanio_escenario || this->coord->x <= 0;
+
+}
+
 void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	cout << "dibujo"<< endl;
 
@@ -46,5 +58,5 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 
     delete coord1_fis;
 
-    this->coord->x +=10;
+    //this->coord->x +=.1;
 }
