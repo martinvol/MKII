@@ -5,7 +5,7 @@
 
 class Girar: public Accion{
 	public:
-		Girar(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max);
+		Girar(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset);
 		void cambiarModoInversamente();
 		void cambiarModo();
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);

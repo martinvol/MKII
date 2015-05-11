@@ -8,8 +8,8 @@ CC=g++
 VG=valgrind
 VFLAGS=--leak-check=full --show-reachable=yes
 
-testScreen: clean
-	$(CC) "pruebas/Lesson3.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
+testScreen: clean LTexture.o
+	$(CC) "pruebas/PixelTest.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o testScreen
 	./testScreen
 	make clean
 	
@@ -60,6 +60,8 @@ Director.o: juego/Director/Director.cpp
 Logger.o: juego/Logger/Logger.cpp
 	$(CC) "juego/Logger/Logger.cpp" $(CFLAGS) -c
 
+LTexture.o:
+	$(CC) "juego/LTexture.cpp" $(CFLAGS) -c
 
 Accion.o: juego/Personaje/Acciones/Accion.cpp
 	$(CC) "juego/Personaje/Acciones/Accion.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -145,7 +147,7 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Arrojable.o Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Girar.o Director.o Jugador.o Ventana.o Timer.o
+compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Girar.o Director.o Jugador.o Ventana.o Timer.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

@@ -324,14 +324,16 @@ void Personaje::Dibujarse(){
 		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h ,renderer, !mirarDerecha);
 			
 	}
-
+	
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_HORIZONTAL);
+		
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
 	} else {
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_NONE);
+		
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
-	
+
 	delete coord1;
 	delete coord1_fis;
 	delete coord2;

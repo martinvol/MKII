@@ -9,7 +9,7 @@ class SaltarDiagonal: public Accion{
 		float dist_virtual;
 		bool impar;
 		
-		SaltarDiagonal(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max):Accion(4,ruta,ren, despl_x, despl_y, h_max){
+		SaltarDiagonal(string ruta, SDL_Renderer* ren,float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(4,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 			dist_virtual = 0;
 			if (cantModos%2==1){
 				// cantidad impar de imágenes.
