@@ -169,7 +169,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, f
 Accion::~Accion(){	
 	for (int i = 0; i < this->cantModos; i++){
 		
-		delete imagenes[i];
+		SDL_DestroyTexture(imagenes[i]);
 	}
 }
 
