@@ -78,7 +78,7 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 		rotar = 45*multiplicar;
 	}
 
-	this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y + this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
+	this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
 
 	
 	if (this->espejado){
