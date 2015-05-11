@@ -4,6 +4,7 @@
 #define VELOCIDAD_HORIZONTAL 60*3
 
 using namespace std;
+
 /***********************************************************************
  * 
  * 						ESTADO

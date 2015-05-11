@@ -8,6 +8,7 @@
 #include <string>
 #include "Estado.hpp"
 #include "../Personaje/Acciones/Accion.hpp"
+#include "../Personaje/Acciones/Arrojable.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
@@ -48,6 +49,8 @@ class Personaje {
 		
 		SDL_Texture* imagenActual;
 		SDL_Renderer* renderer;
+
+		Arrojable* arrojable = NULL;
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -59,6 +62,7 @@ class Personaje {
 		BarraDeVida* barraDeVida;
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
+		void Arrojar();
 		
 		/* VIEJO:
 		void cambiarAccionA(accion_posible nroAccion);
