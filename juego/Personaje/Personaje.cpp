@@ -55,23 +55,25 @@ Personaje::~Personaje(){
 
 void Personaje::Arrojar(){
 	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
-	arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
 
-
-	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
-	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+	if (this->arrojable == NULL){
+		this->arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
 	
-	CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
-	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
 	
-	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
-	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
-
-	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
-	arrojable->tirar(this->velocidad_arma);
-
-	delete coord1,coord1_fis,coord2,coord2_fis;
-
+		CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
+		CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+		
+		CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
+		CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
+		
+		int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
+		int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
+	
+		arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+		arrojable->tirar(this->velocidad_arma);
+	
+		delete coord1,coord1_fis,coord2,coord2_fis;
+	}
 }
 /***********************************************************************
  * 

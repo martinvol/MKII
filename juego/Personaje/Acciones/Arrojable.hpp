@@ -28,7 +28,7 @@ class Arrojable{
 
 		void dibujar(ConversorDeCoordenadas* conv);
 
-		bool salioDeLaPantalla(float tamanio_escenario);
+		bool salioDeLaPantalla(ConversorDeCoordenadas *conv);
 
 		~Arrojable();
 

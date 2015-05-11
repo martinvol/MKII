@@ -39,12 +39,17 @@ void Arrojable::tirarDiagonal(bool arriba){
 	}
 }
 
-bool Arrojable::salioDeLaPantalla(float tamanio_escenario){
+bool Arrojable::salioDeLaPantalla(ConversorDeCoordenadas *conv){
 	// quizás haya que ver que hacemos si está espejada
 
 	//cout << "ancho lógico" << tamanio_escenario << endl;
 	//return false;
-	return this->coord->x >= tamanio_escenario || this->coord->x <= 0 || this->pego;
+	CoordenadaFisica* coord1_fis = conv->aFisica(this->coord);
+	bool out = coord1_fis->x_fisico >= conv->ancho_fisico || coord1_fis->x_fisico <= 0 || this->pego;
+	out = out || coord1_fis->y_fisico <= 0 || coord1_fis->y_fisico >= conv->alto_fisico;
+	delete coord1_fis;
+	return out;
+
 
 }
 
