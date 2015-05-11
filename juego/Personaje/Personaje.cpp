@@ -42,6 +42,8 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
+
+	this->imagenArrojable = IMG_LoadTexture(this->renderer, "/home/martin/Desktop/evilFighter.png");;
 	
 }
 
@@ -52,7 +54,7 @@ Personaje::~Personaje(){
 
 void Personaje::Arrojar(){
 	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
-	arrojable = new Arrojable("/home/martin/Desktop/evilFighter.png", true, this->renderer);
+	arrojable = new Arrojable(this->imagenArrojable,true, this->renderer);
 
 	//arrojable->setCoordenadas(new CoordenadaLogica(this->coordenada->x, this->coordenada->y), this->alto, this->ancho);
 	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), this->alto, this->ancho);
@@ -388,21 +390,22 @@ void Personaje::Dibujarse(){
 			if (i == conf->pinia_baja){
 				PiniaBaja = true;					
 			}
-			else if (i == conf->cubrirse){
+			if (i == conf->cubrirse){
 				Cubrirse = true;
 			}
-			else if (i == conf->patada_baja){
+			if (i == conf->patada_baja){
 				PatadaBaja = true;
 			}
-			else if (i == conf->pinia_alta){
+			if (i == conf->pinia_alta){
 				cout <<"entro "<< i <<endl; ///				
 
 				PiniaAlta = true;
 			}
-			else if (i == conf->arrojar_arma){
-				ArrojarArma = true;
+			if (i == conf->arrojar_arma){
+				//ArrojarArma = true;
+				this->Arrojar();
 			}
-			else if (i == conf->patada_alta){
+			if (i == conf->patada_alta){
 				PatadaAlta = true;
 			}
 				

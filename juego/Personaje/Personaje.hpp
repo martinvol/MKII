@@ -113,6 +113,8 @@ class Personaje {
 		/* Se queda con la coordenada, no la deben liberar por afuera. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
+	private:
+		SDL_Texture* imagenArrojable;
 		
 };
 

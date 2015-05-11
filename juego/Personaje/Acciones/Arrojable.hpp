@@ -16,7 +16,7 @@ using namespace std;
 class Arrojable{
 	public:
 
-		Arrojable(string ruta, bool derecha, SDL_Renderer* ren);
+		Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren);
 
 		// desde donde
 		void setCoordenadas(CoordenadaLogica *coord, float alto, float ancho);

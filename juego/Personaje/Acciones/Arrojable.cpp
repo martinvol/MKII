@@ -4,10 +4,10 @@
 
 using namespace std;
 
-Arrojable::Arrojable(string ruta, bool derecha, SDL_Renderer* ren){
+Arrojable::Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren){
 	cout << "el personaje sabe que tiene que arrojar el arma2" << endl; 
 	this->ren = ren;
-	this->imagen = IMG_LoadTexture(this->ren, ruta.c_str());
+	this->imagen = imagen;
 	cout << "el personaje sabe que tiene que arrojar el arma3" << endl; 
 }
 
