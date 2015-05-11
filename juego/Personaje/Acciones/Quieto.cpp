@@ -7,7 +7,7 @@ using namespace std;
  * 
  **********************************************************************/  
 
-Quieto::Quieto(string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max):Accion(0,ruta,ren, win, despl_x, despl_y, h_max){
+Quieto::Quieto(string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(0,ruta,ren, win, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 	cout <<"quieto "<< this->rectangulos->size() << '\n';
 	Rectangulo* todo  = new Rectangulo(0,0,100,100,true,false);
 	rectangulos->push_back(todo);

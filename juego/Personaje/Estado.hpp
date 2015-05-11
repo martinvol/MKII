@@ -28,7 +28,7 @@ class Estado{
 		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
 		Agacharse* agacharse;
-		Estado(string ruta, SDL_Renderer* ren, SDL_Window* win, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho);
+		Estado(string ruta, SDL_Renderer* ren, SDL_Window* win, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
 		PiniaAlta* piniaAlta;
 		PiniaBaja* piniaBaja;
 		Girar* girar;
