@@ -45,3 +45,7 @@ void Rectangulo::generar_rectanguloSDL(float x_fisico, float y_fisico, float anc
 		SDL_RenderFillRect(renderer, sdl_rec);
 	}
 }
+
+Rectangulo::~Rectangulo(){
+	delete this->sdl_rec;
+}

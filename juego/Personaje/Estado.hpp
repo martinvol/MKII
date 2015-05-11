@@ -32,6 +32,7 @@ class Estado{
 		PiniaAlta* piniaAlta;
 		PiniaBaja* piniaBaja;
 		Girar* girar;
+		string ruta_arrojable;
 		~Estado();
 
 };

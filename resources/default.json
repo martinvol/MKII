@@ -39,6 +39,9 @@
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
       },
+
+      /*Estas configuraciones son para los dos personajes*/
+      "velocidad_arma": 10,
       "inicio": 0,
       "fin": 200,
       "offset": 200

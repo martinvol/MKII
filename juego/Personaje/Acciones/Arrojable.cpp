@@ -75,3 +75,8 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 
     this->coord->x += this->vel_horizontal;
 }
+
+Arrojable::~Arrojable(){
+	delete this->coord;
+	delete this->rectangulo;
+}

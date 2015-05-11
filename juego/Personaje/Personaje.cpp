@@ -43,7 +43,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
-	this->imagenArrojable = IMG_LoadTexture(this->renderer, "/home/martin/Desktop/evilFighter.png");;
+	this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
 	
 }
 

@@ -263,7 +263,7 @@ void Director::verificar_movimientos(){
 		
 			if (jugadores[i]->obtenerPersonaje()->arrojable->salioDeLaPantalla(this->escenario->ancho)){
 				Logger::instance()->log_debug("Borré el arma, salió de la pantalla o ya colisionó");
-				//delete this->arrojable;
+				delete jugadores[i]->obtenerPersonaje()->arrojable;
 				jugadores[i]->obtenerPersonaje()->arrojable = NULL;
 			}
 		}
