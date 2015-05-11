@@ -1,6 +1,7 @@
 
 #include "Arrojable.hpp"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -30,6 +31,12 @@ void Arrojable::tirar(float velocidad_arma){
 }
 
 void Arrojable::tirarDiagonal(bool arriba){
+	float velocidad = abs(vel_horizontal);
+	if (arriba){
+		this->vel_vertical = velocidad;
+	} else{ // abajo
+		this->vel_vertical = velocidad*-1.;
+	}
 }
 
 bool Arrojable::salioDeLaPantalla(float tamanio_escenario){
@@ -63,17 +70,32 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 
 	SDL_Point point = {destino.w/2, destino.h};
 
+	int rotar = 0;
+	int multiplicar = 1;
+
 	if (this->espejado){
-		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,0,&point,SDL_FLIP_HORIZONTAL);
+		multiplicar = -1;		
+	}
+
+	if (vel_vertical > 0){
+		rotar = -45*multiplicar;
+	} else if (vel_vertical < 0){
+		rotar = 45*multiplicar;
+	}
+
+
+	if (this->espejado){
+		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
 		/* code */
 	} else {
-		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,0,&point,SDL_FLIP_NONE);
+		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_NONE);
 	}
 	
 
     delete coord1_fis;
 
     this->coord->x += this->vel_horizontal;
+    this->coord->y += this->vel_vertical;
 }
 
 Arrojable::~Arrojable(){

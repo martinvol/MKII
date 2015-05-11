@@ -43,7 +43,7 @@
       },
 
       /*Estas configuraciones son para los dos personajes*/
-      "velocidad_arma": 1,
+      "velocidad_arma": 10,
       "inicio": 150,
       "fin": 200,
       "offset": 200

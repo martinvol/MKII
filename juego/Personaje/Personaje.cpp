@@ -404,6 +404,16 @@ void Personaje::Dibujarse(){
 				//ArrojarArma = true;
 				this->Arrojar();
 			}
+			if (i == conf->arrojar_arma_baja){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+			}
+			if (i == conf->arrojar_arma_alta){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+			}
 			if (i == conf->patada_alta){
 				PatadaAlta = true;
 			}
