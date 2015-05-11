@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <vector>
+#include "../../LTexture.hpp"
 
 #include "../../Coordenadas/CoordenadaLogica.hpp"
 #include "../../Logger/Logger.hpp"
@@ -39,7 +40,7 @@ class Accion{
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
@@ -52,6 +53,8 @@ class Accion{
 		void setInvertirSecuencia();
 	
 		SDL_Texture* getImagenActual();
+		int hue_init, hue_fin, hue_offset;
+		
 		int getModoActual();
 	
 		bool esUltimoModo();

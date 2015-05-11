@@ -69,17 +69,20 @@ void Accion::setImagenes (){
 	int numero;
 	
 	for (int i = 0; i<this->cantModos; i++){
-		SDL_Texture* imagen;
+		LTexture* imagen = new LTexture(this->renderer);
 		numero = i+1;
 		numeroImagen = to_string(numero);
 		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
-		imagen = IMG_LoadTexture (this->renderer,rutaCompleta.c_str());
+		imagen->loadFromFile(rutaCompleta, this->hue_init, this->hue_fin, this->hue_offset);
+		// Aca falta cambiar la forma de chequeo: la misma LTexture
+		// podria tener un logger para solucionar esto *Manuel*
 		if(imagen == NULL){
 			this->logger->log_debug("IMG_LoadTexture error: " + (string)(SDL_GetError()));
 			//cout<<"error en: "<<numeroImagen<<endl;
 		}
 		else{ninguna = false;}
-		this->imagenes.push_back(imagen);
+		this->imagenes.push_back(imagen->mTexture);
+		delete imagen;
 	
 	}
 	if (ninguna){
@@ -134,7 +137,11 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max){
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset){
+	
+	this->hue_init = hue_init;
+	this->hue_fin = hue_fin;
+	this->hue_offset = hue_offset;
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;
 	setAccionNro(nroAccion);
@@ -164,8 +171,8 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, flo
  * */
 Accion::~Accion(){	
 	for (int i = 0; i < this->cantModos; i++){
-		if(imagenes[i]!=NULL)
-			SDL_DestroyTexture(imagenes[i]);
+		
+		SDL_DestroyTexture(imagenes[i]);
 	}
 }
 

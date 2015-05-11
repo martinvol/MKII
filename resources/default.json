@@ -39,7 +39,7 @@
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
       },
-      "inicio": 150,
+      "inicio": 0,
       "fin": 200,
       "offset": 200
    },
