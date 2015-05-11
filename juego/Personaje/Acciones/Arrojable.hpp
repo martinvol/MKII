@@ -9,6 +9,7 @@
 #include <SDL2/SDL_image.h>
 #include "../../Coordenadas/CoordenadaLogica.hpp"
 #include "../../Coordenadas/ConversorDeCoordenadas.hpp"
+#include "Rectangulo.hpp"
 
 using namespace std;
 
@@ -31,6 +32,8 @@ class Arrojable{
 
 		~Arrojable();
 
+		Rectangulo * rectangulo;
+		bool pego=false;
 	private:
 		SDL_Texture* imagen;
 		SDL_Renderer* ren;

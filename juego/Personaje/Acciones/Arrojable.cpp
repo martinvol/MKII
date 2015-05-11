@@ -17,6 +17,8 @@ void Arrojable::setCoordenadas(CoordenadaLogica *coord, float alto, float ancho)
 	this->coord = coord;
 	this->alto = alto;
 	this->ancho = ancho;
+	this->rectangulo = new Rectangulo(0, 0, 100, 100, true, false);
+	this->rectangulo->generar_rectanguloSDL(0, 0, 0, 0, this->ren, false);
 }
 
 void Arrojable::tirar(){
@@ -33,7 +35,7 @@ bool Arrojable::salioDeLaPantalla(float tamanio_escenario){
 
 	//cout << "ancho lógico" << tamanio_escenario << endl;
 	//return false;
-	return this->coord->x >= tamanio_escenario || this->coord->x <= 0;
+	return this->coord->x >= tamanio_escenario || this->coord->x <= 0 || this->pego;
 
 }
 
@@ -54,6 +56,8 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 
 	destino.w = 125;//ancho_fisico;
 	destino.h = 125; //
+
+	this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h, this->ren, false);
 
 	SDL_Point point = {destino.w/2, destino.h};
 	

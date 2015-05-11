@@ -1,3 +1,6 @@
+#ifndef RECTANGULO_H_INCLUDED
+#define RECTANGULO_H_INCLUDED
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -13,3 +16,4 @@ class Rectangulo{
 		void generar_rectanguloSDL(float x_fisico, float y_fisico, float ancho_fisico, float alto_fisico, SDL_Renderer* renderer, bool espejado);
 		~Rectangulo();
 };
+#endif

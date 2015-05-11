@@ -397,8 +397,6 @@ void Personaje::Dibujarse(){
 				PatadaBaja = true;
 			}
 			if (i == conf->pinia_alta){
-				cout <<"entro "<< i <<endl; ///				
-
 				PiniaAlta = true;
 			}
 			if (i == conf->arrojar_arma){

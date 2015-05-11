@@ -219,6 +219,8 @@ void Director::verificar_movimientos(){
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
 	std::vector<Rectangulo*>* rectangulos_jug2 = jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos;
 
+
+
 	// esta verificación es porque todavíá todo no tiene rectangulos
 	if (rectangulos_jug1->size() && rectangulos_jug2->size()){
 
@@ -264,6 +266,30 @@ void Director::verificar_movimientos(){
 				//delete this->arrojable;
 				jugadores[i]->obtenerPersonaje()->arrojable = NULL;
 			}
+		}
+	}
+
+	for (unsigned int i = 0; i<jugadores.size(); i++){
+		if (jugadores[i]->obtenerPersonaje()->arrojable){
+			for (unsigned int j = 0; j < jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->size(); j++){
+				// verifico las colisiones
+				SDL_Rect interseccion; // no lo usamos
+				SDL_bool coli = SDL_IntersectRect(
+					jugadores[i]->obtenerPersonaje()->arrojable->rectangulo->sdl_rec,
+					jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->sdl_rec, 
+					&interseccion
+				);
+				
+				if (coli){
+					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
+					jugadores[(i+1)%2]->barra->Lastimar(1);
+					this->escenario->Temblar(SDL_GetTicks());
+					Logger::instance()->log_debug("Le pego!!!");
+
+
+				}
+			}
+			
 		}
 	}
 }
