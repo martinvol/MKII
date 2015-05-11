@@ -383,22 +383,24 @@ void Personaje::Dibujarse(){
 			// Aca había un swich case que Volpe sacó
 			// porque solo interpreta constantes y no
 			// podía cargar las configuraciones
-			if (conf->pinia_baja){
+			if (i == conf->pinia_baja){
 				PiniaBaja = true;					
 			}
-			else if (conf->pinia_alta){
+			else if (i == conf->cubrirse){
 				Cubrirse = true;
 			}
-			else if (conf->patada_baja){
+			else if (i == conf->patada_baja){
 				PatadaBaja = true;
 			}
-			else if (conf->pinia_alta){
+			else if (i == conf->pinia_alta){
+				cout <<"entro "<< i <<endl; ///				
+
 				PiniaAlta = true;
 			}
-			else if (conf->arrojar_arma){
+			else if (i == conf->arrojar_arma){
 				ArrojarArma = true;
 			}
-			else if (conf->patada_alta){
+			else if (i == conf->patada_alta){
 				PatadaAlta = true;
 			}
 				

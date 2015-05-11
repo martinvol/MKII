@@ -107,7 +107,7 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			cout<<"ArrojarArma"<<endl; ///
 			//jugador->activarAccion(PINIAALTA);
 			//Una vez que la ejecuto, la desactivo, sino loopea.
-			// (jugador->obtenerPersonaje())->ArrojarArma = false;
+			(jugador->obtenerPersonaje())->ArrojarArma = false;
 			jugador->obtenerPersonaje()->Arrojar();
 			break;
 		case MirarDerecha:

@@ -1,0 +1,66 @@
+/*Configuraciones que andan con los joystick que tiene Volpe*/
+
+{
+   "ventana":{
+      "anchopx":800,
+      "altopx":600,
+      "ancho":400,
+      "margen":90
+   },
+   "escenario":{
+      "ancho":1216,
+      "alto":255,
+      "ypiso":5
+   },
+   "capas":[
+      {
+         "imagen_fondo":"resources/background/fondo.png",
+         "anchoLogico": 400
+      }, 
+      {
+         "imagen_fondo":"resources/background/p_4b.png",
+         "anchoLogico": 504 
+      }, 
+      {
+         "imagen_fondo":"resources/background/p_3.png",
+         "anchoLogico": 700
+      }, 
+      {
+         "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
+         "anchoLogico":1000
+      },
+      {
+         "imagen_fondo":"resources/background/p_1.png",
+         "anchoLogico":1216
+      }
+   ],
+   "personaje":{
+      "ancho":127,
+      "alto":63,
+      "zindex":60,
+      "sprites":{
+            "personaje1":"resources/jugador/SubZero/"
+      },
+      "inicio": 150,
+      "fin": 200,
+      "offset": 200
+   },
+   "personaje2":{
+      "ancho":127,
+      "alto":63,
+      "zindex":60,
+      "sprites":{
+            "personaje1":"resources/jugador/SubZero/"
+      }
+   },
+   "joystick": {
+      "pinia_baja": 3,
+      "pinia_alta": 0,
+      "cubrirse": 1,
+      "patada_baja": 2,
+      "patada_alta": 5,
+      "arrojar_arma": 4,
+      "arrojar_arma_baja": 50, // todavíá no esta bien esto
+      "arrojar_arma_alta": 50
+   }
+}
