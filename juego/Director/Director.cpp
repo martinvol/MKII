@@ -234,6 +234,7 @@ void Director::verificar_movimientos(){
 					&interseccion
 				);
 				
+				/*int indice_pega;*/
 				if (coli){
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
 						Jugador* sufre, *pegando;
@@ -241,16 +242,23 @@ void Director::verificar_movimientos(){
 						if (rectangulos_jug1->at(i)->ataque){
 							pegando = jugadores[jugador1];
 							sufre = jugadores[jugador2];
+							/*indice_pega = j;*/
 						} else {
 							pegando = jugadores[jugador2];
 							sufre = jugadores[jugador1];
+							/*indice_pega = i;*/
 						}
 
-						sufre->barra->Lastimar(
-							pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio
-						);
-						this->escenario->Temblar(SDL_GetTicks());
-						Logger::instance()->log_debug("Le pego!!!");
+						// Este if hace que solo se le pueda sacr vida una sola vez
+						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
+							sufre->barra->Lastimar(
+								pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio
+							);
+							this->escenario->Temblar(SDL_GetTicks());
+							Logger::instance()->log_debug("Le pego!!!");
+							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
+							
+						}
 
 					}
 				}

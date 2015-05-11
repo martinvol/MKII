@@ -24,6 +24,8 @@ class Accion{
 	public:
 		
 		/* Constantes de desplazamiento. */
+
+		bool saque_vida = false;
 		float despl_x;
 		float despl_y;
 		float h_max;

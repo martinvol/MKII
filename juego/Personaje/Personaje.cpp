@@ -150,12 +150,11 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
-			break;			
+			break;		
 	}
 //~ if (nroAccionActual == AGACHARSE)
 //~ cout<<"quiero agacharme"<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
-
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
@@ -303,6 +302,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual->setDireccionIzquierda();
 			break;
 	}
+		this->accionActual->saque_vida = false;
 	
 }
 
