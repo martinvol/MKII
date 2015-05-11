@@ -22,7 +22,7 @@ class Arrojable{
 		// desde donde
 		void setCoordenadas(CoordenadaLogica *coord, float alto, float ancho);
 		
-		void tirar();
+		void tirar(float velocidad_arma);
 		
 		void tirarDiagonal(bool arriba);
 

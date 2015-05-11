@@ -124,6 +124,8 @@ void Parser::set_values (char* my_file) {
 
             const Json::Value personaje = root["personaje"];
 
+            this->velocidad_arma = cargarValidar(personaje, 10, "velocidad_arma", "La velocidad (personaje) default de 10");
+
             personaje_ancho = cargarValidar(personaje, 100, "ancho", "Usando ancho (personaje) default de 100");
             if (personaje_ancho >(3./4)*ventana_ancho || personaje_ancho < 0){
                 logger->log_error("El ancho del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");

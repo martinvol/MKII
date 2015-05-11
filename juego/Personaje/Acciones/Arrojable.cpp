@@ -20,8 +20,8 @@ void Arrojable::setCoordenadas(CoordenadaLogica *coord, float alto, float ancho)
 	this->rectangulo->generar_rectanguloSDL(0, 0, 0, 0, this->ren, false);
 }
 
-void Arrojable::tirar(){
-	this->vel_horizontal = 10;
+void Arrojable::tirar(float velocidad_arma){
+	this->vel_horizontal = velocidad_arma;
 	if (this->espejado){
 		this->vel_horizontal *= -1;
 	}

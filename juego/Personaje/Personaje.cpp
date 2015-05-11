@@ -16,7 +16,8 @@ using namespace std;
  *
  **********************************************************************/  
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma){
+	this->velocidad_arma = velocidad_arma;
 	// 4 flechas
 	Nada = Izquierda = Derecha = Arriba = Abajo = false;
 	// 2 pinias
@@ -58,7 +59,7 @@ void Personaje::Arrojar(){
 
 	//arrojable->setCoordenadas(new CoordenadaLogica(this->coordenada->x, this->coordenada->y), this->alto, this->ancho);
 	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), this->alto, this->ancho);
-	arrojable->tirar();
+	arrojable->tirar(this->velocidad_arma);
 
 }
 /***********************************************************************

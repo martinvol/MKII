@@ -176,7 +176,7 @@ public:
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje2_ancho,
 										parser->personaje2_alto, estado,
-										this->conversor);
+										this->conversor, parser->velocidad_arma);
 
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -199,11 +199,11 @@ public:
         
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
-                                        "Segundo", renderer, parser->personaje_ancho,
+                                        "Segundo", renderer, parser->personaje2_ancho,
                                         // "Kabal", renderer, parser->personaje2_ancho,
-                                        parser->personaje_alto, estado2,
+                                        parser->personaje2_alto, estado2,
                                         // parser->personaje2_alto, estado2,
-                                        this->conversor);
+                                        this->conversor, parser->velocidad_arma);
                                         // parser->personaje2_mirar_derecha, this->conversor);
         
         
