@@ -34,14 +34,13 @@ class Accion{
 		int cantModos;
 		string ruta;
 		SDL_Renderer* renderer;
-		SDL_Window* win;
 		vector<SDL_Texture*> imagenes;
 		int modoActual;
 		
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);

@@ -25,7 +25,7 @@ class SaltarVertical:public Accion{
 		float delta;
 		bool impar;
 		
-		SaltarVertical(string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(3,ruta,ren,win, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
+		SaltarVertical(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(3,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 			this->contadorDeLoops=0;
 			contador= 0;
 			dist_virtual=0;

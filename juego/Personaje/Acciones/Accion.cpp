@@ -69,7 +69,7 @@ void Accion::setImagenes (){
 	int numero;
 	
 	for (int i = 0; i<this->cantModos; i++){
-		LTexture* imagen = new LTexture(this->win, this->renderer);
+		LTexture* imagen = new LTexture(this->renderer);
 		numero = i+1;
 		numeroImagen = to_string(numero);
 		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
@@ -137,12 +137,11 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset){
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset){
 	
 	this->hue_init = hue_init;
 	this->hue_fin = hue_fin;
 	this->hue_offset = hue_offset;
-	this->win = win;
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;
 	setAccionNro(nroAccion);

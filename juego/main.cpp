@@ -170,7 +170,7 @@ public:
         x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho) - SEPARACION/2;
         
         this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
-							renderer, this->ventana->window, parser->personaje_alto, parser->escenario_alto,
+							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje_ancho,
@@ -192,8 +192,9 @@ public:
 		// Nada, eso solo. Queria llamar la atencion con las mayusculas. *Manuel*
 
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-                            renderer, this->ventana->window, parser->personaje_alto, parser->escenario_alto,
-                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, parser->color_inicio, parser->color_fin, parser->color_offset);
+                            renderer, parser->personaje_alto, parser->escenario_alto,
+                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, 
+                            parser->color_inicio, parser->color_fin, parser->color_offset);
         
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
