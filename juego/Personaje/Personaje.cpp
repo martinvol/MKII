@@ -53,14 +53,10 @@ Personaje::~Personaje(){
 void Personaje::Arrojar(){
 	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 	arrojable = new Arrojable("/home/martin/Desktop/evilFighter.png", true, this->renderer);
-	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
-	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
 
-	arrojable->set_coordenadas(coord1_fis->x_fisico, coord1_fis->y_fisico/2., this->alto, this->ancho);
+	//arrojable->setCoordenadas(new CoordenadaLogica(this->coordenada->x, this->coordenada->y), this->alto, this->ancho);
+	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), this->alto, this->ancho);
 	arrojable->tirar();
-
-	delete coord1;
-	delete coord1_fis;
 
 }
 /***********************************************************************
@@ -342,7 +338,10 @@ void Personaje::Dibujarse(){
 	delete coord2_fis;
 	
 	if (this->arrojable){
-		this->arrojable->dibujar();
+
+		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_NONE);
+
+		this->arrojable->dibujar(this->conversor);
 	}
 	// si se fue de la pantalla, destruilo
 }

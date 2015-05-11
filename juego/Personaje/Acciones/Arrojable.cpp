@@ -1,18 +1,20 @@
 
 #include "Arrojable.hpp"
+#include <iostream>
 
 using namespace std;
 
 Arrojable::Arrojable(string ruta, bool derecha, SDL_Renderer* ren){
-	this->imagen = IMG_LoadTexture (this->ren, ruta.c_str());
+	cout << "el personaje sabe que tiene que arrojar el arma2" << endl; 
 	this->ren = ren;
+	this->imagen = IMG_LoadTexture(this->ren, ruta.c_str());
+	cout << "el personaje sabe que tiene que arrojar el arma3" << endl; 
 }
 
 
-void Arrojable::set_coordenadas(float x, float y, float alto, float ancho){
+void Arrojable::setCoordenadas(CoordenadaLogica *coord, float alto, float ancho){
 	// recibe una coordenada lógica y la convierte a física
-	this->x = x;
-	this->y = y;	
+	this->coord = coord;
 	this->alto = alto;
 	this->ancho = ancho;
 }
@@ -23,12 +25,26 @@ void Arrojable::tirar(){
 
 }
 
-void Arrojable::dibujar(){
-	/*SDL_Rect destino;
-	destino.x = coord1_fis->x_fisico;
-	destino.y = coord2_fis->y_fisico;
-	destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
-	destino.h = alto_fisico; //
-	SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,&point,SDL_FLIP_HORIZONTAL);*/
+void Arrojable::dibujar(ConversorDeCoordenadas *conv){
+	cout << "dibujo"<< endl;
 
+	CoordenadaFisica* coord1_fis = conv->aFisica(this->coord);
+
+	SDL_Rect destino;
+	destino.x = coord1_fis->x_fisico;
+	destino.y = coord1_fis->y_fisico;
+
+	//cout << destino.x << endl;
+	//cout << destino.y << endl;
+
+	destino.w = 125;//ancho_fisico;
+	destino.h = 125; //
+
+	SDL_Point point = {destino.w/2, destino.h};
+	
+	SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,0,&point,SDL_FLIP_NONE);
+
+    delete coord1_fis;
+
+    this->coord->x +=10;
 }
