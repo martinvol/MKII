@@ -350,8 +350,7 @@ void Personaje::Dibujarse(){
 
 	int _w, _h;
 	
-	_w = this->imagenActual->getWidth();
-	_h = this->imagenActual->getHeight();
+	SDL_QueryTexture(this->imagenActual, NULL, NULL, &_w, &_h);
 
 	//Rectangulo destino
 	SDL_Rect destino;
@@ -370,14 +369,13 @@ void Personaje::Dibujarse(){
 			
 	}
 	
-	this->imagenActual->modificarHue(0, 230, 0);
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
-		this->imagenActual->render(destino.x,destino.y,NULL,0,NULL,SDL_FLIP_HORIZONTAL);
-		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
+		
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
 	} else {
-		this->imagenActual->render(destino.x,destino.y,NULL,0,NULL,SDL_FLIP_NONE);
-		//SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
+		
+		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
 
 	delete coord1;

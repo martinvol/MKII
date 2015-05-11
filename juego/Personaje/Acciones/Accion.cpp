@@ -73,7 +73,7 @@ void Accion::setImagenes (){
 		numero = i+1;
 		numeroImagen = to_string(numero);
 		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
-		imagen->loadFromFile(rutaCompleta);
+		imagen->loadFromFile(rutaCompleta, this->hue_init, this->hue_fin, this->hue_offset);
 		// Aca falta cambiar la forma de chequeo: la misma LTexture
 		// podria tener un logger para solucionar esto *Manuel*
 		if(imagen == NULL){
@@ -81,7 +81,8 @@ void Accion::setImagenes (){
 			//cout<<"error en: "<<numeroImagen<<endl;
 		}
 		else{ninguna = false;}
-		this->imagenes.push_back(imagen);
+		this->imagenes.push_back(imagen->mTexture);
+		delete imagen;
 	
 	}
 	if (ninguna){
@@ -116,7 +117,7 @@ void Accion::setDireccionIzquierda(){
  * que corresponde a la imagen equivalente al
  * modo actual en el que se encuentra la accion
  * */
-LTexture* Accion::getImagenActual(){
+SDL_Texture* Accion::getImagenActual(){
 	return this->imagenes[this->modoActual];
 } 
 //~ SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
@@ -136,7 +137,7 @@ int Accion::getModoActual(){
  * un booleano que indica si la accion actual puede ser interrumpida.
  * y un puntero al Renderer.
  * */
-Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max){
+Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset){
 	this->win = win;
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;

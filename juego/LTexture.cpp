@@ -262,12 +262,8 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 	Uint8* pixels = (Uint8*)loadedSurface->pixels;
 	int pixelCount = ( loadedSurface->pitch / 4 ) * loadedSurface->h; 
 
-	printf("PixelCount: %d \n", pixelCount); ///
-	printf("bpp : %d \n", loadedSurface->format->BitsPerPixel); ///
-
-	for( int i = 0; i < pixelCount; ++i ) {
+		for( int i = 0; i < pixelCount; ++i ) {
 		SDL_GetRGBA(pixels[i], loadedSurface->format, &r, &g, &b, &a);
-		if (a == 255) printf("r: %d, g: %d, b: %d, a: %d \n", r, g, b, a); ///
 		rgb in;
 		in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
 		hsv out = rgb2hsv(in);
@@ -292,7 +288,7 @@ void LTexture::free()
 	//Free texture if it exists
 	if( mTexture != NULL )
 	{
-		SDL_DestroyTexture( mTexture );
+		//SDL_DestroyTexture( mTexture );
 		mTexture = NULL;
 		mWidth = 0;
 		mHeight = 0;

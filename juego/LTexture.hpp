@@ -15,13 +15,14 @@ and may not be redistributed without written permission.*/
 
 class LTexture {
 	public:
+		SDL_Texture* mTexture;
 		//Initializes variables
 		LTexture(SDL_Window* win, SDL_Renderer* ren);
 		//Deallocates memory
 		~LTexture();
 
 		//Loads image at specified path
-		bool loadFromFile( std::string path );
+		bool loadFromFile( std::string path ); // Este no anda.
 		bool loadFromFile( std::string path, int hue_inicial, int hue_finale, int hue_offset);
 		
 		
@@ -66,7 +67,6 @@ class LTexture {
 	    SDL_PixelFormat* gFormat;
 	    
 		//The actual hardware texture
-		SDL_Texture* mTexture;
 		void* mPixels;
 		int mPitch;
 

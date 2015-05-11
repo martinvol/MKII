@@ -35,13 +35,13 @@ class Accion{
 		string ruta;
 		SDL_Renderer* renderer;
 		SDL_Window* win;
-		vector<LTexture*> imagenes;
+		vector<SDL_Texture*> imagenes;
 		int modoActual;
 		
 		Logger* logger;
 		bool secuenciaInversa;
 
-		Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max); //constructor
+		Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init = 0, int hue_fin = 0, int hue_offset = 0); //constructor
 
 		void setAccionNro(int nroAccion);
 		void setRutaArchivo(const string directorio);
@@ -53,7 +53,9 @@ class Accion{
 		void setDireccionIzquierda();
 		void setInvertirSecuencia();
 	
-		LTexture* getImagenActual();
+		SDL_Texture* getImagenActual();
+		int hue_init, hue_fin, hue_offset;
+		
 		int getModoActual();
 	
 		bool esUltimoModo();
