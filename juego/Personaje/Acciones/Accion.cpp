@@ -138,6 +138,10 @@ int Accion::getModoActual(){
  * y un puntero al Renderer.
  * */
 Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, SDL_Window* win, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset){
+	
+	this->hue_init = hue_init;
+	this->hue_fin = hue_fin;
+	this->hue_offset = hue_offset;
 	this->win = win;
 	this->logger =  Logger::instance();
 	this->secuenciaInversa = false;

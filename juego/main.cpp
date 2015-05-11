@@ -185,9 +185,15 @@ public:
 		// Este x_logico es del extremo izquierdo del personaje.
 		x_logico_personaje2 = (parser->escenario_ancho/2.) + SEPARACION/2;
 
+		// DADO QUE SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
+		// NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
+		// DEFECTO IGUAL A CERO.
+		// Nada, eso solo. Queria llamar la atencion con las mayusculas. *Manuel*
+
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                             renderer, this->ventana->window, parser->personaje_alto, parser->escenario_alto,
-                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, parser->color_inicio, parser->color_fin, parser->color_offset);
+        
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje_ancho,
@@ -196,6 +202,8 @@ public:
                                         // parser->personaje2_alto, estado2,
                                         this->conversor);
                                         // parser->personaje2_mirar_derecha, this->conversor);
+        
+        
 
        //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
