@@ -103,7 +103,7 @@ bool loadMedia()
 void close()
 {
 	//Free loaded images
-	gFooTexture->free();
+	SDL_DestroyTexture(gFooTexture->mTexture);
     delete gFooTexture;
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
@@ -126,7 +126,7 @@ int main( int argc, char* args[] )
 	else
 	{
 	    //Scene textures
-        gFooTexture = new LTexture(gWindow, gRenderer);
+        gFooTexture = new LTexture(gRenderer);
 		//Load media
 		if( !loadMedia() )
 		{
@@ -156,7 +156,7 @@ int main( int argc, char* args[] )
 				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0x00 );
 				SDL_RenderClear( gRenderer );
 				//Render stick figure
-				gFooTexture->render(0,0);
+				SDL_RenderCopy(gRenderer, gFooTexture->mTexture, NULL, NULL);
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

@@ -16,25 +16,12 @@ and may not be redistributed without written permission.*/
 class LTexture {
 	public:
 		SDL_Texture* mTexture;
-		//Initializes variables
-		LTexture(SDL_Window* win, SDL_Renderer* ren);
-		//Deallocates memory
+		LTexture(SDL_Renderer* ren);
 		~LTexture();
 
 		//Loads image at specified path
-		bool loadFromFile( std::string path ); // Este no anda.
 		bool loadFromFile( std::string path, int hue_inicial, int hue_finale, int hue_offset);
-		
-		
-		#ifdef _SDL_TTF_H
-		//Creates image from font string
-		bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
-		#endif
 
-		//Deallocates texture
-		void free();
-
-		//Set color modulation
 		void setColor( Uint8 red, Uint8 green, Uint8 blue );
 
 		//Set blending
@@ -42,39 +29,19 @@ class LTexture {
 
 		//Set alpha modulation
 		void setAlpha( Uint8 alpha );
-		
-		//Renders texture at given point
-		void render( int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, 
-		SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
 
 		//Gets image dimensions
 		int getWidth();
 		int getHeight();
 
 		//Pixel manipulators
-		bool lockTexture();
-		bool unlockTexture();
 		void* getPixels();
 		int getPitch();
-
-		bool modificarHue(int inicial, int finale, int offset);
 		
 	private:
-	    // Auxiliar
-	    SDL_Window* gWindow;
 	    SDL_Renderer* gRenderer;
-	    SDL_Surface* container;
-	    SDL_PixelFormat* gFormat;
-	    
-		//The actual hardware texture
-		void* mPixels;
-		int mPitch;
-
-		//Image dimensions
 		int mWidth;
 		int mHeight;
-		
-		int actualizarTextura();
 };
 
 
