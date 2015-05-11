@@ -31,20 +31,23 @@ void Arrojable::tirarDiagonal(bool arriba){
 bool Arrojable::salioDeLaPantalla(float tamanio_escenario){
 	// quizás haya que ver que hacemos si está espejada
 
-	cout << "ancho lógico" << tamanio_escenario << endl;
-	return false;
+	//cout << "ancho lógico" << tamanio_escenario << endl;
+	//return false;
 	return this->coord->x >= tamanio_escenario || this->coord->x <= 0;
 
 }
 
 void Arrojable::dibujar(ConversorDeCoordenadas *conv){
-	cout << "dibujo"<< endl;
+	// cout << "dibujo"<< endl;
 
 	CoordenadaFisica* coord1_fis = conv->aFisica(this->coord);
 
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
 	destino.y = coord1_fis->y_fisico;
+
+	/*destino.x = 200;
+	destino.y = 200;*/
 
 	//cout << destino.x << endl;
 	//cout << destino.y << endl;
@@ -58,5 +61,5 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 
     delete coord1_fis;
 
-    //this->coord->x +=.1;
+    this->coord->x +=10;
 }

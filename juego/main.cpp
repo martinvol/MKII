@@ -154,6 +154,7 @@ public:
 		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
 		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
                              parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
+                             //parser->escenario_alto, parser->escenario_ancho, borde_izquierdo_logico_pantalla);
 		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
         
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
