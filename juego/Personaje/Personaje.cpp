@@ -57,9 +57,20 @@ void Personaje::Arrojar(){
 	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 	arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
 
-	//arrojable->setCoordenadas(new CoordenadaLogica(this->coordenada->x, this->coordenada->y), this->alto, this->ancho);
-	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), this->alto, this->ancho);
+
+	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
+	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+	
+	CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
+	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
+	
+	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
+	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
+
+	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
 	arrojable->tirar(this->velocidad_arma);
+
+	delete coord1,coord1_fis,coord2,coord2_fis;
 
 }
 /***********************************************************************
