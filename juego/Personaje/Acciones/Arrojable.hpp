@@ -40,6 +40,7 @@ class Arrojable{
 		float alto, ancho;
 		CoordenadaLogica *coord;
 		float vel_horizontal, vel_vertical;
+		bool espejado;
 };
 
 

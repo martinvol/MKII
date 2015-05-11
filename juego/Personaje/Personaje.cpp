@@ -54,7 +54,7 @@ Personaje::~Personaje(){
 
 void Personaje::Arrojar(){
 	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
-	arrojable = new Arrojable(this->imagenArrojable,true, this->renderer);
+	arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
 
 	//arrojable->setCoordenadas(new CoordenadaLogica(this->coordenada->x, this->coordenada->y), this->alto, this->ancho);
 	arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), this->alto, this->ancho);

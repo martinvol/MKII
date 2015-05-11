@@ -5,10 +5,9 @@
 using namespace std;
 
 Arrojable::Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren){
-	cout << "el personaje sabe que tiene que arrojar el arma2" << endl; 
 	this->ren = ren;
 	this->imagen = imagen;
-	cout << "el personaje sabe que tiene que arrojar el arma3" << endl; 
+	this->espejado = derecha;
 }
 
 
@@ -22,7 +21,10 @@ void Arrojable::setCoordenadas(CoordenadaLogica *coord, float alto, float ancho)
 }
 
 void Arrojable::tirar(){
-	this->vel_horizontal = 2;
+	this->vel_horizontal = 10;
+	if (this->espejado){
+		this->vel_horizontal *= -1;
+	}
 	this->vel_vertical = 0;
 
 }
@@ -60,10 +62,16 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h, this->ren, false);
 
 	SDL_Point point = {destino.w/2, destino.h};
+
+	if (this->espejado){
+		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,0,&point,SDL_FLIP_HORIZONTAL);
+		/* code */
+	} else {
+		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,0,&point,SDL_FLIP_NONE);
+	}
 	
-	SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,0,&point,SDL_FLIP_NONE);
 
     delete coord1_fis;
 
-    this->coord->x +=10;
+    this->coord->x += this->vel_horizontal;
 }

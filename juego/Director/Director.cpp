@@ -262,7 +262,7 @@ void Director::verificar_movimientos(){
 		if (jugadores[i]->obtenerPersonaje()->arrojable){
 		
 			if (jugadores[i]->obtenerPersonaje()->arrojable->salioDeLaPantalla(this->escenario->ancho)){
-				Logger::instance()->log_debug("Borré el arma, salió de la pantalla");
+				Logger::instance()->log_debug("Borré el arma, salió de la pantalla o ya colisionó");
 				//delete this->arrojable;
 				jugadores[i]->obtenerPersonaje()->arrojable = NULL;
 			}
@@ -282,7 +282,7 @@ void Director::verificar_movimientos(){
 				
 				if (coli){
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
-					jugadores[(i+1)%2]->barra->Lastimar(1);
+					jugadores[(i+1)%2]->barra->Lastimar(10);
 					this->escenario->Temblar(SDL_GetTicks());
 					Logger::instance()->log_debug("Le pego!!!");
 
