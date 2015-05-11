@@ -250,6 +250,40 @@ void Parser::set_values (char* my_file) {
             arrojar_arma_alta = (int) cargarValidar(joystick, 50, "arrojar_arma_alta", "Usando botón default 50");
 
 
+            const Json::Value personaje2 = root["personaje2"];
+
+            personaje2_ancho = cargarValidar(personaje2, 100, "ancho", "Usando ancho (personaje2) default de 100");
+            if (personaje2_ancho >(3./4)*ventana_ancho || personaje2_ancho < 0){
+                logger->log_error("El ancho del personaje2 es inválido, se usa un cuarto del ancho de la pantalla (logica).");
+                personaje2_ancho = ventana_ancho/4.;
+            }
+
+            personaje2_alto = cargarValidar(personaje2, 100, "alto", "Usando alto (personaje2) default de 100");
+            if (personaje2_alto >(3./4)*escenario_alto || personaje2_alto < (1./8)*escenario_alto){
+                logger->log_error("El alto del personaje2 es inválido, se usa un cuarto del ancho de la pantalla (logica).");
+                personaje2_alto = escenario_alto/4.;
+            }
+
+
+            const Json::Value sprites2 = personaje2["sprites"];
+
+            for (auto const& id : sprites2.getMemberNames()) {
+                try{
+                    sprites_map[id] = sprites2.get(id, "Esto nunca se va a mostrar").asString();
+                } catch(const runtime_error& error) {
+                    logger->log_error("El path del personaje2 es un número, no un string");
+                    sprites_map[id] = "resources/jugador/SubZero/";
+                }
+            }
+
+            personaje2_zindex = cargarValidar(personaje2, 0, "zindex", "Usando zindex (personaje2) default de 0");
+
+            if (personaje2_zindex < 0){
+                logger->log_error("Z-Index del personaje2 no puede ser negativo, usando Z maximo posible");
+                personaje2_zindex = capas.size();
+            }
+
+
         } else {
             logger->log_error("Error de sytaxis en el archivo");
             logger->log_error(reader.getFormatedErrorMessages());

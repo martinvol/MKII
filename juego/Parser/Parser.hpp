@@ -24,6 +24,7 @@ class Parser {
         float ventana_anchopx, ventana_altopx, ventana_ancho;
         float escenario_ancho, escenario_alto, escenario_ypiso;
         float personaje_ancho, personaje_alto, personaje_zindex;
+        float personaje2_ancho, personaje2_alto, personaje2_zindex;
         float color_inicio, color_fin, color_offset;
         float margen;
         std::vector<Capa*> capas_vector;

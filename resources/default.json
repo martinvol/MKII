@@ -37,12 +37,19 @@
       "alto":63,
       "zindex":60,
       "sprites":{
-            "personaje1":"resources/jugador/SubZero/",
-            "personaje2":"personaje2.png"
+            "personaje1":"resources/jugador/SubZero/"
       },
       "inicio": 150,
       "fin": 200,
       "offset": 200
+   },
+   "personaje2":{
+      "ancho":127,
+      "alto":63,
+      "zindex":60,
+      "sprites":{
+            "personaje1":"resources/jugador/SubZero/"
+      }
    },
    "joystick": {
       "pinia_baja": 0,
