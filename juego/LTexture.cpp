@@ -260,7 +260,7 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 	//Get pixel data
 	
 	Uint8* pixels = (Uint8*)loadedSurface->pixels;
-	int pixelCount = ( loadedSurface->pitch / 4 ) * loadedSurface->h; 
+	int pixelCount = ( loadedSurface->pitch ) * loadedSurface->h; 
 
 		for( int i = 0; i < pixelCount; ++i ) {
 		SDL_GetRGBA(pixels[i], loadedSurface->format, &r, &g, &b, &a);
