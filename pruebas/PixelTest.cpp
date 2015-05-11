@@ -92,7 +92,7 @@ bool loadMedia()
 	bool success = true;
 
 	//Load foo' texture
-	if( !gFooTexture->loadFromFile( "resources/jugador/SubZero/0/2.png" ) )
+	if( !gFooTexture->loadFromFile("resources/jugador/SubZero/0/2.png", 150 , 200 , 200 ) )
 	{
 		printf( "Failed to load corner texture!\n" );
 		success = false;
@@ -138,7 +138,7 @@ int main( int argc, char* args[] )
 			bool quit = false;
 			//Event handler
 			SDL_Event e;
-			gFooTexture->modificarHue(150, 200, 200);
+			//gFooTexture->modificarHue(150, 200, 200);
 			//While application is running
 			while( !quit )
 			{
@@ -153,10 +153,10 @@ int main( int argc, char* args[] )
 				}
 
 				//Clear screen
-				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0x00 );
+				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0x00 );
 				SDL_RenderClear( gRenderer );
 				//Render stick figure
-				gFooTexture->render( ( SCREEN_WIDTH - gFooTexture->getWidth() ) / 2, ( SCREEN_HEIGHT - gFooTexture->getHeight() ) / 2 );
+				gFooTexture->render(0,0);
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

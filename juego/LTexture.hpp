@@ -22,6 +22,8 @@ class LTexture {
 
 		//Loads image at specified path
 		bool loadFromFile( std::string path );
+		bool loadFromFile( std::string path, int hue_inicial, int hue_finale, int hue_offset);
+		
 		
 		#ifdef _SDL_TTF_H
 		//Creates image from font string
@@ -60,6 +62,7 @@ class LTexture {
 	    // Auxiliar
 	    SDL_Window* gWindow;
 	    SDL_Renderer* gRenderer;
+	    SDL_Surface* container;
 	    SDL_PixelFormat* gFormat;
 	    
 		//The actual hardware texture
