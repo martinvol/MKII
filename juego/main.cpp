@@ -401,7 +401,7 @@ void DibujarTodo(){
         SDL_RenderFillRect(renderer, &fillRect );
 
 
-        for (int i = 0; i < escenario->capas.size(); i++){
+        for (unsigned int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
         // Así respeto los Z index
 
