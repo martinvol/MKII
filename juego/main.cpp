@@ -607,6 +607,11 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		else if (personaje->Abajo){
 			this->director->seMuevePersonaje(jugador, AbajoIzquierda);
 		}
+		//+PATADA BAJA = TRABA
+		else if (personaje->PatadaBaja){
+			this->director->seMuevePersonaje(jugador, Traba);
+			puts("Traba a Implementar");
+		}
 		//CAMINAR IZQUIERDA
 		else {
 			this->director->seMuevePersonaje(jugador, Izquierda);
@@ -628,7 +633,8 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 			this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
-			//~ puts("Patada Alta + agachado");	///
+			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);
+			puts("Patada Alta + agachado");	///
 		}else{
 			this->director->seMuevePersonaje(jugador, Abajo);
 		}
@@ -648,7 +654,14 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		this->director->seMuevePersonaje(jugador, ArrojarArma);
 	//PATADA BAJA
 	}else if (personaje->PatadaBaja){
-		this->director->seMuevePersonaje(jugador, PatadaBaja);
+		//+IZQUIERDA = TRABA
+		if(personaje->Izquierda){
+			///POR AHORA NO SE PUEDE HACER PORQUE PATADABAJA NO PERMITE LA INTERRUPCION DE NADIE
+			puts("Traba a Implementar");
+			this->director->seMuevePersonaje(jugador, Traba);
+		}else{
+			this->director->seMuevePersonaje(jugador, PatadaBaja);
+		}
 	//PATADA ALTA
 	}else if (personaje->PatadaAlta){
 		this->director->seMuevePersonaje(jugador, PatadaAlta);

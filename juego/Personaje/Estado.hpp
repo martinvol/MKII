@@ -21,6 +21,8 @@
 #include "../Personaje/Acciones/PatadaAlta.hpp"
 #include "../Personaje/Acciones/PatadaBaja.hpp"
 #include "../Personaje/Acciones/PatadaBajaAgachado.hpp"
+#include "../Personaje/Acciones/PatadaAltaAgachado.hpp"
+#include "../Personaje/Acciones/Traba.hpp"
 
 using namespace std;
 
@@ -39,7 +41,9 @@ class Estado{
 		PatadaAlta* patadaAlta;
 		PatadaBaja* patadaBaja;
 		PatadaBajaAgachado* patadaBajaAgachado;
+		PatadaAltaAgachado* patadaAltaAgachado;
 		Girar* girar;
+		Traba* traba;
 		CubrirAlto* cubrirAlto;
 		CubrirBajo* cubrirBajo;
 		string ruta_arrojable;

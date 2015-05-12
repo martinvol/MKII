@@ -81,6 +81,7 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			break;
 		case PatadaAltaAgachado:
 			puts("PATADAALTAAGACHADO"); ///
+			jugador->activarAccion(PATADAALTAAGACHADO);			
 			break;
 		case PatadaBajaAgachado:
 			jugador->activarAccion(PATADABAJAAGACHADO);
@@ -90,6 +91,10 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			jugador->activarAccion(PATADABAJA);
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			//~ (jugador->obtenerPersonaje())->PatadaBaja = false;
+			break;
+		case Traba:
+			puts("traba");
+			jugador->activarAccion(TRABA);
 			break;
 		case CubrirAlto:
 			jugador->activarAccion(CUBRIRALTO);

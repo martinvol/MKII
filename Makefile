@@ -87,6 +87,9 @@ SaltarDiagonal.o: juego/Personaje/Acciones/SaltarDiagonal.cpp
 Caminar.o: juego/Personaje/Acciones/Caminar.cpp
 	$(CC) "juego/Personaje/Acciones/Caminar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+Traba.o: juego/Personaje/Acciones/Traba.cpp
+	$(CC) "juego/Personaje/Acciones/Traba.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
 Agacharse.o: juego/Personaje/Acciones/Agacharse.cpp
 	$(CC) "juego/Personaje/Acciones/Agacharse.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 		
@@ -101,6 +104,9 @@ PatadaAlta.o: juego/Personaje/Acciones/PatadaAlta.cpp
 
 PatadaBajaAgachado.o: juego/Personaje/Acciones/PatadaBajaAgachado.cpp
 	$(CC) "juego/Personaje/Acciones/PatadaBajaAgachado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	
+PatadaAltaAgachado.o: juego/Personaje/Acciones/PatadaAltaAgachado.cpp
+	$(CC) "juego/Personaje/Acciones/PatadaAltaAgachado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 PatadaBaja.o: juego/Personaje/Acciones/PatadaBaja.cpp
 	$(CC) "juego/Personaje/Acciones/PatadaBaja.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -114,7 +120,7 @@ Arrojable.o: juego/Personaje/Acciones/Arrojable.cpp
 Personaje.o: juego/Personaje/Personaje.cpp
 	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o PiniaAlta.o PiniaBaja.o PatadaAlta.o  PatadaBajaAgachado.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Accion.o 
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Traba.o PiniaAlta.o PiniaBaja.o PatadaAlta.o  PatadaBajaAgachado.o PatadaAltaAgachado.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Accion.o 
 	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o PiniaAlta.o PiniaBaja.o Girar.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Timer.o: 
@@ -160,11 +166,17 @@ PatadaAlta: Accion.o PatadaAlta.o
 PatadaBajaAgachado: Accion.o PatadaBajaAgachado.o
 	$(CC)  Accion.o  PatadaBajaAgachado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PatadaBajaAgachado"
 
+PatadaAltaAgachado: Accion.o PatadaAltaAgachado.o
+	$(CC)  Accion.o  PatadaAltaAgachado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PatadaAltaAgachado"
+
 PatadaBaja: Accion.o PatadaBaja.o
 	$(CC)  Accion.o  PatadaBaja.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PatadaBaja"
 
 Personaje: Personaje.o Accion.o	Estado.o
 	$(CC)   Accion.o Estado.o Personaje.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Personaje"
+
+Traba: Traba.o Accion.o	Estado.o
+	$(CC)   Accion.o Estado.o Traba.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Traba"
 
 
 Jugador.o: juego/Personaje/Jugador.cpp
@@ -177,7 +189,7 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o PatadaAlta.o PatadaBajaAgachado.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o
+compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Traba.o PatadaAlta.o PatadaBajaAgachado.o PatadaAltaAgachado.o  PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

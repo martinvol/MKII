@@ -113,6 +113,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case PATADABAJA:
 			case PINIABAJA:
 			case PINIAALTA:
+			case TRABA:
 				///MILE: AGREGADO LA CONDICION DE QUIETO
 				if (this->accionActual->esUltimoModo() and accion == QUIETO){
 					cambiarAccionA(QUIETO);
@@ -177,8 +178,24 @@ void Personaje::activarAccion(accion_posible accion){
 				cambiarAccionA(CUBRIRBAJO);
 			}
 			else if(accion == PATADABAJAAGACHADO){
-				puts("de agacharse a patear");
+				puts("de agacharse a patear");	///
 				cambiarAccionA(PATADABAJAAGACHADO);
+			}
+			else if (accion == PATADAALTAAGACHADO){
+				puts("de agachado a patada alta"); ///
+				cambiarAccionA(PATADAALTAAGACHADO);
+			}
+			break;
+		case CAMINAR_IZQUIERDA:
+			if(accion == PATADABAJA){
+				puts("De caminar izquierda a Traba"); ///
+				cambiarAccionA(TRABA);
+			}
+			break;
+		case PATADABAJA:
+			if(accion == CAMINAR_IZQUIERDA){
+				puts("De patada baja a Traba"); ///
+				cambiarAccionA(TRABA);
 			}
 			break;
 	}
@@ -322,6 +339,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case PATADABAJAAGACHADO:
 			this->accionActual = this->estado->patadaBajaAgachado;
 			break;
+		case PATADAALTAAGACHADO:
+			this->accionActual = this->estado->patadaAltaAgachado;
+			break;
 		case MIRARDERECHA:
 			this->accionActual = this->estado->girar;
 			if (!this->mirarDerecha){
@@ -341,6 +361,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case CUBRIRBAJO:
 			this->accionActual = this->estado->cubrirBajo;
+			break;
+		case TRABA:
+			this->accionActual = this->estado->traba;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
