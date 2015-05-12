@@ -484,22 +484,14 @@ void Controlador(SDL_Event *evento){
 				if (evento->key.keysym.sym == SDLK_p)  {
 					pausa = !pausa;
 				}
-				if(evento->key.keysym.sym == SDLK_a)  {
-					//~ barraDeVida1->Aliviar(20);
-					//~ barraDeVida2->Aliviar(20);
-				}
 				if(evento->key.keysym.sym == SDLK_c)  {
 					if (cansandoPJ == false){
-						barraDeVida1->Cansar(50);
-						barraDeVida2->Cansar(50);
 						cansandoPJ = true;
 					}
 				}
 				if(evento->key.keysym.sym == SDLK_d)  {
 					if (golpeandoPJ == false){
-						//~ barraDeVida1->Lastimar(90);
-						//~ barraDeVida2->Lastimar(750);
-                        this->escenario->Temblar(SDL_GetTicks());
+				        this->escenario->Temblar(SDL_GetTicks());
 						golpeandoPJ = true;
 					}
 					break;
@@ -521,6 +513,10 @@ void Controlador(SDL_Event *evento){
 				///Cubrirse
 				if (evento->key.keysym.sym == SDLK_g){
 					personajeJuego->CubrirAlto = true;	
+				}
+				///PatadaAlta
+				if (evento->key.keysym.sym == SDLK_x){
+					personajeJuego->PatadaAlta = true;	
 				}
 				break;
 			case SDL_KEYUP:
@@ -559,8 +555,14 @@ void Controlador(SDL_Event *evento){
                 if(evento->key.keysym.sym == SDLK_e)  {
                     arrojandoPk=false;
                 }
+                ///MILE
+                ///Cubrirse
                 if(evento->key.keysym.sym == SDLK_g){
 					personajeJuego->CubrirAlto = false;
+				}
+				///PatadaAlta
+				if (evento->key.keysym.sym == SDLK_x){
+					personajeJuego->PatadaAlta = false;	
 				}
                 break;
 			default:
@@ -608,6 +610,7 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	//ABAJO -->AGACHARSE
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
+		//+CUBRIR (OK LA VARIABLE NO DEBIERA LLAMARSE CUBRIRALTO, PERO QUEDA ASI)
 		if(personaje->CubrirAlto){
 			this->director->seMuevePersonaje(jugador,CubrirBajo);
 		}

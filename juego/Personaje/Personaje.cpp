@@ -108,6 +108,7 @@ void Personaje::activarAccion(accion_posible accion){
 					siguiente = coord;
 				}
 				break;
+			case PATADAALTA:
 			case PINIABAJA:
 			case PINIAALTA:
 				if (this->accionActual->esUltimoModo()){
@@ -302,6 +303,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PINIABAJA:
 			this->accionActual = this->estado->piniaBaja;
+			break;
+		case PATADAALTA:
+			this->accionActual = this->estado->patadaAlta;
 			break;
 		case MIRARDERECHA:
 			this->accionActual = this->estado->girar;

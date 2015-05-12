@@ -18,6 +18,7 @@
 #include "../Personaje/Acciones/Girar.hpp"
 #include "../Personaje/Acciones/CubrirAlto.hpp"
 #include "../Personaje/Acciones/CubrirBajo.hpp"
+#include "../Personaje/Acciones/PatadaAlta.hpp"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ class Estado{
 		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
 		PiniaAlta* piniaAlta;
 		PiniaBaja* piniaBaja;
+		PatadaAlta* patadaAlta;
 		Girar* girar;
 		CubrirAlto* cubrirAlto;
 		CubrirBajo* cubrirBajo;
