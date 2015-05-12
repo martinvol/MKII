@@ -19,7 +19,7 @@ class Capa{
 		float x_logico;
 		float y_fisico;
 		float ancho_logico_ventana;
-		float b, m;
+		float b=0, m=0;
 		
 		
 		Capa (string ubicacionParam, float anchoLogicoParam,  

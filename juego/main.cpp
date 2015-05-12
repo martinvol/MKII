@@ -405,8 +405,8 @@ void DibujarTodo(){
         // Itero hacia en orden inverso
         // Así respeto los Z index
 
-			// Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
-			// esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
+            // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
+            // esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
 			(escenario->capas[i])->DibujarseAnchoReal(this->ventana->obtenerBordeLogicoIzquierdo(this->conversor), 0);
 
 			// Si el z_index del personaje está entre medio de las capas:

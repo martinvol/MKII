@@ -34,6 +34,7 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
     textura = CargarTextura();
      
     if (conversor != NULL){
+
         this->conversor =  conversor;
         int w, h;
         SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
@@ -45,6 +46,8 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
         //float d = conversor->ancho_logico - this->anchoLogico;
         m = (d -b)/(c-a);
     }
+
+
 	this->ancho_logico_ventana = ancho_ventana_logico;
 }
 
