@@ -400,7 +400,6 @@ void DibujarTodo(){
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
-
         for (unsigned int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
         // Así respeto los Z index

@@ -33,19 +33,17 @@ Capa::Capa (string ubicacionParam, float anchoLogicoParam,  float x_logicoParam,
     this->ticks = 0;   
     textura = CargarTextura();
      
-    if (conversor != NULL){
 
-        this->conversor =  conversor;
-        int w, h;
-        SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
-        this->y_fisico = (OFFSET*h)*0.5;
-        float a = 0;
-        b = this->x_logico;
-        float c = ancho_escenario - ancho_ventana_logico;
-        float d = w - w*(ancho_ventana_logico/this->anchoLogico);
-        //float d = conversor->ancho_logico - this->anchoLogico;
-        m = (d -b)/(c-a);
-    }
+    int w, h;
+    SDL_QueryTexture(this->textura, NULL, NULL, &w, &h);
+    this->y_fisico = (OFFSET*h)*0.5;
+    float a = 0;
+    b = this->x_logico;
+    float c = ancho_escenario - ancho_ventana_logico;
+    float d = w - w*(ancho_ventana_logico/this->anchoLogico);
+    //float d = conversor->ancho_logico - this->anchoLogico;
+    m = (d -b)/(c-a);
+
 
 
 	this->ancho_logico_ventana = ancho_ventana_logico;
@@ -72,7 +70,7 @@ void Capa::DibujarseAnchoReal(int x, int y){
     
     source_rect.x = posi_px;
     source_rect.w = w*(ancho_logico_ventana/this->anchoLogico);
-    if (source_rect.x < 0) source_rect.x = 0;
+    if (posi_px < 0) source_rect.x = 0;
     //else if (source_rect.x >= w - source_rect.w) source_rect.x = w - source_rect.w;
 	//source_rect.y = this->y_fisico;
 	source_rect.y = calcularYSegunTicks(SDL_GetTicks(), this->ticks);

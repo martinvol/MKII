@@ -31,7 +31,6 @@ class Capa{
 		SDL_Texture* CargarTextura();
 
 		SDL_Texture* textura;
-		ConversorDeCoordenadas* conversor;
 };
 
 //----------------------------------------------------------------
