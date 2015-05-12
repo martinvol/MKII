@@ -99,6 +99,9 @@ PiniaBaja.o: juego/Personaje/Acciones/PiniaBaja.cpp
 PatadaAlta.o: juego/Personaje/Acciones/PatadaAlta.cpp
 	$(CC) "juego/Personaje/Acciones/PatadaAlta.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
+PatadaBajaAgachado.o: juego/Personaje/Acciones/PatadaBajaAgachado.cpp
+	$(CC) "juego/Personaje/Acciones/PatadaBajaAgachado.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
 PatadaBaja.o: juego/Personaje/Acciones/PatadaBaja.cpp
 	$(CC) "juego/Personaje/Acciones/PatadaBaja.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
@@ -111,7 +114,7 @@ Arrojable.o: juego/Personaje/Acciones/Arrojable.cpp
 Personaje.o: juego/Personaje/Personaje.cpp
 	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o PiniaAlta.o PiniaBaja.o PatadaAlta.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Accion.o 
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o PiniaAlta.o PiniaBaja.o PatadaAlta.o  PatadaBajaAgachado.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Accion.o 
 	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o PiniaAlta.o PiniaBaja.o Girar.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Timer.o: 
@@ -154,6 +157,9 @@ PiniaBaja: Accion.o PiniaBaja.o
 PatadaAlta: Accion.o PatadaAlta.o
 	$(CC)  Accion.o  PatadaAlta.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PatadaAlta"
 
+PatadaBajaAgachado: Accion.o PatadaBajaAgachado.o
+	$(CC)  Accion.o  PatadaBajaAgachado.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PatadaBajaAgachado"
+
 PatadaBaja: Accion.o PatadaBaja.o
 	$(CC)  Accion.o  PatadaBaja.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "PatadaBaja"
 
@@ -171,7 +177,7 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o PatadaAlta.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o
+compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o PatadaAlta.o PatadaBajaAgachado.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

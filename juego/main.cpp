@@ -620,11 +620,19 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		//+CUBRIR (OK LA VARIABLE NO DEBIERA LLAMARSE CUBRIRALTO, PERO QUEDA ASI)
 		if(personaje->CubrirAlto){
+			//~ puts("cubrir alto + agacharse"); ///
 			this->director->seMuevePersonaje(jugador,CubrirBajo);
-		}
-		else{
+		//+PATADA BAJA	
+		}else if(personaje->PatadaBaja){
+			//~ puts("Patada Baja + agachado");	///
+			this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
+		//+PATADA ALTA
+		}else if(personaje->PatadaAlta){
+			//~ puts("Patada Alta + agachado");	///
+		}else{
 			this->director->seMuevePersonaje(jugador, Abajo);
 		}
+		
 	}
 	//PINIA BAJA
 	else if (personaje->PiniaBaja){

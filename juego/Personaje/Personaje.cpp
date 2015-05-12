@@ -108,7 +108,7 @@ void Personaje::activarAccion(accion_posible accion){
 					siguiente = coord;
 				}
 				break;
-				
+			//~ case PATADABAJAAGACHADO:
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -165,14 +165,20 @@ void Personaje::activarAccion(accion_posible accion){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
 			break;
+		///SIRVE ESTO?!?!??!?!
 		//TRANSICION DE AGACHADO A QUIETO = PARARSE
 		case AGACHARSE:
+			puts("Holi");
 			if(accion == QUIETO){
 				cambiarAccionA(PARARSE);	
 			}
-			if(accion == CUBRIRBAJO){
+			else if(accion == CUBRIRBAJO){
 				puts("de agacharse a cubrirse"); ///
 				cambiarAccionA(CUBRIRBAJO);
+			}
+			else if(accion == PATADABAJAAGACHADO){
+				puts("de agacharse a patear");
+				cambiarAccionA(PATADABAJAAGACHADO);
 			}
 			break;
 	}
@@ -312,6 +318,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PATADABAJA:
 			this->accionActual = this->estado->patadaBaja;
+			break;
+		case PATADABAJAAGACHADO:
+			this->accionActual = this->estado->patadaBajaAgachado;
 			break;
 		case MIRARDERECHA:
 			this->accionActual = this->estado->girar;

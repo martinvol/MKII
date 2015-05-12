@@ -55,15 +55,8 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			jugador->activarAccion(SALTAR);
 			break;
 		case Abajo:
-///FALTA IMPLEMENTAR AGACHARSE
 			jugador->activarAccion(AGACHARSE);
-			cout<<"agachado"<<endl; ///
 			break;			
-		case Pararse:
-///FALTA IMPLEMENTAR PARARSE
-			jugador->activarAccion(QUIETO);
-			cout<<"parandose"<<endl; ///
-			break;		
 		case ArribaDerecha:
 			jugador->activarAccion(SALTARDIAGONAL_DER);
 			break;
@@ -71,16 +64,13 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			jugador->activarAccion(SALTARDIAGONAL_IZQ);
 			break;		
 		case PiniaAlta:
-			cout<<"pinia alta"<<endl; ///
 			jugador->activarAccion(PINIAALTA);
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			(jugador->obtenerPersonaje())->PiniaAlta = false;
 			break;
 		case PiniaBaja:
 			cout<<"pinia baja"<<endl; ///
 			jugador->activarAccion(PINIABAJA);
 			//Una vez que la ejecuto, la desactivo, sino loopea.
-			(jugador->obtenerPersonaje())->PiniaBaja = false;
+			//~ (jugador->obtenerPersonaje())->PiniaBaja = false;
 			break;
 		case PatadaAlta:
 			cout<<"PatadaAlta"<<endl; ///
@@ -88,6 +78,12 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			///MAXI QUE ES ESTO
 			//~ (jugador->obtenerPersonaje())->PatadaAlta = false;
+			break;
+		case PatadaAltaAgachado:
+			puts("PATADAALTAAGACHADO"); ///
+			break;
+		case PatadaBajaAgachado:
+			jugador->activarAccion(PATADABAJAAGACHADO);
 			break;
 		case PatadaBaja:
 			cout<<"PatadaBaja"<<endl; ///
