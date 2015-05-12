@@ -97,9 +97,9 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			(jugador->obtenerPersonaje())->PatadaBaja = false;
 			break;
-		case Cubrirse:
+		case CubrirAlto:
 			cout<<"Cubrirse"<<endl; ///
-			//jugador->activarAccion(PINIAALTA);
+			jugador->activarAccion(CUBRIRALTO);
 			//ESTE NO SE DESACTIVA. ES CONTINUO.
 			
 			break;

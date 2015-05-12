@@ -15,7 +15,7 @@
 using namespace std;
 
 enum num_jugador {jugador1 = 0, jugador2};
-enum movimiento {Nada, Derecha, Izquierda, Arriba, Abajo, ArribaDerecha, ArribaIzquierda, AbajoDerecha, AbajoIzquierda, PiniaAlta, PiniaBaja, MirarDerecha, MirarIzquierda, Pararse, Cubrirse, ArrojarArma, PatadaAlta, PatadaBaja};
+enum movimiento {Nada, Derecha, Izquierda, Arriba, Abajo, ArribaDerecha, ArribaIzquierda, AbajoDerecha, AbajoIzquierda, PiniaAlta, PiniaBaja, MirarDerecha, MirarIzquierda, Pararse, CubrirAlto, ArrojarArma, PatadaAlta, PatadaBaja};
 
 class Director {
 		

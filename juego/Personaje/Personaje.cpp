@@ -25,7 +25,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	// 2 patadas
 	PatadaAlta = PatadaBaja = false;
 	// arrojable y cubrirse
-	ArrojarArma = Cubrirse = false;
+	ArrojarArma = CubrirAlto = false;
 	
 	this->alto = alto;
 	this->ancho = ancho;
@@ -296,6 +296,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			}
 			this->accionActual->setDireccionIzquierda();
 			break;
+		case CUBRIRALTO:
+			this->accionActual = this->estado->cubrirAlto;
+			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->mirarDerecha){
@@ -405,7 +408,7 @@ void Personaje::Dibujarse(){
 				PiniaBaja = true;					
 			}
 			if (i == conf->cubrirse){
-				Cubrirse = true;
+				CubrirAlto = true;
 			}
 			if (i == conf->patada_baja){
 				PatadaBaja = true;
@@ -439,10 +442,10 @@ void Personaje::Dibujarse(){
 		}
 		//Si ya estaba apretado lo dejo.
 		if (SDL_JoystickGetButton(joystick,1) == 1){
-			Cubrirse = true;
+			CubrirAlto = true;
 			cout<<"cubriendose"<<endl; ///
 		}else{
-			Cubrirse = false;
+			CubrirAlto = false;
 		}
 		
 	}

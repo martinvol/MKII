@@ -71,6 +71,9 @@ Quieto.o: juego/Personaje/Acciones/Quieto.cpp
 
 Girar.o: juego/Personaje/Acciones/Girar.cpp
 	$(CC) "juego/Personaje/Acciones/Girar.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+CubrirAlto.o: juego/Personaje/Acciones/CubrirAlto.cpp
+	$(CC) "juego/Personaje/Acciones/CubrirAlto.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
 SaltarVertical.o: juego/Personaje/Acciones/SaltarVertical.cpp
 	$(CC) "juego/Personaje/Acciones/SaltarVertical.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -99,7 +102,7 @@ Arrojable.o: juego/Personaje/Acciones/Arrojable.cpp
 Personaje.o: juego/Personaje/Personaje.cpp
 	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 	
-Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o PiniaAlta.o PiniaBaja.o Girar.o Accion.o 
+Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o PiniaAlta.o PiniaBaja.o Girar.o CubrirAlto.o Accion.o 
 	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o PiniaAlta.o PiniaBaja.o Girar.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
 Timer.o: 
@@ -114,6 +117,9 @@ Quieto: Accion.o Quieto.o
 
 Girar: Accion.o Girar.o
 	$(CC)  Accion.o Girar.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Girar"
+
+CubrirAlto: Accion.o CubrirAlto.o
+	$(CC)  Accion.o CubrirAlto.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "CubrirAlto"
 
 Agacharse: Accion.o Agacharse.o
 	$(CC)  Accion.o Agacharse.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Agacharse"
@@ -147,7 +153,7 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Girar.o Director.o Jugador.o Ventana.o Timer.o
+compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Girar.o CubrirAlto.o Director.o Jugador.o Ventana.o Timer.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego

@@ -514,6 +514,11 @@ void Controlador(SDL_Event *evento){
 				if (evento->key.keysym.sym == SDLK_r){
 					reiniciarJuego();
 				}
+				///MILE
+				///Cubrirse
+				if (evento->key.keysym.sym == SDLK_g){
+					personajeJuego->CubrirAlto = true;	
+				}
 				break;
 			case SDL_KEYUP:
                 //-----------------------------------------
@@ -551,6 +556,9 @@ void Controlador(SDL_Event *evento){
                 if(evento->key.keysym.sym == SDLK_e)  {
                     arrojandoPk=false;
                 }
+                if(evento->key.keysym.sym == SDLK_g){
+					personajeJuego->CubrirAlto = false;
+				}
                 break;
 			default:
 				;
@@ -606,8 +614,8 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	}else if (personaje->PiniaAlta){
 		this->director->seMuevePersonaje(jugador, PiniaAlta);
 	//CUBRIRSE
-	}else if (personaje->Cubrirse){
-		this->director->seMuevePersonaje(jugador, Cubrirse);
+	}else if (personaje->CubrirAlto){
+		this->director->seMuevePersonaje(jugador, CubrirAlto);
 	//ARROJAR ARMA
 	}else if (personaje->ArrojarArma){
 		this->director->seMuevePersonaje(jugador, ArrojarArma);
