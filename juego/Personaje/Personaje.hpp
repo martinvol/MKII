@@ -116,6 +116,8 @@ class Personaje {
 	private:
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
+		float altura_quieto;
+		float ancho_quieto;
 };
 
 
