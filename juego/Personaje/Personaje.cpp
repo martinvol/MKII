@@ -96,6 +96,7 @@ void Personaje::activarAccion(accion_posible accion){
 		if (siguiente != NULL){ delete siguiente; }
 		siguiente = this->accionActual->execute(this->coordenada);
 		switch (nroAccionActual){
+			
 			case SALTAR:
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
@@ -117,7 +118,14 @@ void Personaje::activarAccion(accion_posible accion){
 					//~ puts ("holi");
 					//~ cambiarAccionA(QUIETO);
 				//~ }
-			
+			break;
+			//Solo puedo terminar de pararme cuando llegue a la primera imagen
+			case PARARSE:
+				//Llegue al modo 0
+				if(this->accionActual->modoActual == 0){
+					cambiarAccionA(QUIETO);	
+				}
+			break;
 			default:
 				break;
 		}
@@ -152,7 +160,13 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
-			break;		
+			break;
+		case AGACHARSE:
+			if(accion == QUIETO){
+				puts("termine de agacharme y paso a pararme");
+				cambiarAccionA(PARARSE);	
+			}
+			break;
 	}
 //~ if (nroAccionActual == AGACHARSE)
 //~ cout<<"quiero agacharme"<<endl;
@@ -267,6 +281,10 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case AGACHARSE:
 			this->accionActual = this->estado->agacharse;			
+			break;
+		case PARARSE:
+			this->accionActual = this->estado->agacharse;
+			this->accionActual->setInvertirSecuencia();
 			break;
 		case SALTARDIAGONAL_DER:
 			this->accionActual = this->estado->saltardiagonal;

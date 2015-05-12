@@ -473,6 +473,9 @@ void Controlador(SDL_Event *evento){
 				if (evento->key.keysym.sym == SDLK_RIGHT)  {
 					personajeJuego->Derecha = true;										
 				}
+				if (evento->key.keysym.sym == SDLK_DOWN)  {
+					personajeJuego->Abajo = true;										
+				}
 				if ((evento->key.keysym.sym == SDLK_LEFT))  {
 					personajeJuego->Izquierda = true;					
 				}

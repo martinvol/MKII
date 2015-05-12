@@ -23,7 +23,6 @@ void Caminar::cambiarModoInversamente(){
 		if (this->modoActual>0)
 			setModoActual(this->modoActual-1);
 	}
-
 }
 
 CoordenadaLogica* Caminar::execute(CoordenadaLogica* coord_personaje){

@@ -56,10 +56,7 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			break;
 		case Abajo:
 ///FALTA IMPLEMENTAR AGACHARSE
-			//~ case Abajo:
-			//~ jugador->activarAccion(AGACHARSE);
-			//~ break;	
-			jugador->activarAccion(QUIETO);
+			jugador->activarAccion(AGACHARSE);
 			cout<<"agachado"<<endl; ///
 			break;			
 		case Pararse:
