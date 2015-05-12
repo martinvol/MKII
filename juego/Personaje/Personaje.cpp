@@ -119,9 +119,8 @@ void Personaje::activarAccion(accion_posible accion){
 					//~ cambiarAccionA(QUIETO);
 				//~ }
 			break;
-			//Solo puedo terminar de pararme cuando llegue a la primera imagen
+			//PASO A QUIETO - TERMINE DE PARARME
 			case PARARSE:
-				//Llegue al modo 0
 				if(this->accionActual->modoActual == 0){
 					cambiarAccionA(QUIETO);	
 				}
@@ -137,7 +136,7 @@ void Personaje::activarAccion(accion_posible accion){
 	 * Ahora 'andan' los saltos con pinias (o sea, muestra el cout).
 	 * 
 	 * */
-	switch(nroAccionActual){		
+	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){				
 				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
@@ -161,10 +160,14 @@ void Personaje::activarAccion(accion_posible accion){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
 			break;
+		//TRANSICION DE AGACHADO A QUIETO = PARARSE
 		case AGACHARSE:
 			if(accion == QUIETO){
-				puts("termine de agacharme y paso a pararme");
 				cambiarAccionA(PARARSE);	
+			}
+			if(accion == CUBRIRBAJO){
+				puts("de agacharse a cubrirse"); ///
+				cambiarAccionA(CUBRIRBAJO);
 			}
 			break;
 	}
@@ -299,7 +302,6 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case PINIABAJA:
 			this->accionActual = this->estado->piniaBaja;
 			break;
-			
 		case MIRARDERECHA:
 			this->accionActual = this->estado->girar;
 			if (!this->mirarDerecha){
@@ -316,6 +318,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case CUBRIRALTO:
 			this->accionActual = this->estado->cubrirAlto;
+			break;
+		case CUBRIRBAJO:
+			this->accionActual = this->estado->cubrirBajo;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

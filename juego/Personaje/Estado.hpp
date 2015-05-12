@@ -17,6 +17,7 @@
 #include "../Personaje/Acciones/PiniaBaja.hpp"
 #include "../Personaje/Acciones/Girar.hpp"
 #include "../Personaje/Acciones/CubrirAlto.hpp"
+#include "../Personaje/Acciones/CubrirBajo.hpp"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ class Estado{
 		PiniaBaja* piniaBaja;
 		Girar* girar;
 		CubrirAlto* cubrirAlto;
+		CubrirBajo* cubrirBajo;
 		string ruta_arrojable;
 		~Estado();
 

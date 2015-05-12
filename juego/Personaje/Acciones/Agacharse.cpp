@@ -26,33 +26,12 @@ void Agacharse::cambiarModoInversamente(){
 	}
 }
 
-
-//~ CoordenadaLogica* Caminar::execute(CoordenadaLogica* coord_personaje){
-	//~ CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	//~ coord->desplazarY(despl_y);
-	//~ if (secuenciaInversa){
-		//~ Caminar::cambiarModoInversamente();
-	//~ } else {
-		//~ Accion::cambiarModo();
-	//~ }
-	//~ if (direccionDerecha){
-		//~ coord->desplazarX(despl_x);
-	//~ } else {
-		//~ coord->desplazarX(-despl_x);
-	//~ }
-	//~ return coord;
-//~ };
-
-
 CoordenadaLogica* Agacharse::execute(CoordenadaLogica* coord_personaje){
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	//~ coord->desplazarX(despl_x);
 	if(!secuenciaInversa){
 		Agacharse::cambiarModo();
-		//~ coord->desplazarY(-despl_y);
 	}else{
 		Agacharse::cambiarModoInversamente();
-		//~ coord->desplazarY(despl_y);
 	}
 	return coord;
 };

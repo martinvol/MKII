@@ -95,10 +95,10 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			(jugador->obtenerPersonaje())->PatadaBaja = false;
 			break;
 		case CubrirAlto:
-			cout<<"Cubrirse"<<endl; ///
 			jugador->activarAccion(CUBRIRALTO);
-			//ESTE NO SE DESACTIVA. ES CONTINUO.
-			
+			break;
+		case CubrirBajo:
+			jugador->activarAccion(CUBRIRBAJO);
 			break;
 		case ArrojarArma:
 			cout<<"ArrojarArma"<<endl; ///

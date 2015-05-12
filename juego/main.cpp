@@ -608,7 +608,12 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	//ABAJO -->AGACHARSE
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
-		this->director->seMuevePersonaje(jugador, Abajo);
+		if(personaje->CubrirAlto){
+			this->director->seMuevePersonaje(jugador,CubrirBajo);
+		}
+		else{
+			this->director->seMuevePersonaje(jugador, Abajo);
+		}
 	}
 	//PINIA BAJA
 	else if (personaje->PiniaBaja){
