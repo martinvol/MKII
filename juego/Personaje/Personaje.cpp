@@ -46,6 +46,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 
 	this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
 	this->altura_quieto = 0;
+	this->ancho_quieto = 0;
 }
 
 Personaje::~Personaje(){
@@ -345,11 +346,12 @@ void Personaje::Dibujarse(){
 	
 	SDL_QueryTexture(this->imagenActual, NULL, NULL, &_w, &_h);
 	if (this->altura_quieto == 0 && this->nroAccionActual == 0) this->altura_quieto = (float) _h;
+	if (this->ancho_quieto == 0 && this->nroAccionActual == 0) this->ancho_quieto = (float) _w;
 
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
-	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico - _w;
+	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
 	destino.y = coord2_fis->y_fisico + (this->altura_quieto - _h)*this->conversor->factor_alto;
 	destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
 	destino.h = (_h / this->altura_quieto)*alto_fisico; //
