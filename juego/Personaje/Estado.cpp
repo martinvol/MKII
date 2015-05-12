@@ -19,6 +19,7 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	this->piniaAlta = new PiniaAlta(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->piniaBaja = new PiniaBaja(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->patadaAlta = new PatadaAlta(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
+	this->patadaBaja = new PatadaBaja(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->girar = new Girar(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->cubrirAlto = new CubrirAlto(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->cubrirBajo = new CubrirBajo(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
@@ -34,6 +35,7 @@ Estado::~Estado(){
 	delete this->piniaAlta;
 	delete this->piniaBaja;
 	delete this->patadaAlta;
+	delete this->patadaBaja;
 	delete this->cubrirAlto;
 	delete this->cubrirBajo;
 }

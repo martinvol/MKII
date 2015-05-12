@@ -91,9 +91,9 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			break;
 		case PatadaBaja:
 			cout<<"PatadaBaja"<<endl; ///
-			//jugador->activarAccion(PINIAALTA);
+			jugador->activarAccion(PATADABAJA);
 			//Una vez que la ejecuto, la desactivo, sino loopea.
-			(jugador->obtenerPersonaje())->PatadaBaja = false;
+			//~ (jugador->obtenerPersonaje())->PatadaBaja = false;
 			break;
 		case CubrirAlto:
 			jugador->activarAccion(CUBRIRALTO);

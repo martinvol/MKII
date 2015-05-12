@@ -19,6 +19,7 @@
 #include "../Personaje/Acciones/CubrirAlto.hpp"
 #include "../Personaje/Acciones/CubrirBajo.hpp"
 #include "../Personaje/Acciones/PatadaAlta.hpp"
+#include "../Personaje/Acciones/PatadaBaja.hpp"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ class Estado{
 		PiniaAlta* piniaAlta;
 		PiniaBaja* piniaBaja;
 		PatadaAlta* patadaAlta;
+		PatadaBaja* patadaBaja;
 		Girar* girar;
 		CubrirAlto* cubrirAlto;
 		CubrirBajo* cubrirBajo;

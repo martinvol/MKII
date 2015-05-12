@@ -518,6 +518,10 @@ void Controlador(SDL_Event *evento){
 				if (evento->key.keysym.sym == SDLK_x){
 					personajeJuego->PatadaAlta = true;	
 				}
+				///PatadaBaja
+				if (evento->key.keysym.sym == SDLK_l){
+					personajeJuego->PatadaBaja = true;	
+				}
 				break;
 			case SDL_KEYUP:
                 //-----------------------------------------
@@ -563,6 +567,10 @@ void Controlador(SDL_Event *evento){
 				///PatadaAlta
 				if (evento->key.keysym.sym == SDLK_x){
 					personajeJuego->PatadaAlta = false;	
+				}
+				///PatadaBaja
+				if (evento->key.keysym.sym == SDLK_l){
+					personajeJuego->PatadaBaja = false;	
 				}
                 break;
 			default:

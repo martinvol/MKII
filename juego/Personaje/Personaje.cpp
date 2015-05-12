@@ -108,10 +108,13 @@ void Personaje::activarAccion(accion_posible accion){
 					siguiente = coord;
 				}
 				break;
+				
 			case PATADAALTA:
+			case PATADABAJA:
 			case PINIABAJA:
 			case PINIAALTA:
-				if (this->accionActual->esUltimoModo()){
+				///MILE: AGREGADO LA CONDICION DE QUIETO
+				if (this->accionActual->esUltimoModo() and accion == QUIETO){
 					cambiarAccionA(QUIETO);
 				}
 			
@@ -306,6 +309,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PATADAALTA:
 			this->accionActual = this->estado->patadaAlta;
+			break;
+		case PATADABAJA:
+			this->accionActual = this->estado->patadaBaja;
 			break;
 		case MIRARDERECHA:
 			this->accionActual = this->estado->girar;
