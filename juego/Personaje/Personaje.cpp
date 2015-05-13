@@ -140,7 +140,7 @@ void Personaje::activarAccion(accion_posible accion){
 		}
 	}
 	
-	/// MILE!!!
+	///Maxi--> MILE!!!
 	/* De las acciones se pueden interrumpir los saltos: con pinias, 
 	 * patadas y el arrojable.
 	 * Ahora 'andan' los saltos con pinias (o sea, muestra el cout).
@@ -169,6 +169,13 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
+					
+		///Maxi--> MANU:
+		/*	Para los 3 case anteriores se me ocurre que podrias hacer:
+		 * cambiarAccionA(X_GOLPE_SALTANDO, accionActual);
+		 * Le pasas la accion actual para seguir el movimiento del salto, pero mostrando
+		 * otros sprites.
+		 * */
 			break;
 		///SIRVE ESTO?!?!??!?!
 		//TRANSICION DE AGACHADO A QUIETO = PARARSE
