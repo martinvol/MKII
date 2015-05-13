@@ -106,6 +106,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
 			case PINIASALTANDODIAGONAL:
+				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDOVERTICAL:
 			case PATADASALTANDODIAGONAL:
 			case PATADASALTANDOVERTICAL:
@@ -376,7 +377,6 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PINIASALTANDODIAGONAL:
 			this->accionActual = this->estado->piniaAire;
-			this->estado->piniaAire->alcanzo_max = false;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
