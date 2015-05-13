@@ -244,25 +244,25 @@ void Director::verificar_movimientos(){
 				// verifico las colisiones
 				SDL_Rect interseccion; // no lo usamos
 				SDL_bool coli = SDL_IntersectRect(
-					rectangulos_jug1->at(j)->sdl_rec,
-					rectangulos_jug2->at(i)->sdl_rec, 
+					rectangulos_jug1->at(i)->sdl_rec,
+					rectangulos_jug2->at(j)->sdl_rec, 
 					&interseccion
 				);
 				
 				/*int indice_pega;*/
 				if (coli){
+					cout << rectangulos_jug1->at(i)->ataque << endl;
+					cout << rectangulos_jug2->at(j)->ataque << endl;
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
 						Jugador* sufre, *pegando;
 
 						if (rectangulos_jug1->at(i)->ataque){
 							pegando = jugadores[jugador1];
 							sufre = jugadores[jugador2];
-							/*indice_pega = j;*/
 						} else {
 							pegando = jugadores[jugador2];
 							sufre = jugadores[jugador1];
-							/*indice_pega = i;*/
-						}
+						} 
 
 						// Este if hace que solo se le pueda sacr vida una sola vez
 						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
