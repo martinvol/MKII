@@ -331,6 +331,14 @@ public:
             if(timerFps < int(1000/24)){
                 SDL_Delay(CONST_MAXI_DELAY);
             }
+
+            if (director->seMurio(0)){
+                cout << "ganó jugador 2"<< endl;
+                this->reiniciarJuego();
+            } else if (director->seMurio(1)){
+                 cout << "ganó jugador 1"<< endl;
+                 this->reiniciarJuego();
+            }
             ///ESTO NO ES DEBUG, VA EN EL FINAL.
             ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
             ///CODEEN SIN JOYSTICK
