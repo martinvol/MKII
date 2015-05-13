@@ -10,6 +10,7 @@ class PiniaAire:public Accion{
 		bool permiteAccion(accion_posible nuevaAccion);
 		void cambiarModoInversamente();
 		void cambiarModo();
+		float dist_virtual;
 };
 
 

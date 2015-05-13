@@ -105,6 +105,10 @@ void Personaje::activarAccion(accion_posible accion){
 			case SALTAR:
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
+			case PINIASALTANDODIAGONAL:
+			case PINIASALTANDOVERTICAL:
+			case PATADASALTANDODIAGONAL:
+			case PATADASALTANDOVERTICAL:
 				if (siguiente->y < y_inicial){
 					cambiarAccionA(QUIETO);
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
