@@ -147,7 +147,9 @@ void Personaje::activarAccion(accion_posible accion){
 	 * */
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
-			if (accion == PINIAALTA || accion == PINIABAJA){				
+			if (accion == PINIAALTA || accion == PINIABAJA){
+				cambiarAccionA(QUIETO);
+								
 				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///

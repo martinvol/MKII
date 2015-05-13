@@ -27,6 +27,8 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	this->cubrirAlto = new CubrirAlto(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->cubrirBajo = new CubrirBajo(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->ruta_arrojable = ruta + "arma.png";
+	
+	this->piniaAire = new PiniaAire(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 }
 
 Estado::~Estado(){
@@ -45,4 +47,5 @@ Estado::~Estado(){
 	delete this->traba;
 	delete this->cubrirAlto;
 	delete this->cubrirBajo;
+	delete this->piniaAire;
 }
