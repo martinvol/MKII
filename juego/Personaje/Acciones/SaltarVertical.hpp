@@ -24,8 +24,10 @@ class SaltarVertical:public Accion{
 		float dist_virtual;
 		float delta;
 		bool impar;
+		bool alcanzo_max;
 		
 		SaltarVertical(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(3,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
+			this->alcanzo_max = false;
 			this->contadorDeLoops=0;
 			contador= 0;
 			dist_virtual=0;
@@ -47,7 +49,6 @@ class SaltarVertical:public Accion{
 		void cambiarModo();
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);
 		bool permiteAccion(accion_posible nuevaAccion);
-		bool alcanzo_max;
 };
 
 #endif

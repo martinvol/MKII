@@ -56,6 +56,7 @@ class Estado{
 		PiniaAire* piniaAire;
 		PatadaSaltoDiagonal* patadaDiag;
 		PatadaSaltoVertical* patadaVert;
+		PiniaAire* piniaAireVertical;
 };
 
 #endif
