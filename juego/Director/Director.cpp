@@ -252,8 +252,6 @@ void Director::verificar_movimientos(){
 				/*int indice_pega;*/
 				Rectangulo* recibe;
 				if (coli){
-					cout << rectangulos_jug1->at(i)->ataque << endl;
-					cout << rectangulos_jug2->at(j)->ataque << endl;
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
 						Jugador* sufre, *pegando;
 
