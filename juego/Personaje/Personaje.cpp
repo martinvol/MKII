@@ -151,11 +151,11 @@ void Personaje::activarAccion(accion_posible accion){
 				}									
 				break;							
 			case PATADAALTA:
+			case PATADABAJA:
 			case PINIABAJA:
 			case PINIAALTA:
-			case TRABA:				
-				///MILE: AGREGADO LA CONDICION DE QUIETO
-				if (this->accionActual->esUltimoModo() and accion == QUIETO){
+			case TRABA:								
+				if (this->accionActual->esUltimoModo()){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
