@@ -92,7 +92,8 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			break;
 		case PatadaAltaAgachado:
 			puts("PATADAALTAAGACHADO"); ///
-			jugador->activarAccion(PATADAALTAAGACHADO);			
+			jugador->activarAccion(PATADAALTAAGACHADO);	
+			(jugador->personaje)->Abajo = true;		
 			break;
 		case PatadaBajaAgachado:
 			jugador->activarAccion(PATADABAJAAGACHADO);
