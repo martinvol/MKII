@@ -237,20 +237,38 @@ void Parser::set_values (char* my_file) {
             color_offset = cargarValidar(personaje, 200, "offset", "Usando inicio (color) default de 200");
 
 
-            const Json::Value joystick = root["joystick"];
+            Json::Value joystick;
 
-            pinia_baja = (int) cargarValidar(joystick, 0, "pinia_baja", "Usando botón default 0");
-            pinia_alta = (int) cargarValidar(joystick, 3, "pinia_alta", "Usando botón default 3");
-            
-            cubrirse = (int) cargarValidar(joystick, 1, "cubrirse", "Usando botón default 1");
+            joysticks = new std::vector<unordered_map <string, int>*>();
 
-            patada_baja = (int) cargarValidar(joystick, 2, "patada_baja", "Usando botón default 2");
-            patada_alta = (int) cargarValidar(joystick, 5, "patada_alta", "Usando botón default 5");
-            
-            arrojar_arma = (int) cargarValidar(joystick, 4, "arrojar_arma", "Usando botón default 2");
-            arrojar_arma_baja = (int) cargarValidar(joystick, 50, "arrojar_arma_baja", "Usando botón default 50");
-            arrojar_arma_alta = (int) cargarValidar(joystick, 50, "arrojar_arma_alta", "Usando botón default 50");
+            for (unsigned int i = 0; i<2; i++){
 
+                char result[10] = "joystick"; 
+                char buf[2];
+
+                sprintf(buf, "%d", i+1);
+                result[8] = buf[0];
+
+                printf("%s\n", result);
+
+
+                joystick = root[result];
+                unordered_map <string, int>* joystick_map = new unordered_map<string, int>();
+        
+                (*joystick_map)["pinia_baja"] = (int) cargarValidar(joystick, 0, "pinia_baja", "Usando botón default 0");
+                (*joystick_map)["pinia_alta"] = (int) cargarValidar(joystick, 3, "pinia_alta", "Usando botón default 3");
+                
+                (*joystick_map)["cubrirse"] = (int) cargarValidar(joystick, 1, "cubrirse", "Usando botón default 1");
+    
+                (*joystick_map)["patada_baja"] = (int) cargarValidar(joystick, 2, "patada_baja", "Usando botón default 2");
+                (*joystick_map)["patada_alta"] = (int) cargarValidar(joystick, 5, "patada_alta", "Usando botón default 5");
+                
+                (*joystick_map)["arrojar_arma"] = (int) cargarValidar(joystick, 4, "arrojar_arma", "Usando botón default 2");
+                (*joystick_map)["arrojar_arma_baja"] = (int) cargarValidar(joystick, 50, "arrojar_arma_baja", "Usando botón default 50");
+                (*joystick_map)["arrojar_arma_alta"] = (int) cargarValidar(joystick, 50, "arrojar_arma_alta", "Usando botón default 50");
+
+                joysticks->push_back(joystick_map);
+            }
 
             const Json::Value personaje2 = root["personaje2"];
 

@@ -16,7 +16,8 @@ using namespace std;
  *
  **********************************************************************/  
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador){
+	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
 	// 4 flechas
 	Nada = Izquierda = Derecha = Arriba = Abajo = false;
@@ -469,39 +470,40 @@ void Personaje::Dibujarse(){
 		Abajo = false;
 	}	 
 	
+	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
 	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
 		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
 		if ( boton != 0 ){
 			// Aca había un swich case que Volpe sacó
 			// porque solo interpreta constantes y no
 			// podía cargar las configuraciones
-			if (i == conf->pinia_baja){
+			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = true;					
 			}
-			if (i == conf->cubrirse){
+			if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
 			}
-			if (i == conf->patada_baja){
+			if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
 			}
-			if (i == conf->pinia_alta){
+			if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = true;
 			}
-			if (i == conf->arrojar_arma){
+			if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 			}
-			if (i == conf->arrojar_arma_baja){
+			if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
 			}
-			if (i == conf->arrojar_arma_alta){
+			if (i == (*conf_joys)["arrojar_arma_alta"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
 			}
-			if (i == conf->patada_alta){
+			if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = true;
 			}
 				
