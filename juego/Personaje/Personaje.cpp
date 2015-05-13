@@ -222,19 +222,40 @@ void Personaje::activarAccion(accion_posible accion){
 				puts("de agachado a patada alta"); ///
 				cambiarAccionA(PATADAALTAAGACHADO);
 			}
+			else if (accion == GANCHO) {
+				puts("Tiro Gancho"); ///
+				cambiarAccionA(GANCHO);
+			}
 			break;
 		case CAMINAR_IZQUIERDA:
-			if(accion == PATADABAJA){
+			if(accion == PATADABAJA && mirarDerecha){
 				puts("De caminar izquierda a Traba"); ///
 				cambiarAccionA(TRABA);
 			}
+			else if (accion == PATADAALTA && mirarDerecha) {
+				cambiarAccionA(ROUNDKICK);
+			}
 			break;
-		case PATADABAJA:
-			if(accion == CAMINAR_IZQUIERDA){
+		case CAMINAR_DERECHA:
+			if(accion == PATADABAJA && !mirarDerecha){
+				cambiarAccionA(TRABA);
+			}
+			else if (accion == PATADAALTA && !mirarDerecha) {
+				cambiarAccionA(ROUNDKICK);
+			}
+		break;
+		case PATADABAJA: // (!) Esta tirando la traba haciendo adelante + patada baja cuando mira a la izq
+			// En este caso me refiero a adelante indicando que es la flechita hacia donde mira el jugador.
+			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
 				puts("De patada baja a Traba"); ///
 				cambiarAccionA(TRABA);
 			}
-			break;
+		break;
+		case PATADAALTA:
+			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
+				cambiarAccionA(ROUNDKICK);
+			}
+		break;
 	}
 //~ if (nroAccionActual == AGACHARSE)
 //~ cout<<"quiero agacharme"<<endl;
@@ -428,6 +449,12 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->piniaAireVertical;
 			this->estado->piniaAireVertical->alcanzo_max = llego_a_altura_max;
 			break;
+		case GANCHO:
+			this->accionActual = this->estado->gancho;
+		break;
+		case ROUNDKICK:
+			this->accionActual = this->estado->roundKick;
+		break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
 			if(this->mirarDerecha){

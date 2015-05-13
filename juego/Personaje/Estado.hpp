@@ -26,6 +26,8 @@
 #include "../Personaje/Acciones/PiniaEnAire.hpp"
 #include "../Personaje/Acciones/PatadaSaltoDiagonal.hpp"
 #include "../Personaje/Acciones/PatadaSaltoVertical.hpp"
+#include "../Personaje/Acciones/RoundKick.hpp"
+#include "../Personaje/Acciones/Gancho.hpp"
 
 using namespace std;
 
@@ -49,6 +51,8 @@ class Estado{
 		Traba* traba;
 		CubrirAlto* cubrirAlto;
 		CubrirBajo* cubrirBajo;
+		Gancho* gancho;
+		RoundKick* roundKick;
 		string ruta_arrojable;
 		~Estado();
 		
