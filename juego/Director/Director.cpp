@@ -239,7 +239,7 @@ void Director::verificar_movimientos(){
 	if (rectangulos_jug1->size() && rectangulos_jug2->size()){
 
 		for (unsigned int i = 0; i < rectangulos_jug1->size(); i++){
-			for (unsigned int j = 0; j < rectangulos_jug1->size(); j++){
+			for (unsigned int j = 0; j < rectangulos_jug2->size(); j++){
 				// verifico las colisiones
 				SDL_Rect interseccion; // no lo usamos
 				SDL_bool coli = SDL_IntersectRect(
