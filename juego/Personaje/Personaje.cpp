@@ -130,6 +130,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:
+				SDL_Delay(150);
 				///MILE: AGREGADO LA CONDICION DE QUIETO
 				if (this->accionActual->esUltimoModo() and accion == QUIETO){
 					cambiarAccionA(QUIETO);
