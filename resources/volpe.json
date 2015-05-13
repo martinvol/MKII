@@ -35,6 +35,7 @@
       }
    ],
    "personaje":{
+      "nombre": "Volpe",
       "ancho":63,
       "alto":127,
       "zindex":60,
@@ -49,6 +50,7 @@
       "offset": 200
    },
    "personaje2":{
+      "nombre": "Battán",
       "ancho":63,
       "alto":127,
       "zindex":60,

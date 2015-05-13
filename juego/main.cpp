@@ -211,7 +211,7 @@ public:
        //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
-		cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
+		///cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
@@ -228,7 +228,7 @@ public:
         SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
         ///Por defecto es 0
         ///Si se desconecta es un -1        
-        cout<<myID<<endl;				
+        ///cout<<myID<<endl;				
         
 		if (Player1 == NULL ){
 			logger->log_error("Player 1 JOYSTICK desconectado");			
@@ -245,40 +245,14 @@ public:
         }
 }
 
-//----------------------------------------------------------------
-//----------------------------------------------------------------
     void configurar(){
-/*<<<<<<< HEAD
-        cargar_configuracion();
 
-        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
-                                   SDL_WINDOWPOS_CENTERED,
-                                   SDL_WINDOWPOS_CENTERED,
-                                   conf->ventana_anchopx, conf->ventana_altopx,
-                                   SDL_WINDOW_MAXIMIZED);
-
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-
-        under = loadTexture("resources/background/p_under.png", renderer);
-        cargar_capas();
-
-        //Izquierda
-        
-       //Derecha
-        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),&barraDeVida1,"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
-        this->personajeJuego = personaje;
-=======*/
         this->parser = new Parser();
         cargar_configuracion(this->parser);
 		
 		// Para dos personajes:
 		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
-		
-//>>>>>>> remotes/origin/ClonarMaster
-
-        
+		        
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -343,7 +317,13 @@ public:
 				//~ logger->log_error("Joystick 2 Desconectado");			
 				//~ pausa = true;			
 			//~ }
-				
+			if (director->seMurio(0)){
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+                this->reiniciarJuego();
+            } else if (director->seMurio(1)){
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+                 this->reiniciarJuego();
+            }
         }
 
     };
@@ -356,19 +336,8 @@ public:
 		
         configurar();
 
-/*<<<<<<< HEAD
-        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),&barraDeVida1,"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
-        cargar_capas();
-        SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
-        this->personajeJuego->barraDeVida->Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
-        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        this->timer->reset(SDL_GetTicks());
-=======
->>>>>>> remotes/origin/ClonarMaster*/
     };
-//----------------------------------------------------------------
-//----------------------------------------------------------------
+
     void terminar_juego(){
         SDL_JoystickClose(Player1);
         SDL_JoystickClose(Player2);
@@ -377,8 +346,7 @@ public:
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         logger->log_debug("Borramos todos los objetos");
     };
-//----------------------------------------------------------------
-//----------------------------------------------------------------
+
     void terminar_sdl(){
         SDL_DestroyRenderer(renderer);
         IMG_Quit();
@@ -386,8 +354,6 @@ public:
     };
 
 
-//----------------------------------------------------------------
-//----------------------------------------------------------------
 void DibujarTodo(){
         //Limpio y dibujo
         
