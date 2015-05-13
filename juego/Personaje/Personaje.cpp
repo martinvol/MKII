@@ -124,12 +124,7 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 			
 			
-			case PATADAALTAAGACHADO:
-				cout<<"pata alta agachadoooooooo"<<endl;
-				if (this->accionActual->esUltimoModo()){
-					cambiarAccionA(SALTAR);					
-					break;
-				}
+			case PATADAALTAAGACHADO:			
 			case PATADAALTA:
 			case PATADABAJA:
 			case PATADABAJAAGACHADO:
