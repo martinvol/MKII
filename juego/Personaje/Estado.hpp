@@ -24,6 +24,7 @@
 #include "../Personaje/Acciones/PatadaAltaAgachado.hpp"
 #include "../Personaje/Acciones/Traba.hpp"
 #include "../Personaje/Acciones/PiniaEnAire.hpp"
+#include "../Personaje/Acciones/PatadaSaltoDiagonal.hpp"
 
 using namespace std;
 
@@ -52,6 +53,7 @@ class Estado{
 		
 		// Acciones Aereas
 		PiniaAire* piniaAire;
+		PatadaSaltoDiagonal* patadaDiag;
 
 };
 

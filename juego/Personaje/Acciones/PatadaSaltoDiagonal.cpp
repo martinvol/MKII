@@ -7,7 +7,7 @@ using namespace std;
  * 
  **********************************************************************/  
 
-PatadaSaltoDiagonal::PatadaSaltoDiagonal(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(5,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
+PatadaSaltoDiagonal::PatadaSaltoDiagonal(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(PATADASALTANDODIAGONAL,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 	// (float empieza_alto, float empieza_ancho, float porcentaje_alto, float porcentaje_ancho, bool ataque, bool bloqueo)
 	//rectangulos->push_back(new Rectangulo(0, 45, 14, 22, false, false)); // Cabeza
 	//rectangulos->push_back(new Rectangulo(20, 10, 15, 70, false, false)); // torso
@@ -20,19 +20,16 @@ void PatadaSaltoDiagonal::cambiarModo(){
 	if (! esUltimoModo()) setModoActual(this->modoActual+1);
 }
 
-void PatadaSaltoDiagonal::cambiarModoInversamente(){
-	if (this->modoActual > 0){
-		setModoActual(this->modoActual-1);
-	}
-}
-
 CoordenadaLogica* PatadaSaltoDiagonal::execute(CoordenadaLogica* coord_personaje){
+	dist_virtual = coord_personaje->y;
+	if (dist_virtual >= h_max) this->alcanzo_max = true;
+	if (dist_virtual <= 0) this->alcanzo_max = false;
+	this->cambiarModo();
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	if(!secuenciaInversa){
-		PatadaSaltoDiagonal::cambiarModo();
-	}else{
-		PatadaSaltoDiagonal::cambiarModoInversamente();
-	}
+	coord->desplazarX(despl_x);
+	// Cambio de coordenada.
+	if (this->alcanzo_max) coord->desplazarY(-despl_y);
+	else coord->desplazarY(despl_y);
 	return coord;
 };
 

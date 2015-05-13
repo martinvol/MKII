@@ -9,7 +9,7 @@ class PatadaSaltoDiagonal:public Accion{
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);	
 		bool permiteAccion(accion_posible nuevaAccion);
 		void cambiarModo();
+		bool alcanzo_max;
+		float dist_virtual;
 };
-
-
 #endif
