@@ -124,10 +124,29 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 			
 			
-			case PATADAALTAAGACHADO:			
-			case PATADAALTA:
+							case PATADABAJAAGACHADO:
+				//SDL_Delay(150);
+				if (this->accionActual->esUltimoModo()){
+					Abajo = false;
+					PatadaBaja = false;				
+					cambiarAccionA(AGACHARSE);	
+					while (!this->accionActual->esUltimoModo()){
+						activarAccion(AGACHARSE);
+						this->imagenActual = this->accionActual->getImagenActual();	
+						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+						//Sino se ve feo.
+						cout<<"BUCLEEE"<<endl;
+					}
+				}				
+				break;			
 			case PATADABAJA:
-			case PATADABAJAAGACHADO:
+				if(accion == CAMINAR_IZQUIERDA){
+					puts("De patada baja a Traba"); ///
+					cambiarAccionA(TRABA);
+				}
+				break;
+			case PATADAALTAAGACHADO:		
+			case PATADAALTA:
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:				
@@ -135,50 +154,52 @@ void Personaje::activarAccion(accion_posible accion){
 				if (this->accionActual->esUltimoModo() and accion == QUIETO){
 					cambiarAccionA(QUIETO);
 				}
-				
-				if (this->accionActual->esUltimoModo() and accion == AGACHARSE){
-					while (! this->accionActual->esUltimoModo()){
-						/// cout<<"LALALAA"<<endl;
-						cambiarAccionA(AGACHARSE);	
-						PatadaAlta = false;
-						PatadaBaja = false;
-					}
-					
-				}
-				//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-				//
-			
-			//~ case MIRARIZQUIERDA:
-				//~ if(this->accionActual->esUltimoModo()){
-					//~ puts ("holi");
-					//~ cambiarAccionA(QUIETO);
-				//~ }
-			break;
-			//PASO A QUIETO - TERMINE DE PARARME
+			break;			
 			case PARARSE:
 				if(this->accionActual->modoActual == 0){
 					cambiarAccionA(QUIETO);	
 				}
 			break;
+			case AGACHARSE:
+				///puts("Holi");
+				if(accion == QUIETO){
+					cambiarAccionA(PARARSE);	
+				}
+				else if(accion == CUBRIRBAJO){
+					puts("de agacharse a cubrirse"); ///
+					cambiarAccionA(CUBRIRBAJO);
+				}
+				else if(accion == PATADABAJAAGACHADO){
+					puts("de agacharse a patear");	///
+					cambiarAccionA(PATADABAJAAGACHADO);
+				}
+				else if (accion == PATADAALTAAGACHADO){
+					puts("de agachado a patada alta"); ///
+					cambiarAccionA(PATADAALTAAGACHADO);
+				}
+				break;					
+			case CAMINAR_IZQUIERDA:
+				if(accion == PATADABAJA){
+					puts("De caminar izquierda a Traba"); ///
+					cambiarAccionA(TRABA);
+				}
+				break;	
 			default:
 				break;
 		}
 	}
 	
-	///Maxi--> MILE!!!
-	/* De las acciones se pueden interrumpir los saltos: con pinias, 
-	 * patadas y el arrojable.
-	 * Ahora 'andan' los saltos con pinias (o sea, muestra el cout).
-	 * 
-	 * */
+	 this->imagenActual = this->accionActual->getImagenActual();
+	 //return;
+	 
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
 				cambiarAccionA(PINIASALTANDODIAGONAL);								
-				//cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
+				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cambiarAccionA(PATADASALTANDODIAGONAL);
-				//cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
+				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
 			}
 			break;
 		case SALTARDIAGONAL_IZQ:
@@ -194,51 +215,10 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cambiarAccionA(PATADASALTANDOVERTICAL);
 			}else if (accion == ARROJARARMA){
-				//cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
-			}
-					
-		///Maxi--> MANU:
-		/*	Para los 3 case anteriores se me ocurre que podrias hacer:
-		 * cambiarAccionA(X_GOLPE_SALTANDO, accionActual);
-		 * Le pasas la accion actual para seguir el movimiento del salto, pero mostrando
-		 * otros sprites.
-		 * */
-			break;
-		///SIRVE ESTO?!?!??!?!
-		//TRANSICION DE AGACHADO A QUIETO = PARARSE
-		case AGACHARSE:
-			// puts("Holi");
-			if(accion == QUIETO){
-				cambiarAccionA(PARARSE);	
-			}
-			else if(accion == CUBRIRBAJO){
-				/// puts("de agacharse a cubrirse"); ///
-				cambiarAccionA(CUBRIRBAJO);
-			}
-			else if(accion == PATADABAJAAGACHADO){
-				/// puts("de agacharse a patear");	///
-				cambiarAccionA(PATADABAJAAGACHADO);
-			}
-			else if (accion == PATADAALTAAGACHADO){
-				/// puts("de agachado a patada alta"); ///
-				cambiarAccionA(PATADAALTAAGACHADO);
-			}
-			break;
-		case CAMINAR_IZQUIERDA:
-			if(accion == PATADABAJA){
-				/// puts("De caminar izquierda a Traba"); ///
-				cambiarAccionA(TRABA);
-			}
-			break;
-		case PATADABAJA:
-			if(accion == CAMINAR_IZQUIERDA){
-				/// puts("De patada baja a Traba"); ///
-				cambiarAccionA(TRABA);
+				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
 			break;
 	}
-//~ if (nroAccionActual == AGACHARSE)
-//~ cout<<"quiero agacharme"<<endl;
 	this->imagenActual = this->accionActual->getImagenActual();
 }
 
