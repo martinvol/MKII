@@ -111,10 +111,12 @@ void Personaje::activarAccion(accion_posible accion){
 					delete siguiente;
 					siguiente = coord;
 				}
-				break;
-			//~ case PATADABAJAAGACHADO:
+				break;			
+			
 			case PATADAALTA:
 			case PATADABAJA:
+			case PATADAALTAAGACHADO:
+			case PATADABAJAAGACHADO:
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:
@@ -122,6 +124,18 @@ void Personaje::activarAccion(accion_posible accion){
 				if (this->accionActual->esUltimoModo() and accion == QUIETO){
 					cambiarAccionA(QUIETO);
 				}
+				
+				if (this->accionActual->esUltimoModo() and accion == AGACHARSE){
+					while (! this->accionActual->esUltimoModo()){
+						cout<<"LALALAA"<<endl;
+					cambiarAccionA(AGACHARSE);	
+					PatadaAlta = false;
+					PatadaBaja = false;
+					}
+					
+				}
+				//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+				//
 			
 			//~ case MIRARIZQUIERDA:
 				//~ if(this->accionActual->esUltimoModo()){
