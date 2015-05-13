@@ -27,14 +27,15 @@ void PiniaAire::cambiarModoInversamente(){
 }
 
 CoordenadaLogica* PiniaAire::execute(CoordenadaLogica* coord_personaje){
-	dist_virtual += despl_y;
+	dist_virtual = coord_personaje->y;
+	if (dist_virtual >= h_max) this->alcanzo_max = true;
+	if (dist_virtual <= 0) this->alcanzo_max = false;
 	this->cambiarModo();
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
 	coord->desplazarX(despl_x);
 	// Cambio de coordenada.
-	if (dist_virtual < h_max) coord->desplazarY(despl_y);
-	else coord->desplazarY(-despl_y);
-	if (dist_virtual >= 2*h_max) return coord;
+	if (this->alcanzo_max) coord->desplazarY(-despl_y);
+	else coord->desplazarY(despl_y);
 	return coord;
 };
 

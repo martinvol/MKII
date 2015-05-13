@@ -376,6 +376,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PINIASALTANDODIAGONAL:
 			this->accionActual = this->estado->piniaAire;
+			this->estado->piniaAire->alcanzo_max = false;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

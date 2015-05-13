@@ -11,6 +11,7 @@ class PiniaAire:public Accion{
 		void cambiarModoInversamente();
 		void cambiarModo();
 		float dist_virtual;
+		bool alcanzo_max;
 };
 
 
