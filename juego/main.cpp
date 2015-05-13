@@ -315,8 +315,8 @@ public:
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
             if (!pausa){								
-                ActualizarModelo(personajeJuego);     //Modelo 
-                ActualizarModelo(personajeJuego2);
+                ActualizarModelo(jugador1, personajeJuego);     //Modelo 
+                ActualizarModelo(jugador2, personajeJuego2);
                 this->director->actualizar();                
                 //Detecto desconectados-conectados en caliente.
                 SDL_JoystickClose(Player1);
@@ -330,14 +330,6 @@ public:
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < int(1000/24)){
                 SDL_Delay(CONST_MAXI_DELAY);
-            }
-
-            if (director->seMurio(0)){
-                cout << "ganó jugador 2"<< endl;
-                this->reiniciarJuego();
-            } else if (director->seMurio(1)){
-                 cout << "ganó jugador 1"<< endl;
-                 this->reiniciarJuego();
             }
             ///ESTO NO ES DEBUG, VA EN EL FINAL.
             ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
@@ -585,132 +577,103 @@ void Controlador(SDL_Event *evento){
 
 }
 
-void ActualizarModelo(Personaje* personaje){
+void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	
 	//DERECHA		
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personaje->Arriba){
-			personaje->activarAccion(SALTARDIAGONAL_DER);
-			personaje->Arriba = false;
-			personaje->Derecha = false;
+			this->director->seMuevePersonaje(jugador, ArribaDerecha);
 		}
 		//+ABAJO = ABAJO DERECHA
 		else if (personaje->Abajo){
-			//~ personaje->activar_accion(AGACHARSE_DER);
+			this->director->seMuevePersonaje(jugador, AbajoDerecha);
 		}
 		//CAMINAR DERECHA
 		else {
-			personaje->activarAccion(CAMINAR_DERECHA);
-			personaje->Derecha = false;
+			this->director->seMuevePersonaje(jugador, Derecha);
 		}
 	//IZQUIERDA
 	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
-			personaje->activarAccion(SALTARDIAGONAL_IZQ);
-			personaje->Arriba = false;
-			personaje->Izquierda = false;
+			this->director->seMuevePersonaje(jugador, ArribaIzquierda);
 		}
 		//+ABAJO = ABAJO IZQUIERDA
 		else if (personaje->Abajo){
-			//~ personaje->activarAccion(AGACHARSE_IZQ);
+			this->director->seMuevePersonaje(jugador, AbajoIzquierda);
 		}
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
-			personaje->activarAccion(TRABA);
+			this->director->seMuevePersonaje(jugador, Traba);
 			puts("Traba a Implementar");
 		}
 		//CAMINAR IZQUIERDA
 		else {
-			personaje->activarAccion(CAMINAR_IZQUIERDA);
-			personaje->Izquierda = false;
+			this->director->seMuevePersonaje(jugador, Izquierda);
 		}		
 	//ARRIBA--> SALTA
 	} else if (personaje->Arriba){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
-		personaje->activarAccion(SALTAR);
-		personaje->Arriba = false;
+		this->director->seMuevePersonaje(jugador, Arriba);
 	//ABAJO -->AGACHARSE
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		//+CUBRIR (OK LA VARIABLE NO DEBIERA LLAMARSE CUBRIRALTO, PERO QUEDA ASI)
 		if(personaje->CubrirAlto){
 			//~ puts("cubrir alto + agacharse"); ///
-			personaje->activarAccion(CUBRIRBAJO);
+			this->director->seMuevePersonaje(jugador,CubrirBajo);
 		//+PATADA BAJA	
 		}else if(personaje->PatadaBaja){
 			//~ puts("Patada Baja + agachado");	///
-			personaje->activarAccion(PATADABAJAAGACHADO);
+			this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
-			puts("PATADAALTAAGACHADO"); ///
-			personaje->activarAccion(PATADAALTAAGACHADO);
-			personaje->Abajo = true;
+			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);
 			puts("Patada Alta + agachado");	///
 		}else{
-			personaje->activarAccion(AGACHARSE);
-			personaje->Abajo = false;
+			this->director->seMuevePersonaje(jugador, Abajo);
 		}
 		
 	}
 	//PINIA BAJA
 	else if (personaje->PiniaBaja){
-		personaje->activarAccion(PINIABAJA);
-		personaje->PiniaBaja = false;
-		//Una vez que la ejecuto, la desactivo, sino loopea.	
+		this->director->seMuevePersonaje(jugador, PiniaBaja);
 	//PINIA ALTA
 	}else if (personaje->PiniaAlta){
-		personaje->activarAccion(PINIAALTA);
-		personaje->PiniaAlta = false;
+		this->director->seMuevePersonaje(jugador, PiniaAlta);
 	//CUBRIRSE
 	}else if (personaje->CubrirAlto){
-		personaje->activarAccion(CUBRIRALTO);
-		/// Problema aca, a veces se queda trabado.
-		//personaje->CubrirAlto = false;
+		this->director->seMuevePersonaje(jugador, CubrirAlto);
 	//ARROJAR ARMA
 	}else if (personaje->ArrojarArma){
-		personaje->ArrojarArma = false;
-		personaje->Arrojar();
+		this->director->seMuevePersonaje(jugador, ArrojarArma);
 	//PATADA BAJA
 	}else if (personaje->PatadaBaja){
 		//+IZQUIERDA = TRABA
 		if(personaje->Izquierda){
 			///POR AHORA NO SE PUEDE HACER PORQUE PATADABAJA NO PERMITE LA INTERRUPCION DE NADIE
-			puts("traba");
 			puts("Traba a Implementar");
-			personaje->activarAccion(TRABA);
-			personaje->PatadaBaja = false;
-			personaje->Izquierda = false;
+			this->director->seMuevePersonaje(jugador, Traba);
 		}else{
-			personaje->activarAccion(PATADABAJA);
-			cout<<"PatadaBaja"<<endl; ///
-			personaje->PatadaBaja = false;
+			this->director->seMuevePersonaje(jugador, PatadaBaja);
 		}
 	//PATADA ALTA
 	}else if (personaje->PatadaAlta){
-		personaje->activarAccion(PATADAALTA);
-		personaje->PatadaAlta = false;			
-		///MAXI QUE ES ESTO?
-		
-		///Joystick no tiene button_UP y button_DOWN.			
-		///Solo detecta cuando se aprieta un boton.
-		///Entonces despues de activar la accion, seteo 
-		///los booleanos del pj en false. Sino loopea (solo joystick).
+		this->director->seMuevePersonaje(jugador, PatadaAlta);
 	}	
     // ARROJABLE
     else if (arrojandoPk){
-		personaje->ArrojarArma = false;
-		personaje->Arrojar();
+        this->director->seMuevePersonaje(jugador, ArrojarArma);
     }
 	//MILE
 	else if (golpeandoPJalta){
-		personaje->activarAccion(PINIAALTA);
+		this->director->seMuevePersonaje(jugador, PiniaAlta);
 	} else if (golpeandoPJbaja){
-		personaje->activarAccion(PINIABAJA);
+		this->director->seMuevePersonaje(jugador, PiniaBaja);
 	}else {
-		personaje->activarAccion(QUIETO);
-	}
+		this->director->seMuevePersonaje(jugador, Nada);
+	}		
 
 }        
 

@@ -34,6 +34,8 @@ class Director {
 		movimiento mov2 = Nada;
 		
 	
+		void informar_acciones();
+		void informar_accion(movimiento mov, Jugador* jugador);
 		void verificar_movimientos();
 		void verificar_movimiento(Jugador* jugador, Jugador* elOtro);
 		void verificar_orientaciones();
@@ -41,7 +43,6 @@ class Director {
 		bool sePuedeScrollearIzquierda();
 		void scrollearDerecha();
 		void scrollearIzquierda();
-
 		
 	public:
 		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer);
@@ -60,7 +61,6 @@ class Director {
 		*/
 		void actualizar();
 		
-		bool seMurio(int num_jugador);
 };
 
 #endif //DIRECTOR_H
