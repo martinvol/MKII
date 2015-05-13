@@ -592,6 +592,8 @@ void ActualizarModelo(Personaje* personaje){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personaje->Arriba){
 			personaje->activarAccion(SALTARDIAGONAL_DER);
+			personaje->Arriba = false;
+			personaje->Derecha = false;
 		}
 		//+ABAJO = ABAJO DERECHA
 		else if (personaje->Abajo){
@@ -600,12 +602,15 @@ void ActualizarModelo(Personaje* personaje){
 		//CAMINAR DERECHA
 		else {
 			personaje->activarAccion(CAMINAR_DERECHA);
+			personaje->Derecha = false;
 		}
 	//IZQUIERDA
 	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
 			personaje->activarAccion(SALTARDIAGONAL_IZQ);
+			personaje->Arriba = false;
+			personaje->Izquierda = false;
 		}
 		//+ABAJO = ABAJO IZQUIERDA
 		else if (personaje->Abajo){
@@ -619,11 +624,13 @@ void ActualizarModelo(Personaje* personaje){
 		//CAMINAR IZQUIERDA
 		else {
 			personaje->activarAccion(CAMINAR_IZQUIERDA);
+			personaje->Izquierda = false;
 		}		
 	//ARRIBA--> SALTA
 	} else if (personaje->Arriba){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
 		personaje->activarAccion(SALTAR);
+		personaje->Arriba = false;
 	//ABAJO -->AGACHARSE
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
@@ -637,22 +644,30 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(PATADABAJAAGACHADO);
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
+			puts("PATADAALTAAGACHADO"); ///
 			personaje->activarAccion(PATADAALTAAGACHADO);
+			personaje->Abajo = true;
 			puts("Patada Alta + agachado");	///
 		}else{
 			personaje->activarAccion(AGACHARSE);
+			personaje->Abajo = false;
 		}
 		
 	}
 	//PINIA BAJA
 	else if (personaje->PiniaBaja){
 		personaje->activarAccion(PINIABAJA);
+		personaje->PiniaBaja = false;
+		//Una vez que la ejecuto, la desactivo, sino loopea.	
 	//PINIA ALTA
 	}else if (personaje->PiniaAlta){
 		personaje->activarAccion(PINIAALTA);
+		personaje->PiniaAlta = false;
 	//CUBRIRSE
 	}else if (personaje->CubrirAlto){
 		personaje->activarAccion(CUBRIRALTO);
+		/// Problema aca, a veces se queda trabado.
+		//personaje->CubrirAlto = false;
 	//ARROJAR ARMA
 	}else if (personaje->ArrojarArma){
 		personaje->ArrojarArma = false;
@@ -662,14 +677,26 @@ void ActualizarModelo(Personaje* personaje){
 		//+IZQUIERDA = TRABA
 		if(personaje->Izquierda){
 			///POR AHORA NO SE PUEDE HACER PORQUE PATADABAJA NO PERMITE LA INTERRUPCION DE NADIE
+			puts("traba");
 			puts("Traba a Implementar");
 			personaje->activarAccion(TRABA);
+			personaje->PatadaBaja = false;
+			personaje->Izquierda = false;
 		}else{
 			personaje->activarAccion(PATADABAJA);
+			cout<<"PatadaBaja"<<endl; ///
+			personaje->PatadaBaja = false;
 		}
 	//PATADA ALTA
 	}else if (personaje->PatadaAlta){
 		personaje->activarAccion(PATADAALTA);
+		personaje->PatadaAlta = false;			
+		///MAXI QUE ES ESTO?
+		
+		///Joystick no tiene button_UP y button_DOWN.			
+		///Solo detecta cuando se aprieta un boton.
+		///Entonces despues de activar la accion, seteo 
+		///los booleanos del pj en false. Sino loopea (solo joystick).
 	}	
     // ARROJABLE
     else if (arrojandoPk){

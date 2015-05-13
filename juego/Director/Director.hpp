@@ -34,8 +34,6 @@ class Director {
 		movimiento mov2 = Nada;
 		
 	
-		void informar_acciones();
-		void informar_accion(movimiento mov, Jugador* jugador);
 		void verificar_movimientos();
 		void verificar_movimiento(Jugador* jugador, Jugador* elOtro);
 		void verificar_orientaciones();
