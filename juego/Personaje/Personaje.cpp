@@ -191,6 +191,7 @@ void Personaje::activarAccion(accion_posible accion){
 					puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
+				break;
 			case CUBRIRBAJO:
 				cambiarAccionA(CUBRIRBAJO);
 				break;	
