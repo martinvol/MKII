@@ -112,6 +112,10 @@ void Personaje::activarAccion(accion_posible accion){
 				if (siguiente->y < y_inicial) this->estado->patadaDiag->alcanzo_max = false;
 			case PATADASALTANDOVERTICAL:
 				if (siguiente->y < y_inicial){
+					this->estado->saltardiagonal->alcanzo_max = false;
+					this->estado->saltarvertical->alcanzo_max = false;
+					this->estado->patadaVert->alcanzo_max = false;
+					this->estado->piniaAireVertical->alcanzo_max = false;
 					cambiarAccionA(QUIETO);
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
@@ -165,17 +169,15 @@ void Personaje::activarAccion(accion_posible accion){
 		case SALTARDIAGONAL_IZQ:
 			if (accion == PINIAALTA || accion == PINIABAJA){
 				cambiarAccionA(PINIASALTANDODIAGONAL);				
-				cout<<"SALTO CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cambiarAccionA(PATADASALTANDODIAGONAL);
-				cout<< "SALTO CON PATADA"<<endl; ///
 			}			
 			break;
 		case SALTAR:
 			if (accion == PINIAALTA || accion == PINIABAJA){				
-				cout<<"SALTO VERTICAL CON PINIA"<<endl; ///
+				cambiarAccionA(PINIASALTANDOVERTICAL);
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cout<< "SALTO VERTICAL CON PATADA"<<endl; ///
+				cambiarAccionA(PATADASALTANDOVERTICAL);
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
@@ -300,6 +302,8 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
+	bool aux;
+	bool llego_a_altura_max;
 	
 	switch (nroAccionActual)
 	{ 
@@ -380,10 +384,28 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->traba;
 			break;
 		case PINIASALTANDODIAGONAL:
+			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
+			aux = this->accionActual->direccionDerecha;
 			this->accionActual = this->estado->piniaAire;
+			this->estado->piniaAire->alcanzo_max = llego_a_altura_max;
+			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
 			break;
 		case PATADASALTANDODIAGONAL:
+			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
+			aux = this->accionActual->direccionDerecha;
 			this->accionActual = this->estado->patadaDiag;
+			this->estado->patadaDiag->alcanzo_max = llego_a_altura_max;
+			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
+			break;
+		case PATADASALTANDOVERTICAL:
+			llego_a_altura_max = this->estado->saltarvertical->alcanzo_max;
+			this->accionActual = this->estado->patadaVert;
+			this->estado->patadaVert->alcanzo_max = llego_a_altura_max;
+			break;
+		case PINIASALTANDOVERTICAL:
+			llego_a_altura_max = this->estado->saltarvertical->alcanzo_max;
+			this->accionActual = this->estado->piniaAireVertical;
+			this->estado->piniaAireVertical->alcanzo_max = llego_a_altura_max;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

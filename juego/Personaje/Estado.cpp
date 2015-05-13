@@ -30,6 +30,8 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	
 	this->piniaAire = new PiniaAire(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
 	this->patadaDiag = new PatadaSaltoDiagonal(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
+	this->patadaVert = new PatadaSaltoVertical(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
+	this->piniaAireVertical = new PiniaAire(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
 }
 
 Estado::~Estado(){
@@ -50,4 +52,6 @@ Estado::~Estado(){
 	delete this->cubrirBajo;
 	delete this->piniaAire;
 	delete this->patadaDiag;
+	delete this->patadaVert;
+	delete this->piniaAireVertical;
 }

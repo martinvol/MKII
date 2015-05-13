@@ -31,7 +31,10 @@ CoordenadaLogica* SaltarVertical::execute(CoordenadaLogica* coord_personaje){
 	// Cambio de coordenada.
 	coord->desplazarX(despl_x);
 	if (dist_virtual < h_max) coord->desplazarY(despl_y);
-	else coord->desplazarY(-despl_y);
+	else { 
+		alcanzo_max = true;
+		coord->desplazarY(-despl_y);
+	}
 	if (dist_virtual >= 2*h_max) return coord;
 	// Cambio de imagen.
 	//ANTES:
