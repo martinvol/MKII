@@ -306,12 +306,12 @@ void Director::verificar_movimientos(){
 				if (coli){
 					Logger::instance()->log_debug("Le pego!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
-					float danio = 5;
+					float danio = 30;
 					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
 						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
 						danio = danio/4;
 					}
-					jugadores[(i+1)%2]->barra->Lastimar(10);
+					jugadores[(i+1)%2]->barra->Lastimar(danio);
 					this->escenario->Temblar(SDL_GetTicks());
 				}
 			}
@@ -450,4 +450,8 @@ void Director::actualizar(){
 	// otro y les cambia la dirección de la mirada.
 	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
 	verificar_orientaciones();
+}
+
+bool Director::seMurio(int num_jugador){
+	return this->jugadores[num_jugador]->barra->seMurio();
 }

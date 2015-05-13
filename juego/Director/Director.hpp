@@ -60,6 +60,7 @@ class Director {
 		 * lugar de los personajes.
 		*/
 		void actualizar();
+		bool seMurio(int num_jugador);
 		
 };
 

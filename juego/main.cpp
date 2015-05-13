@@ -343,7 +343,13 @@ public:
 				//~ logger->log_error("Joystick 2 Desconectado");			
 				//~ pausa = true;			
 			//~ }
-				
+			if (director->seMurio(0)){
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+                this->reiniciarJuego();
+            } else if (director->seMurio(1)){
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+                 this->reiniciarJuego();
+            }
         }
 
     };
