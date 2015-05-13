@@ -16,7 +16,8 @@ PiniaAire::PiniaAire(string ruta, SDL_Renderer* ren, float despl_x, float despl_
 }
 
 void PiniaAire::cambiarModo(){
-	
+	// Saco una imagen por si es salto vertical
+	if (despl_x == 0 && this->modoActual == 0) this->modoActual = 1;
 	if (! esUltimoModo()) setModoActual(this->modoActual+1);
 }
 
