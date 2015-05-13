@@ -9,6 +9,8 @@ class PatadaSaltoVertical:public Accion{
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);	
 		bool permiteAccion(accion_posible nuevaAccion);
 		void cambiarModo();
+		float dist_virtual;
+		bool alcanzo_max;
 };
 
 

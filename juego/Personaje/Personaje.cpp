@@ -112,6 +112,7 @@ void Personaje::activarAccion(accion_posible accion){
 				if (siguiente->y < y_inicial) this->estado->patadaDiag->alcanzo_max = false;
 			case PATADASALTANDOVERTICAL:
 				if (siguiente->y < y_inicial){
+					this->estado->patadaVert->alcanzo_max = false;
 					cambiarAccionA(QUIETO);
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
@@ -175,6 +176,7 @@ void Personaje::activarAccion(accion_posible accion){
 			if (accion == PINIAALTA || accion == PINIABAJA){				
 				cout<<"SALTO VERTICAL CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cambiarAccionA(PATADASALTANDOVERTICAL);
 				cout<< "SALTO VERTICAL CON PATADA"<<endl; ///
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
@@ -389,6 +391,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			aux = this->accionActual->direccionDerecha;
 			this->accionActual = this->estado->patadaDiag;
 			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
+			break;
+		case PATADASALTANDOVERTICAL:
+			this->accionActual = this->estado->patadaVert;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
