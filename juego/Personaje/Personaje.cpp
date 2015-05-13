@@ -149,8 +149,7 @@ void Personaje::activarAccion(accion_posible accion){
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
-				cambiarAccionA(QUIETO);
-								
+				cambiarAccionA(PINIASALTANDODIAGONAL);								
 				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
@@ -370,6 +369,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case TRABA:
 			this->accionActual = this->estado->traba;
+			break;
+		case PINIASALTANDODIAGONAL:
+			this->accionActual = this->estado->piniaAire;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
