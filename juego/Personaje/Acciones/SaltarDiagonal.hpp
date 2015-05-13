@@ -28,7 +28,7 @@ class SaltarDiagonal: public Accion{
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);
 		bool permiteAccion(accion_posible nuevaAccion);
 		void resetear();
-		
+		bool alcanzo_max;
 };
 
 #endif

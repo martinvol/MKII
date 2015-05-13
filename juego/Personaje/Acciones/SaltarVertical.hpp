@@ -47,6 +47,7 @@ class SaltarVertical:public Accion{
 		void cambiarModo();
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);
 		bool permiteAccion(accion_posible nuevaAccion);
+		bool alcanzo_max;
 };
 
 #endif
