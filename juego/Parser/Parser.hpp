@@ -35,10 +35,6 @@ class Parser {
         //unordered_map <string, int>* joystick1;
         std::vector<unordered_map <string, int>*>* joysticks;
         // std::map<std::string, int>* joystick2;
-
-        int pinia_baja, pinia_alta, cubrirse;
-        int patada_alta, patada_baja;
-        int arrojar_arma, arrojar_arma_baja, arrojar_arma_alta;
 };
 
 #endif // PARSER_H_INCLUDED
