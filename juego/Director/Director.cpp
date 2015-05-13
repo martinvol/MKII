@@ -91,7 +91,7 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
 		case PatadaAltaAgachado:
-			puts("PATADAALTAAGACHADO"); ///
+			//puts("PATADAALTAAGACHADO"); ///
 			jugador->activarAccion(PATADAALTAAGACHADO);			
 			break;
 		case PatadaBajaAgachado:

@@ -124,7 +124,7 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 			
 			
-							case PATADABAJAAGACHADO:
+				case PATADABAJAAGACHADO:
 				//SDL_Delay(150);
 				if (this->accionActual->esUltimoModo()){
 					Abajo = false;
@@ -139,13 +139,17 @@ void Personaje::activarAccion(accion_posible accion){
 					}
 				}				
 				break;			
-			case PATADABAJA:
-				if(accion == CAMINAR_IZQUIERDA){
-					puts("De patada baja a Traba"); ///
-					cambiarAccionA(TRABA);
-				}
-				break;
-			case PATADAALTAAGACHADO:		
+			case PATADAALTAAGACHADO:
+				if (this->accionActual->esUltimoModo()){
+					Abajo = false;
+					PatadaAlta = false;	
+					cambiarAccionA(AGACHARSE);	
+					while (!this->accionActual->esUltimoModo()){
+						activarAccion(AGACHARSE);
+						this->imagenActual = this->accionActual->getImagenActual();
+					}					
+				}									
+				break;							
 			case PATADAALTA:
 			case PINIABAJA:
 			case PINIAALTA:
@@ -177,12 +181,18 @@ void Personaje::activarAccion(accion_posible accion){
 					puts("de agachado a patada alta"); ///
 					cambiarAccionA(PATADAALTAAGACHADO);
 				}
-				break;					
+				break;
+			//	DEBERIA SER 'CAMINAR ATRAS' 
+			/* PJ --> si mirando a derecha --> si izq + patada baja --> traba
+			 * 		--> si mira a izquierda --> si der + patada baja --> traba
+			 * */
 			case CAMINAR_IZQUIERDA:
 				if(accion == PATADABAJA){
 					puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
+			case CUBRIRBAJO:
+				cambiarAccionA(CUBRIRBAJO);
 				break;	
 			default:
 				break;

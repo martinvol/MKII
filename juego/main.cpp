@@ -544,7 +544,7 @@ void Controlador(SDL_Event *evento){
 }
 
 void ActualizarModelo(num_jugador jugador, Personaje* personaje){
-	
+
 	//DERECHA		
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
@@ -564,11 +564,7 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
 			this->director->seMuevePersonaje(jugador, ArribaIzquierda);
-		}
-		//+ABAJO = ABAJO IZQUIERDA
-		else if (personaje->Abajo){
-			this->director->seMuevePersonaje(jugador, AbajoIzquierda);
-		}
+		}		
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
 			this->director->seMuevePersonaje(jugador, Traba);
@@ -595,8 +591,7 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 			this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
-			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);
-			puts("Patada Alta + agachado");	///
+			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);			
 		}else{
 			this->director->seMuevePersonaje(jugador, Abajo);
 		}
