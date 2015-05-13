@@ -23,6 +23,9 @@
 #include "../Personaje/Acciones/PatadaBajaAgachado.hpp"
 #include "../Personaje/Acciones/PatadaAltaAgachado.hpp"
 #include "../Personaje/Acciones/Traba.hpp"
+#include "../Personaje/Acciones/PiniaEnAire.hpp"
+#include "../Personaje/Acciones/PatadaSaltoDiagonal.hpp"
+#include "../Personaje/Acciones/PatadaSaltoVertical.hpp"
 
 using namespace std;
 
@@ -48,7 +51,12 @@ class Estado{
 		CubrirBajo* cubrirBajo;
 		string ruta_arrojable;
 		~Estado();
-
+		
+		// Acciones Aereas
+		PiniaAire* piniaAire;
+		PatadaSaltoDiagonal* patadaDiag;
+		PatadaSaltoVertical* patadaVert;
+		PiniaAire* piniaAireVertical;
 };
 
 #endif
