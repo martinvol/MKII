@@ -244,3 +244,7 @@ void BarraDeVida::ActualizarAnchos(){
     ActualizarAnchoDeVida(anchoDeVidaEsperado);
     ActualizarAnchoDeStamina(anchoDeStaminaEsperado);
 }
+
+bool BarraDeVida::seMurio(){
+    return muerto;
+}

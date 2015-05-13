@@ -16,7 +16,8 @@ using namespace std;
  *
  **********************************************************************/  
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador){
+	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
 	// 4 flechas
 	Nada = Izquierda = Derecha = Arriba = Abajo = false;
@@ -69,8 +70,11 @@ void Personaje::Arrojar(){
 		
 		int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 		int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
-	
-		arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+		if (mirarDerecha){
+			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+		} else {
+			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), alto_fisico, ancho_fisico);
+		}
 		arrojable->tirar(this->velocidad_arma);
 	
 		delete coord1,coord1_fis,coord2,coord2_fis;
@@ -101,16 +105,28 @@ void Personaje::activarAccion(accion_posible accion){
 			case SALTAR:
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
+			case PINIASALTANDODIAGONAL:
+				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
+			case PINIASALTANDOVERTICAL:
+			case PATADASALTANDODIAGONAL:
+				if (siguiente->y < y_inicial) this->estado->patadaDiag->alcanzo_max = false;
+			case PATADASALTANDOVERTICAL:
 				if (siguiente->y < y_inicial){
+					this->estado->saltardiagonal->alcanzo_max = false;
+					this->estado->saltarvertical->alcanzo_max = false;
+					this->estado->patadaVert->alcanzo_max = false;
+					this->estado->piniaAireVertical->alcanzo_max = false;
 					cambiarAccionA(QUIETO);
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
 					siguiente = coord;
 				}
-				break;
-			//~ case PATADABAJAAGACHADO:
+				break;			
+			
 			case PATADAALTA:
 			case PATADABAJA:
+			case PATADAALTAAGACHADO:
+			case PATADABAJAAGACHADO:
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:
@@ -118,6 +134,18 @@ void Personaje::activarAccion(accion_posible accion){
 				if (this->accionActual->esUltimoModo() and accion == QUIETO){
 					cambiarAccionA(QUIETO);
 				}
+				
+				if (this->accionActual->esUltimoModo() and accion == AGACHARSE){
+					while (! this->accionActual->esUltimoModo()){
+						cout<<"LALALAA"<<endl;
+					cambiarAccionA(AGACHARSE);	
+					PatadaAlta = false;
+					PatadaBaja = false;
+					}
+					
+				}
+				//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+				//
 			
 			//~ case MIRARIZQUIERDA:
 				//~ if(this->accionActual->esUltimoModo()){
@@ -136,7 +164,7 @@ void Personaje::activarAccion(accion_posible accion){
 		}
 	}
 	
-	/// MILE!!!
+	///Maxi--> MILE!!!
 	/* De las acciones se pueden interrumpir los saltos: con pinias, 
 	 * patadas y el arrojable.
 	 * Ahora 'andan' los saltos con pinias (o sea, muestra el cout).
@@ -144,27 +172,36 @@ void Personaje::activarAccion(accion_posible accion){
 	 * */
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
-			if (accion == PINIAALTA || accion == PINIABAJA){				
+			if (accion == PINIAALTA || accion == PINIABAJA){
+				cambiarAccionA(PINIASALTANDODIAGONAL);								
 				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
+				cambiarAccionA(PATADASALTANDODIAGONAL);
 				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
 			}
 			break;
 		case SALTARDIAGONAL_IZQ:
-			if (accion == PINIAALTA || accion == PINIABAJA){				
-				cout<<"SALTO CON PINIA"<<endl; ///
+			if (accion == PINIAALTA || accion == PINIABAJA){
+				cambiarAccionA(PINIASALTANDODIAGONAL);				
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cout<< "SALTO CON PATADA"<<endl; ///
+				cambiarAccionA(PATADASALTANDODIAGONAL);
 			}			
 			break;
 		case SALTAR:
 			if (accion == PINIAALTA || accion == PINIABAJA){				
-				cout<<"SALTO VERTICAL CON PINIA"<<endl; ///
+				cambiarAccionA(PINIASALTANDOVERTICAL);
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cout<< "SALTO VERTICAL CON PATADA"<<endl; ///
+				cambiarAccionA(PATADASALTANDOVERTICAL);
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
+					
+		///Maxi--> MANU:
+		/*	Para los 3 case anteriores se me ocurre que podrias hacer:
+		 * cambiarAccionA(X_GOLPE_SALTANDO, accionActual);
+		 * Le pasas la accion actual para seguir el movimiento del salto, pero mostrando
+		 * otros sprites.
+		 * */
 			break;
 		///SIRVE ESTO?!?!??!?!
 		//TRANSICION DE AGACHADO A QUIETO = PARARSE
@@ -286,6 +323,8 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
+	bool aux;
+	bool llego_a_altura_max;
 	
 	switch (nroAccionActual)
 	{ 
@@ -364,6 +403,30 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case TRABA:
 			this->accionActual = this->estado->traba;
+			break;
+		case PINIASALTANDODIAGONAL:
+			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
+			aux = this->accionActual->direccionDerecha;
+			this->accionActual = this->estado->piniaAire;
+			this->estado->piniaAire->alcanzo_max = llego_a_altura_max;
+			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
+			break;
+		case PATADASALTANDODIAGONAL:
+			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
+			aux = this->accionActual->direccionDerecha;
+			this->accionActual = this->estado->patadaDiag;
+			this->estado->patadaDiag->alcanzo_max = llego_a_altura_max;
+			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
+			break;
+		case PATADASALTANDOVERTICAL:
+			llego_a_altura_max = this->estado->saltarvertical->alcanzo_max;
+			this->accionActual = this->estado->patadaVert;
+			this->estado->patadaVert->alcanzo_max = llego_a_altura_max;
+			break;
+		case PINIASALTANDOVERTICAL:
+			llego_a_altura_max = this->estado->saltarvertical->alcanzo_max;
+			this->accionActual = this->estado->piniaAireVertical;
+			this->estado->piniaAireVertical->alcanzo_max = llego_a_altura_max;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
@@ -466,39 +529,40 @@ void Personaje::Dibujarse(){
 		Abajo = false;
 	}	 
 	
+	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
 	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
 		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
 		if ( boton != 0 ){
 			// Aca había un swich case que Volpe sacó
 			// porque solo interpreta constantes y no
 			// podía cargar las configuraciones
-			if (i == conf->pinia_baja){
+			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = true;					
 			}
-			if (i == conf->cubrirse){
+			if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
 			}
-			if (i == conf->patada_baja){
+			if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
 			}
-			if (i == conf->pinia_alta){
+			if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = true;
 			}
-			if (i == conf->arrojar_arma){
+			if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 			}
-			if (i == conf->arrojar_arma_baja){
+			if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
 			}
-			if (i == conf->arrojar_arma_alta){
+			if (i == (*conf_joys)["arrojar_arma_alta"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
 			}
-			if (i == conf->patada_alta){
+			if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = true;
 			}
 				

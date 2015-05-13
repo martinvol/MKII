@@ -10,7 +10,7 @@ class Logger{
 		static Logger* myinstance;
 		Logger();
 		~Logger();
-		bool debug, warning, error;
+		bool debug=false, warning=false, error=false;
 		ofstream* archivo;
 		
     public:

@@ -56,7 +56,17 @@
             "personaje1":"resources/jugador/SubZero/"
       }
    },
-   "joystick": {
+   "joystick1": {
+      "pinia_baja": 3,
+      "pinia_alta": 0,
+      "cubrirse": 1,
+      "patada_baja": 2,
+      "patada_alta": 8,
+      "arrojar_arma": 4,
+      "arrojar_arma_baja": 7, // todavíá no esta bien esto
+      "arrojar_arma_alta": 5
+   },
+   "joystick2": {
       "pinia_baja": 3,
       "pinia_alta": 0,
       "cubrirse": 1,

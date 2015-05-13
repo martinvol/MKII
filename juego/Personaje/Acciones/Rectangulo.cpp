@@ -40,6 +40,9 @@ void Rectangulo::generar_rectanguloSDL(float x_fisico, float y_fisico, float anc
 		g = 0xFF;
 	}
 
+	
+	//cout << this->ataque << endl;
+
 	if (MOSTRAR_RECTANGULOS){
 		SDL_SetRenderDrawColor(renderer, r, g, b, 0xA0);
 		SDL_RenderFillRect(renderer, sdl_rec);

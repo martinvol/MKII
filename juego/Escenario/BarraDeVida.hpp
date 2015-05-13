@@ -22,7 +22,7 @@ private:
     int x_ini, x_fin, y_ini, y_fin;
     int anchoRectanguloInterior;
     int anchoRectanguloStaminaInterior;
-	int crecimientoDeBarra;
+    int crecimientoDeBarra;
 
     SDL_Rect borde;
     SDL_Rect vida;
@@ -33,14 +33,15 @@ private:
     SDL_Rect staminaVerde, staminaRoja;
 
 public:
-	BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
-	~BarraDeVida();
+    BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
+    ~BarraDeVida();
     void Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
     void Dibujarse();
     void Lastimar(int porcentaje);
     void Cansar(int porcentaje);
     void Aliviar(int porcentaje);
 
+    bool seMurio();
 
 };
 

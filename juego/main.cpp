@@ -176,7 +176,8 @@ public:
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
 										"Subzero", renderer, parser->personaje2_ancho,
 										parser->personaje2_alto, estado,
-										this->conversor, parser->velocidad_arma);
+										this->conversor, parser->velocidad_arma,
+                                        1); // jugador 1
 
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -196,16 +197,15 @@ public:
                             renderer, parser->personaje_alto, parser->escenario_alto,
                             parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                             parser->color_inicio, parser->color_fin, parser->color_offset);
-        
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje2_ancho,
                                         // "Kabal", renderer, parser->personaje2_ancho,
                                         parser->personaje2_alto, estado2,
                                         // parser->personaje2_alto, estado2,
-                                        this->conversor, parser->velocidad_arma);
-                                        // parser->personaje2_mirar_derecha, this->conversor);
-        
+                                        this->conversor, parser->velocidad_arma,
+                                        2); // jugador 2
+                                        // parser->personaje2_mirar_derecha, this->conversor)
         
 
        //Derecha
@@ -310,9 +310,6 @@ public:
         SDL_JoystickEventState (SDL_QUERY);
 
         SDL_Event evento;
-        if (SDL_NumJoysticks() < 1){
-				logger->log_warning("No hay JOYSTICK conectado");
-			}
         while (!salir){					
 
             timerFps = SDL_GetTicks();
@@ -333,6 +330,14 @@ public:
             timerFps = SDL_GetTicks() - timerFps;
             if(timerFps < int(1000/24)){
                 SDL_Delay(CONST_MAXI_DELAY);
+            }
+
+            if (director->seMurio(0)){
+                cout << "ganó jugador 2"<< endl;
+                this->reiniciarJuego();
+            } else if (director->seMurio(1)){
+                 cout << "ganó jugador 1"<< endl;
+                 this->reiniciarJuego();
             }
             ///ESTO NO ES DEBUG, VA EN EL FINAL.
             ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
@@ -400,13 +405,12 @@ void DibujarTodo(){
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderFillRect(renderer, &fillRect );
 
-
-        for (int i = 0; i < escenario->capas.size(); i++){
+        for (unsigned int i = 0; i < escenario->capas.size(); i++){
         // Itero hacia en orden inverso
         // Así respeto los Z index
 
-			// Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
-			// esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
+            // Estas son coordenadas lógicas, que por adentro capas las cambia a físicas
+            // esa cuenta cancha la debería hacer por afuera, pero comofunciona, por ahora la dejo
 			(escenario->capas[i])->DibujarseAnchoReal(this->ventana->obtenerBordeLogicoIzquierdo(this->conversor), 0);
 
 			// Si el z_index del personaje está entre medio de las capas:

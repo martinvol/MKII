@@ -13,7 +13,32 @@
 #include "../../Logger/Logger.hpp"
 #include "Rectangulo.hpp"
 
-typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, AGACHARSE, PARARSE, PINIAALTA, PINIABAJA, MIRARDERECHA, MIRARIZQUIERDA, PATADAALTA, PATADABAJA, PATADABAJAAGACHADO, PATADAALTAAGACHADO, ARROJARARMA, CUBRIRALTO, CUBRIRBAJO, TRABA} accion_posible;
+typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, 	//Listo
+							SALTAR, SALTARDIAGONAL_IZQ, SALTARDIAGONAL_DER, //Listo						
+							AGACHARSE, PARARSE,	//Listo
+							
+							PINIAALTA, PINIABAJA, //Listo 
+							MIRARDERECHA, MIRARIZQUIERDA,	//Falta MIRARIZQUIERDA
+							// Y FALTARIA LA VERSION PARA AGACHADO (pero es secundario)
+							PATADAALTA, PATADABAJA, PATADABAJAAGACHADO, PATADAALTAAGACHADO, //Listo
+							
+							ARROJARARMA, 	//Listo
+							CUBRIRALTO, CUBRIRBAJO, 		//Todavia no me anda cubrir agachado									
+							TRABA, 	//Listo																
+							PINIAAGACHADO, GANCHO, PINIASALTANDOVERTICAL, PINIASALTANDODIAGONAL, //FALTA
+							PATADASALTANDOVERTICAL, PATADASALTANDODIAGONAL, //FALTA
+							TROPEZAR, // Al recibir una patada voladora. FALTA
+							CAERPORGANCHO, LEVANTARSEDELGANCHO, //FALTA
+							CAERPORTRABA, LEVANTARSEDELATRABA } accion_posible; //FALTA
+							/* PINIASALTANDOVERTICAL y PINIASALTANDODIAGONAL tienen los mismos sprites
+							 * pero PINIASALTANDODIAGONAL conserva la 'inercia', o sea sigue 
+							 * la parabola.
+							 * 
+							 * TROPEZAR lo hace caminar para atras
+							 * 
+							 * CAERPORGANCHO tambien lo hace volar 
+							 * 
+							 * */
 
 using namespace std;
 

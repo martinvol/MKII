@@ -34,8 +34,14 @@ CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
 	// Cambio de coordenada.
 	if (dist_virtual < h_max) coord->desplazarY(despl_y);
-	else coord->desplazarY(-despl_y);
-	if (dist_virtual >= 2*h_max) return coord;
+	else {
+		alcanzo_max = true;
+		coord->desplazarY(-despl_y);
+	}
+	if (dist_virtual >= 2*h_max) {
+		alcanzo_max = true;
+		return coord;
+	}
 	if (impar){
 		// Si es el modo del medio que se mantiene
 		if (secuenciaInversa){

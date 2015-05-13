@@ -47,41 +47,53 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 	switch (mov){
 		case Derecha:
 			jugador->activarAccion(CAMINAR_DERECHA);
+			(jugador->personaje)->Derecha = false;			
 			break;
 		case Izquierda:
 			jugador->activarAccion(CAMINAR_IZQUIERDA);
+			(jugador->personaje)->Izquierda = false;
 			break;
 		case Arriba:
 			jugador->activarAccion(SALTAR);
+			(jugador->personaje)->Arriba = false;
 			break;
 		case Abajo:
 			jugador->activarAccion(AGACHARSE);
+			(jugador->personaje)->Abajo = false;
 			break;			
 		case ArribaDerecha:
 			jugador->activarAccion(SALTARDIAGONAL_DER);
+			(jugador->personaje)->Arriba = false;
+			(jugador->personaje)->Derecha = false;
 			break;
 		case ArribaIzquierda:
 			jugador->activarAccion(SALTARDIAGONAL_IZQ);
+			(jugador->personaje)->Arriba = false;
+			(jugador->personaje)->Izquierda = false;
 			break;		
 		case PiniaAlta:
 			jugador->activarAccion(PINIAALTA);
+			(jugador->personaje)->PiniaAlta = false;
 			break;
-		case PiniaBaja:
-			cout<<"pinia baja"<<endl; ///
+		case PiniaBaja:			
 			jugador->activarAccion(PINIABAJA);
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			//~ (jugador->obtenerPersonaje())->PiniaBaja = false;
+			(jugador->personaje)->PiniaBaja = false;
+			//Una vez que la ejecuto, la desactivo, sino loopea.			
 			break;
-		case PatadaAlta:
-			cout<<"PatadaAlta"<<endl; ///
+		case PatadaAlta:			
 			jugador->activarAccion(PATADAALTA);
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			///MAXI QUE ES ESTO
-			//~ (jugador->obtenerPersonaje())->PatadaAlta = false;
+			(jugador->personaje)->PatadaAlta = false;			
+			///MAXI QUE ES ESTO?
+			
+			///Joystick no tiene button_UP y button_DOWN.			
+			///Solo detecta cuando se aprieta un boton.
+			///Entonces despues de activar la accion, seteo 
+			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
 		case PatadaAltaAgachado:
 			puts("PATADAALTAAGACHADO"); ///
-			jugador->activarAccion(PATADAALTAAGACHADO);			
+			jugador->activarAccion(PATADAALTAAGACHADO);	
+			(jugador->personaje)->Abajo = true;		
 			break;
 		case PatadaBajaAgachado:
 			jugador->activarAccion(PATADABAJAAGACHADO);
@@ -89,15 +101,20 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case PatadaBaja:
 			cout<<"PatadaBaja"<<endl; ///
 			jugador->activarAccion(PATADABAJA);
+			(jugador->personaje)->PatadaBaja = false;
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			//~ (jugador->obtenerPersonaje())->PatadaBaja = false;
 			break;
 		case Traba:
 			puts("traba");
 			jugador->activarAccion(TRABA);
+			(jugador->personaje)->PatadaBaja = false;
+			(jugador->personaje)->Izquierda = false;
 			break;
 		case CubrirAlto:
 			jugador->activarAccion(CUBRIRALTO);
+			/// Problema aca, a veces se queda trabado.
+			//(jugador->personaje)->CubrirAlto = false;
 			break;
 		case CubrirBajo:
 			jugador->activarAccion(CUBRIRBAJO);
@@ -228,12 +245,13 @@ void Director::verificar_movimientos(){
 				// verifico las colisiones
 				SDL_Rect interseccion; // no lo usamos
 				SDL_bool coli = SDL_IntersectRect(
-					rectangulos_jug1->at(j)->sdl_rec,
-					rectangulos_jug2->at(i)->sdl_rec, 
+					rectangulos_jug1->at(i)->sdl_rec,
+					rectangulos_jug2->at(j)->sdl_rec, 
 					&interseccion
 				);
 				
 				/*int indice_pega;*/
+				Rectangulo* recibe;
 				if (coli){
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
 						Jugador* sufre, *pegando;
@@ -241,20 +259,23 @@ void Director::verificar_movimientos(){
 						if (rectangulos_jug1->at(i)->ataque){
 							pegando = jugadores[jugador1];
 							sufre = jugadores[jugador2];
-							/*indice_pega = j;*/
+							recibe = rectangulos_jug2->at(j);
 						} else {
 							pegando = jugadores[jugador2];
 							sufre = jugadores[jugador1];
-							/*indice_pega = i;*/
-						}
+							recibe = rectangulos_jug1->at(i);
+						} 
 
 						// Este if hace que solo se le pueda sacr vida una sola vez
 						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
-							sufre->barra->Lastimar(
-								pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio
-							);
-							this->escenario->Temblar(SDL_GetTicks());
 							Logger::instance()->log_debug("Le pego!!!");
+							float danio = pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio;
+							if (recibe->bloqueo){
+								Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");	
+								danio = danio/4.;
+							}
+							sufre->barra->Lastimar(danio);
+							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
 							
 						}
@@ -288,12 +309,15 @@ void Director::verificar_movimientos(){
 				);
 				
 				if (coli){
-					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
-					jugadores[(i+1)%2]->barra->Lastimar(10);
-					this->escenario->Temblar(SDL_GetTicks());
 					Logger::instance()->log_debug("Le pego!!!");
-
-
+					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
+					float danio = 5;
+					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
+						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
+						danio = danio/4;
+					}
+					jugadores[(i+1)%2]->barra->Lastimar(danio);
+					this->escenario->Temblar(SDL_GetTicks());
 				}
 			}
 			
@@ -360,7 +384,15 @@ void Director::scrollearIzquierda(){
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteIzquierdo() - borde_izq);
 	else this->conversor->seMueveVentana(- factor_scroll);
 }
-
+/*
+bool esta_saltando(Jugador* jugador) {
+	return jugador->personaje->nroAccionActual != SALTAR &&
+	       jugador->personaje->nroAccionActual != SALTARDIAGONAL_DER &&
+	       jugador->personaje->nroAccionActual != SALTARDIAGONAL_IZQ &&
+	       jugador->personaje->nroAccionActual != PINIASALTANDODIAGONAL &&
+	       jugador->personaje->nroAccionActual != PINIASALTANDOVERTICAL &&
+	       jugador->personaje->nroAccionActual != PINIASALTANDODIAGONAL;
+} */
 
 
 void Director::verificar_orientaciones(){
@@ -423,4 +455,8 @@ void Director::actualizar(){
 	// otro y les cambia la dirección de la mirada.
 	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
 	verificar_orientaciones();
+}
+
+bool Director::seMurio(int num_jugador){
+	return this->jugadores[num_jugador]->barra->seMurio();
 }
