@@ -146,6 +146,10 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 		// Verifica altura.
 	if (this->ventana->superaTecho(coordSig_fis)){
 		coordSig->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+		jugador->personaje->estado->piniaAire->alcanzo_max = true; //%
+		jugador->personaje->estado->patadaVert->alcanzo_max = true; //%
+		jugador->personaje->estado->patadaDiag->alcanzo_max = true; //% 
+		jugador->personaje->estado->piniaAireVertical->alcanzo_max = true; //%
 	}
 	
 	// Si se choca con el otro personaje, no se puede mover.
