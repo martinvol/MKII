@@ -30,10 +30,12 @@ CoordenadaLogica* PiniaAire::execute(CoordenadaLogica* coord_personaje){
 	dist_virtual += despl_y;
 	this->cambiarModo();
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
+	coord->desplazarX(despl_x);
 	// Cambio de coordenada.
 	if (dist_virtual < h_max) coord->desplazarY(despl_y);
 	else coord->desplazarY(-despl_y);
 	if (dist_virtual >= 2*h_max) return coord;
+	return coord;
 };
 
 bool PiniaAire::permiteAccion(accion_posible nuevaAccion){
