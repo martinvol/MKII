@@ -90,22 +90,19 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			///Entonces despues de activar la accion, seteo 
 			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
-		case PatadaAltaAgachado:
-			//puts("PATADAALTAAGACHADO"); ///
+		case PatadaAltaAgachado:			
 			jugador->activarAccion(PATADAALTAAGACHADO);			
 			break;
 		case PatadaBajaAgachado:
 			jugador->activarAccion(PATADABAJAAGACHADO);
 			break;
-		case PatadaBaja:
-			cout<<"PatadaBaja"<<endl; ///
+		case PatadaBaja:			
 			jugador->activarAccion(PATADABAJA);
 			(jugador->personaje)->PatadaBaja = false;
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			//~ (jugador->obtenerPersonaje())->PatadaBaja = false;
+			//Una vez que la ejecuto, la desactivo, sino loopea.			
 			break;
 		case Traba:
-			puts("traba");
+			///puts("traba");
 			jugador->activarAccion(TRABA);
 			(jugador->personaje)->PatadaBaja = false;
 			(jugador->personaje)->Izquierda = false;
@@ -119,14 +116,13 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			jugador->activarAccion(CUBRIRBAJO);
 			break;
 		case ArrojarArma:
-			cout<<"ArrojarArma"<<endl; ///
-			//jugador->activarAccion(PINIAALTA);
+			cout<<"ArrojarArma"<<endl; ///			
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			(jugador->obtenerPersonaje())->ArrojarArma = false;
 			jugador->obtenerPersonaje()->Arrojar();
 			break;
 		case MirarDerecha:
-			puts("hola?"); ///
+			///puts("hola?"); ///
 			jugador->activarAccion(MIRARDERECHA);
 			break;
 		case MirarIzquierda:

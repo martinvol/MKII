@@ -568,7 +568,7 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
 			this->director->seMuevePersonaje(jugador, Traba);
-			puts("Traba a Implementar");
+			//puts("Traba a Implementar");
 		}
 		//CAMINAR IZQUIERDA
 		else {

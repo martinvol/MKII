@@ -135,7 +135,7 @@ void Personaje::activarAccion(accion_posible accion){
 						this->imagenActual = this->accionActual->getImagenActual();	
 						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
 						//Sino se ve feo.
-						cout<<"BUCLEEE"<<endl;
+						///cout<<"BUCLEEE"<<endl;
 					}
 				}				
 				break;			
@@ -174,11 +174,11 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(CUBRIRBAJO);
 				}
 				else if(accion == PATADABAJAAGACHADO){
-					puts("de agacharse a patear");	///
+					///puts("de agacharse a patear");	///
 					cambiarAccionA(PATADABAJAAGACHADO);
 				}
 				else if (accion == PATADAALTAAGACHADO){
-					puts("de agachado a patada alta"); ///
+					///puts("de agachado a patada alta"); ///
 					cambiarAccionA(PATADAALTAAGACHADO);
 				}
 				break;
@@ -188,7 +188,7 @@ void Personaje::activarAccion(accion_posible accion){
 			 * */
 			case CAMINAR_IZQUIERDA:
 				if(accion == PATADABAJA){
-					puts("De caminar izquierda a Traba"); ///
+					//puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
 				break;
@@ -202,7 +202,17 @@ void Personaje::activarAccion(accion_posible accion){
 	
 	 this->imagenActual = this->accionActual->getImagenActual();
 	 //return;
-	 
+	
+	/*	Maxi --> Manu.
+	 * 	Si combino este switch con el de arriba aparece un 'feature'. 
+	 *  Cuando estas en el aire, si mantenes arriba y apretas un boton el pj sigue cayendo
+	 *  -como el poder de smoke xDDD- (despues vuelve a la pantalla)
+	 *  
+	 * 
+	 *  Lo malo de dejarlo aca es que si mantenes arriba y apretas el boton no pega,
+	 *  hay que apretar arriba, soltarlo y apretar golpe.
+	 * 
+	 * */ 
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
