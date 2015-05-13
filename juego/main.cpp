@@ -196,7 +196,6 @@ public:
                             renderer, parser->personaje_alto, parser->escenario_alto,
                             parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                             parser->color_inicio, parser->color_fin, parser->color_offset);
-        
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje2_ancho,
@@ -204,8 +203,7 @@ public:
                                         parser->personaje2_alto, estado2,
                                         // parser->personaje2_alto, estado2,
                                         this->conversor, parser->velocidad_arma);
-                                        // parser->personaje2_mirar_derecha, this->conversor);
-        
+                                        // parser->personaje2_mirar_derecha, this->conversor)
         
 
        //Derecha
@@ -310,9 +308,6 @@ public:
         SDL_JoystickEventState (SDL_QUERY);
 
         SDL_Event evento;
-        if (SDL_NumJoysticks() < 1){
-				logger->log_warning("No hay JOYSTICK conectado");
-			}
         while (!salir){					
 
             timerFps = SDL_GetTicks();
