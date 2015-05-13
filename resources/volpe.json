@@ -35,8 +35,8 @@
       }
    ],
    "personaje":{
-      "ancho":127,
-      "alto":63,
+      "ancho":63,
+      "alto":127,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
@@ -49,8 +49,8 @@
       "offset": 200
    },
    "personaje2":{
-      "ancho":127,
-      "alto":63,
+      "ancho":63,
+      "alto":127,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"

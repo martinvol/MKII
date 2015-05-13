@@ -174,8 +174,8 @@ public:
 							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
-										"Subzero", renderer, parser->personaje2_ancho,
-										parser->personaje2_alto, estado,
+										"Subzero", renderer, parser->personaje2_alto,
+										parser->personaje2_ancho, estado,
 										this->conversor, parser->velocidad_arma,
                                         1); // jugador 1
 
@@ -199,9 +199,9 @@ public:
                             parser->color_inicio, parser->color_fin, parser->color_offset);
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
-                                        "Segundo", renderer, parser->personaje2_ancho,
+                                        "Segundo", renderer, parser->personaje2_alto,
                                         // "Kabal", renderer, parser->personaje2_ancho,
-                                        parser->personaje2_alto, estado2,
+                                        parser->personaje2_ancho, estado2,
                                         // parser->personaje2_alto, estado2,
                                         this->conversor, parser->velocidad_arma,
                                         2); // jugador 2
