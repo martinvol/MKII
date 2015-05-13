@@ -376,7 +376,15 @@ void Director::scrollearIzquierda(){
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteIzquierdo() - borde_izq);
 	else this->conversor->seMueveVentana(- factor_scroll);
 }
-
+/*
+bool esta_saltando(Jugador* jugador) {
+	return jugador->personaje->nroAccionActual != SALTAR &&
+	       jugador->personaje->nroAccionActual != SALTARDIAGONAL_DER &&
+	       jugador->personaje->nroAccionActual != SALTARDIAGONAL_IZQ &&
+	       jugador->personaje->nroAccionActual != PINIASALTANDODIAGONAL &&
+	       jugador->personaje->nroAccionActual != PINIASALTANDOVERTICAL &&
+	       jugador->personaje->nroAccionActual != PINIASALTANDODIAGONAL;
+} */
 
 
 void Director::verificar_orientaciones(){

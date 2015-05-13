@@ -300,6 +300,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	
 	this->accionActual->resetear();
 	this->nroAccionActual = nroAccion;
+	bool aux;
 	
 	switch (nroAccionActual)
 	{ 
@@ -380,10 +381,14 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->traba;
 			break;
 		case PINIASALTANDODIAGONAL:
+			aux = this->accionActual->direccionDerecha;
 			this->accionActual = this->estado->piniaAire;
+			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
 			break;
 		case PATADASALTANDODIAGONAL:
+			aux = this->accionActual->direccionDerecha;
 			this->accionActual = this->estado->patadaDiag;
+			aux? this->accionActual->setDireccionDerecha():this->accionActual->setDireccionIzquierda();
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

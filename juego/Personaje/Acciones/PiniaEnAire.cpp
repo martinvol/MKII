@@ -32,7 +32,8 @@ CoordenadaLogica* PiniaAire::execute(CoordenadaLogica* coord_personaje){
 	if (dist_virtual <= 0) this->alcanzo_max = false;
 	this->cambiarModo();
 	CoordenadaLogica* coord = new CoordenadaLogica(coord_personaje);
-	coord->desplazarX(despl_x);
+	float signo = direccionDerecha? 1:-1;
+	coord->desplazarX(despl_x*signo);
 	// Cambio de coordenada.
 	if (this->alcanzo_max) coord->desplazarY(-despl_y);
 	else coord->desplazarY(despl_y);
