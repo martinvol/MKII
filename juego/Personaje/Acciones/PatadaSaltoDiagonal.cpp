@@ -13,6 +13,9 @@ PatadaSaltoDiagonal::PatadaSaltoDiagonal(string ruta, SDL_Renderer* ren, float d
 	//rectangulos->push_back(new Rectangulo(20, 10, 15, 70, false, false)); // torso
 	//rectangulos->push_back(new Rectangulo(35, 10, 17, 90, false, false)); // torso
 	//rectangulos->push_back(new Rectangulo(49, 15, 50, 70, false, false)); // piernas
+	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
+	rectangulos->push_back(new Rectangulo(0, 73, 15, 30, true, false)); // piña
+	rectangulos->push_back(new Rectangulo(20, 20, 80, 50, false, false)); // piernas
 }
 
 void PatadaSaltoDiagonal::cambiarModo(){
