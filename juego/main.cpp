@@ -318,8 +318,8 @@ public:
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
             if (!pausa){								
-                ActualizarModelo(jugador1, personajeJuego);     //Modelo 
-                ActualizarModelo(jugador2, personajeJuego2);
+                ActualizarModelo(personajeJuego);     //Modelo 
+                ActualizarModelo(personajeJuego2);
                 this->director->actualizar();                
                 //Detecto desconectados-conectados en caliente.
                 SDL_JoystickClose(Player1);
@@ -581,103 +581,105 @@ void Controlador(SDL_Event *evento){
 
 }
 
-void ActualizarModelo(num_jugador jugador, Personaje* personaje){
+void ActualizarModelo(Personaje* personaje){
 	
 	//DERECHA		
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personaje->Arriba){
-			this->director->seMuevePersonaje(jugador, ArribaDerecha);
+			personaje->activarAccion(SALTARDIAGONAL_DER);
 		}
 		//+ABAJO = ABAJO DERECHA
 		else if (personaje->Abajo){
-			this->director->seMuevePersonaje(jugador, AbajoDerecha);
+			//~ personaje->activar_accion(AGACHARSE_DER);
 		}
 		//CAMINAR DERECHA
 		else {
-			this->director->seMuevePersonaje(jugador, Derecha);
+			personaje->activarAccion(CAMINAR_DERECHA);
 		}
 	//IZQUIERDA
 	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
-			this->director->seMuevePersonaje(jugador, ArribaIzquierda);
+			personaje->activarAccion(SALTARDIAGONAL_IZQ);
 		}
 		//+ABAJO = ABAJO IZQUIERDA
 		else if (personaje->Abajo){
-			this->director->seMuevePersonaje(jugador, AbajoIzquierda);
+			//~ personaje->activarAccion(AGACHARSE_IZQ);
 		}
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
-			this->director->seMuevePersonaje(jugador, Traba);
+			personaje->activarAccion(TRABA);
 			puts("Traba a Implementar");
 		}
 		//CAMINAR IZQUIERDA
 		else {
-			this->director->seMuevePersonaje(jugador, Izquierda);
+			personaje->activarAccion(CAMINAR_IZQUIERDA);
 		}		
 	//ARRIBA--> SALTA
 	} else if (personaje->Arriba){
 		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
-		this->director->seMuevePersonaje(jugador, Arriba);
+		personaje->activarAccion(SALTAR);
 	//ABAJO -->AGACHARSE
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		//+CUBRIR (OK LA VARIABLE NO DEBIERA LLAMARSE CUBRIRALTO, PERO QUEDA ASI)
 		if(personaje->CubrirAlto){
 			//~ puts("cubrir alto + agacharse"); ///
-			this->director->seMuevePersonaje(jugador,CubrirBajo);
+			personaje->activarAccion(CUBRIRBAJO);
 		//+PATADA BAJA	
 		}else if(personaje->PatadaBaja){
 			//~ puts("Patada Baja + agachado");	///
-			this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
+			personaje->activarAccion(PATADABAJAAGACHADO);
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
-			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);
+			personaje->activarAccion(PATADAALTAAGACHADO);
 			puts("Patada Alta + agachado");	///
 		}else{
-			this->director->seMuevePersonaje(jugador, Abajo);
+			personaje->activarAccion(AGACHARSE);
 		}
 		
 	}
 	//PINIA BAJA
 	else if (personaje->PiniaBaja){
-		this->director->seMuevePersonaje(jugador, PiniaBaja);
+		personaje->activarAccion(PINIABAJA);
 	//PINIA ALTA
 	}else if (personaje->PiniaAlta){
-		this->director->seMuevePersonaje(jugador, PiniaAlta);
+		personaje->activarAccion(PINIAALTA);
 	//CUBRIRSE
 	}else if (personaje->CubrirAlto){
-		this->director->seMuevePersonaje(jugador, CubrirAlto);
+		personaje->activarAccion(CUBRIRALTO);
 	//ARROJAR ARMA
 	}else if (personaje->ArrojarArma){
-		this->director->seMuevePersonaje(jugador, ArrojarArma);
+		personaje->ArrojarArma = false;
+		personaje->Arrojar();
 	//PATADA BAJA
 	}else if (personaje->PatadaBaja){
 		//+IZQUIERDA = TRABA
 		if(personaje->Izquierda){
 			///POR AHORA NO SE PUEDE HACER PORQUE PATADABAJA NO PERMITE LA INTERRUPCION DE NADIE
 			puts("Traba a Implementar");
-			this->director->seMuevePersonaje(jugador, Traba);
+			personaje->activarAccion(TRABA);
 		}else{
-			this->director->seMuevePersonaje(jugador, PatadaBaja);
+			personaje->activarAccion(PATADABAJA);
 		}
 	//PATADA ALTA
 	}else if (personaje->PatadaAlta){
-		this->director->seMuevePersonaje(jugador, PatadaAlta);
+		personaje->activarAccion(PATADAALTA);
 	}	
     // ARROJABLE
     else if (arrojandoPk){
-        this->director->seMuevePersonaje(jugador, ArrojarArma);
+		personaje->ArrojarArma = false;
+		personaje->Arrojar();
     }
 	//MILE
 	else if (golpeandoPJalta){
-		this->director->seMuevePersonaje(jugador, PiniaAlta);
+		personaje->activarAccion(PINIAALTA);
 	} else if (golpeandoPJbaja){
-		this->director->seMuevePersonaje(jugador, PiniaBaja);
+		personaje->activarAccion(PINIABAJA);
 	}else {
-		this->director->seMuevePersonaje(jugador, Nada);
-	}		
+		personaje->activarAccion(QUIETO);
+	}
 
 }        
 

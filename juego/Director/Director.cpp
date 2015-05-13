@@ -409,7 +409,7 @@ void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 void Director::actualizar(){
 	// Les dice que cambien la "imagen" y "comportamiento" a la que le
 	// piden, si debe.
-	informar_acciones();
+	//~ informar_acciones();
 	
 	// Haya cambiado o no de acción, yo sólo debo verificar que no se
 	// vaya del margen o debería scrollear y si no puedo decirle que se
