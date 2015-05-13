@@ -47,37 +47,48 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 	switch (mov){
 		case Derecha:
 			jugador->activarAccion(CAMINAR_DERECHA);
+			(jugador->personaje)->Derecha = false;			
 			break;
 		case Izquierda:
 			jugador->activarAccion(CAMINAR_IZQUIERDA);
+			(jugador->personaje)->Izquierda = false;
 			break;
 		case Arriba:
 			jugador->activarAccion(SALTAR);
+			(jugador->personaje)->Arriba = false;
 			break;
 		case Abajo:
 			jugador->activarAccion(AGACHARSE);
+			(jugador->personaje)->Abajo = false;
 			break;			
 		case ArribaDerecha:
 			jugador->activarAccion(SALTARDIAGONAL_DER);
+			(jugador->personaje)->Arriba = false;
+			(jugador->personaje)->Derecha = false;
 			break;
 		case ArribaIzquierda:
 			jugador->activarAccion(SALTARDIAGONAL_IZQ);
+			(jugador->personaje)->Arriba = false;
+			(jugador->personaje)->Izquierda = false;
 			break;		
 		case PiniaAlta:
 			jugador->activarAccion(PINIAALTA);
+			(jugador->personaje)->PiniaAlta = false;
 			break;
-		case PiniaBaja:
-			cout<<"pinia baja"<<endl; ///
+		case PiniaBaja:			
 			jugador->activarAccion(PINIABAJA);
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			//~ (jugador->obtenerPersonaje())->PiniaBaja = false;
+			(jugador->personaje)->PiniaBaja = false;
+			//Una vez que la ejecuto, la desactivo, sino loopea.			
 			break;
-		case PatadaAlta:
-			cout<<"PatadaAlta"<<endl; ///
+		case PatadaAlta:			
 			jugador->activarAccion(PATADAALTA);
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			///MAXI QUE ES ESTO
-			//~ (jugador->obtenerPersonaje())->PatadaAlta = false;
+			(jugador->personaje)->PatadaAlta = false;			
+			///MAXI QUE ES ESTO?
+			
+			///Joystick no tiene button_UP y button_DOWN.			
+			///Solo detecta cuando se aprieta un boton.
+			///Entonces despues de activar la accion, seteo 
+			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
 		case PatadaAltaAgachado:
 			puts("PATADAALTAAGACHADO"); ///
@@ -89,15 +100,20 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case PatadaBaja:
 			cout<<"PatadaBaja"<<endl; ///
 			jugador->activarAccion(PATADABAJA);
+			(jugador->personaje)->PatadaBaja = false;
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			//~ (jugador->obtenerPersonaje())->PatadaBaja = false;
 			break;
 		case Traba:
 			puts("traba");
 			jugador->activarAccion(TRABA);
+			(jugador->personaje)->PatadaBaja = false;
+			(jugador->personaje)->Izquierda = false;
 			break;
 		case CubrirAlto:
 			jugador->activarAccion(CUBRIRALTO);
+			/// Problema aca, a veces se queda trabado.
+			//(jugador->personaje)->CubrirAlto = false;
 			break;
 		case CubrirBajo:
 			jugador->activarAccion(CUBRIRBAJO);

@@ -69,8 +69,11 @@ void Personaje::Arrojar(){
 		
 		int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 		int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
-	
-		arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+		if (mirarDerecha){
+			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+		} else {
+			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), alto_fisico, ancho_fisico);
+		}
 		arrojable->tirar(this->velocidad_arma);
 	
 		delete coord1,coord1_fis,coord2,coord2_fis;
