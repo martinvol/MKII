@@ -211,7 +211,7 @@ public:
        //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
-		cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
+		///cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
@@ -228,7 +228,7 @@ public:
         SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
         ///Por defecto es 0
         ///Si se desconecta es un -1        
-        cout<<myID<<endl;				
+        ///cout<<myID<<endl;				
         
 		if (Player1 == NULL ){
 			logger->log_error("Player 1 JOYSTICK desconectado");			
@@ -344,10 +344,10 @@ public:
 				//~ pausa = true;			
 			//~ }
 			if (director->seMurio(0)){
-                logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
                 this->reiniciarJuego();
             } else if (director->seMurio(1)){
-                logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
                  this->reiniciarJuego();
             }
         }

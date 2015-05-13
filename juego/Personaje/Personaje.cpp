@@ -56,7 +56,7 @@ Personaje::~Personaje(){
 }
 
 void Personaje::Arrojar(){
-	cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
+	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 
 	if (this->arrojable == NULL){
 		this->arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
@@ -138,10 +138,10 @@ void Personaje::activarAccion(accion_posible accion){
 				
 				if (this->accionActual->esUltimoModo() and accion == AGACHARSE){
 					while (! this->accionActual->esUltimoModo()){
-						cout<<"LALALAA"<<endl;
-					cambiarAccionA(AGACHARSE);	
-					PatadaAlta = false;
-					PatadaBaja = false;
+						/// cout<<"LALALAA"<<endl;
+						cambiarAccionA(AGACHARSE);	
+						PatadaAlta = false;
+						PatadaBaja = false;
 					}
 					
 				}
@@ -175,10 +175,10 @@ void Personaje::activarAccion(accion_posible accion){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
 				cambiarAccionA(PINIASALTANDODIAGONAL);								
-				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
+				//cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cambiarAccionA(PATADASALTANDODIAGONAL);
-				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
+				//cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
 			}
 			break;
 		case SALTARDIAGONAL_IZQ:
@@ -194,7 +194,7 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == PATADAALTA || accion == PATADABAJA){
 				cambiarAccionA(PATADASALTANDOVERTICAL);
 			}else if (accion == ARROJARARMA){
-				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
+				//cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
 					
 		///Maxi--> MANU:
@@ -207,32 +207,32 @@ void Personaje::activarAccion(accion_posible accion){
 		///SIRVE ESTO?!?!??!?!
 		//TRANSICION DE AGACHADO A QUIETO = PARARSE
 		case AGACHARSE:
-			puts("Holi");
+			// puts("Holi");
 			if(accion == QUIETO){
 				cambiarAccionA(PARARSE);	
 			}
 			else if(accion == CUBRIRBAJO){
-				puts("de agacharse a cubrirse"); ///
+				/// puts("de agacharse a cubrirse"); ///
 				cambiarAccionA(CUBRIRBAJO);
 			}
 			else if(accion == PATADABAJAAGACHADO){
-				puts("de agacharse a patear");	///
+				/// puts("de agacharse a patear");	///
 				cambiarAccionA(PATADABAJAAGACHADO);
 			}
 			else if (accion == PATADAALTAAGACHADO){
-				puts("de agachado a patada alta"); ///
+				/// puts("de agachado a patada alta"); ///
 				cambiarAccionA(PATADAALTAAGACHADO);
 			}
 			break;
 		case CAMINAR_IZQUIERDA:
 			if(accion == PATADABAJA){
-				puts("De caminar izquierda a Traba"); ///
+				/// puts("De caminar izquierda a Traba"); ///
 				cambiarAccionA(TRABA);
 			}
 			break;
 		case PATADABAJA:
 			if(accion == CAMINAR_IZQUIERDA){
-				puts("De patada baja a Traba"); ///
+				/// puts("De patada baja a Traba"); ///
 				cambiarAccionA(TRABA);
 			}
 			break;
@@ -330,7 +330,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	switch (nroAccionActual)
 	{ 
 		case QUIETO:
-			puts( "y entre a quieto");
+			/// puts( "y entre a quieto");
 			this->accionActual = this->estado->quieto;
 			break;
 		case CAMINAR_DERECHA:
@@ -567,7 +567,7 @@ void Personaje::Dibujarse(){
 				PatadaAlta = true;
 			}
 				
-			cout <<"Apretado boton "<< i <<endl; ///				
+			///cout <<"Apretado boton "<< i <<endl; ///				
 			
 		}else{
 			//Si no se aprieto boton --> todos en falso.
@@ -576,7 +576,7 @@ void Personaje::Dibujarse(){
 		//Si ya estaba apretado lo dejo.
 		if (SDL_JoystickGetButton(joystick,1) == 1){
 			CubrirAlto = true;
-			cout<<"cubriendose"<<endl; ///
+			///cout<<"cubriendose"<<endl; ///
 		}else{
 			CubrirAlto = false;
 		}
