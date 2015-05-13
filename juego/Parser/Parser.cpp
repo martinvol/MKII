@@ -27,6 +27,11 @@ Parser::~Parser(){
 	for (unsigned int i = 0; i < this->capas_vector.size(); i++)
 		delete this->capas_vector[i];
 	capas_vector.clear();
+    
+    for (unsigned int i = 0; i < this->joysticks->size(); i++){
+        delete joysticks->at(i);
+    }
+    delete joysticks;
 }
 
 

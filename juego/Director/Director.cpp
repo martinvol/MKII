@@ -250,6 +250,7 @@ void Director::verificar_movimientos(){
 				);
 				
 				/*int indice_pega;*/
+				Rectangulo* recibe;
 				if (coli){
 					cout << rectangulos_jug1->at(i)->ataque << endl;
 					cout << rectangulos_jug2->at(j)->ataque << endl;
@@ -259,18 +260,23 @@ void Director::verificar_movimientos(){
 						if (rectangulos_jug1->at(i)->ataque){
 							pegando = jugadores[jugador1];
 							sufre = jugadores[jugador2];
+							recibe = rectangulos_jug2->at(j);
 						} else {
 							pegando = jugadores[jugador2];
 							sufre = jugadores[jugador1];
+							recibe = rectangulos_jug1->at(i);
 						} 
 
 						// Este if hace que solo se le pueda sacr vida una sola vez
 						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
-							sufre->barra->Lastimar(
-								pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio
-							);
-							this->escenario->Temblar(SDL_GetTicks());
 							Logger::instance()->log_debug("Le pego!!!");
+							float danio = pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio;
+							if (recibe->bloqueo){
+								Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");	
+								danio = danio/4.;
+							}
+							sufre->barra->Lastimar(danio);
+							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
 							
 						}
@@ -304,12 +310,15 @@ void Director::verificar_movimientos(){
 				);
 				
 				if (coli){
+					Logger::instance()->log_debug("Le pego!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
+					float danio = 5;
+					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
+						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
+						danio = danio/4;
+					}
 					jugadores[(i+1)%2]->barra->Lastimar(10);
 					this->escenario->Temblar(SDL_GetTicks());
-					Logger::instance()->log_debug("Le pego!!!");
-
-
 				}
 			}
 			
