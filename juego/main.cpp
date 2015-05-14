@@ -20,7 +20,7 @@ using namespace std;
 
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 50
-#define FACTOR_SCROLL 20
+#define FACTOR_SCROLL 5
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
