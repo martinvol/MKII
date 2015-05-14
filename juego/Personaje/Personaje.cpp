@@ -483,7 +483,8 @@ void Personaje::Dibujarse(){
 	destino.x = coord1_fis->x_fisico;
 	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
 	destino.y = coord2_fis->y_fisico + (this->altura_quieto - _h)*this->conversor->factor_alto;
-	destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
+	//destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
+	destino.w = (_w)/this->ancho_quieto*ancho_fisico;//ancho_fisico;
 	destino.h = (_h / this->altura_quieto)*alto_fisico; //
 
 	SDL_Point point = {_w/2, _h};
