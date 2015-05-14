@@ -592,6 +592,9 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
 			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);			
+		}else if (personaje->PiniaAlta){
+			cout<<"gancho"<<endl;
+			this->director->seMuevePersonaje(jugador, Gancho);			
 		}else{
 			this->director->seMuevePersonaje(jugador, Abajo);
 		}
