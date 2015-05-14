@@ -17,6 +17,7 @@ using namespace std;
  **********************************************************************/  
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador){
+	cout << "ancho personaje "<< ancho << endl;
 	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
 	// 4 flechas

@@ -149,18 +149,21 @@ public:
 		// Se crean todos los objetos que dependen de ellas:
 		
 		// Tomamos la ventana en el medio del escenario.
+
+
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
-		
-		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
-		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+        
+        this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
+        this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
                              parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
                              //parser->escenario_alto, parser->escenario_ancho, borde_izquierdo_logico_pantalla);
-		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
+        this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
         
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
         //under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
         
+        cout << "ancho personaje arriba en las configuraciones"<< parser->personaje_ancho << endl;
         
         // Separacion entre personajes de un tercio de la ventana.
         float SEPARACION = parser->ventana_ancho / 3.0;
@@ -174,8 +177,8 @@ public:
 							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
-										"Subzero", renderer, parser->personaje2_alto,
-										parser->personaje2_ancho, estado,
+										"Subzero", renderer, parser->personaje_alto,
+										parser->personaje_ancho, estado,
 										this->conversor, parser->velocidad_arma,
                                         1); // jugador 1
 
@@ -194,8 +197,8 @@ public:
 		// Nada, eso solo. Queria llamar la atencion con las mayusculas. *Manuel*
 
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-                            renderer, parser->personaje_alto, parser->escenario_alto,
-                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, 
+                            renderer, parser->personaje2_alto, parser->escenario_alto,
+                            parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                             parser->color_inicio, parser->color_fin, parser->color_offset);
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
