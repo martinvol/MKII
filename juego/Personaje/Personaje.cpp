@@ -150,7 +150,19 @@ void Personaje::activarAccion(accion_posible accion){
 						this->imagenActual = this->accionActual->getImagenActual();
 					}					
 				}									
-				break;							
+				break;	
+			case GANCHO:
+				cout<<"GANCHO"<<endl;
+				//cambiarAccionA(GANCHO);	
+				cambiarAccionA(AGACHARSE);
+					while (!this->accionActual->esUltimoModo()){
+						activarAccion(AGACHARSE);
+						this->imagenActual = this->accionActual->getImagenActual();	
+						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+						//Sino se ve feo.
+						///cout<<"BUCLEEE"<<endl;
+					}
+				break;
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -406,6 +418,11 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case TRABA:
 			this->accionActual = this->estado->traba;
+			break;
+		case GANCHO:
+//FALTA IMPLEMENTAR GANCHO
+			cout<<"gancho"<<endl;
+			//this->accionActual = this->estado->gancho;
 			break;
 		case PINIASALTANDODIAGONAL:
 			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
