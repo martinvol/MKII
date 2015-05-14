@@ -19,13 +19,13 @@ using namespace std;
 #define FRAMERATE 40
 
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
-#define CONST_MAXI_DELAY 50
+#define CONST_MAXI_DELAY 18
 #define FACTOR_SCROLL 5
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define ALTURA_MAX_SALTO parser->personaje_alto + parser->escenario_ypiso
-#define CONST_MAXI_DELAY 50
+//#define CONST_MAXI_DELAY 50
 
 
 // Esto no debería ser global, o si?
@@ -163,8 +163,6 @@ public:
         //under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
         
-        cout << "ancho personaje arriba en las configuraciones"<< parser->personaje_ancho << endl;
-        
         // Separacion entre personajes de un tercio de la ventana.
         float SEPARACION = parser->ventana_ancho / 3.0;
         
@@ -285,28 +283,43 @@ public:
 
         //uno solo...por ahora (?)
         SDL_JoystickEventState (SDL_QUERY);
+        Uint32 t1;
 
         SDL_Event evento;
         while (!salir){					
 
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
-            if (!pausa){								
+            if (!pausa){
+                
+                // t1 = SDL_GetTicks();
                 ActualizarModelo(jugador1, personajeJuego);     //Modelo 
                 ActualizarModelo(jugador2, personajeJuego2);
+                // cout << SDL_GetTicks()-t1<< " 1"<<endl;
+
+                // t1 = SDL_GetTicks();
                 this->director->actualizar();                
                 //Detecto desconectados-conectados en caliente.
+                // cout << SDL_GetTicks()-t1<< " 2"<<endl;
+                
+                // t1 = SDL_GetTicks();
                 SDL_JoystickClose(Player1);
                 SDL_JoystickClose(Player2);
+                // cout << SDL_GetTicks()-t1<< " 3"<<endl;
+
+
+                // t1 = SDL_GetTicks();
                 Player1 = SDL_JoystickOpen(0); 
                 Player2 = SDL_JoystickOpen(1); 
+                // cout << SDL_GetTicks()-t1<< " 4"<<endl;
+
             }
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
-            if(timerFps < int(1000/24)){
-                SDL_Delay(CONST_MAXI_DELAY);
+            if(timerFps < 1.*1000./CONST_MAXI_DELAY){
+                SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
             ///ESTO NO ES DEBUG, VA EN EL FINAL.
             ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO

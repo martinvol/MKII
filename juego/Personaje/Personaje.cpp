@@ -17,7 +17,7 @@ using namespace std;
  **********************************************************************/  
 
 Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador){
-	cout << "ancho personaje "<< ancho << endl;
+
 	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
 	// 4 flechas
@@ -489,12 +489,6 @@ void Personaje::Dibujarse(){
 
 	SDL_Point point = {_w/2, _h};
 	
-	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
-		// Para evitar hacer esto acá podría crear un objeto
-		// pero no quiero hacer una clase solo para este loop
-		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h ,renderer, !mirarDerecha);
-			
-	}
 	
 	// Espeja si debe mirar para la izquierda.
 	if (!this->mirarDerecha){
@@ -505,6 +499,13 @@ void Personaje::Dibujarse(){
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
 
+	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
+		// Para evitar hacer esto acá podría crear un objeto
+		// pero no quiero hacer una clase solo para este loop
+		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h ,renderer, !mirarDerecha);
+			
+	}
+	
 	delete coord1;
 	delete coord1_fis;
 	delete coord2;

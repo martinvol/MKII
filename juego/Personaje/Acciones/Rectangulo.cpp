@@ -18,6 +18,10 @@ void Rectangulo::generar_rectanguloSDL(float x_fisico, float y_fisico, float anc
 		delete sdl_rec;
 	}
 
+	if (ancho_fisico < 5){
+		ancho_fisico = 5;
+	}
+
 	sdl_rec = new SDL_Rect();
 
 	float empieza_ancho_espejado = empieza_ancho;
