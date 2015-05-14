@@ -560,31 +560,24 @@ void Personaje::Dibujarse(){
 			// podía cargar las configuraciones
 			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = true;					
-			}
-			if (i == (*conf_joys)["cubrirse"]){
+			} else if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
-			}
-			if (i == (*conf_joys)["patada_baja"]){
+			} else if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
-			}
-			if (i == (*conf_joys)["pinia_alta"]){
+			} else if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = true;
-			}
-			if (i == (*conf_joys)["arrojar_arma"]){
+			} else if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-			}
-			if (i == (*conf_joys)["arrojar_arma_baja"]){
+			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
-			}
-			if (i == (*conf_joys)["arrojar_arma_alta"]){
+			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
 				//ArrojarArma = true;
 				this->Arrojar();
 				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
-			}
-			if (i == (*conf_joys)["patada_alta"]){
+			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = true;
 			}
 				
