@@ -61,6 +61,10 @@ class Estado{
 		PatadaSaltoDiagonal* patadaDiag;
 		PatadaSaltoVertical* patadaVert;
 		PiniaAire* piniaAireVertical;
+		
+		// Recibir Golpes
+		RecibirGolpeAlto* recibirgolpealto;
+		RecibirGolpeBajo* recibirgolpebajo;
 };
 
 #endif
