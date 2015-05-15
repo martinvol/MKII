@@ -316,7 +316,9 @@ public:
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
 
+            /// SDL_Delay(75);
             timerFps = SDL_GetTicks() - timerFps;
+            
             if(timerFps < 1.*1000./CONST_MAXI_DELAY){
                 SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
@@ -602,7 +604,7 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		}else if(personaje->PatadaAlta){
 			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);			
 		}else if (personaje->PiniaAlta){
-			cout<<"gancho"<<endl;
+			cout<<"gancho desde main"<<endl;
 			this->director->seMuevePersonaje(jugador, Gancho);			
 		}else{
 			this->director->seMuevePersonaje(jugador, Abajo);

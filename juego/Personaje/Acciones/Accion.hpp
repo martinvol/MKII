@@ -27,6 +27,7 @@ typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, 	//List
 							TRABA, 	//Listo																
 							PINIAAGACHADO, GANCHO, PINIASALTANDOVERTICAL, PINIASALTANDODIAGONAL, //FALTA
 							PATADASALTANDOVERTICAL, PATADASALTANDODIAGONAL, //FALTA
+							ROUNDKICK, // Que es como la traba pero alta.
 							TROPEZAR, // Al recibir una patada voladora. FALTA
 							CAERPORGANCHO, LEVANTARSEDELGANCHO, //FALTA
 							CAERPORTRABA, LEVANTARSEDELATRABA } accion_posible; //FALTA
@@ -55,8 +56,10 @@ class Accion{
 		float despl_y;
 		float h_max;
 		
+		int ciclos;
 		bool direccionDerecha;
-		
+		float intervalo = 0;
+		float tinicial = 0;
 		int accionNro;
 		int cantModos;
 		string ruta;

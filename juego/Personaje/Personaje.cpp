@@ -124,45 +124,24 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 				break;			
 			
-			
-				case PATADABAJAAGACHADO:
-				//SDL_Delay(150);
-				if (this->accionActual->esUltimoModo()){
-					Abajo = false;
-					PatadaBaja = false;				
-					cambiarAccionA(AGACHARSE);	
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();	
-						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//Sino se ve feo.
-						///cout<<"BUCLEEE"<<endl;
-					}
-				}				
-				break;			
 			case PATADAALTAAGACHADO:
-				if (this->accionActual->esUltimoModo()){
+			case PATADABAJAAGACHADO:
+				//SDL_Delay(150);
+				if (this->accionActual->ciclos == 1){
 					Abajo = false;
-					PatadaAlta = false;	
+					PatadaBaja = false;
+					PatadaAlta = false;				
 					cambiarAccionA(AGACHARSE);	
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();
-					}					
-				}									
-				break;	
-			case GANCHO:
-				cout<<"GANCHO"<<endl;
-				//cambiarAccionA(GANCHO);	
-				cambiarAccionA(AGACHARSE);
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();	
-						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//Sino se ve feo.
-						///cout<<"BUCLEEE"<<endl;
-					}
-				break;
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);
+					//~ while (!this->accionActual->esUltimoModo()){
+						//~ activarAccion(AGACHARSE);
+						//~ this->imagenActual = this->accionActual->getImagenActual();	
+						//~ //IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+						//~ //Sino se ve feo.
+						//~ cout<<"BUCLEEE"<<endl;
+					//~ }
+				}				
+				break;					
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -187,11 +166,11 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(CUBRIRBAJO);
 				}
 				else if(accion == PATADABAJAAGACHADO){
-					///puts("de agacharse a patear");	///
+					puts("de agacharse a patear");	///
 					cambiarAccionA(PATADABAJAAGACHADO);
 				}
 				else if (accion == PATADAALTAAGACHADO){
-					///puts("de agachado a patada alta"); ///
+					puts("de agachado a patada alta"); ///
 					cambiarAccionA(PATADAALTAAGACHADO);
 				}
 				break;
@@ -201,7 +180,7 @@ void Personaje::activarAccion(accion_posible accion){
 			 * */
 			case CAMINAR_IZQUIERDA:
 				if(accion == PATADABAJA){
-					//puts("De caminar izquierda a Traba"); ///
+					puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
 				break;
@@ -215,17 +194,7 @@ void Personaje::activarAccion(accion_posible accion){
 	
 	 this->imagenActual = this->accionActual->getImagenActual();
 	 //return;
-	
-	/*	Maxi --> Manu.
-	 * 	Si combino este switch con el de arriba aparece un 'feature'. 
-	 *  Cuando estas en el aire, si mantenes arriba y apretas un boton el pj sigue cayendo
-	 *  -como el poder de smoke xDDD- (despues vuelve a la pantalla)
-	 *  
-	 * 
-	 *  Lo malo de dejarlo aca es que si mantenes arriba y apretas el boton no pega,
-	 *  hay que apretar arriba, soltarlo y apretar golpe.
-	 * 
-	 * */ 
+	 
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
@@ -254,6 +223,11 @@ void Personaje::activarAccion(accion_posible accion){
 			break;
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
+
+	if(this->accionActual->accionNro == 5){
+		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
+	}
+	
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
@@ -336,6 +310,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	this->nroAccionActual = nroAccion;
 	bool aux;
 	bool llego_a_altura_max;
+	this->accionActual->tinicial = SDL_GetTicks();
 	
 	switch (nroAccionActual)
 	{ 
@@ -415,9 +390,8 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->traba;
 			break;
 		case GANCHO:
-//FALTA IMPLEMENTAR GANCHO
-			cout<<"gancho"<<endl;
-			//this->accionActual = this->estado->gancho;
+			cout<<"gancho"<<endl; ///
+			this->accionActual = this->estado->gancho;
 			break;
 		case PINIASALTANDODIAGONAL:
 			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
@@ -442,6 +416,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			llego_a_altura_max = this->estado->saltarvertical->alcanzo_max;
 			this->accionActual = this->estado->piniaAireVertical;
 			this->estado->piniaAireVertical->alcanzo_max = llego_a_altura_max;
+			break;
+		case ROUNDKICK:
+			this->accionActual = this->estado->roundKick;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
@@ -584,7 +561,7 @@ void Personaje::Dibujarse(){
 			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;			
 		}
 		//Si ya estaba apretado lo dejo.
-		if (SDL_JoystickGetButton(joystick,1) == 1){
+		if (SDL_JoystickGetButton(joystick,1) == (*conf_joys)["cubrirse"]){
 			CubrirAlto = true;
 			///cout<<"cubriendose"<<endl; ///
 		}else{
