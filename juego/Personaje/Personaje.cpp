@@ -136,17 +136,18 @@ void Personaje::activarAccion(accion_posible accion){
 				}				
 				break;												
 			case GANCHO:
-				cout<<"GANCHO"<<endl;
-				//cambiarAccionA(GANCHO);	
-				cambiarAccionA(AGACHARSE);
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();	
-						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//Sino se ve feo.
-						///cout<<"BUCLEEE"<<endl;
-					}
-				break;
+			case ROUNDKICK:
+				//~ cout<<"GANCHO"<<endl;
+				//~ //cambiarAccionA(GANCHO);	
+				//~ //cambiarAccionA(AGACHARSE);
+					//~ //while (!this->accionActual->esUltimoModo()){
+						//~ activarAccion(GANCHO);
+					//~ //	this->imagenActual = this->accionActual->getImagenActual();	
+						//~ //IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+						//~ //Sino se ve feo.
+						//~ ///cout<<"BUCLEEE"<<endl;
+					//~ //}
+				//~ break;
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -236,7 +237,67 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
+		
+		///Maxi--> MANU:
+		/*	Para los 3 case anteriores se me ocurre que podrias hacer:
+		 * cambiarAccionA(X_GOLPE_SALTANDO, accionActual);
+		 * Le pasas la accion actual para seguir el movimiento del salto, pero mostrando
+		 * otros sprites.
+		 * */
 			break;
+		///SIRVE ESTO?!?!??!?!
+		//TRANSICION DE AGACHADO A QUIETO = PARARSE
+		case AGACHARSE:
+			///puts("Holi");
+			if(accion == QUIETO){
+				cambiarAccionA(PARARSE);	
+			}
+			else if(accion == CUBRIRBAJO){
+				puts("de agacharse a cubrirse"); ///
+				cambiarAccionA(CUBRIRBAJO);
+			}
+			else if(accion == PATADABAJAAGACHADO){
+				puts("de agacharse a patear");	///
+				cambiarAccionA(PATADABAJAAGACHADO);
+			}
+			else if (accion == PATADAALTAAGACHADO){
+				puts("de agachado a patada alta"); ///
+				cambiarAccionA(PATADAALTAAGACHADO);
+			}
+			else if (accion == GANCHO) {
+				puts("Tiro Gancho"); ///
+				cambiarAccionA(GANCHO);
+			}
+			break;
+		case CAMINAR_IZQUIERDA:
+			if(accion == PATADABAJA && mirarDerecha){
+				puts("De caminar izquierda a Traba"); ///
+				cambiarAccionA(TRABA);
+			}
+			else if (accion == PATADAALTA && mirarDerecha) {
+				cambiarAccionA(ROUNDKICK);
+			}
+			break;
+		case CAMINAR_DERECHA:
+			if(accion == PATADABAJA && !mirarDerecha){
+				cambiarAccionA(TRABA);
+			}
+			else if (accion == PATADAALTA && !mirarDerecha) {
+				cambiarAccionA(ROUNDKICK);
+			}
+		break;
+		case PATADABAJA: // (!) Esta tirando la traba haciendo adelante + patada baja cuando mira a la izq
+			// En este caso me refiero a adelante indicando que es la flechita hacia donde mira el jugador.
+			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
+				puts("De patada baja a Traba"); ///
+				cambiarAccionA(TRABA);
+			}
+		break;
+		case PATADAALTA:
+			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
+				cambiarAccionA(ROUNDKICK);
+			}
+		break;
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
 	if(this->accionActual->accionNro == 13){
@@ -410,9 +471,8 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->traba;
 			break;
 		case GANCHO:
-//FALTA IMPLEMENTAR GANCHO
-			cout<<"gancho"<<endl;
-			//this->accionActual = this->estado->gancho;
+			cout<<"gancho"<<endl; ///
+			this->accionActual = this->estado->gancho;
 			break;
 		case PINIASALTANDODIAGONAL:
 			llego_a_altura_max = this->estado->saltardiagonal->alcanzo_max;
@@ -437,6 +497,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			llego_a_altura_max = this->estado->saltarvertical->alcanzo_max;
 			this->accionActual = this->estado->piniaAireVertical;
 			this->estado->piniaAireVertical->alcanzo_max = llego_a_altura_max;
+			break;
+		case ROUNDKICK:
+			this->accionActual = this->estado->roundKick;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
@@ -578,7 +641,7 @@ void Personaje::Dibujarse(){
 			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;			
 		}
 		//Si ya estaba apretado lo dejo.
-		if (SDL_JoystickGetButton(joystick,1) == 1){
+		if (SDL_JoystickGetButton(joystick,1) == (*conf_joys)["cubrirse"]){
 			CubrirAlto = true;
 			///cout<<"cubriendose"<<endl; ///
 		}else{

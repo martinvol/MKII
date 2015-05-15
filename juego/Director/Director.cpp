@@ -125,8 +125,14 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			///puts("hola?"); ///
 			jugador->activarAccion(MIRARDERECHA);
 			break;
+		case Gancho:
+			jugador->activarAccion(GANCHO);
+			break;
 		case MirarIzquierda:
 			jugador->activarAccion(MIRARIZQUIERDA);
+			break;
+		case RoundKick:
+			jugador->activarAccion(ROUNDKICK);
 			break;
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
@@ -153,7 +159,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	CoordenadaLogica* coordEste = jugador->obtenerCoordenadaDerInf();
 	CoordenadaLogica* coordOtro = elOtro->obtenerCoordenadaIzqSup();
 	  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
-	if ((coordEste->x <= coordOtro->x) && (coordSig->x >= coordOtro->x) && (coordSig->y <= coordOtro->y)){
+	if ((coordEste->x <= coordOtro->x) && (coordSig->x >= coordOtro->x) && (coordSig->y <= coordOtro->y) && ((coordSig->y - jugador->personaje->alto) >= (coordOtro->y - elOtro->personaje->alto))){
 		coordSig->setearX(coordOtro->x);
 		jugador->moverseADerSup(coordSig);
 		delete coordSig;
@@ -166,7 +172,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	delete coordOtro;
 	
 	// Caso: scrollear a la derecha.
-	if (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeDer){
+	if ((jugador->personaje->nroAccionActual != QUIETO) && (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeDer)){
 		scrollearDerecha();
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (coordSig->x > margen_der){
@@ -193,7 +199,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	coordEste = jugador->obtenerCoordenadaIzqInf();
 	coordOtro = elOtro->obtenerCoordenadaDerSup();
 	  // Si estaba a la derecha, y quiere terminar a la izquierda, se choca y no puede.
-	if ((coordEste->x >= coordOtro->x) && (coordSig->x <= coordOtro->x) && (coordSig->y <= coordOtro->y)){
+	if ((coordEste->x >= coordOtro->x) && (coordSig->x <= coordOtro->x) && (coordSig->y <= coordOtro->y) && ((coordSig->y - jugador->personaje->alto) >= (coordOtro->y - elOtro->personaje->alto))){
 		coordSig->setearX(coordOtro->x);
 		jugador->moverseAIzqSup(coordSig);
 		delete coordSig;
@@ -206,7 +212,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	delete coordOtro;
 	
 	// Caso: scrollear a la izquierda.
-	if (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeIzq) {
+	if ((jugador->personaje->nroAccionActual != QUIETO) && (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeIzq)) {
 	    scrollearIzquierda();
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
 		if (coordSig->x < margen_izq) coordSig->setearX(margen_izq);
