@@ -131,6 +131,9 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 		case MirarIzquierda:
 			jugador->activarAccion(MIRARIZQUIERDA);
 			break;
+		case RoundKick:
+			jugador->activarAccion(ROUNDKICK);
+			break;
 		default: //case Nada:
 			jugador->activarAccion(QUIETO);
 			break;

@@ -152,6 +152,7 @@ void Personaje::activarAccion(accion_posible accion){
 				}									
 				break;	
 			case GANCHO:
+			case ROUNDKICK:
 				//~ cout<<"GANCHO"<<endl;
 				//~ //cambiarAccionA(GANCHO);	
 				//~ //cambiarAccionA(AGACHARSE);
