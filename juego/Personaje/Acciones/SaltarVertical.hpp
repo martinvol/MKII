@@ -40,9 +40,11 @@ class SaltarVertical:public Accion{
 				impar = false;
 			}
 
-			rectangulos->push_back(new Rectangulo(0, 50, 12, 22, false, false)); // Cabeza
-			rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
-			rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+			/// (float empieza_alto, float empieza_ancho, float porcentaje_alto, float porcentaje_ancho, bool ataque, bool bloqueo)
+			rectangulos->push_back(new Rectangulo(32, 45, 10, 22, false, false)); // Cabeza
+			rectangulos->push_back(new Rectangulo(42, 0, 30, 100, false, false)); // torso
+			rectangulos->push_back(new Rectangulo(72, 0, 28, 100, false, false)); // torso
+			//rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
 		}
 		
 		void resetear();
