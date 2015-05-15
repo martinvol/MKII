@@ -39,6 +39,7 @@ CoordenadaLogica* Agacharse::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool Agacharse::permiteAccion(accion_posible nuevaAccion){
+	if ((nuevaAccion == PARARSE) || (nuevaAccion == CUBRIRBAJO) || (nuevaAccion == PATADABAJAAGACHADO) || (nuevaAccion == PATADAALTAAGACHADO) || (nuevaAccion == GANCHO)) return true;
 	return false;
 }
 

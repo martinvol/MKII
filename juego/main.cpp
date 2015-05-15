@@ -420,15 +420,25 @@ void Controlador(SDL_Event *evento){
 	///cout<< myID<<endl;			
 		
 	while(SDL_PollEvent( evento )) {
-		if(usandoJoystick){			
+		if(usandoJoystick){		
 			SDL_JoystickUpdate ();
-			personajeJuego->ActualizarControlador(Player1, this->parser);					
-			personajeJuego2->ActualizarControlador(Player2, this->parser);					
+			controlar_joystick();
+			//~ personajeJuego->ActualizarControlador(Player1, this->parser);					
+			//~ personajeJuego2->ActualizarControlador(Player2, this->parser);					
+		} else {
+			controlar_teclado();
 		}
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
 		//-----------------------------------------		
 		switch(evento->type){
+			case SDL_JOYBUTTONDOWN:
+				//~ if ( event.jbutton.button == 0 )
+				cout << "APRETÉ BOTÓN" << endl;  ///
+					break;
+			case SDL_JOYBUTTONUP:
+				cout << "SOLTÉ BOTÓN" << endl;
+				break;
 			case SDL_QUIT:
 				salir = true;
 				break;
@@ -582,6 +592,14 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(AGACHARSE);
 			personaje->Abajo = false;
 		}
+		//+PATADA BAJA+MIRA DERECHA = TRABA
+		else if (personaje->PatadaBaja && !personaje->mirarDerecha){
+			//~ this->director->seMuevePersonaje(jugador, Traba);
+			///puts("traba");
+			personaje->activarAccion(TRABA);
+			personaje->PatadaBaja = false;
+			personaje->Derecha = false;
+		}
 		//CAMINAR DERECHA
 		else {
 			//~ this->director->seMuevePersonaje(jugador, Derecha);
@@ -611,8 +629,8 @@ void ActualizarModelo(Personaje* personaje){
 				personaje->Izquierda = false;
 			}
 		}		
-		//+PATADA BAJA = TRABA
-		else if (personaje->PatadaBaja){
+		//+PATADA BAJA+MIRA DERECHA = TRABA
+		else if (personaje->PatadaBaja && personaje->mirarDerecha){
 			//~ this->director->seMuevePersonaje(jugador, Traba);
 			///puts("traba");
 			personaje->activarAccion(TRABA);
@@ -751,7 +769,11 @@ void ActualizarModelo(Personaje* personaje){
 		personaje->PiniaBaja = false;
 	}else {
 		//~ this->director->seMuevePersonaje(jugador, Nada);
-		personaje->activarAccion(QUIETO);
+		if (personaje->nroAccionActual == AGACHARSE){
+			personaje->activarAccion(PARARSE);
+		} else {
+			personaje->activarAccion(QUIETO);
+		}
 	}		
 
  //~ case RoundKick:

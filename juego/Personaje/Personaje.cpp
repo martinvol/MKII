@@ -163,38 +163,6 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(QUIETO);	
 				}
 			break;
-			case AGACHARSE:
-				///puts("Holi");
-				if(accion == QUIETO){
-					cambiarAccionA(PARARSE);	
-				}
-				else if(accion == CUBRIRBAJO){
-					puts("de agacharse a cubrirse"); ///
-					cambiarAccionA(CUBRIRBAJO);
-				}
-				else if(accion == PATADABAJAAGACHADO){
-					puts("de agacharse a patear");	///
-					cambiarAccionA(PATADABAJAAGACHADO);
-				}
-				else if (accion == PATADAALTAAGACHADO){
-					puts("de agachado a patada alta"); ///
-					cambiarAccionA(PATADAALTAAGACHADO);
-				}
-				else if (accion == GANCHO){
-					puts("de agachado a gancho"); ///
-					cambiarAccionA(GANCHO);
-				}
-				break;
-			//	DEBERIA SER 'CAMINAR ATRAS' 
-			/* PJ --> si mirando a derecha --> si izq + patada baja --> traba
-			 * 		--> si mira a izquierda --> si der + patada baja --> traba
-			 * */
-			case CAMINAR_IZQUIERDA:
-				if(accion == PATADABAJA){
-					puts("De caminar izquierda a Traba"); ///
-					cambiarAccionA(TRABA);
-				}
-				break;
 			case CUBRIRBAJO:
 				cambiarAccionA(CUBRIRBAJO);
 				break;	
