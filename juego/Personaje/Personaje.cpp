@@ -152,17 +152,17 @@ void Personaje::activarAccion(accion_posible accion){
 				}									
 				break;	
 			case GANCHO:
-				cout<<"GANCHO"<<endl;
-				//cambiarAccionA(GANCHO);	
-				cambiarAccionA(AGACHARSE);
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();	
-						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//Sino se ve feo.
-						///cout<<"BUCLEEE"<<endl;
-					}
-				break;
+				//~ cout<<"GANCHO"<<endl;
+				//~ //cambiarAccionA(GANCHO);	
+				//~ //cambiarAccionA(AGACHARSE);
+					//~ //while (!this->accionActual->esUltimoModo()){
+						//~ activarAccion(GANCHO);
+					//~ //	this->imagenActual = this->accionActual->getImagenActual();	
+						//~ //IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
+						//~ //Sino se ve feo.
+						//~ ///cout<<"BUCLEEE"<<endl;
+					//~ //}
+				//~ break;
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -262,7 +262,7 @@ void Personaje::activarAccion(accion_posible accion){
 		///SIRVE ESTO?!?!??!?!
 		//TRANSICION DE AGACHADO A QUIETO = PARARSE
 		case AGACHARSE:
-			puts("Holi");
+			///puts("Holi");
 			if(accion == QUIETO){
 				cambiarAccionA(PARARSE);	
 			}
@@ -480,7 +480,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->traba;
 			break;
 		case GANCHO:
-			cout<<"gancho"<<endl;
+			cout<<"gancho"<<endl; ///
 			this->accionActual = this->estado->gancho;
 			break;
 		case PINIASALTANDODIAGONAL:
@@ -650,7 +650,7 @@ void Personaje::Dibujarse(){
 			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;			
 		}
 		//Si ya estaba apretado lo dejo.
-		if (SDL_JoystickGetButton(joystick,1) == 1){
+		if (SDL_JoystickGetButton(joystick,1) == (*conf_joys)["cubrirse"]){
 			CubrirAlto = true;
 			///cout<<"cubriendose"<<endl; ///
 		}else{
