@@ -133,6 +133,10 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			//(jugador->personaje)->CubrirAlto = false;
 			break;
 		case CubrirBajo:
+			(jugador->personaje)->Abajo = false;
+			(jugador->personaje)->Cubrir = false;
+		
+			puts("cubrir director");
 			jugador->activarAccion(CUBRIRBAJO);
 			break;
 		case ArrojarArma:

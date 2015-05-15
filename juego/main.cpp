@@ -484,7 +484,7 @@ void Controlador(SDL_Event *evento){
 				///MILE
 				///Cubrirse
 				if (evento->key.keysym.sym == SDLK_g){
-					personajeJuego->CubrirAlto = true;	
+					personajeJuego->Cubrir = true;	
 				}
 				///PatadaAlta
 				if (evento->key.keysym.sym == SDLK_x){
@@ -534,7 +534,7 @@ void Controlador(SDL_Event *evento){
                 ///MILE
                 ///Cubrirse
                 if(evento->key.keysym.sym == SDLK_g){
-					personajeJuego->CubrirAlto = false;
+					personajeJuego->Cubrir = false;
 				}
 				///PatadaAlta
 				if (evento->key.keysym.sym == SDLK_x){
@@ -613,8 +613,8 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		//+CUBRIR (OK LA VARIABLE NO DEBIERA LLAMARSE CUBRIRALTO, PERO QUEDA ASI)
-		if(personaje->CubrirAlto){
-			//~ puts("cubrir alto + agacharse"); ///
+		if(personaje->Cubrir){
+			puts("cubrir alto + agacharse  MAIN"); ///
 			this->director->seMuevePersonaje(jugador,CubrirBajo);
 		//+PATADA BAJA	
 		}else if(personaje->PatadaBaja){
@@ -638,8 +638,13 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	}else if (personaje->PiniaAlta){
 		this->director->seMuevePersonaje(jugador, PiniaAlta);
 	//CUBRIRSE
-	}else if (personaje->CubrirAlto){
-		this->director->seMuevePersonaje(jugador, CubrirAlto);
+	}else if (personaje->Cubrir){
+		if (personaje->Abajo){
+			this->director->seMuevePersonaje(jugador, CubrirBajo);
+		}else{
+			puts ("cubrir alto");
+			this->director->seMuevePersonaje(jugador, CubrirAlto);
+		}
 	//ARROJAR ARMA
 	}else if (personaje->ArrojarArma){
 		this->director->seMuevePersonaje(jugador, ArrojarArma);

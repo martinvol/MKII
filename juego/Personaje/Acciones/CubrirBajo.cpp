@@ -16,17 +16,20 @@ CubrirBajo::CubrirBajo(string ruta, SDL_Renderer* ren, float despl_x, float desp
 };
 
 void CubrirBajo::cambiarModo(){
-	if(esUltimoModo()){}
+	if(esUltimoModo()){
+		ciclos = 1;
+	}
 	else{
 		Accion::cambiarModo();
 	}
 }
 
 CoordenadaLogica* CubrirBajo::execute(CoordenadaLogica* coord_personaje){
+	puts ("CUbrir bajo de la accion mismoaaljflksjglkbjuslkhgjjn");
 	CubrirBajo::cambiarModo();
 	return new CoordenadaLogica(coord_personaje);
 };
 
 bool CubrirBajo::permiteAccion(accion_posible nuevaAccion){
-	return true;
+	return false;
 }

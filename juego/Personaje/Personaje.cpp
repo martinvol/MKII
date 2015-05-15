@@ -27,7 +27,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	// 2 patadas
 	PatadaAlta = PatadaBaja = false;
 	// arrojable y cubrirse
-	ArrojarArma = CubrirAlto = false;
+	ArrojarArma = Cubrir = false;
 	
 	this->alto = alto;
 	this->ancho = ancho;
@@ -161,8 +161,8 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 			break;
 			case AGACHARSE:
-				///puts("Holi");
-				if(accion == QUIETO){
+				puts("Holi PERSONAJE");
+				if(accion == PARARSE){
 					cambiarAccionA(PARARSE);	
 				}
 				else if(accion == CUBRIRBAJO){
@@ -182,15 +182,27 @@ void Personaje::activarAccion(accion_posible accion){
 			/* PJ --> si mirando a derecha --> si izq + patada baja --> traba
 			 * 		--> si mira a izquierda --> si der + patada baja --> traba
 			 * */
+			case CUBRIRBAJO:
+				if (accion != CUBRIRBAJO ){
+					puts("de cubrir bajo a quieto");
+					
+					cambiarAccionA(PARARSE);
+				}else if (accion == AGACHARSE and this->accionActual->ciclos == 1){
+					
+					cambiarAccionA(CUBRIRBAJO);
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);
+				}
+			break;
 			case CAMINAR_IZQUIERDA:
 				if(accion == PATADABAJA){
 					puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
 				break;
-			case CUBRIRBAJO:
-				cambiarAccionA(CUBRIRBAJO);
-				break;	
+			//~ case CUBRIRBAJO:
+				//~ cambiarAccionA(CUBRIRBAJO);
+				//~ Abajo = true;
+				//~ break;	
 			default:
 				break;
 		}
@@ -228,9 +240,6 @@ void Personaje::activarAccion(accion_posible accion){
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
 
-	if(this->accionActual->accionNro == 5){
-		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
-	}
 	
 }
 
@@ -388,6 +397,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->cubrirAlto;
 			break;
 		case CUBRIRBAJO:
+			puts("sgs8989");
 			this->accionActual = this->estado->cubrirBajo;
 			break;
 		case TRABA:
@@ -538,7 +548,7 @@ void Personaje::Dibujarse(){
 			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = true;					
 			} else if (i == (*conf_joys)["cubrirse"]){
-				CubrirAlto = true;
+				Cubrir = true;
 			} else if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
 			} else if (i == (*conf_joys)["pinia_alta"]){
@@ -566,10 +576,10 @@ void Personaje::Dibujarse(){
 		}
 		//Si ya estaba apretado lo dejo.
 		if (SDL_JoystickGetButton(joystick,1) == (*conf_joys)["cubrirse"]){
-			CubrirAlto = true;
+			Cubrir = true;
 			///cout<<"cubriendose"<<endl; ///
 		}else{
-			CubrirAlto = false;
+			Cubrir = false;
 		}
 		
 	}

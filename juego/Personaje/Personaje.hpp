@@ -25,7 +25,7 @@ class Personaje {
 		//Conf* parser;
 		
 	public:
-	bool Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, PatadaAlta, PatadaBaja, ArrojarArma, CubrirAlto;
+	bool Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, PatadaAlta, PatadaBaja, ArrojarArma, Cubrir;
 		
 	void ActualizarControlador(SDL_Joystick *joystick, Parser* conf);
 	
