@@ -42,7 +42,6 @@ void PatadaBajaAgachado::cambiarModo(){
 
 
 CoordenadaLogica* PatadaBajaAgachado::execute(CoordenadaLogica* coord_personaje){
-	//~ cout<<"modo actual: "<<getModoActual()<<endl;
 	float taux = SDL_GetTicks();
 	if (taux - tinicial > intervalo){ 
 		if(secuenciaInversa){
@@ -53,7 +52,6 @@ CoordenadaLogica* PatadaBajaAgachado::execute(CoordenadaLogica* coord_personaje)
 		}
 		tinicial = taux;
 	}
-	//~ cout<<"Sale con: "<<getModoActual()<<endl;
 	return new CoordenadaLogica(coord_personaje);
 };
 

@@ -124,37 +124,30 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 				break;			
 			
-				case PATADAALTAAGACHADO:
-				case PATADABAJAAGACHADO:
+			case PATADAALTAAGACHADO:
+			case PATADABAJAAGACHADO:
 				//SDL_Delay(150);
-				if (this->accionActual->ciclos==1){
+				if (this->accionActual->ciclos == 1){
 					Abajo = false;
-					PatadaBaja = false;				
-					PatadaAlta = false;
+					PatadaBaja = false;
+					PatadaAlta = false;				
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
-				}				
-				break;												
-			case GANCHO:
-			case ROUNDKICK:
-				//~ cout<<"GANCHO"<<endl;
-				//~ //cambiarAccionA(GANCHO);	
-				//~ //cambiarAccionA(AGACHARSE);
-					//~ //while (!this->accionActual->esUltimoModo()){
-						//~ activarAccion(GANCHO);
-					//~ //	this->imagenActual = this->accionActual->getImagenActual();	
+					//~ while (!this->accionActual->esUltimoModo()){
+						//~ activarAccion(AGACHARSE);
+						//~ this->imagenActual = this->accionActual->getImagenActual();	
 						//~ //IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
 						//~ //Sino se ve feo.
-						//~ ///cout<<"BUCLEEE"<<endl;
-					//~ //}
-				//~ break;
+						//~ cout<<"BUCLEEE"<<endl;
+					//~ }
+				}				
+				break;					
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:								
-				if (this->accionActual->ciclos == 1){
-					cout<<"entre a quieto con el modo "<<this->accionActual->modoActual+1<<endl;
+				if (this->accionActual->esUltimoModo()){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
@@ -173,11 +166,11 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(CUBRIRBAJO);
 				}
 				else if(accion == PATADABAJAAGACHADO){
-					///puts("de agacharse a patear");	///
+					puts("de agacharse a patear");	///
 					cambiarAccionA(PATADABAJAAGACHADO);
 				}
 				else if (accion == PATADAALTAAGACHADO){
-					///puts("de agachado a patada alta"); ///
+					puts("de agachado a patada alta"); ///
 					cambiarAccionA(PATADAALTAAGACHADO);
 				}
 				break;
@@ -187,7 +180,7 @@ void Personaje::activarAccion(accion_posible accion){
 			 * */
 			case CAMINAR_IZQUIERDA:
 				if(accion == PATADABAJA){
-					//puts("De caminar izquierda a Traba"); ///
+					puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
 				break;
@@ -201,17 +194,7 @@ void Personaje::activarAccion(accion_posible accion){
 	
 	 this->imagenActual = this->accionActual->getImagenActual();
 	 //return;
-	
-	/*	Maxi --> Manu.
-	 * 	Si combino este switch con el de arriba aparece un 'feature'. 
-	 *  Cuando estas en el aire, si mantenes arriba y apretas un boton el pj sigue cayendo
-	 *  -como el poder de smoke xDDD- (despues vuelve a la pantalla)
-	 *  
-	 * 
-	 *  Lo malo de dejarlo aca es que si mantenes arriba y apretas el boton no pega,
-	 *  hay que apretar arriba, soltarlo y apretar golpe.
-	 * 
-	 * */ 
+	 
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
@@ -237,70 +220,11 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
-		
-		///Maxi--> MANU:
-		/*	Para los 3 case anteriores se me ocurre que podrias hacer:
-		 * cambiarAccionA(X_GOLPE_SALTANDO, accionActual);
-		 * Le pasas la accion actual para seguir el movimiento del salto, pero mostrando
-		 * otros sprites.
-		 * */
 			break;
-		///SIRVE ESTO?!?!??!?!
-		//TRANSICION DE AGACHADO A QUIETO = PARARSE
-		case AGACHARSE:
-			///puts("Holi");
-			if(accion == QUIETO){
-				cambiarAccionA(PARARSE);	
-			}
-			else if(accion == CUBRIRBAJO){
-				puts("de agacharse a cubrirse"); ///
-				cambiarAccionA(CUBRIRBAJO);
-			}
-			else if(accion == PATADABAJAAGACHADO){
-				puts("de agacharse a patear");	///
-				cambiarAccionA(PATADABAJAAGACHADO);
-			}
-			else if (accion == PATADAALTAAGACHADO){
-				puts("de agachado a patada alta"); ///
-				cambiarAccionA(PATADAALTAAGACHADO);
-			}
-			else if (accion == GANCHO) {
-				puts("Tiro Gancho"); ///
-				cambiarAccionA(GANCHO);
-			}
-			break;
-		case CAMINAR_IZQUIERDA:
-			if(accion == PATADABAJA && mirarDerecha){
-				puts("De caminar izquierda a Traba"); ///
-				cambiarAccionA(TRABA);
-			}
-			else if (accion == PATADAALTA && mirarDerecha) {
-				cambiarAccionA(ROUNDKICK);
-			}
-			break;
-		case CAMINAR_DERECHA:
-			if(accion == PATADABAJA && !mirarDerecha){
-				cambiarAccionA(TRABA);
-			}
-			else if (accion == PATADAALTA && !mirarDerecha) {
-				cambiarAccionA(ROUNDKICK);
-			}
-		break;
-		case PATADABAJA: // (!) Esta tirando la traba haciendo adelante + patada baja cuando mira a la izq
-			// En este caso me refiero a adelante indicando que es la flechita hacia donde mira el jugador.
-			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
-				puts("De patada baja a Traba"); ///
-				cambiarAccionA(TRABA);
-			}
-		break;
-		case PATADAALTA:
-			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
-				cambiarAccionA(ROUNDKICK);
-			}
-		break;
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
-	if(this->accionActual->accionNro == 13){
+
+	if(this->accionActual->accionNro == 5){
 		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
 	}
 	
@@ -395,7 +319,6 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	switch (nroAccionActual)
 	{ 
 		case QUIETO:
-			/// puts( "y entre a quieto");
 			this->accionActual = this->estado->quieto;
 			break;
 		case CAMINAR_DERECHA:
