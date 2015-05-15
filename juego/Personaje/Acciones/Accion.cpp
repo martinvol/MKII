@@ -143,6 +143,7 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, flo
 	this->hue_fin = hue_fin;
 	this->hue_offset = hue_offset;
 	this->logger =  Logger::instance();
+	this->ciclos = 0;
 	this->secuenciaInversa = false;
 	setAccionNro(nroAccion);
 	setRutaArchivo(ruta+to_string(nroAccion));
@@ -184,7 +185,9 @@ Accion::~Accion(){
 
 void Accion::resetear(){
 	this->modoActual = 0;
+	this->ciclos = 0;
 	this->secuenciaInversa = false;
+	this->tinicial = 0;
 }
 
 /**Devuelve true si se alcanzo el ultimo 
@@ -207,9 +210,10 @@ bool Accion::esUltimoModo(){
  * */
   	
 void Accion::cambiarModo(){
-	if (esUltimoModo())
-		setModoActual(0);	
-	
-	else
+	if (esUltimoModo()){
+		setModoActual(0);
+		ciclos += 1;	
+	}else{
 		setModoActual(this->modoActual+1);
+	}
 }

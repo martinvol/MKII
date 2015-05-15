@@ -15,10 +15,40 @@ PatadaAltaAgachado::PatadaAltaAgachado(string ruta, SDL_Renderer* ren, float des
 	rectangulos->push_back(new Rectangulo(14, 50, 14, 20, true, false)); // pata
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 40, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 10, 55, 40, false, false)); // piernas
+	this->porcentajeDeDanio = 10;
 };
 
+void PatadaAltaAgachado::cambiarModoInversamente(){
+	if (this->modoActual==0){
+		if(this->cantModos>0)
+			setModoActual(this->cantModos-1);	
+			ciclos = 1;
+	}
+	else{
+		if (this->modoActual>0)
+			setModoActual(this->modoActual-1);
+	}
+}	
+  	
+void PatadaAltaAgachado::cambiarModo(){
+	if (modoActual==(cantModos-2)){
+		setModoActual(0);
+		setInvertirSecuencia();	
+	}else{
+		setModoActual(this->modoActual+1);
+	}
+}
+
+
+
 CoordenadaLogica* PatadaAltaAgachado::execute(CoordenadaLogica* coord_personaje){
-	Accion::cambiarModo();
+	if(secuenciaInversa){
+		PatadaAltaAgachado::cambiarModoInversamente();	
+	}
+	else{
+		PatadaAltaAgachado::cambiarModo();
+	}
+
 	return new CoordenadaLogica(coord_personaje);
 };
 

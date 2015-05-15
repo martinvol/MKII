@@ -178,7 +178,7 @@ public:
 										"Subzero", renderer, parser->personaje_alto,
 										parser->personaje_ancho, estado,
 										this->conversor, parser->velocidad_arma,
-                                        1); // jugador 1
+                                        1, true); // jugador 1
 
         //Izquierda
         barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
@@ -205,15 +205,14 @@ public:
                                         parser->personaje2_ancho, estado2,
                                         // parser->personaje2_alto, estado2,
                                         this->conversor, parser->velocidad_arma,
-                                        2); // jugador 2
+                                        2, false); // jugador 2
                                         // parser->personaje2_mirar_derecha, this->conversor)
         
 
        //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
-		///cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
-        
+		
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
         
@@ -317,7 +316,9 @@ public:
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
 
+            /// SDL_Delay(75);
             timerFps = SDL_GetTicks() - timerFps;
+            
             if(timerFps < 1.*1000./CONST_MAXI_DELAY){
                 SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
@@ -392,14 +393,9 @@ void DibujarTodo(){
                 this->personajeJuego->Dibujarse();
             }
             if (i==parser->personaje2_zindex){
-                this->personajeJuego2->Dibujarse();
+				this->personajeJuego2->Dibujarse();
             }
         }
-
-//<<<<<<< HEAD
-		//~ tthis->personajeJuego->barraDeVida.Dibujarse();
-//        barraDeVida2.Dibujarse();
-//=======
 		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
 			this->personajeJuego->Dibujarse();
@@ -410,7 +406,6 @@ void DibujarTodo(){
 		
         this->barraDeVida1->Dibujarse();
         this->barraDeVida2->Dibujarse();
-//>>>>>>> remotes/origin/ClonarMaster
 
         this->timer->Dibujarse();
 		

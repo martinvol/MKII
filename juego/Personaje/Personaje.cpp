@@ -16,7 +16,7 @@ using namespace std;
  *
  **********************************************************************/  
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha){
 
 	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
@@ -34,9 +34,9 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->conversor = conversor;
 	this->y_inicial = coord->y;
 	this->coordenada = coord;
-	this->siguiente = NULL;
+	this->siguiente = new CoordenadaLogica(coord);
 	
-	this->mirarDerecha = false;
+	this->mirarDerecha = miraADerecha;
 	
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
@@ -72,9 +72,9 @@ void Personaje::Arrojar(){
 		int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 		int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 		if (mirarDerecha){
-			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+			arrojable->setCoordenadas(this->obtenerCoordenadaIzqSup(), alto_fisico, ancho_fisico);
 		} else {
-			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), alto_fisico, ancho_fisico);
+			arrojable->setCoordenadas(this->obtenerCoordenadaDerSup(), alto_fisico, ancho_fisico);
 		}
 		arrojable->tirar(this->velocidad_arma);
 	
@@ -99,7 +99,7 @@ void Personaje::activarAccion(accion_posible accion){
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
-		if (siguiente != NULL){ delete siguiente; }
+		delete siguiente;
 		siguiente = this->accionActual->execute(this->coordenada);
 		switch (nroAccionActual){
 			
@@ -124,46 +124,24 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 				break;			
 			
-			
-				case PATADABAJAAGACHADO:
-				//SDL_Delay(150);
-				if (this->accionActual->esUltimoModo()){
-					Abajo = false;
-					PatadaBaja = false;				
-					cambiarAccionA(AGACHARSE);	
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();	
-						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//Sino se ve feo.
-						///cout<<"BUCLEEE"<<endl;
-					}
-				}				
-				break;			
 			case PATADAALTAAGACHADO:
-				if (this->accionActual->esUltimoModo()){
+			case PATADABAJAAGACHADO:
+				//SDL_Delay(150);
+				if (this->accionActual->ciclos == 1){
 					Abajo = false;
-					PatadaAlta = false;	
+					PatadaBaja = false;
+					PatadaAlta = false;				
 					cambiarAccionA(AGACHARSE);	
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();
-					}					
-				}									
-				break;	
-			case GANCHO:
-			case ROUNDKICK:
-				//~ cout<<"GANCHO"<<endl;
-				//~ //cambiarAccionA(GANCHO);	
-				//~ //cambiarAccionA(AGACHARSE);
-					//~ //while (!this->accionActual->esUltimoModo()){
-						//~ activarAccion(GANCHO);
-					//~ //	this->imagenActual = this->accionActual->getImagenActual();	
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);
+					//~ while (!this->accionActual->esUltimoModo()){
+						//~ activarAccion(AGACHARSE);
+						//~ this->imagenActual = this->accionActual->getImagenActual();	
 						//~ //IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
 						//~ //Sino se ve feo.
-						//~ ///cout<<"BUCLEEE"<<endl;
-					//~ //}
-				//~ break;
+						//~ cout<<"BUCLEEE"<<endl;
+					//~ }
+				}				
+				break;					
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -188,11 +166,11 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(CUBRIRBAJO);
 				}
 				else if(accion == PATADABAJAAGACHADO){
-					///puts("de agacharse a patear");	///
+					puts("de agacharse a patear");	///
 					cambiarAccionA(PATADABAJAAGACHADO);
 				}
 				else if (accion == PATADAALTAAGACHADO){
-					///puts("de agachado a patada alta"); ///
+					puts("de agachado a patada alta"); ///
 					cambiarAccionA(PATADAALTAAGACHADO);
 				}
 				break;
@@ -202,7 +180,7 @@ void Personaje::activarAccion(accion_posible accion){
 			 * */
 			case CAMINAR_IZQUIERDA:
 				if(accion == PATADABAJA){
-					//puts("De caminar izquierda a Traba"); ///
+					puts("De caminar izquierda a Traba"); ///
 					cambiarAccionA(TRABA);
 				}
 				break;
@@ -216,17 +194,7 @@ void Personaje::activarAccion(accion_posible accion){
 	
 	 this->imagenActual = this->accionActual->getImagenActual();
 	 //return;
-	
-	/*	Maxi --> Manu.
-	 * 	Si combino este switch con el de arriba aparece un 'feature'. 
-	 *  Cuando estas en el aire, si mantenes arriba y apretas un boton el pj sigue cayendo
-	 *  -como el poder de smoke xDDD- (despues vuelve a la pantalla)
-	 *  
-	 * 
-	 *  Lo malo de dejarlo aca es que si mantenes arriba y apretas el boton no pega,
-	 *  hay que apretar arriba, soltarlo y apretar golpe.
-	 * 
-	 * */ 
+	 
 	switch(nroAccionActual){
 		case SALTARDIAGONAL_DER:
 			if (accion == PINIAALTA || accion == PINIABAJA){
@@ -252,69 +220,14 @@ void Personaje::activarAccion(accion_posible accion){
 			}else if (accion == ARROJARARMA){
 				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
 			}
-		
-		///Maxi--> MANU:
-		/*	Para los 3 case anteriores se me ocurre que podrias hacer:
-		 * cambiarAccionA(X_GOLPE_SALTANDO, accionActual);
-		 * Le pasas la accion actual para seguir el movimiento del salto, pero mostrando
-		 * otros sprites.
-		 * */
 			break;
-		///SIRVE ESTO?!?!??!?!
-		//TRANSICION DE AGACHADO A QUIETO = PARARSE
-		case AGACHARSE:
-			///puts("Holi");
-			if(accion == QUIETO){
-				cambiarAccionA(PARARSE);	
-			}
-			else if(accion == CUBRIRBAJO){
-				puts("de agacharse a cubrirse"); ///
-				cambiarAccionA(CUBRIRBAJO);
-			}
-			else if(accion == PATADABAJAAGACHADO){
-				puts("de agacharse a patear");	///
-				cambiarAccionA(PATADABAJAAGACHADO);
-			}
-			else if (accion == PATADAALTAAGACHADO){
-				puts("de agachado a patada alta"); ///
-				cambiarAccionA(PATADAALTAAGACHADO);
-			}
-			else if (accion == GANCHO) {
-				puts("Tiro Gancho"); ///
-				cambiarAccionA(GANCHO);
-			}
-			break;
-		case CAMINAR_IZQUIERDA:
-			if(accion == PATADABAJA && mirarDerecha){
-				puts("De caminar izquierda a Traba"); ///
-				cambiarAccionA(TRABA);
-			}
-			else if (accion == PATADAALTA && mirarDerecha) {
-				cambiarAccionA(ROUNDKICK);
-			}
-			break;
-		case CAMINAR_DERECHA:
-			if(accion == PATADABAJA && !mirarDerecha){
-				cambiarAccionA(TRABA);
-			}
-			else if (accion == PATADAALTA && !mirarDerecha) {
-				cambiarAccionA(ROUNDKICK);
-			}
-		break;
-		case PATADABAJA: // (!) Esta tirando la traba haciendo adelante + patada baja cuando mira a la izq
-			// En este caso me refiero a adelante indicando que es la flechita hacia donde mira el jugador.
-			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
-				puts("De patada baja a Traba"); ///
-				cambiarAccionA(TRABA);
-			}
-		break;
-		case PATADAALTA:
-			if ((accion == CAMINAR_IZQUIERDA && mirarDerecha) || (accion == CAMINAR_DERECHA && !mirarDerecha)){
-				cambiarAccionA(ROUNDKICK);
-			}
-		break;
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
+
+	if(this->accionActual->accionNro == 5){
+		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
+	}
+	
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
@@ -342,20 +255,17 @@ CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarY(alto);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarY(alto);
 	coord->desplazarX(ancho);
@@ -363,20 +273,19 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarX(ancho);
 	return coord;
 }
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
-	if (!this->coordenada) delete coordenada;
+	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
-	if (!this->coordenada) delete coordenada;
+	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
@@ -401,11 +310,11 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	this->nroAccionActual = nroAccion;
 	bool aux;
 	bool llego_a_altura_max;
+	this->accionActual->tinicial = SDL_GetTicks();
 	
 	switch (nroAccionActual)
 	{ 
 		case QUIETO:
-			/// puts( "y entre a quieto");
 			this->accionActual = this->estado->quieto;
 			break;
 		case CAMINAR_DERECHA:
@@ -544,7 +453,7 @@ void Personaje::Dibujarse(){
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
-	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
+	if (!this->mirarDerecha && nroAccionActual != QUIETO) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
 	destino.y = coord2_fis->y_fisico + (this->altura_quieto - _h)*this->conversor->factor_alto;
 	//destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
 	destino.w = (_w)/this->ancho_quieto*ancho_fisico;//ancho_fisico;
@@ -561,6 +470,7 @@ void Personaje::Dibujarse(){
 		
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
+
 
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 		// Para evitar hacer esto acá podría crear un objeto
