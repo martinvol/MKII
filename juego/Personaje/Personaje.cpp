@@ -124,33 +124,17 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 				break;			
 			
-			
+				case PATADAALTAAGACHADO:
 				case PATADABAJAAGACHADO:
 				//SDL_Delay(150);
-				if (this->accionActual->esUltimoModo()){
+				if (this->accionActual->ciclos==1){
 					Abajo = false;
 					PatadaBaja = false;				
+					PatadaAlta = false;
 					cambiarAccionA(AGACHARSE);	
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();	
-						//IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//Sino se ve feo.
-						///cout<<"BUCLEEE"<<endl;
-					}
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);
 				}				
-				break;			
-			case PATADAALTAAGACHADO:
-				if (this->accionActual->esUltimoModo()){
-					Abajo = false;
-					PatadaAlta = false;	
-					cambiarAccionA(AGACHARSE);	
-					while (!this->accionActual->esUltimoModo()){
-						activarAccion(AGACHARSE);
-						this->imagenActual = this->accionActual->getImagenActual();
-					}					
-				}									
-				break;	
+				break;												
 			case GANCHO:
 				cout<<"GANCHO"<<endl;
 				//cambiarAccionA(GANCHO);	
@@ -168,7 +152,8 @@ void Personaje::activarAccion(accion_posible accion){
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:								
-				if (this->accionActual->esUltimoModo()){
+				if (this->accionActual->ciclos == 1){
+					cout<<"entre a quieto con el modo "<<this->accionActual->modoActual+1<<endl;
 					cambiarAccionA(QUIETO);
 				}
 			break;			
@@ -254,6 +239,10 @@ void Personaje::activarAccion(accion_posible accion){
 			break;
 	}
 	this->imagenActual = this->accionActual->getImagenActual();
+	if(this->accionActual->accionNro == 13){
+		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
+	}
+	
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
@@ -340,6 +329,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	this->nroAccionActual = nroAccion;
 	bool aux;
 	bool llego_a_altura_max;
+	this->accionActual->tinicial = SDL_GetTicks();
 	
 	switch (nroAccionActual)
 	{ 

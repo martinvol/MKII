@@ -55,8 +55,10 @@ class Accion{
 		float despl_y;
 		float h_max;
 		
+		int ciclos;
 		bool direccionDerecha;
-		
+		float intervalo = 0;
+		float tinicial = 0;
 		int accionNro;
 		int cantModos;
 		string ruta;

@@ -318,6 +318,7 @@ public:
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
+            
             if(timerFps < 1.*1000./CONST_MAXI_DELAY){
                 SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
