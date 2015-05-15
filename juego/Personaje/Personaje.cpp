@@ -95,7 +95,7 @@ void Personaje::mirarParaIzquierda(){
 	mirarDerecha = false;
 }
 
-void Personaje::activarAccion(accion_posible accion){
+void Personaje::activarAccion(accion_posible accion){	
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
@@ -104,6 +104,10 @@ void Personaje::activarAccion(accion_posible accion){
 		switch (nroAccionActual){
 			
 			case SALTAR:
+				if (accion == PATADASALTANDOVERTICAL){
+					puts("holafijslkgjflkj");
+					cambiarAccionA(PATADASALTANDOVERTICAL);
+				}
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
 			case PINIASALTANDODIAGONAL:
@@ -133,13 +137,6 @@ void Personaje::activarAccion(accion_posible accion){
 					PatadaAlta = false;				
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
-					//~ while (!this->accionActual->esUltimoModo()){
-						//~ activarAccion(AGACHARSE);
-						//~ this->imagenActual = this->accionActual->getImagenActual();	
-						//~ //IMPORTANTE: PUEDO IR DE UNA ACCION A LA ULTIMA DE AGACHADO.
-						//~ //Sino se ve feo.
-						//~ cout<<"BUCLEEE"<<endl;
-					//~ }
 				}				
 				break;					
 			case PATADAALTA:
@@ -147,7 +144,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case PINIABAJA:
 			case PINIAALTA:
 			case TRABA:								
-				if (this->accionActual->esUltimoModo()){
+				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
 				}
 			break;			

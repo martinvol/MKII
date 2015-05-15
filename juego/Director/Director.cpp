@@ -90,6 +90,11 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			///Entonces despues de activar la accion, seteo 
 			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
+		case PatadaSaltoVertical:
+			jugador->activarAccion(PATADASALTANDOVERTICAL);
+			(jugador->personaje)->PatadaAlta = false;
+			(jugador->personaje)->PatadaBaja = false;
+			break;
 		case PatadaAltaAgachado:			
 			jugador->activarAccion(PATADAALTAAGACHADO);			
 			break;

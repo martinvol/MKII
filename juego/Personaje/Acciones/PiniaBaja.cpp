@@ -15,9 +15,38 @@ PiniaBaja::PiniaBaja(string ruta, SDL_Renderer* ren, float despl_x, float despl_
 	this->porcentajeDeDanio = 2;
 };
 
+
+
+void PiniaBaja::cambiarModoInversamente(){
+	if (this->modoActual==0){
+		if(this->cantModos>0)
+			setModoActual(this->cantModos-1);	
+			ciclos = 1;
+	}
+	else{
+		if (this->modoActual>0)
+			setModoActual(this->modoActual-1);
+	}
+}	
+  	
+void PiniaBaja::cambiarModo(){
+	if (modoActual==(cantModos-2)){
+		setModoActual(0);
+		setInvertirSecuencia();	
+	}else{
+		setModoActual(this->modoActual+1);
+	}
+}
+
+
 CoordenadaLogica* PiniaBaja::execute(CoordenadaLogica* coord_personaje){	
 	
-	Accion::cambiarModo();
+	if(secuenciaInversa){
+		PiniaBaja::cambiarModoInversamente();	
+	}
+	else{
+		PiniaBaja::cambiarModo();
+	}
 	return new CoordenadaLogica(coord_personaje);
 };
 

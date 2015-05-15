@@ -594,8 +594,14 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		}		
 	//ARRIBA--> SALTA
 	} else if (personaje->Arriba){
-		// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
-		this->director->seMuevePersonaje(jugador, Arriba);
+		if (personaje->PatadaAlta or personaje->PatadaBaja){
+			puts("saltar vertical + pinia");
+			this->director->seMuevePersonaje(jugador, PatadaSaltoVertical);
+			
+		}else{
+			// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
+			this->director->seMuevePersonaje(jugador, Arriba);
+		}
 	//ABAJO -->AGACHARSE
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
