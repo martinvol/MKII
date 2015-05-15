@@ -28,7 +28,8 @@
 #include "../Personaje/Acciones/PatadaSaltoVertical.hpp"
 #include "../Personaje/Acciones/RoundKick.hpp"
 #include "../Personaje/Acciones/Gancho.hpp"
-
+#include "../Personaje/Acciones/RecibirGolpeBajo.hpp"
+#include "../Personaje/Acciones/RecibirGolpeAlto.hpp"
 using namespace std;
 
 class Estado{

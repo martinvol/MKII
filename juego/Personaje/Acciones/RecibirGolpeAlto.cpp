@@ -13,7 +13,7 @@ RecibirGolpeAlto::RecibirGolpeAlto(string ruta, SDL_Renderer* ren, float despl_x
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
-};
+}
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void RecibirGolpeAlto::cambiarModo(){
 	if(esUltimoModo()){}
@@ -25,7 +25,7 @@ void RecibirGolpeAlto::cambiarModo(){
 CoordenadaLogica* RecibirGolpeAlto::execute(CoordenadaLogica* coord_personaje){
 	Accion::cambiarModo();
 	return new CoordenadaLogica(coord_personaje);
-};
+}
 
 bool RecibirGolpeAlto::permiteAccion(accion_posible nuevaAccion){
 	return false;
