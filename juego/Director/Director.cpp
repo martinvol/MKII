@@ -33,117 +33,6 @@ Director::~Director(){
  * 
  *********************************************************************/
 
-
-void Director::informar_acciones(){
-	informar_accion(mov1, jugadores[jugador1]);
-	informar_accion(mov2, jugadores[jugador2]);
-}
-
-/* Le va a decir al Jugador/Personaje que le dijeron de hacer
- * cierta acción. Éste va a saber si ignorarlo porque está haciendo otra
- * acción o interrumpir la acción que estaba haciendo por esta. */
-void Director::informar_accion(movimiento mov, Jugador* jugador){
-	switch (mov){
-		case Derecha:
-			jugador->activarAccion(CAMINAR_DERECHA);
-			(jugador->personaje)->Derecha = false;			
-			break;
-		case Izquierda:
-			jugador->activarAccion(CAMINAR_IZQUIERDA);
-			(jugador->personaje)->Izquierda = false;
-			break;
-		case Arriba:
-			jugador->activarAccion(SALTAR);
-			(jugador->personaje)->Arriba = false;
-			break;
-		case Abajo:
-			jugador->activarAccion(AGACHARSE);
-			(jugador->personaje)->Abajo = false;
-			break;			
-		case ArribaDerecha:
-			jugador->activarAccion(SALTARDIAGONAL_DER);
-			(jugador->personaje)->Arriba = false;
-			(jugador->personaje)->Derecha = false;
-			break;
-		case ArribaIzquierda:
-			jugador->activarAccion(SALTARDIAGONAL_IZQ);
-			(jugador->personaje)->Arriba = false;
-			(jugador->personaje)->Izquierda = false;
-			break;		
-		case PiniaAlta:
-			jugador->activarAccion(PINIAALTA);
-			(jugador->personaje)->PiniaAlta = false;
-			break;
-		case PiniaBaja:			
-			jugador->activarAccion(PINIABAJA);
-			(jugador->personaje)->PiniaBaja = false;
-			//Una vez que la ejecuto, la desactivo, sino loopea.			
-			break;
-		case PatadaAlta:			
-			jugador->activarAccion(PATADAALTA);
-			(jugador->personaje)->PatadaAlta = false;			
-			///MAXI QUE ES ESTO?
-			
-			///Joystick no tiene button_UP y button_DOWN.			
-			///Solo detecta cuando se aprieta un boton.
-			///Entonces despues de activar la accion, seteo 
-			///los booleanos del pj en false. Sino loopea (solo joystick).
-			break;
-		case PatadaSaltoVertical:
-			jugador->activarAccion(PATADASALTANDOVERTICAL);
-			(jugador->personaje)->PatadaAlta = false;
-			(jugador->personaje)->PatadaBaja = false;
-			break;
-		case PatadaAltaAgachado:			
-			jugador->activarAccion(PATADAALTAAGACHADO);			
-			break;
-		case PatadaBajaAgachado:
-			jugador->activarAccion(PATADABAJAAGACHADO);
-			break;
-		case PatadaBaja:			
-			jugador->activarAccion(PATADABAJA);
-			(jugador->personaje)->PatadaBaja = false;
-			//Una vez que la ejecuto, la desactivo, sino loopea.			
-			break;
-		case Traba:
-			///puts("traba");
-			jugador->activarAccion(TRABA);
-			(jugador->personaje)->PatadaBaja = false;
-			(jugador->personaje)->Izquierda = false;
-			break;
-		case CubrirAlto:
-			jugador->activarAccion(CUBRIRALTO);
-			/// Problema aca, a veces se queda trabado.
-			//(jugador->personaje)->CubrirAlto = false;
-			break;
-		case CubrirBajo:
-			jugador->activarAccion(CUBRIRBAJO);
-			break;
-		case ArrojarArma:
-			cout<<"ArrojarArma"<<endl; ///			
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			(jugador->obtenerPersonaje())->ArrojarArma = false;
-			jugador->obtenerPersonaje()->Arrojar();
-			break;
-		case MirarDerecha:
-			///puts("hola?"); ///
-			jugador->activarAccion(MIRARDERECHA);
-			break;
-		case Gancho:
-			jugador->activarAccion(GANCHO);
-			break;
-		case MirarIzquierda:
-			jugador->activarAccion(MIRARIZQUIERDA);
-			break;
-		case RoundKick:
-			jugador->activarAccion(ROUNDKICK);
-			break;
-		default: //case Nada:
-			jugador->activarAccion(QUIETO);
-			break;
-	}
-}
-
 void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 
 	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
@@ -406,19 +295,18 @@ void Director::verificar_orientaciones(){
 	CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
 	if (coord1->estaALaDerechaDe(coord2)){
 		jugadores[jugador1]->mirarParaIzquierda();
-		//~ this->informar_accion(MirarIzquierda,jugadores[jugador1]);
+		//~ jugadores[jugador1]->activarAccion(MIRARIZQUIERDA);
 		jugadores[jugador2]->mirarParaDerecha();
 		if (!jugadores[jugador2]->personaje->mirarDerecha){
 		
 			puts("hola");
-		
-			this->informar_accion(MirarDerecha,jugadores[jugador2]);
+			jugadores[jugador2]->activarAccion(MIRARDERECHA);
 		}
 	} else {
 		jugadores[jugador1]->mirarParaDerecha();
-		//~ this->informar_accion(MirarDerecha,jugadores[jugador1]);
+		//~ jugadores[jugador1]->activarAccion(MIRARDERECHA);
 		jugadores[jugador2]->mirarParaIzquierda();
-		//~ this->informar_accion(MirarIzquierda,jugadores[jugador2]);
+		//~ jugadores[jugador2]->activarAccion(MIRARIZQUIERDA);
 	}
 	delete coord1;
 	delete coord2;
@@ -444,9 +332,6 @@ void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 }
 
 void Director::actualizar(){
-	// Les dice que cambien la "imagen" y "comportamiento" a la que le
-	// piden, si debe.
-	informar_acciones();
 	
 	// Haya cambiado o no de acción, yo sólo debo verificar que no se
 	// vaya del margen o debería scrollear y si no puedo decirle que se
