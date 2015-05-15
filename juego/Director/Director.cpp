@@ -397,10 +397,10 @@ void Director::verificar_orientaciones(){
 	if (coord1->estaALaDerechaDe(coord2)){
 		jugadores[jugador1]->mirarParaIzquierda();
 		//~ this->informar_accion(MirarIzquierda,jugadores[jugador1]);
+		jugadores[jugador2]->mirarParaDerecha();
 		if (!jugadores[jugador2]->personaje->mirarDerecha){
 		
 			puts("hola");
-			jugadores[jugador2]->mirarParaDerecha();
 		
 			this->informar_accion(MirarDerecha,jugadores[jugador2]);
 		}

@@ -20,7 +20,9 @@ class Arrojable{
 		Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren);
 
 		// desde donde
-		void setCoordenadas(CoordenadaLogica *coord, float alto, float ancho);
+		// ESTO se encarga de liberar la memoria de la coordenada que le pasan
+		// ANCHO y ALTO fisicos
+		void setCoordenadas(CoordenadaLogica *coord, int alto, int ancho);
 		
 		void tirar(float velocidad_arma);
 		
@@ -37,7 +39,7 @@ class Arrojable{
 	private:
 		SDL_Texture* imagen;
 		SDL_Renderer* ren;
-		float alto, ancho;
+		int alto, ancho;
 		CoordenadaLogica *coord;
 		float vel_horizontal, vel_vertical;
 		bool espejado;

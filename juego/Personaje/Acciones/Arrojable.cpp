@@ -9,10 +9,16 @@ Arrojable::Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren){
 	this->ren = ren;
 	this->imagen = imagen;
 	this->espejado = derecha;
+	this->vel_horizontal = 0;
+	this->vel_vertical = 0;
+	this->coord = NULL;
+	this->alto = 0;
+	this->ancho = 0;
+	this->rectangulo = NULL;
 }
 
 
-void Arrojable::setCoordenadas(CoordenadaLogica *coord, float alto, float ancho){
+void Arrojable::setCoordenadas(CoordenadaLogica *coord, int alto, int ancho){
 	// recibe una coordenada lógica y la convierte a física
 	this->coord = coord;
 	this->alto = ancho/5.;
@@ -74,7 +80,7 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	int multiplicar = 1;
 
 	if (this->espejado){
-		multiplicar = -1;		
+		multiplicar = -1;
 	}
 
 	if (vel_vertical > 0){
@@ -82,14 +88,15 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	} else if (vel_vertical < 0){
 		rotar = 45*multiplicar;
 	}
-
-	this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
-
 	
 	if (this->espejado){
+		destino.x -= ancho;
 		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
+		this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
+
 		/* code */
 	} else {
+		this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
 		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_NONE);
 	}
 	
