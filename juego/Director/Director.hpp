@@ -19,7 +19,8 @@ enum movimiento {Nada, Derecha, Izquierda, Arriba, Abajo,
 				Traba, ArribaDerecha, ArribaIzquierda, AbajoDerecha,
 				AbajoIzquierda, PiniaAlta, PiniaBaja, MirarDerecha, MirarIzquierda, Pararse, 
 				CubrirAlto, CubrirBajo, ArrojarArma, PatadaAlta, PatadaBaja, PatadaBajaAgachado, 
-				PatadaAltaAgachado, PatadaSaltoVertical, Gancho, RoundKick};
+				PatadaAltaAgachado, PatadaSaltoVertical, PiniaSaltandoVertical, 
+				PiniaSaltandoDiagonal, PatadaSaltoDiagonal, Gancho, RoundKick};
 
 class Director {
 		

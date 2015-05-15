@@ -90,10 +90,26 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
 		case PatadaSaltoVertical:
+			puts("pinia2 diagonal");
 			jugador->activarAccion(PATADASALTANDOVERTICAL);
 			(jugador->personaje)->PatadaAlta = false;
 			(jugador->personaje)->PatadaBaja = false;
 			break;
+		case PatadaSaltoDiagonal:
+			puts("patadaskrjhfkrs diagonal");
+			jugador->activarAccion(PATADASALTANDODIAGONAL);
+			(jugador->personaje)->PatadaAlta = false;
+			(jugador->personaje)->PatadaBaja = false;
+			break;
+		case PiniaSaltandoVertical:
+			jugador->activarAccion(PINIASALTANDOVERTICAL);
+			(jugador->personaje)->PiniaAlta = false;
+			(jugador->personaje)->PiniaBaja = false;
+		break;
+		case PiniaSaltandoDiagonal:
+			jugador->activarAccion(PINIASALTANDODIAGONAL);
+			(jugador->personaje)->PiniaAlta = false;
+			(jugador->personaje)->PiniaBaja = false;
 		case PatadaAltaAgachado:			
 			jugador->activarAccion(PATADAALTAAGACHADO);			
 			break;

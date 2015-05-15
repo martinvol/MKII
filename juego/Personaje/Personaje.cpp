@@ -105,11 +105,18 @@ void Personaje::activarAccion(accion_posible accion){
 			
 			case SALTAR:
 				if (accion == PATADASALTANDOVERTICAL){
-					puts("holafijslkgjflkj");
 					cambiarAccionA(PATADASALTANDOVERTICAL);
+				}
+				else if (accion == PINIASALTANDOVERTICAL){	
+					cambiarAccionA(PINIASALTANDOVERTICAL);	
 				}
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
+				if(accion == PATADASALTANDODIAGONAL){
+					cambiarAccionA(PATADASALTANDODIAGONAL);
+				}else if (accion == PINIASALTANDODIAGONAL){
+					cambiarAccionA(PINIASALTANDODIAGONAL);
+				}
 			case PINIASALTANDODIAGONAL:
 				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDOVERTICAL:

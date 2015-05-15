@@ -559,7 +559,14 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personaje->Arriba){
-			this->director->seMuevePersonaje(jugador, ArribaDerecha);
+			if (personaje->PiniaAlta or personaje->PiniaBaja){
+				this->director->seMuevePersonaje(jugador, PiniaSaltandoDiagonal);
+			}
+			else if (personaje->PatadaAlta or personaje->PatadaBaja){
+				this->director->seMuevePersonaje(jugador, PatadaSaltoDiagonal);	
+			}else{
+				this->director->seMuevePersonaje(jugador, ArribaDerecha);
+			}
 		}
 		//+ABAJO = ABAJO DERECHA
 		else if (personaje->Abajo){
@@ -573,7 +580,14 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
-			this->director->seMuevePersonaje(jugador, ArribaIzquierda);
+			if (personaje->PiniaAlta or personaje->PiniaBaja){
+				this->director->seMuevePersonaje(jugador, PiniaSaltandoDiagonal);
+			}
+			else if (personaje->PatadaAlta or personaje->PatadaBaja){
+				this->director->seMuevePersonaje(jugador, PatadaSaltoDiagonal);	
+			}else{
+				this->director->seMuevePersonaje(jugador, ArribaIzquierda);
+			}
 		}		
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
@@ -587,9 +601,10 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 	//ARRIBA--> SALTA
 	} else if (personaje->Arriba){
 		if (personaje->PatadaAlta or personaje->PatadaBaja){
-			puts("saltar vertical + pinia");
 			this->director->seMuevePersonaje(jugador, PatadaSaltoVertical);
 			
+		}else if(personaje->PiniaAlta or personaje->PiniaBaja){
+			this->director->seMuevePersonaje(jugador, PiniaSaltandoVertical);
 		}else{
 			// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
 			this->director->seMuevePersonaje(jugador, Arriba);
