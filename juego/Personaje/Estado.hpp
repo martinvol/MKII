@@ -30,6 +30,8 @@
 #include "../Personaje/Acciones/Gancho.hpp"
 #include "../Personaje/Acciones/RecibirGolpeBajo.hpp"
 #include "../Personaje/Acciones/RecibirGolpeAlto.hpp"
+#include "../Personaje/Acciones/SiendoArrojado.hpp"
+
 using namespace std;
 
 class Estado{
@@ -66,6 +68,7 @@ class Estado{
 		// Recibir Golpes
 		RecibirGolpeAlto* recibirgolpealto;
 		RecibirGolpeBajo* recibirgolpebajo;
+		SiendoArrojado* siendoarrojado;
 };
 
 #endif
