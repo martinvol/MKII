@@ -4,7 +4,7 @@
    "ventana":{
       "anchopx":800,
       "altopx":600,
-      "ancho":400,
+      "ancho":800,
       "margen":90
    },
    "escenario":{
@@ -15,15 +15,15 @@
    "capas":[
       {
          "imagen_fondo":"resources/background/fondo.png",
-         "anchoLogico": 400
+         "anchoLogico": 800
       }, 
       {
          "imagen_fondo":"resources/background/p_4b.png",
-         "anchoLogico": 504 
+         "anchoLogico": 850 
       }, 
       {
          "imagen_fondo":"resources/background/p_3.png",
-         "anchoLogico": 700
+         "anchoLogico": 900
       }, 
       {
          "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
@@ -35,8 +35,9 @@
       }
    ],
    "personaje":{
-      "ancho":127,
-      "alto":63,
+      "nombre": "Volpe",
+      "ancho":63,
+      "alto":127,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
@@ -49,8 +50,9 @@
       "offset": 200
    },
    "personaje2":{
-      "ancho":127,
-      "alto":63,
+      "nombre": "Battán",
+      "ancho":63,
+      "alto":127,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
