@@ -141,7 +141,8 @@ void Personaje::activarAccion(accion_posible accion){
 						//~ cout<<"BUCLEEE"<<endl;
 					//~ }
 				}				
-				break;					
+				break;
+			case RECIBIRGOLPEALTO: ///					
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
@@ -419,6 +420,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case ROUNDKICK:
 			this->accionActual = this->estado->roundKick;
+			break;
+		case RECIBIRGOLPEALTO:
+			this->accionActual = this->estado->recibirgolpealto;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
