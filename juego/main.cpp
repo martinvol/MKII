@@ -20,7 +20,6 @@ using namespace std;
 
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
 #define CONST_MAXI_DELAY 18
-#define FACTOR_SCROLL 5
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
@@ -251,7 +250,7 @@ public:
         cargar_configuracion(this->parser);
 		
 		// Para dos personajes:
-		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
+		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, this->timer);
 		        
     }
 //----------------------------------------------------------------

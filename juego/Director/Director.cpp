@@ -7,13 +7,12 @@
  * 
  *********************************************************************/
 
-Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer){
+Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
 	jugadores.push_back(new Jugador(personaje1, barra1));
 	jugadores.push_back(new Jugador(personaje2, barra2));
-	this->factor_scroll = factor_scroll;
 	this->timer = timer;
 }
 
@@ -173,7 +172,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	
 	// Caso: scrollear a la derecha.
 	if ((jugador->personaje->nroAccionActual != QUIETO) && (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeDer)){
-		scrollearDerecha();
+		scrollearDerecha(coordSig->x - this->ventana->obtenerMargenLogicoDerecho(this->conversor));
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (coordSig->x > margen_der){
 			coordSig->setearX(margen_der);
@@ -213,7 +212,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	
 	// Caso: scrollear a la izquierda.
 	if ((jugador->personaje->nroAccionActual != QUIETO) && (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeIzq)) {
-	    scrollearIzquierda();
+	    scrollearIzquierda(this->ventana->obtenerMargenLogicoIzquierdo(this->conversor) - coordSig->x);
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
 		if (coordSig->x < margen_izq) coordSig->setearX(margen_izq);
 		jugador->moverseAIzqSup(coordSig);
@@ -366,7 +365,7 @@ bool Director::sePuedeScrollearIzquierda(){
 	return sePuede;
 }
 
-void Director::scrollearDerecha(){
+void Director::scrollearDerecha(float factor_scroll){
 	if (not this->sePuedeScrollearDerecha()){
 		return;
 	}
@@ -378,7 +377,7 @@ void Director::scrollearDerecha(){
 	}
 }
 
-void Director::scrollearIzquierda(){
+void Director::scrollearIzquierda(float factor_scroll){
 	if (not this->sePuedeScrollearIzquierda()) return;
 	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
 	if (this->escenario->esLimiteIzquierdo(borde_izq-factor_scroll))
