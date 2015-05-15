@@ -34,7 +34,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->conversor = conversor;
 	this->y_inicial = coord->y;
 	this->coordenada = coord;
-	this->siguiente = NULL;
+	this->siguiente = new CoordenadaLogica(coord);
 	
 	this->mirarDerecha = false;
 	
@@ -99,7 +99,7 @@ void Personaje::activarAccion(accion_posible accion){
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
-		if (siguiente != NULL){ delete siguiente; }
+		delete siguiente;
 		siguiente = this->accionActual->execute(this->coordenada);
 		switch (nroAccionActual){
 			
@@ -281,20 +281,17 @@ CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarY(alto);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarY(alto);
 	coord->desplazarX(ancho);
@@ -302,20 +299,19 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarX(ancho);
 	return coord;
 }
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
-	if (!this->coordenada) delete coordenada;
+	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
-	if (!this->coordenada) delete coordenada;
+	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
