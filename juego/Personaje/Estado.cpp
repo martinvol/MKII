@@ -12,7 +12,7 @@ using namespace std;
  **********************************************************************/  
 Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ancho_ventana, int hue_init, int hue_fin, int hue_offset){
 	this->quieto = new Quieto(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
-	this->saltarvertical = new SaltarVertical(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), alto_personaje, hue_init, hue_fin, hue_offset);
+	this->saltarvertical = new SaltarVertical(ruta, ren, 0, (2./3.)*VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), alto_personaje, hue_init, hue_fin, hue_offset);
 	this->saltardiagonal = new SaltarDiagonal(ruta, ren, 3*VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
 	this->caminar = new Caminar(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->agacharse = new Agacharse(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
