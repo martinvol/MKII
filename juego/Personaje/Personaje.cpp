@@ -16,7 +16,7 @@ using namespace std;
  *
  **********************************************************************/  
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha){
 
 	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
@@ -34,9 +34,9 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->conversor = conversor;
 	this->y_inicial = coord->y;
 	this->coordenada = coord;
-	this->siguiente = NULL;
+	this->siguiente = new CoordenadaLogica(coord);
 	
-	this->mirarDerecha = false;
+	this->mirarDerecha = miraADerecha;
 	
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
@@ -72,9 +72,9 @@ void Personaje::Arrojar(){
 		int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 		int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
 		if (mirarDerecha){
-			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaIzqSup()), alto_fisico, ancho_fisico);
+			arrojable->setCoordenadas(this->obtenerCoordenadaIzqSup(), alto_fisico, ancho_fisico);
 		} else {
-			arrojable->setCoordenadas(new CoordenadaLogica(obtenerCoordenadaDerSup()), alto_fisico, ancho_fisico);
+			arrojable->setCoordenadas(this->obtenerCoordenadaDerSup(), alto_fisico, ancho_fisico);
 		}
 		arrojable->tirar(this->velocidad_arma);
 	
@@ -99,7 +99,7 @@ void Personaje::activarAccion(accion_posible accion){
 	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
 		cambiarAccionA(accion);
 	} else {
-		if (siguiente != NULL){ delete siguiente; }
+		delete siguiente;
 		siguiente = this->accionActual->execute(this->coordenada);
 		switch (nroAccionActual){
 			
@@ -252,20 +252,17 @@ CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqSup(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarY(alto);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaIzqInf(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarY(alto);
 	coord->desplazarX(ancho);
@@ -273,20 +270,19 @@ CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerSup(){
 }
 
 CoordenadaLogica* Personaje::obtenerSiguienteCoordenadaDerInf(){
-	if (siguiente == NULL) return NULL;
 	CoordenadaLogica* coord = new CoordenadaLogica(siguiente);
 	coord->desplazarX(ancho);
 	return coord;
 }
 
 void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
-	if (!this->coordenada) delete coordenada;
+	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
-	if (!this->coordenada) delete coordenada;
+	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
@@ -454,7 +450,7 @@ void Personaje::Dibujarse(){
 	//Rectangulo destino
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
-	if (!this->mirarDerecha) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
+	if (!this->mirarDerecha && nroAccionActual != QUIETO) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
 	destino.y = coord2_fis->y_fisico + (this->altura_quieto - _h)*this->conversor->factor_alto;
 	//destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
 	destino.w = (_w)/this->ancho_quieto*ancho_fisico;//ancho_fisico;
@@ -471,6 +467,7 @@ void Personaje::Dibujarse(){
 		
 		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
 	}
+
 
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
 		// Para evitar hacer esto acá podría crear un objeto

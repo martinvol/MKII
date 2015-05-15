@@ -31,8 +31,6 @@ class Director {
 		Timer* timer;
 		ConversorDeCoordenadas* conversor;
 		
-		float factor_scroll;
-		
 		// Atributos necesarios para recopilar la información del loop y actualizar al final ambos jugadores.
 		movimiento mov1 = Nada;
 		movimiento mov2 = Nada;
@@ -45,11 +43,11 @@ class Director {
 		void verificar_orientaciones();
 		bool sePuedeScrollearDerecha();
 		bool sePuedeScrollearIzquierda();
-		void scrollearDerecha();
-		void scrollearIzquierda();
+		void scrollearDerecha(float factor_scroll);
+		void scrollearIzquierda(float factor_scroll);
 		
 	public:
-		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, float factor_scroll, Timer* timer);
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer);
 		~Director();
 		
 		/* Va a recibir donde intenta moverse, qué intenta hacer. */
