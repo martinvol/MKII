@@ -105,11 +105,18 @@ void Personaje::activarAccion(accion_posible accion){
 			
 			case SALTAR:
 				if (accion == PATADASALTANDOVERTICAL){
-					puts("holafijslkgjflkj");
 					cambiarAccionA(PATADASALTANDOVERTICAL);
+				}
+				else if (accion == PINIASALTANDOVERTICAL){	
+					cambiarAccionA(PINIASALTANDOVERTICAL);	
 				}
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
+				if(accion == PATADASALTANDODIAGONAL){
+					cambiarAccionA(PATADASALTANDODIAGONAL);
+				}else if (accion == PINIASALTANDODIAGONAL){
+					cambiarAccionA(PINIASALTANDODIAGONAL);
+				}
 			case PINIASALTANDODIAGONAL:
 				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDOVERTICAL:
@@ -138,11 +145,13 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
 				}				
-				break;					
+				break;
+			case RECIBIRGOLPEALTO: ///					
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
 			case PINIAALTA:
+			case GANCHO:
 			case TRABA:								
 				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
@@ -169,6 +178,10 @@ void Personaje::activarAccion(accion_posible accion){
 				else if (accion == PATADAALTAAGACHADO){
 					puts("de agachado a patada alta"); ///
 					cambiarAccionA(PATADAALTAAGACHADO);
+				}
+				else if (accion == GANCHO){
+					puts("de agachado a gancho"); ///
+					cambiarAccionA(GANCHO);
 				}
 				break;
 			//	DEBERIA SER 'CAMINAR ATRAS' 
@@ -416,6 +429,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case ROUNDKICK:
 			this->accionActual = this->estado->roundKick;
+			break;
+		case RECIBIRGOLPEALTO:
+			this->accionActual = this->estado->recibirgolpealto;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

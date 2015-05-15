@@ -556,15 +556,31 @@ void ActualizarModelo(Personaje* personaje){
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personaje->Arriba){
-			//~ this->director->seMuevePersonaje(jugador, ArribaDerecha);
-			personaje->activarAccion(SALTARDIAGONAL_DER);
-			personaje->Arriba = false;
-			personaje->Derecha = false;
+			if (personaje->PiniaAlta or personaje->PiniaBaja){
+				//~ this->director->seMuevePersonaje(jugador, PiniaSaltandoDiagonal);
+				personaje->activarAccion(PINIASALTANDODIAGONAL);
+				personaje->PiniaAlta = false;
+				personaje->PiniaBaja = false;
+			}
+			else if (personaje->PatadaAlta or personaje->PatadaBaja){
+				//~ this->director->seMuevePersonaje(jugador, PatadaSaltoDiagonal);
+				puts("patadaskrjhfkrs diagonal");
+				personaje->activarAccion(PATADASALTANDODIAGONAL);
+				personaje->PatadaAlta = false;
+				personaje->PatadaBaja = false;
+			}else{
+
+				//~ this->director->seMuevePersonaje(jugador, ArribaDerecha);
+				personaje->activarAccion(SALTARDIAGONAL_DER);
+				personaje->Arriba = false;
+				personaje->Derecha = false;
+			}
 		}
 		//+ABAJO = ABAJO DERECHA
 		else if (personaje->Abajo){
 			//~ this->director->seMuevePersonaje(jugador, AbajoDerecha);
-			true;
+			personaje->activarAccion(AGACHARSE);
+			personaje->Abajo = false;
 		}
 		//CAMINAR DERECHA
 		else {
@@ -576,10 +592,24 @@ void ActualizarModelo(Personaje* personaje){
 	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
-			//~ this->director->seMuevePersonaje(jugador, ArribaIzquierda);
-			personaje->activarAccion(SALTARDIAGONAL_IZQ);
-			personaje->Arriba = false;
-			personaje->Izquierda = false;
+			if (personaje->PiniaAlta or personaje->PiniaBaja){
+				//~ this->director->seMuevePersonaje(jugador, PiniaSaltandoDiagonal);
+				personaje->activarAccion(PINIASALTANDODIAGONAL);
+				personaje->PiniaAlta = false;
+				personaje->PiniaBaja = false;
+			}
+			else if (personaje->PatadaAlta or personaje->PatadaBaja){
+				//~ this->director->seMuevePersonaje(jugador, PatadaSaltoDiagonal);
+				puts("patadaskrjhfkrs diagonal");
+				personaje->activarAccion(PATADASALTANDODIAGONAL);
+				personaje->PatadaAlta = false;
+				personaje->PatadaBaja = false;
+			}else{
+				//~ this->director->seMuevePersonaje(jugador, ArribaIzquierda);
+				personaje->activarAccion(SALTARDIAGONAL_IZQ);
+				personaje->Arriba = false;
+				personaje->Izquierda = false;
+			}
 		}		
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
@@ -588,6 +618,12 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(TRABA);
 			personaje->PatadaBaja = false;
 			personaje->Izquierda = false;
+		}
+		//+ABAJO = ABAJO IZQUIERDA
+		else if (personaje->Abajo){
+			//~ this->director->seMuevePersonaje(jugador, AbajoIzquierda);
+			personaje->activarAccion(AGACHARSE);
+			personaje->Abajo = false;
 		}
 		//CAMINAR IZQUIERDA
 		else {
@@ -598,11 +634,15 @@ void ActualizarModelo(Personaje* personaje){
 	//ARRIBA--> SALTA
 	} else if (personaje->Arriba){
 		if (personaje->PatadaAlta or personaje->PatadaBaja){
-			puts("saltar vertical + pinia");
 			//~ this->director->seMuevePersonaje(jugador, PatadaSaltoVertical);
 			personaje->activarAccion(PATADASALTANDOVERTICAL);
 			personaje->PatadaAlta = false;
 			personaje->PatadaBaja = false;
+		}else if(personaje->PiniaAlta or personaje->PiniaBaja){
+			//~ this->director->seMuevePersonaje(jugador, PiniaSaltandoVertical);
+			personaje->activarAccion(PINIASALTANDOVERTICAL);
+			personaje->PiniaAlta = false;
+			personaje->PiniaBaja = false;
 		}else{
 			// Sólo va a ser saltar vertical porque sino hubiera entrado arriba y no sería un else.
 			//~ this->director->seMuevePersonaje(jugador, Arriba);
@@ -625,11 +665,13 @@ void ActualizarModelo(Personaje* personaje){
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
 			//~ this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);			
-			personaje->activarAccion(PATADAALTAAGACHADO);	
+			personaje->activarAccion(PATADAALTAAGACHADO);
+		//+PINIA ALTA = GANCHO
 		}else if (personaje->PiniaAlta){
 			cout<<"gancho desde main"<<endl;
 			//~ this->director->seMuevePersonaje(jugador, Gancho);
-			personaje->activarAccion(GANCHO);			
+			personaje->activarAccion(GANCHO);
+			personaje->PiniaAlta = false;
 		}else{
 			//~ this->director->seMuevePersonaje(jugador, Abajo);
 			personaje->activarAccion(AGACHARSE);
@@ -682,13 +724,13 @@ void ActualizarModelo(Personaje* personaje){
 	}else if (personaje->PatadaAlta){
 		//~ this->director->seMuevePersonaje(jugador, PatadaAlta);
 	personaje->activarAccion(PATADAALTA);
-		personaje->PatadaAlta = false;			
-		///MAXI QUE ES ESTO?
-		
-		///Joystick no tiene button_UP y button_DOWN.			
-		///Solo detecta cuando se aprieta un boton.
-		///Entonces despues de activar la accion, seteo 
-		///los booleanos del pj en false. Sino loopea (solo joystick).
+	personaje->PatadaAlta = false;			
+	///MAXI QUE ES ESTO?
+	
+	///Joystick no tiene button_UP y button_DOWN.			
+	///Solo detecta cuando se aprieta un boton.
+	///Entonces despues de activar la accion, seteo 
+	///los booleanos del pj en false. Sino loopea (solo joystick).
 	}	
     // ARROJABLE
     else if (arrojandoPk){
@@ -711,10 +753,7 @@ void ActualizarModelo(Personaje* personaje){
 		//~ this->director->seMuevePersonaje(jugador, Nada);
 		personaje->activarAccion(QUIETO);
 	}		
- // Para implementar !
- //~ case Gancho:
-	//~ personaje->activarAccion(GANCHO);
-	//~ break;
+
  //~ case RoundKick:
 	//~ personaje->activarAccion(ROUNDKICK);
 	//~ break;

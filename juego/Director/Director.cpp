@@ -169,6 +169,7 @@ void Director::verificar_movimientos(){
 								danio = danio/4.;
 							}
 							sufre->barra->Lastimar(danio);
+							sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
 							
