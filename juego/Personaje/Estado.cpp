@@ -1,7 +1,7 @@
 #include "Estado.hpp"
 
 #define VELOCIDAD_VERTICAL 75*4
-#define VELOCIDAD_HORIZONTAL 60
+#define VELOCIDAD_HORIZONTAL 50
 
 using namespace std;
 

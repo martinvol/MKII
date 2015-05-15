@@ -32,6 +32,8 @@ class Parser {
         unordered_map <string, string> sprites_map;
         bool valido = false; // Si este valor es falso el archivo se cargó mal
 
+        string personaje1_nombre, personaje2_nombre;
+
         std::vector<unordered_map <string, int>*>* joysticks;
 };
 

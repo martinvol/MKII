@@ -90,23 +90,19 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			///Entonces despues de activar la accion, seteo 
 			///los booleanos del pj en false. Sino loopea (solo joystick).
 			break;
-		case PatadaAltaAgachado:
-			puts("PATADAALTAAGACHADO"); ///
-			jugador->activarAccion(PATADAALTAAGACHADO);	
-			(jugador->personaje)->Abajo = true;		
+		case PatadaAltaAgachado:			
+			jugador->activarAccion(PATADAALTAAGACHADO);			
 			break;
 		case PatadaBajaAgachado:
 			jugador->activarAccion(PATADABAJAAGACHADO);
 			break;
-		case PatadaBaja:
-			cout<<"PatadaBaja"<<endl; ///
+		case PatadaBaja:			
 			jugador->activarAccion(PATADABAJA);
 			(jugador->personaje)->PatadaBaja = false;
-			//Una vez que la ejecuto, la desactivo, sino loopea.
-			//~ (jugador->obtenerPersonaje())->PatadaBaja = false;
+			//Una vez que la ejecuto, la desactivo, sino loopea.			
 			break;
 		case Traba:
-			puts("traba");
+			///puts("traba");
 			jugador->activarAccion(TRABA);
 			(jugador->personaje)->PatadaBaja = false;
 			(jugador->personaje)->Izquierda = false;
@@ -120,14 +116,13 @@ void Director::informar_accion(movimiento mov, Jugador* jugador){
 			jugador->activarAccion(CUBRIRBAJO);
 			break;
 		case ArrojarArma:
-			cout<<"ArrojarArma"<<endl; ///
-			//jugador->activarAccion(PINIAALTA);
+			cout<<"ArrojarArma"<<endl; ///			
 			//Una vez que la ejecuto, la desactivo, sino loopea.
 			(jugador->obtenerPersonaje())->ArrojarArma = false;
 			jugador->obtenerPersonaje()->Arrojar();
 			break;
 		case MirarDerecha:
-			puts("hola?"); ///
+			///puts("hola?"); ///
 			jugador->activarAccion(MIRARDERECHA);
 			break;
 		case MirarIzquierda:
@@ -147,6 +142,10 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 		// Verifica altura.
 	if (this->ventana->superaTecho(coordSig_fis)){
 		coordSig->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+		jugador->personaje->estado->piniaAire->alcanzo_max = true; //%
+		jugador->personaje->estado->patadaVert->alcanzo_max = true; //%
+		jugador->personaje->estado->patadaDiag->alcanzo_max = true; //% 
+		jugador->personaje->estado->piniaAireVertical->alcanzo_max = true; //%
 	}
 	
 	// Si se choca con el otro personaje, no se puede mover.
@@ -224,11 +223,8 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 
 }
 
-/* Por ahora, sólo valida el movimiento de UN JUGADOR. */
 void Director::verificar_movimientos(){
-	///cout << "Jugador 1" << endl;
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
-	///cout << "Jugador 2" << endl;
 	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
 	
 	// chequear colisiones:
@@ -241,7 +237,7 @@ void Director::verificar_movimientos(){
 	if (rectangulos_jug1->size() && rectangulos_jug2->size()){
 
 		for (unsigned int i = 0; i < rectangulos_jug1->size(); i++){
-			for (unsigned int j = 0; j < rectangulos_jug1->size(); j++){
+			for (unsigned int j = 0; j < rectangulos_jug2->size(); j++){
 				// verifico las colisiones
 				SDL_Rect interseccion; // no lo usamos
 				SDL_bool coli = SDL_IntersectRect(
@@ -250,7 +246,6 @@ void Director::verificar_movimientos(){
 					&interseccion
 				);
 				
-				/*int indice_pega;*/
 				Rectangulo* recibe;
 				if (coli){
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
@@ -311,7 +306,7 @@ void Director::verificar_movimientos(){
 				if (coli){
 					Logger::instance()->log_debug("Le pego!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
-					float danio = 5;
+					float danio = 30;
 					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
 						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
 						danio = danio/4;

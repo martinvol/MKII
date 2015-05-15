@@ -117,7 +117,7 @@ void Parser::set_values (char* my_file) {
 
             ventana_ancho = cargarValidar(ventana, 600, "ancho", "Usando ancho default de 600px");
             if (ventana_ancho > 700 || ventana_ancho < 200){
-                logger->log_error("El alto de la ventana es inválido, se usará el ancho por defautl, 600px.");
+                logger->log_error("El ancho de la ventana es inválido, se usará el ancho por defautl, 600px.");
                 ventana_ancho = 600;
             }
             
@@ -133,8 +133,8 @@ void Parser::set_values (char* my_file) {
 
             personaje_ancho = cargarValidar(personaje, 100, "ancho", "Usando ancho (personaje) default de 100");
             if (personaje_ancho >(3./4)*ventana_ancho || personaje_ancho < 0){
-                logger->log_error("El ancho del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
-                personaje_ancho = ventana_ancho/4.;
+                // logger->log_error("El ancho del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
+                // personaje_ancho = ventana_ancho/4.;
             }
 
             personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
@@ -215,7 +215,7 @@ void Parser::set_values (char* my_file) {
                 capas_vector.push_back(temp);
             }
 
-
+            personaje1_nombre = personaje.get("nombre", "Personaje 1").asString();
             personaje_zindex = cargarValidar(personaje, 0, "zindex", "Usando zindex (personaje) default de 0");
 
             if (personaje_zindex < 0){
@@ -254,9 +254,6 @@ void Parser::set_values (char* my_file) {
                 sprintf(buf, "%d", i+1);
                 result[8] = buf[0];
 
-                printf("%s\n", result);
-
-
                 joystick = root[result];
                 unordered_map <string, int>* joystick_map = new unordered_map<string, int>();
         
@@ -276,6 +273,8 @@ void Parser::set_values (char* my_file) {
             }
 
             const Json::Value personaje2 = root["personaje2"];
+
+            personaje2_nombre = personaje2.get("nombre", "Personaje 2").asString();
 
             personaje2_ancho = cargarValidar(personaje2, 100, "ancho", "Usando ancho (personaje2) default de 100");
             if (personaje2_ancho >(3./4)*ventana_ancho || personaje2_ancho < 0){

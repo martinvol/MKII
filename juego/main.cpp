@@ -19,13 +19,13 @@ using namespace std;
 #define FRAMERATE 40
 
 #define IMG_DEFAULT "resources/miscelaneo/06.png"
-#define CONST_MAXI_DELAY 50
-#define FACTOR_SCROLL 20
+#define CONST_MAXI_DELAY 18
+#define FACTOR_SCROLL 5
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 #define ALTURA_MAX_SALTO parser->personaje_alto + parser->escenario_ypiso
-#define CONST_MAXI_DELAY 50
+//#define CONST_MAXI_DELAY 50
 
 
 // Esto no debería ser global, o si?
@@ -149,18 +149,19 @@ public:
 		// Se crean todos los objetos que dependen de ellas:
 		
 		// Tomamos la ventana en el medio del escenario.
+
+
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
-		
-		this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
-		this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+        
+        this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
+        this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
                              parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
                              //parser->escenario_alto, parser->escenario_ancho, borde_izquierdo_logico_pantalla);
-		this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
+        this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
         
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
         //under = loadTexture("resources/background/p_under.png", renderer);
         cargar_capas();
-        
         
         // Separacion entre personajes de un tercio de la ventana.
         float SEPARACION = parser->ventana_ancho / 3.0;
@@ -174,8 +175,8 @@ public:
 							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
-										"Subzero", renderer, parser->personaje2_ancho,
-										parser->personaje2_alto, estado,
+										"Subzero", renderer, parser->personaje_alto,
+										parser->personaje_ancho, estado,
 										this->conversor, parser->velocidad_arma,
                                         1); // jugador 1
 
@@ -194,14 +195,14 @@ public:
 		// Nada, eso solo. Queria llamar la atencion con las mayusculas. *Manuel*
 
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-                            renderer, parser->personaje_alto, parser->escenario_alto,
-                            parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho, 
+                            renderer, parser->personaje2_alto, parser->escenario_alto,
+                            parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                             parser->color_inicio, parser->color_fin, parser->color_offset);
                             // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
-                                        "Segundo", renderer, parser->personaje2_ancho,
+                                        "Segundo", renderer, parser->personaje2_alto,
                                         // "Kabal", renderer, parser->personaje2_ancho,
-                                        parser->personaje2_alto, estado2,
+                                        parser->personaje2_ancho, estado2,
                                         // parser->personaje2_alto, estado2,
                                         this->conversor, parser->velocidad_arma,
                                         2); // jugador 2
@@ -211,7 +212,7 @@ public:
        //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
-		cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
+		///cout << "Los personajes se crean en x_logico: " << x_logico_personaje << " y " << x_logico_personaje2 << endl;
         
         this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
@@ -228,7 +229,7 @@ public:
         SDL_JoystickID myID = SDL_JoystickInstanceID(Player1);
         ///Por defecto es 0
         ///Si se desconecta es un -1        
-        cout<<myID<<endl;				
+        ///cout<<myID<<endl;				
         
 		if (Player1 == NULL ){
 			logger->log_error("Player 1 JOYSTICK desconectado");			
@@ -245,40 +246,14 @@ public:
         }
 }
 
-//----------------------------------------------------------------
-//----------------------------------------------------------------
     void configurar(){
-/*<<<<<<< HEAD
-        cargar_configuracion();
 
-        window = SDL_CreateWindow("Mortal Kombat 3 Ultimate",
-                                   SDL_WINDOWPOS_CENTERED,
-                                   SDL_WINDOWPOS_CENTERED,
-                                   conf->ventana_anchopx, conf->ventana_altopx,
-                                   SDL_WINDOW_MAXIMIZED);
-
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
-
-        under = loadTexture("resources/background/p_under.png", renderer);
-        cargar_capas();
-
-        //Izquierda
-        
-       //Derecha
-        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        Personaje* personaje = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),&barraDeVida1,"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
-        this->personajeJuego = personaje;
-=======*/
         this->parser = new Parser();
         cargar_configuracion(this->parser);
 		
 		// Para dos personajes:
 		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, FACTOR_SCROLL, this->timer);
-		
-//>>>>>>> remotes/origin/ClonarMaster
-
-        
+		        
     }
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -308,36 +283,43 @@ public:
 
         //uno solo...por ahora (?)
         SDL_JoystickEventState (SDL_QUERY);
+        Uint32 t1;
 
         SDL_Event evento;
         while (!salir){					
 
             timerFps = SDL_GetTicks();
             Controlador(&evento);       //Controlador
-            if (!pausa){								
+            if (!pausa){
+                
+                // t1 = SDL_GetTicks();
                 ActualizarModelo(jugador1, personajeJuego);     //Modelo 
                 ActualizarModelo(jugador2, personajeJuego2);
+                // cout << SDL_GetTicks()-t1<< " 1"<<endl;
+
+                // t1 = SDL_GetTicks();
                 this->director->actualizar();                
                 //Detecto desconectados-conectados en caliente.
+                // cout << SDL_GetTicks()-t1<< " 2"<<endl;
+                
+                // t1 = SDL_GetTicks();
                 SDL_JoystickClose(Player1);
                 SDL_JoystickClose(Player2);
+                // cout << SDL_GetTicks()-t1<< " 3"<<endl;
+
+
+                // t1 = SDL_GetTicks();
                 Player1 = SDL_JoystickOpen(0); 
                 Player2 = SDL_JoystickOpen(1); 
+                // cout << SDL_GetTicks()-t1<< " 4"<<endl;
+
             }
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
 
             timerFps = SDL_GetTicks() - timerFps;
-            if(timerFps < int(1000/24)){
-                SDL_Delay(CONST_MAXI_DELAY);
-            }
-
-            if (director->seMurio(0)){
-                cout << "ganó jugador 2"<< endl;
-                this->reiniciarJuego();
-            } else if (director->seMurio(1)){
-                 cout << "ganó jugador 1"<< endl;
-                 this->reiniciarJuego();
+            if(timerFps < 1.*1000./CONST_MAXI_DELAY){
+                SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
             ///ESTO NO ES DEBUG, VA EN EL FINAL.
             ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
@@ -351,7 +333,13 @@ public:
 				//~ logger->log_error("Joystick 2 Desconectado");			
 				//~ pausa = true;			
 			//~ }
-				
+			if (director->seMurio(0)){
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+                this->reiniciarJuego();
+            } else if (director->seMurio(1)){
+                logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+                 this->reiniciarJuego();
+            }
         }
 
     };
@@ -364,19 +352,8 @@ public:
 		
         configurar();
 
-/*<<<<<<< HEAD
-        estado = new Estado((string)(this->conf->sprites_map["personaje1"]), renderer, conf->personaje_alto, conf->escenario_alto, conf->personaje_ancho, conf->escenario_ancho);
-        this->personajeJuego = new Personaje(new CoordenadaLogica(x_logico_personaje,conf->escenario_ypiso),&barraDeVida1,"Subzero",renderer, conf->personaje_alto, conf->personaje_ancho, estado, conf);
-        cargar_capas();
-        SDL_SetWindowSize(window, conf->ventana_anchopx, conf->ventana_altopx); // Dani se encarga de poner esto en su objeto
-        this->personajeJuego->barraDeVida->Inicializar(0, conf->ventana_anchopx/2, conf->ventana_altopx, renderer, true);
-        barraDeVida2.Inicializar(conf->ventana_anchopx/2, conf->ventana_anchopx, conf->ventana_altopx, renderer, false);
-        this->timer->reset(SDL_GetTicks());
-=======
->>>>>>> remotes/origin/ClonarMaster*/
     };
-//----------------------------------------------------------------
-//----------------------------------------------------------------
+
     void terminar_juego(){
         SDL_JoystickClose(Player1);
         SDL_JoystickClose(Player2);
@@ -385,8 +362,7 @@ public:
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         logger->log_debug("Borramos todos los objetos");
     };
-//----------------------------------------------------------------
-//----------------------------------------------------------------
+
     void terminar_sdl(){
         SDL_DestroyRenderer(renderer);
         IMG_Quit();
@@ -394,8 +370,6 @@ public:
     };
 
 
-//----------------------------------------------------------------
-//----------------------------------------------------------------
 void DibujarTodo(){
         //Limpio y dibujo
         
@@ -586,7 +560,7 @@ void Controlador(SDL_Event *evento){
 }
 
 void ActualizarModelo(num_jugador jugador, Personaje* personaje){
-	
+
 	//DERECHA		
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
@@ -606,15 +580,11 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
 			this->director->seMuevePersonaje(jugador, ArribaIzquierda);
-		}
-		//+ABAJO = ABAJO IZQUIERDA
-		else if (personaje->Abajo){
-			this->director->seMuevePersonaje(jugador, AbajoIzquierda);
-		}
+		}		
 		//+PATADA BAJA = TRABA
 		else if (personaje->PatadaBaja){
 			this->director->seMuevePersonaje(jugador, Traba);
-			puts("Traba a Implementar");
+			//puts("Traba a Implementar");
 		}
 		//CAMINAR IZQUIERDA
 		else {
@@ -637,8 +607,10 @@ void ActualizarModelo(num_jugador jugador, Personaje* personaje){
 			this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
 		//+PATADA ALTA
 		}else if(personaje->PatadaAlta){
-			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);
-			puts("Patada Alta + agachado");	///
+			this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);			
+		}else if (personaje->PiniaAlta){
+			cout<<"gancho"<<endl;
+			this->director->seMuevePersonaje(jugador, Gancho);			
 		}else{
 			this->director->seMuevePersonaje(jugador, Abajo);
 		}
