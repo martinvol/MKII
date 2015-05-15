@@ -106,6 +106,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case SALTAR:
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
+			case CAERPORGANCHO:
 			case PINIASALTANDODIAGONAL:
 				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDOVERTICAL:
@@ -423,6 +424,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case RECIBIRGOLPEALTO:
 			this->accionActual = this->estado->recibirgolpealto;
+			break;
+		case CAERPORGANCHO:
+			this->accionActual = this->estado->siendoarrojado;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
