@@ -174,23 +174,24 @@ void Director::verificar_movimientos(){
 							sufre->barra->Lastimar(danio);
 							//sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 
-							cout << pegando->personaje->accionActual->accionNro << endl;
-							if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
-								sufre->personaje->activarAccion(CAERPORTRABA);
-							} else if (pegando->personaje->accionActual->accionNro == 21){
-								sufre->personaje->activarAccion(CAERPORGANCHO);
-							} else if (pegando->personaje->accionActual->accionNro == 7 ||
-									   pegando->personaje->accionActual->accionNro == 34){
-								sufre->personaje->activarAccion(RECIBIRGOLPEBAJO);
-							} else if (sufre->personaje->accionActual->accionNro == 5){
-								sufre->personaje->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
-							}else {
-								sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
-								cout<<sufre->personaje->accionActual->accionNro<<endl;
+							if (!recibe->bloqueo){
+								cout << pegando->personaje->accionActual->accionNro << endl;
+								if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
+									sufre->personaje->activarAccion(CAERPORTRABA);
+								} else if (pegando->personaje->accionActual->accionNro == 21){
+									sufre->personaje->activarAccion(CAERPORGANCHO);
+								} else if (pegando->personaje->accionActual->accionNro == 7 ||
+										   pegando->personaje->accionActual->accionNro == 34){
+									sufre->personaje->activarAccion(RECIBIRGOLPEBAJO);
+								} else if (sufre->personaje->accionActual->accionNro == 5){
+									sufre->personaje->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
+								}else {
+									sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
+									cout<<sufre->personaje->accionActual->accionNro<<endl;
+								}
 							}
-
 							this->escenario->Temblar(SDL_GetTicks());
-							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
+							pegando->obtenerPersonaje()->accionActual->saque_vida = true; // Para que no le saque vida dos veces
 							
 						}
 
