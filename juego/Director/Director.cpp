@@ -178,11 +178,16 @@ void Director::verificar_movimientos(){
 							if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
 								puts("Hola director");
 								sufre->personaje->activarAccion(CAERPORTRABA);
-							} else if(pegando->personaje->accionActual->accionNro == 21){
+							} else if (pegando->personaje->accionActual->accionNro == 21){
 								sufre->personaje->activarAccion(CAERPORGANCHO);
-							}else {
+							} else if (pegando->personaje->accionActual->accionNro == 7){
+								sufre->personaje->activarAccion(RECIBIRGOLPEBAJO);
+								cout<<sufre->personaje->accionActual->accionNro<<endl;
+							} else {
 								sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
+								cout<<sufre->personaje->accionActual->accionNro<<endl;
 							}
+
 							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
 							

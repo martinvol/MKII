@@ -143,7 +143,8 @@ void Personaje::activarAccion(accion_posible accion){
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
 				}				
 				break;
-			case RECIBIRGOLPEALTO: ///					
+			case RECIBIRGOLPEALTO: ///		
+			case RECIBIRGOLPEBAJO:
 			case PATADAALTA:
 			case PATADABAJA:
 			case CAERPORTRABA:
@@ -404,6 +405,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case RECIBIRGOLPEALTO:
 			this->accionActual = this->estado->recibirgolpealto;
+			break;
+		case RECIBIRGOLPEBAJO:
+			this->accionActual = this->estado->recibirgolpebajo;
 			break;
 		case CAERPORGANCHO:
 			this->accionActual = this->estado->siendoarrojado;
