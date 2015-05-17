@@ -176,14 +176,15 @@ void Director::verificar_movimientos(){
 
 							cout << pegando->personaje->accionActual->accionNro << endl;
 							if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
-								puts("Hola director");
 								sufre->personaje->activarAccion(CAERPORTRABA);
 							} else if (pegando->personaje->accionActual->accionNro == 21){
 								sufre->personaje->activarAccion(CAERPORGANCHO);
 							} else if (pegando->personaje->accionActual->accionNro == 7 ||
 									   pegando->personaje->accionActual->accionNro == 34){
 								sufre->personaje->activarAccion(RECIBIRGOLPEBAJO);
-							} else {
+							} else if (sufre->personaje->accionActual->accionNro == 5){
+								sufre->personaje->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
+							}else {
 								sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 								cout<<sufre->personaje->accionActual->accionNro<<endl;
 							}

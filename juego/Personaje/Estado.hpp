@@ -34,6 +34,7 @@
 #include "../Personaje/Acciones/RecibirGolpeAlto.hpp"
 #include "../Personaje/Acciones/SiendoArrojado.hpp"
 #include "../Personaje/Acciones/RecibirTraba.hpp"
+#include "../Personaje/Acciones/RecibirGolpeAgachado.hpp"
 #include "../Personaje/Acciones/Levantarse.hpp"
 #include "../Personaje/Acciones/LevantarseDelGancho.hpp"
 
@@ -55,6 +56,7 @@ class Estado{
 		RecibirTraba* recibirTraba;
 		RecibirGolpeAlto* recibirgolpealto;
 		RecibirGolpeBajo* recibirgolpebajo;
+		RecibirGolpeAgachado* recibirGolpeAgachado;
 		SiendoArrojado* siendoarrojado;
 		Levantarse* levantarse;
 		LevantarseDelGancho* levantarseDelGancho;

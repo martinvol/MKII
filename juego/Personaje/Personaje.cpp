@@ -133,7 +133,6 @@ void Personaje::activarAccion(accion_posible accion){
 					}else{
 						cambiarAccionA(QUIETO);
 					}
-					puts("entre aca");
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
 					siguiente = coord;
@@ -155,6 +154,7 @@ void Personaje::activarAccion(accion_posible accion){
 			break;
 			case RECIBIRGOLPEALTO: ///		
 			case RECIBIRGOLPEBAJO:
+			case RECIBIRGOLPEAGACHADO:
 			case PATADAALTA:
 			case PATADABAJA:
 			

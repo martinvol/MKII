@@ -31,7 +31,7 @@ typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, 	//List
 							TROPEZAR, // Al recibir una patada voladora. FALTA Y NO ESTA
 							CAERPORGANCHO, LEVANTARSEDELGANCHO, //FALTA
 							CAERPORTRABA, LEVANTARSEDELATRABA,
-							RECIBIRGOLPEALTO, RECIBIRGOLPEBAJO } accion_posible; //FALTA
+							RECIBIRGOLPEALTO, RECIBIRGOLPEBAJO, RECIBIRGOLPEAGACHADO } accion_posible; //FALTA
 							/* PINIASALTANDOVERTICAL y PINIASALTANDODIAGONAL tienen los mismos sprites
 							 * pero PINIASALTANDODIAGONAL conserva la 'inercia', o sea sigue 
 							 * la parabola.

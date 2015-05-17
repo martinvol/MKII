@@ -1,33 +1,33 @@
-#include "RecibirGolpeAlto.hpp"
+#include "RecibirGolpeAgachado.hpp"
 
 using namespace std;
 
 /***********************************************************************
  * 
- * 						RecibirGolpeAlto
+ * 						RecibirGolpeAgachado
  * 
  **********************************************************************/  
 
-RecibirGolpeAlto::RecibirGolpeAlto(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(37,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
+RecibirGolpeAgachado::RecibirGolpeAgachado(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(RECIBIRGOLPEALTO,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 	// (float empieza_alto, float empieza_ancho, float porcentaje_alto, float porcentaje_ancho, bool ataque, bool bloqueo)
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
 }
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
-void RecibirGolpeAlto::cambiarModo(){
+void RecibirGolpeAgachado::cambiarModo(){
 	if(esUltimoModo()){}
 	else{
 		Accion::cambiarModo();
 	}
 }
 
-CoordenadaLogica* RecibirGolpeAlto::execute(CoordenadaLogica* coord_personaje){
+CoordenadaLogica* RecibirGolpeAgachado::execute(CoordenadaLogica* coord_personaje){
 	Accion::cambiarModo();
 	return new CoordenadaLogica(coord_personaje);
 }
 
-bool RecibirGolpeAlto::permiteAccion(accion_posible nuevaAccion){
+bool RecibirGolpeAgachado::permiteAccion(accion_posible nuevaAccion){
 	return false;
 }
 
