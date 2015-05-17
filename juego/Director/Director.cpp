@@ -180,9 +180,9 @@ void Director::verificar_movimientos(){
 								sufre->personaje->activarAccion(CAERPORTRABA);
 							} else if (pegando->personaje->accionActual->accionNro == 21){
 								sufre->personaje->activarAccion(CAERPORGANCHO);
-							} else if (pegando->personaje->accionActual->accionNro == 7){
+							} else if (pegando->personaje->accionActual->accionNro == 7 ||
+									   pegando->personaje->accionActual->accionNro == 34){
 								sufre->personaje->activarAccion(RECIBIRGOLPEBAJO);
-								cout<<sufre->personaje->accionActual->accionNro<<endl;
 							} else {
 								sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 								cout<<sufre->personaje->accionActual->accionNro<<endl;
