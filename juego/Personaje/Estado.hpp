@@ -1,3 +1,4 @@
+		
 #ifndef ESTADO_H_INCLUDED
 #define ESTADO_H_INCLUDED
 
@@ -34,7 +35,7 @@
 #include "../Personaje/Acciones/SiendoArrojado.hpp"
 #include "../Personaje/Acciones/RecibirTraba.hpp"
 #include "../Personaje/Acciones/Levantarse.hpp"
-
+#include "../Personaje/Acciones/LevantarseDelGancho.hpp"
 
 using namespace std;
 
@@ -56,7 +57,8 @@ class Estado{
 		RecibirGolpeBajo* recibirgolpebajo;
 		SiendoArrojado* siendoarrojado;
 		Levantarse* levantarse;
-		
+		LevantarseDelGancho* levantarseDelGancho;
+
 		/*******************ATAQUE*************************/
 
 		///Pinias
