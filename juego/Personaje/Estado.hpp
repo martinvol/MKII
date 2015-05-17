@@ -37,6 +37,7 @@
 #include "../Personaje/Acciones/RecibirGolpeAgachado.hpp"
 #include "../Personaje/Acciones/Levantarse.hpp"
 #include "../Personaje/Acciones/LevantarseDelGancho.hpp"
+#include "../Personaje/Acciones/ArrojarProyectil.hpp"
 
 using namespace std;
 
@@ -81,6 +82,8 @@ class Estado{
 		Traba* traba;
 		Gancho* gancho;
 		RoundKick* roundKick;
+		
+		ArrojarProyectil* arrojarproyectil;
 
 		/*******************DEFENSA*************************/
 
