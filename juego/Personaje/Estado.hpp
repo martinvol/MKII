@@ -1,3 +1,4 @@
+		
 #ifndef ESTADO_H_INCLUDED
 #define ESTADO_H_INCLUDED
 
@@ -14,6 +15,7 @@
 #include "../Personaje/Acciones/Caminar.hpp"
 #include "../Personaje/Acciones/Agacharse.hpp"
 #include "../Personaje/Acciones/PiniaAlta.hpp"
+#include "../Personaje/Acciones/PiniaAgachado.hpp"
 #include "../Personaje/Acciones/PiniaBaja.hpp"
 #include "../Personaje/Acciones/Girar.hpp"
 #include "../Personaje/Acciones/CubrirAlto.hpp"
@@ -31,6 +33,10 @@
 #include "../Personaje/Acciones/RecibirGolpeBajo.hpp"
 #include "../Personaje/Acciones/RecibirGolpeAlto.hpp"
 #include "../Personaje/Acciones/SiendoArrojado.hpp"
+#include "../Personaje/Acciones/RecibirTraba.hpp"
+#include "../Personaje/Acciones/RecibirGolpeAgachado.hpp"
+#include "../Personaje/Acciones/Levantarse.hpp"
+#include "../Personaje/Acciones/LevantarseDelGancho.hpp"
 
 using namespace std;
 
@@ -43,32 +49,54 @@ class Estado{
 		SaltarVertical* saltarvertical;
 		SaltarDiagonal* saltardiagonal;
 		Agacharse* agacharse;
-		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
+		Girar* girar;
+		
+		/*******************REACCION*************************/
+
+		RecibirTraba* recibirTraba;
+		RecibirGolpeAlto* recibirgolpealto;
+		RecibirGolpeBajo* recibirgolpebajo;
+		RecibirGolpeAgachado* recibirGolpeAgachado;
+		SiendoArrojado* siendoarrojado;
+		Levantarse* levantarse;
+		LevantarseDelGancho* levantarseDelGancho;
+
+		/*******************ATAQUE*************************/
+
+		///Pinias
 		PiniaAlta* piniaAlta;
 		PiniaBaja* piniaBaja;
+		PiniaAgachado* piniaAgachado;
+		PiniaAire* piniaAire;
+		PiniaAire* piniaAireVertical;	//Vengo a flotar: Pregunta... son de la misma clase? what? Entonces para que existen dos?
+		
+		///Patadas
 		PatadaAlta* patadaAlta;
 		PatadaBaja* patadaBaja;
 		PatadaBajaAgachado* patadaBajaAgachado;
 		PatadaAltaAgachado* patadaAltaAgachado;
-		Girar* girar;
-		Traba* traba;
-		CubrirAlto* cubrirAlto;
-		CubrirBajo* cubrirBajo;
-		Gancho* gancho;
-		RoundKick* roundKick;
-		string ruta_arrojable;
-		~Estado();
-		
-		// Acciones Aereas
-		PiniaAire* piniaAire;
 		PatadaSaltoDiagonal* patadaDiag;
 		PatadaSaltoVertical* patadaVert;
-		PiniaAire* piniaAireVertical;
+
+		Traba* traba;
+		Gancho* gancho;
+		RoundKick* roundKick;
+
+		/*******************DEFENSA*************************/
+
+		///Cubrir
+		CubrirAlto* cubrirAlto;
+		CubrirBajo* cubrirBajo;
 		
-		// Recibir Golpes
-		RecibirGolpeAlto* recibirgolpealto;
-		RecibirGolpeBajo* recibirgolpebajo;
-		SiendoArrojado* siendoarrojado;
+
+
+	
+		
+		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
+		~Estado();
+		
+		string ruta_arrojable;
+
 };
 
 #endif

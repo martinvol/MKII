@@ -20,10 +20,10 @@ typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, 	//List
 							PINIAALTA, PINIABAJA, //Listo 
 							MIRARDERECHA, MIRARIZQUIERDA,	//Falta MIRARIZQUIERDA
 							// Y FALTARIA LA VERSION PARA AGACHADO (pero es secundario)
-							PATADAALTA, PATADABAJA, PATADABAJAAGACHADO, PATADAALTAAGACHADO, //Listo
+							PATADAALTA, PATADABAJA, PATADABAJAAGACHADO, PATADAALTAAGACHADO, // Listo
 							
 							ARROJARARMA, 	//Listo
-							CUBRIRALTO, CUBRIRBAJO, 		//Todavia no me anda cubrir agachado									
+							CUBRIRALTO, CUBRIRBAJO, // listo
 							TRABA, 	//Listo																
 							PINIAAGACHADO, GANCHO, PINIASALTANDOVERTICAL, PINIASALTANDODIAGONAL, // Ponerlos lindos
 							PATADASALTANDOVERTICAL, PATADASALTANDODIAGONAL, // Ponerlos Lindos
@@ -31,7 +31,7 @@ typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, 	//List
 							TROPEZAR, // Al recibir una patada voladora. FALTA Y NO ESTA
 							CAERPORGANCHO, LEVANTARSEDELGANCHO, //FALTA
 							CAERPORTRABA, LEVANTARSEDELATRABA,
-							RECIBIRGOLPEALTO, RECIBIRGOLPEBAJO } accion_posible; //FALTA
+							RECIBIRGOLPEALTO, RECIBIRGOLPEBAJO, RECIBIRGOLPEAGACHADO } accion_posible; //FALTA
 							/* PINIASALTANDOVERTICAL y PINIASALTANDODIAGONAL tienen los mismos sprites
 							 * pero PINIASALTANDODIAGONAL conserva la 'inercia', o sea sigue 
 							 * la parabola.
@@ -82,6 +82,7 @@ class Accion{
 		void setDireccionDerecha();
 		void setDireccionIzquierda();
 		void setInvertirSecuencia();
+		void setDanio(int danio);
 	
 		SDL_Texture* getImagenActual();
 		int hue_init, hue_fin, hue_offset;
@@ -103,7 +104,7 @@ class Accion{
 		~Accion();
 		virtual void resetear();
 		void cambiarModoInversamente();
-		float porcentajeDeDanio;
+		float porcentajeDeDanio =0;
 };
 
 #endif

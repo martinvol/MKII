@@ -39,7 +39,7 @@ class Arrojable{
 	private:
 		SDL_Texture* imagen;
 		SDL_Renderer* ren;
-		int alto, ancho;
+		int alto, ancho, alto_original;
 		CoordenadaLogica *coord;
 		float vel_horizontal, vel_vertical;
 		bool espejado;

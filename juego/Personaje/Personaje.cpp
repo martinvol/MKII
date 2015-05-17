@@ -100,9 +100,8 @@ void Personaje::activarAccion(accion_posible accion){
 		cambiarAccionA(accion);
 	} else {
 		delete siguiente;
-		siguiente = this->accionActual->execute(this->coordenada);
-		switch (nroAccionActual){
-			
+		siguiente = this->accionActual->execute(this->coordenada);				
+		switch (nroAccionActual){			
 			case SALTAR:
 				if (accion == PATADASALTANDOVERTICAL){
 					cambiarAccionA(PATADASALTANDOVERTICAL);
@@ -129,7 +128,11 @@ void Personaje::activarAccion(accion_posible accion){
 					this->estado->saltarvertical->alcanzo_max = false;
 					this->estado->patadaVert->alcanzo_max = false;
 					this->estado->piniaAireVertical->alcanzo_max = false;
-					cambiarAccionA(QUIETO);
+					if (nroAccionActual == CAERPORGANCHO ){
+						cambiarAccionA(LEVANTARSEDELGANCHO);
+					}else{
+						cambiarAccionA(QUIETO);
+					}
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
 					siguiente = coord;
@@ -137,102 +140,83 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 			
 			case PATADAALTAAGACHADO:
-			case PATADABAJAAGACHADO:
-				//SDL_Delay(150);
-				if (this->accionActual->ciclos == 1){
-					Abajo = false;
-					PatadaBaja = false;
-					PatadaAlta = false;				
+			case PATADABAJAAGACHADO:	
+			case PINIAAGACHADO:			
+				if (this->accionActual->ciclos == 1){		
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
 				}				
 				break;
-			case RECIBIRGOLPEALTO: ///					
+			case CAERPORTRABA:
+				if (this->accionActual->ciclos == 1){
+					cambiarAccionA(LEVANTARSEDELATRABA);
+				}
+			break;
+			case RECIBIRGOLPEALTO: ///		
+			case RECIBIRGOLPEBAJO:
+			case RECIBIRGOLPEAGACHADO:
 			case PATADAALTA:
 			case PATADABAJA:
+			
 			case PINIABAJA:
+			//~ case PINIAAGACHADO:
 			case PINIAALTA:
-			case TRABA:								
+			case GANCHO:
+			case TRABA:
+			case LEVANTARSEDELGANCHO:
+			case LEVANTARSEDELATRABA:								
 				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
-			case PARARSE:
+			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
 					cambiarAccionA(QUIETO);	
 				}
 			break;
-			case AGACHARSE:
-				///puts("Holi");
-				if(accion == QUIETO){
-					cambiarAccionA(PARARSE);	
+			case AGACHARSE:	
+				if(accion == PINIAAGACHADO){
+					cambiarAccionA(PINIAAGACHADO);
 				}
-				else if(accion == CUBRIRBAJO){
-					puts("de agacharse a cubrirse"); ///
-					cambiarAccionA(CUBRIRBAJO);
-				}
-				else if(accion == PATADABAJAAGACHADO){
-					puts("de agacharse a patear");	///
-					cambiarAccionA(PATADABAJAAGACHADO);
-				}
-				else if (accion == PATADAALTAAGACHADO){
-					puts("de agachado a patada alta"); ///
-					cambiarAccionA(PATADAALTAAGACHADO);
-				}
-				break;
-			//	DEBERIA SER 'CAMINAR ATRAS' 
-			/* PJ --> si mirando a derecha --> si izq + patada baja --> traba
-			 * 		--> si mira a izquierda --> si der + patada baja --> traba
-			 * */
-			case CAMINAR_IZQUIERDA:
-				if(accion == PATADABAJA){
-					puts("De caminar izquierda a Traba"); ///
-					cambiarAccionA(TRABA);
-				}
-				break;
+															
 			case CUBRIRBAJO:
-				cambiarAccionA(CUBRIRBAJO);
 				break;	
 			default:
 				break;
 		}
 	}
 	
-	 this->imagenActual = this->accionActual->getImagenActual();
+	 //~ this->imagenActual = this->accionActual->getImagenActual();
 	 //return;
 	 
-	switch(nroAccionActual){
-		case SALTARDIAGONAL_DER:
-			if (accion == PINIAALTA || accion == PINIABAJA){
-				cambiarAccionA(PINIASALTANDODIAGONAL);								
-				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
-			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cambiarAccionA(PATADASALTANDODIAGONAL);
-				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
-			}
-			break;
-		case SALTARDIAGONAL_IZQ:
-			if (accion == PINIAALTA || accion == PINIABAJA){
-				cambiarAccionA(PINIASALTANDODIAGONAL);				
-			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cambiarAccionA(PATADASALTANDODIAGONAL);
-			}			
-			break;
-		case SALTAR:
-			if (accion == PINIAALTA || accion == PINIABAJA){				
-				cambiarAccionA(PINIASALTANDOVERTICAL);
-			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cambiarAccionA(PATADASALTANDOVERTICAL);
-			}else if (accion == ARROJARARMA){
-				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
-			}
-			break;
-	}
-	this->imagenActual = this->accionActual->getImagenActual();
-
-	if(this->accionActual->accionNro == 5){
-		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
-	}
+	//~ switch(nroAccionActual){
+		//~ case SALTARDIAGONAL_DER:
+			//~ if (accion == PINIAALTA || accion == PINIABAJA){
+				//~ cambiarAccionA(PINIASALTANDODIAGONAL);								
+				//~ cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
+			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
+				//~ cambiarAccionA(PATADASALTANDODIAGONAL);
+				//~ cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
+			//~ }
+			//~ break;
+		//~ case SALTARDIAGONAL_IZQ:
+			//~ if (accion == PINIAALTA || accion == PINIABAJA){
+				//~ cambiarAccionA(PINIASALTANDODIAGONAL);				
+			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
+				//~ cambiarAccionA(PATADASALTANDODIAGONAL);
+			//~ }			
+			//~ break;
+		//~ case SALTAR:
+			//~ if (accion == PINIAALTA || accion == PINIABAJA){				
+				//~ cambiarAccionA(PINIASALTANDOVERTICAL);
+			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
+				//~ cambiarAccionA(PATADASALTANDOVERTICAL);
+			//~ }else if (accion == ARROJARARMA){
+				//~ cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
+			//~ }
+			//~ break;
+	//~ }
+	this->imagenActual = this->accionActual->getImagenActual();	
 	
 }
 
@@ -360,6 +344,10 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case PINIABAJA:
 			this->accionActual = this->estado->piniaBaja;
 			break;
+		case PINIAAGACHADO:
+			cout<<"HOLA NRO:"<<PINIAAGACHADO<<endl;
+			this->accionActual = this->estado->piniaAgachado;
+			break;
 		case PATADAALTA:
 			this->accionActual = this->estado->patadaAlta;
 			break;
@@ -392,7 +380,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case CUBRIRBAJO:
 			this->accionActual = this->estado->cubrirBajo;
 			break;
-		case TRABA:
+		case TRABA:			
 			this->accionActual = this->estado->traba;
 			break;
 		case GANCHO:
@@ -429,8 +417,24 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case RECIBIRGOLPEALTO:
 			this->accionActual = this->estado->recibirgolpealto;
 			break;
+		case RECIBIRGOLPEBAJO:
+			this->accionActual = this->estado->recibirgolpebajo;
+			break;
 		case CAERPORGANCHO:
 			this->accionActual = this->estado->siendoarrojado;
+			if(this->mirarDerecha){
+				this->accionActual->setInvertirSecuencia();
+				this->accionActual->setDireccionIzquierda();
+			}
+			break;
+		case CAERPORTRABA:
+			this->accionActual = this->estado->recibirTraba;
+			break;
+		case LEVANTARSEDELGANCHO:
+			this->accionActual = this->estado->levantarse;
+			break;
+		case LEVANTARSEDELATRABA:
+			this->accionActual = this->estado->levantarseDelGancho;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
@@ -510,10 +514,12 @@ void Personaje::Dibujarse(){
  * 							CONTROLADOR
  *
  **********************************************************************/  
- void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf){
-	if (joystick == NULL)
+ void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf, SDL_Event *evento){
+	if (joystick == NULL){
+		//cout<<"NO hay joystick. Personaje.cpp"<<endl;
 		return;
-	 
+	}
+			 
 	int x_Joystick = SDL_JoystickGetAxis(joystick, 0);
 	int y_Joystick = SDL_JoystickGetAxis(joystick, 1);
 	
@@ -536,8 +542,81 @@ void Personaje::Dibujarse(){
 		Abajo = false;
 	}	 
 	
+	
+	
+	SDL_JoystickID numeroJoystick = (evento->jdevice.which);	
+	
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
-	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
+	Uint8 i = evento->jbutton.button;
+	switch (evento->type){			
+		case SDL_JOYBUTTONDOWN:
+			//Si el ID del joystick no corresponde
+			//con el numero de jugador, no procese el evento.
+			if (numeroJoystick != (this->numero_jugador))
+				break;
+				
+			
+			if (i ==  (*conf_joys)["pinia_baja"]){
+				PiniaBaja = true;					
+			} else if (i == (*conf_joys)["cubrirse"]){
+				CubrirAlto = true;
+			} else if (i == (*conf_joys)["patada_baja"]){
+				PatadaBaja = true;
+			} else if (i == (*conf_joys)["pinia_alta"]){
+				PiniaAlta = true;
+			} else if (i == (*conf_joys)["arrojar_arma"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+			} else if (i == (*conf_joys)["patada_alta"]){
+				PatadaAlta = true;
+			}
+			break;
+		case SDL_JOYBUTTONUP:
+		//Si el ID del joystick no corresponde
+		//con el numero de jugador, no procese el evento.
+			if (numeroJoystick != (this->numero_jugador))
+				break;
+		
+			
+			if (i ==  (*conf_joys)["pinia_baja"]){
+				PiniaBaja = false;					
+			} else if (i == (*conf_joys)["cubrirse"]){
+				CubrirAlto = false;
+				if (Abajo == true){
+					cambiarAccionA(AGACHARSE);	
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);					
+				}
+			} else if (i == (*conf_joys)["patada_baja"]){
+				PatadaBaja = false;
+			} else if (i == (*conf_joys)["pinia_alta"]){
+				PiniaAlta = false;
+			} else if (i == (*conf_joys)["arrojar_arma"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+			} else if (i == (*conf_joys)["patada_alta"]){
+				PatadaAlta = false;
+			}
+			break;
+	
+	}
+	
+	/*for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
 		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
 		if ( boton != 0 ){
 			// Aca había un swich case que Volpe sacó
@@ -578,8 +657,7 @@ void Personaje::Dibujarse(){
 			///cout<<"cubriendose"<<endl; ///
 		}else{
 			CubrirAlto = false;
-		}
-		
-	}
+		}		
+	}*/
 	 
 }
