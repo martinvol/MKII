@@ -47,15 +47,20 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	
 	
 	this->piniaBaja->setDanio(50);
+	this->patadaDiag->setDanio(50);
 	this->piniaAlta->setDanio(70);
 		
 	this->patadaBaja->setDanio(60);
+	this->patadaVert->setDanio(60);
 	this->patadaAlta->setDanio(80);
 	
 	this->patadaBajaAgachado->setDanio(30);
+	this->piniaAgachado->setDanio(30);
 	this->patadaAltaAgachado->setDanio(40);
 	this->piniaAireVertical->setDanio(40);
 	this->piniaAire->setDanio(40);
+	this->traba->setDanio(40);
+
 	
 	//~ this->piniaAire->setDanio();
 	//~ this->piniaAireVertical->setDanio();	
