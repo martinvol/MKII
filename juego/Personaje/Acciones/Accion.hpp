@@ -82,6 +82,7 @@ class Accion{
 		void setDireccionDerecha();
 		void setDireccionIzquierda();
 		void setInvertirSecuencia();
+		void setDanio(int danio);
 	
 		SDL_Texture* getImagenActual();
 		int hue_init, hue_fin, hue_offset;
@@ -103,7 +104,7 @@ class Accion{
 		~Accion();
 		virtual void resetear();
 		void cambiarModoInversamente();
-		float porcentajeDeDanio;
+		float porcentajeDeDanio =0;
 };
 
 #endif

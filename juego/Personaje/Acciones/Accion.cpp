@@ -217,3 +217,7 @@ void Accion::cambiarModo(){
 		setModoActual(this->modoActual+1);
 	}
 }
+
+void Accion::setDanio(int danio){
+	this->porcentajeDeDanio = danio;
+}

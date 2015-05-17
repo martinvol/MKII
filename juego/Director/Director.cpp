@@ -162,12 +162,15 @@ void Director::verificar_movimientos(){
 
 						// Este if hace que solo se le pueda sacr vida una sola vez
 						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
-							Logger::instance()->log_debug("Le pego!!!");
-							float danio = pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio;
+							float danio = pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio;							
+							cout<<"Personaje recibe daño: "<<danio<<endl;
+							//Volpe: loggea lo del cout.
+							//Logger::instance()->log_debug("Personaje recibe daño: ");
 							if (recibe->bloqueo){
 								Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");	
 								danio = danio/4.;
 							}
+							//Se lo lastima con un numero 0-1000
 							sufre->barra->Lastimar(danio);
 							//sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 							sufre->personaje->activarAccion(CAERPORGANCHO);
