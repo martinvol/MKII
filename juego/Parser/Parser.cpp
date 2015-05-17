@@ -293,10 +293,10 @@ void Parser::set_values (char* my_file) {
 
             for (auto const& id : sprites2.getMemberNames()) {
                 try{
-                    sprites_map[id] = sprites2.get(id, "Esto nunca se va a mostrar").asString();
+                    sprites_map2[id] = sprites2.get(id, "Esto nunca se va a mostrar").asString();
                 } catch(const runtime_error& error) {
                     logger->log_error("El path del personaje2 es un número, no un string");
-                    sprites_map[id] = "resources/jugador/SubZero/";
+                    sprites_map2[id] = "resources/jugador/SubZero/";
                 }
             }
 

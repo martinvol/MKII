@@ -29,7 +29,7 @@ class Parser {
         float color_inicio, color_fin, color_offset;
         float margen;
         std::vector<Capa*> capas_vector;
-        unordered_map <string, string> sprites_map;
+        unordered_map <string, string> sprites_map, sprites_map2;
         bool valido = false; // Si este valor es falso el archivo se cargó mal
 
         string personaje1_nombre, personaje2_nombre;
