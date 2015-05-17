@@ -582,7 +582,6 @@ void ActualizarModelo(Personaje* personaje){
 			}
 			else if (personaje->PatadaAlta or personaje->PatadaBaja){
 				//~ this->director->seMuevePersonaje(jugador, PatadaSaltoDiagonal);
-				puts("patadaskrjhfkrs diagonal");
 				personaje->activarAccion(PATADASALTANDODIAGONAL);
 				personaje->PatadaAlta = false;
 				personaje->PatadaBaja = false;
@@ -603,7 +602,6 @@ void ActualizarModelo(Personaje* personaje){
 		//+PATADA BAJA+MIRA DERECHA = TRABA
 		else if (personaje->PatadaBaja && !personaje->mirarDerecha){
 			//~ this->director->seMuevePersonaje(jugador, Traba);
-			///puts("traba");
 			personaje->activarAccion(TRABA);
 			personaje->PatadaBaja = false;
 			personaje->Derecha = false;
@@ -694,6 +692,10 @@ void ActualizarModelo(Personaje* personaje){
 			cout<<"gancho desde main"<<endl;			
 			personaje->activarAccion(GANCHO);
 			personaje->PiniaAlta = false;
+		}else if(personaje->PiniaBaja){
+			puts("pinia baja");
+			personaje->activarAccion(PINIAAGACHADO);
+			personaje->PiniaBaja = false;
 		}else{			
 			personaje->activarAccion(AGACHARSE);
 			personaje->Abajo = false;

@@ -136,11 +136,9 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 			
 			case PATADAALTAAGACHADO:
-			case PATADABAJAAGACHADO:				
-				if (this->accionActual->ciclos == 1){
-					//~ Abajo = false;
-					//~ PatadaBaja = false;
-					//~ PatadaAlta = false;				
+			case PATADABAJAAGACHADO:	
+			case PINIAAGACHADO:			
+				if (this->accionActual->ciclos == 1){		
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
 				}				
@@ -149,6 +147,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case PATADAALTA:
 			case PATADABAJA:
 			case PINIABAJA:
+			//~ case PINIAAGACHADO:
 			case PINIAALTA:
 			case GANCHO:
 			case TRABA:								
@@ -161,7 +160,12 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(QUIETO);	
 				}
 			break;
-			case AGACHARSE:												
+			case AGACHARSE:	
+				if(accion == PINIAAGACHADO){
+					cambiarAccionA(PINIAAGACHADO);
+					puts("Hola");
+				}
+															
 			case CUBRIRBAJO:
 				break;	
 			default:
@@ -169,36 +173,36 @@ void Personaje::activarAccion(accion_posible accion){
 		}
 	}
 	
-	 this->imagenActual = this->accionActual->getImagenActual();
+	 //~ this->imagenActual = this->accionActual->getImagenActual();
 	 //return;
 	 
-	switch(nroAccionActual){
-		case SALTARDIAGONAL_DER:
-			if (accion == PINIAALTA || accion == PINIABAJA){
-				cambiarAccionA(PINIASALTANDODIAGONAL);								
-				cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
-			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cambiarAccionA(PATADASALTANDODIAGONAL);
-				cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
-			}
-			break;
-		case SALTARDIAGONAL_IZQ:
-			if (accion == PINIAALTA || accion == PINIABAJA){
-				cambiarAccionA(PINIASALTANDODIAGONAL);				
-			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cambiarAccionA(PATADASALTANDODIAGONAL);
-			}			
-			break;
-		case SALTAR:
-			if (accion == PINIAALTA || accion == PINIABAJA){				
-				cambiarAccionA(PINIASALTANDOVERTICAL);
-			}else if (accion == PATADAALTA || accion == PATADABAJA){
-				cambiarAccionA(PATADASALTANDOVERTICAL);
-			}else if (accion == ARROJARARMA){
-				cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
-			}
-			break;
-	}
+	//~ switch(nroAccionActual){
+		//~ case SALTARDIAGONAL_DER:
+			//~ if (accion == PINIAALTA || accion == PINIABAJA){
+				//~ cambiarAccionA(PINIASALTANDODIAGONAL);								
+				//~ cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
+			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
+				//~ cambiarAccionA(PATADASALTANDODIAGONAL);
+				//~ cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
+			//~ }
+			//~ break;
+		//~ case SALTARDIAGONAL_IZQ:
+			//~ if (accion == PINIAALTA || accion == PINIABAJA){
+				//~ cambiarAccionA(PINIASALTANDODIAGONAL);				
+			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
+				//~ cambiarAccionA(PATADASALTANDODIAGONAL);
+			//~ }			
+			//~ break;
+		//~ case SALTAR:
+			//~ if (accion == PINIAALTA || accion == PINIABAJA){				
+				//~ cambiarAccionA(PINIASALTANDOVERTICAL);
+			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
+				//~ cambiarAccionA(PATADASALTANDOVERTICAL);
+			//~ }else if (accion == ARROJARARMA){
+				//~ cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
+			//~ }
+			//~ break;
+	//~ }
 	this->imagenActual = this->accionActual->getImagenActual();	
 	
 }
@@ -326,6 +330,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PINIABAJA:
 			this->accionActual = this->estado->piniaBaja;
+			break;
+		case PINIAAGACHADO:
+			this->accionActual = this->estado->piniaAgachado;
 			break;
 		case PATADAALTA:
 			this->accionActual = this->estado->patadaAlta;

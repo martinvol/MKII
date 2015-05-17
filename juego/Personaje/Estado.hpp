@@ -14,6 +14,7 @@
 #include "../Personaje/Acciones/Caminar.hpp"
 #include "../Personaje/Acciones/Agacharse.hpp"
 #include "../Personaje/Acciones/PiniaAlta.hpp"
+#include "../Personaje/Acciones/PiniaAgachado.hpp"
 #include "../Personaje/Acciones/PiniaBaja.hpp"
 #include "../Personaje/Acciones/Girar.hpp"
 #include "../Personaje/Acciones/CubrirAlto.hpp"
@@ -46,6 +47,7 @@ class Estado{
 		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
 		PiniaAlta* piniaAlta;
 		PiniaBaja* piniaBaja;
+		PiniaAgachado* piniaAgachado;
 		PatadaAlta* patadaAlta;
 		PatadaBaja* patadaBaja;
 		PatadaBajaAgachado* patadaBajaAgachado;
