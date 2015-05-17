@@ -100,9 +100,8 @@ void Personaje::activarAccion(accion_posible accion){
 		cambiarAccionA(accion);
 	} else {
 		delete siguiente;
-		siguiente = this->accionActual->execute(this->coordenada);
-		switch (nroAccionActual){
-			
+		siguiente = this->accionActual->execute(this->coordenada);				
+		switch (nroAccionActual){			
 			case SALTAR:
 				if (accion == PATADASALTANDOVERTICAL){
 					cambiarAccionA(PATADASALTANDOVERTICAL);
@@ -137,12 +136,11 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 			
 			case PATADAALTAAGACHADO:
-			case PATADABAJAAGACHADO:
-				//SDL_Delay(150);
+			case PATADABAJAAGACHADO:				
 				if (this->accionActual->ciclos == 1){
-					Abajo = false;
-					PatadaBaja = false;
-					PatadaAlta = false;				
+					//~ Abajo = false;
+					//~ PatadaBaja = false;
+					//~ PatadaAlta = false;				
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);
 				}				
@@ -158,13 +156,13 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
-			case PARARSE:
+			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
 					cambiarAccionA(QUIETO);	
 				}
 			break;
+			case AGACHARSE:												
 			case CUBRIRBAJO:
-				cambiarAccionA(CUBRIRBAJO);
 				break;	
 			default:
 				break;
@@ -201,11 +199,7 @@ void Personaje::activarAccion(accion_posible accion){
 			}
 			break;
 	}
-	this->imagenActual = this->accionActual->getImagenActual();
-
-	if(this->accionActual->accionNro == 5){
-		cout<<"modo actual que se mostro: "<<this->accionActual->modoActual+1<<endl;
-	}
+	this->imagenActual = this->accionActual->getImagenActual();	
 	
 }
 
@@ -365,7 +359,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		case CUBRIRBAJO:
 			this->accionActual = this->estado->cubrirBajo;
 			break;
-		case TRABA:
+		case TRABA:			
 			this->accionActual = this->estado->traba;
 			break;
 		case GANCHO:
@@ -483,10 +477,12 @@ void Personaje::Dibujarse(){
  * 							CONTROLADOR
  *
  **********************************************************************/  
- void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf){
-	if (joystick == NULL)
+ void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf, SDL_Event *evento){
+	if (joystick == NULL){
+		//cout<<"NO hay joystick. Personaje.cpp"<<endl;
 		return;
-	 
+	}
+			 
 	int x_Joystick = SDL_JoystickGetAxis(joystick, 0);
 	int y_Joystick = SDL_JoystickGetAxis(joystick, 1);
 	
@@ -509,8 +505,81 @@ void Personaje::Dibujarse(){
 		Abajo = false;
 	}	 
 	
+	
+	
+	SDL_JoystickID numeroJoystick = (evento->jdevice.which);	
+	
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
-	for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
+	Uint8 i = evento->jbutton.button;
+	switch (evento->type){			
+		case SDL_JOYBUTTONDOWN:
+			//Si el ID del joystick no corresponde
+			//con el numero de jugador, no procese el evento.
+			if (numeroJoystick != (this->numero_jugador))
+				break;
+				
+			
+			if (i ==  (*conf_joys)["pinia_baja"]){
+				PiniaBaja = true;					
+			} else if (i == (*conf_joys)["cubrirse"]){
+				CubrirAlto = true;
+			} else if (i == (*conf_joys)["patada_baja"]){
+				PatadaBaja = true;
+			} else if (i == (*conf_joys)["pinia_alta"]){
+				PiniaAlta = true;
+			} else if (i == (*conf_joys)["arrojar_arma"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+			} else if (i == (*conf_joys)["patada_alta"]){
+				PatadaAlta = true;
+			}
+			break;
+		case SDL_JOYBUTTONUP:
+		//Si el ID del joystick no corresponde
+		//con el numero de jugador, no procese el evento.
+			if (numeroJoystick != (this->numero_jugador))
+				break;
+		
+			
+			if (i ==  (*conf_joys)["pinia_baja"]){
+				PiniaBaja = false;					
+			} else if (i == (*conf_joys)["cubrirse"]){
+				CubrirAlto = false;
+				if (Abajo == true){
+					cambiarAccionA(AGACHARSE);	
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);					
+				}
+			} else if (i == (*conf_joys)["patada_baja"]){
+				PatadaBaja = false;
+			} else if (i == (*conf_joys)["pinia_alta"]){
+				PiniaAlta = false;
+			} else if (i == (*conf_joys)["arrojar_arma"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
+				//ArrojarArma = true;
+				this->Arrojar();
+				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+			} else if (i == (*conf_joys)["patada_alta"]){
+				PatadaAlta = false;
+			}
+			break;
+	
+	}
+	
+	/*for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
 		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
 		if ( boton != 0 ){
 			// Aca había un swich case que Volpe sacó
@@ -551,8 +620,7 @@ void Personaje::Dibujarse(){
 			///cout<<"cubriendose"<<endl; ///
 		}else{
 			CubrirAlto = false;
-		}
-		
-	}
+		}		
+	}*/
 	 
 }

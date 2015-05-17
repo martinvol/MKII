@@ -275,7 +275,7 @@ public:
         float timerFps;
 
         //uno solo...por ahora (?)
-        SDL_JoystickEventState (SDL_QUERY);
+        //SDL_JoystickEventState (SDL_QUERY);
         Uint32 t1;
 
         SDL_Event evento;
@@ -312,7 +312,7 @@ public:
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
 
-            /// SDL_Delay(75);
+            //SDL_Delay(75);
             timerFps = SDL_GetTicks() - timerFps;
             
             if(timerFps < 1.*1000./CONST_MAXI_DELAY){
@@ -423,20 +423,20 @@ void Controlador(SDL_Event *evento){
 		if(usandoJoystick){		
 			SDL_JoystickUpdate ();
 			//controlar_joystick();
-			personajeJuego->ActualizarControlador(Player1, this->parser);					
-			personajeJuego2->ActualizarControlador(Player2, this->parser);					
+			personajeJuego->ActualizarControlador(Player1, this->parser, evento);					
+			personajeJuego2->ActualizarControlador(Player2, this->parser, evento);					
 		} 
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
 		//-----------------------------------------		
 		switch(evento->type){
-			case SDL_JOYBUTTONDOWN:
+			//~ case SDL_JOYBUTTONDOWN:
 				//~ if ( event.jbutton.button == 0 )
-				cout << "APRETÉ BOTÓN" << endl;  ///
-					break;
-			case SDL_JOYBUTTONUP:
-				cout << "SOLTÉ BOTÓN" << endl;
-				break;
+				//~ cout << "APRETÉ BOTÓN" << endl;  ///
+					//~ break;
+			//~ case SDL_JOYBUTTONUP:
+				//~ cout << "SOLTÉ BOTÓN" << endl;
+				//~ break;
 			case SDL_QUIT:
 				salir = true;
 				break;
@@ -559,7 +559,17 @@ void Controlador(SDL_Event *evento){
 }
 
 void ActualizarModelo(Personaje* personaje){
-
+	if (personaje->nroAccionActual == PATADABAJAAGACHADO){
+		personaje->activarAccion(PATADABAJAAGACHADO);
+		return;
+	}else if (personaje->nroAccionActual == PATADAALTAAGACHADO){
+		personaje->activarAccion(PATADAALTAAGACHADO);
+		return;
+	}else if (personaje->nroAccionActual == GANCHO) {
+		personaje->activarAccion(GANCHO);	
+		return;
+	} 	
+	
 	//DERECHA		
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
@@ -669,27 +679,22 @@ void ActualizarModelo(Personaje* personaje){
 	} else if (personaje->Abajo){
 		// Sólo va a ser agacharse en el lugar porque sino hubiera entrado arriba y no sería un else.
 		//+CUBRIR (OK LA VARIABLE NO DEBIERA LLAMARSE CUBRIRALTO, PERO QUEDA ASI)
-		if(personaje->CubrirAlto){
-			//~ puts("cubrir alto + agacharse"); ///
-			//~ this->director->seMuevePersonaje(jugador,CubrirBajo);
+		if(personaje->CubrirAlto){			
 			personaje->activarAccion(CUBRIRBAJO);
 		//+PATADA BAJA	
-		}else if(personaje->PatadaBaja){
-			//~ puts("Patada Baja + agachado");	///
-			//~ this->director->seMuevePersonaje(jugador, PatadaBajaAgachado);
+		}else if(personaje->PatadaBaja){														
 			personaje->activarAccion(PATADABAJAAGACHADO);
+			personaje->PatadaBaja = false;								
 		//+PATADA ALTA
-		}else if(personaje->PatadaAlta){
-			//~ this->director->seMuevePersonaje(jugador, PatadaAltaAgachado);			
+		}else if(personaje->PatadaAlta){			
 			personaje->activarAccion(PATADAALTAAGACHADO);
+			personaje->PatadaAlta = false;
 		//+PINIA ALTA = GANCHO
 		}else if (personaje->PiniaAlta){
-			cout<<"gancho desde main"<<endl;
-			//~ this->director->seMuevePersonaje(jugador, Gancho);
+			cout<<"gancho desde main"<<endl;			
 			personaje->activarAccion(GANCHO);
 			personaje->PiniaAlta = false;
-		}else{
-			//~ this->director->seMuevePersonaje(jugador, Abajo);
+		}else{			
 			personaje->activarAccion(AGACHARSE);
 			personaje->Abajo = false;
 		}
