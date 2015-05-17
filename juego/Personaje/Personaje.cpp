@@ -117,6 +117,7 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(PINIASALTANDODIAGONAL);
 				}
 			case CAERPORGANCHO:
+				//if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDODIAGONAL:
 				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDOVERTICAL:
@@ -128,7 +129,8 @@ void Personaje::activarAccion(accion_posible accion){
 					this->estado->saltarvertical->alcanzo_max = false;
 					this->estado->patadaVert->alcanzo_max = false;
 					this->estado->piniaAireVertical->alcanzo_max = false;
-					cambiarAccionA(QUIETO);
+					cambiarAccionA(LEVANTARSEDELGANCHO);
+					puts("entre aca");
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
 					siguiente = coord;
@@ -152,7 +154,8 @@ void Personaje::activarAccion(accion_posible accion){
 			//~ case PINIAAGACHADO:
 			case PINIAALTA:
 			case GANCHO:
-			case TRABA:								
+			case TRABA:
+			case LEVANTARSEDELGANCHO:								
 				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
 				}
@@ -418,6 +421,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case CAERPORTRABA:
 			this->accionActual = this->estado->recibirTraba;
+			break;
+		case LEVANTARSEDELGANCHO:
+			this->accionActual = this->estado->levantarse;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
