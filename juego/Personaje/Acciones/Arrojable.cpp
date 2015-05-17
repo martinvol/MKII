@@ -21,6 +21,7 @@ Arrojable::Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren){
 void Arrojable::setCoordenadas(CoordenadaLogica *coord, int alto, int ancho){
 	// recibe una coordenada lógica y la convierte a física
 	this->coord = coord;
+	this->alto_original = ancho;
 	this->alto = ancho/5.;
 	this->ancho = alto/5.;
 	this->rectangulo = new Rectangulo(0, 0, 100, 100, true, false);
@@ -66,7 +67,7 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 
 	SDL_Rect destino;
 	destino.x = coord1_fis->x_fisico;
-	destino.y = coord1_fis->y_fisico;
+	destino.y = coord1_fis->y_fisico + this->alto_original/2.;
 
 	destino.w = this->ancho;//ancho_fisico;
 	destino.h = this->alto;
