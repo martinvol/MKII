@@ -13,6 +13,7 @@ LevantarseDelGancho::LevantarseDelGancho(string ruta, SDL_Renderer* ren, float d
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+	intervalo = 350/cantModos;
 }
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void LevantarseDelGancho::cambiarModo(){
@@ -25,7 +26,11 @@ void LevantarseDelGancho::cambiarModo(){
 }
 
 CoordenadaLogica* LevantarseDelGancho::execute(CoordenadaLogica* coord_personaje){
-	LevantarseDelGancho::cambiarModo();
+	float taux = SDL_GetTicks();
+	if (taux - tinicial > intervalo){
+		LevantarseDelGancho::cambiarModo();
+		tinicial = taux;
+	}
 	return new CoordenadaLogica(coord_personaje);
 }
 

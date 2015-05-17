@@ -117,7 +117,6 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(PINIASALTANDODIAGONAL);
 				}
 			case CAERPORGANCHO:
-				//if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDODIAGONAL:
 				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
 			case PINIASALTANDOVERTICAL:
@@ -129,9 +128,11 @@ void Personaje::activarAccion(accion_posible accion){
 					this->estado->saltarvertical->alcanzo_max = false;
 					this->estado->patadaVert->alcanzo_max = false;
 					this->estado->piniaAireVertical->alcanzo_max = false;
-					if (nroAccionActual == SALTAR){
-						cambiarAccionA(LEVANTARSEDELATRABA);
-					}else{cambiarAccionA(LEVANTARSEDELGANCHO);}
+					if (nroAccionActual == CAERPORGANCHO ){
+						cambiarAccionA(LEVANTARSEDELGANCHO);
+					}else{
+						cambiarAccionA(QUIETO);
+					}
 					puts("entre aca");
 					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
 					delete siguiente;
@@ -176,7 +177,6 @@ void Personaje::activarAccion(accion_posible accion){
 			case AGACHARSE:	
 				if(accion == PINIAAGACHADO){
 					cambiarAccionA(PINIAAGACHADO);
-					puts("Hola");
 				}
 															
 			case CUBRIRBAJO:

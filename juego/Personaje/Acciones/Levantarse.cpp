@@ -13,6 +13,7 @@ Levantarse::Levantarse(string ruta, SDL_Renderer* ren, float despl_x, float desp
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+	intervalo = 250/cantModos;
 }
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void Levantarse::cambiarModo(){
@@ -25,7 +26,11 @@ void Levantarse::cambiarModo(){
 }
 
 CoordenadaLogica* Levantarse::execute(CoordenadaLogica* coord_personaje){
-	Levantarse::cambiarModo();
+	float taux = SDL_GetTicks();
+	if (taux - tinicial > intervalo){
+		Levantarse::cambiarModo();
+		tinicial = taux;
+	}
 	return new CoordenadaLogica(coord_personaje);
 }
 
