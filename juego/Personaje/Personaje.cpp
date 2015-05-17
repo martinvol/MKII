@@ -79,6 +79,8 @@ void Personaje::Arrojar(){
 		arrojable->tirar(this->velocidad_arma);
 	
 		delete coord1,coord1_fis,coord2,coord2_fis;
+		
+		if (this->nroAccionActual == QUIETO) this->cambiarAccionA(ARROJARARMA);
 	}
 }
 /***********************************************************************
@@ -157,7 +159,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case RECIBIRGOLPEAGACHADO:
 			case PATADAALTA:
 			case PATADABAJA:
-			
+			case ARROJARARMA:
 			case PINIABAJA:
 			//~ case PINIAAGACHADO:
 			case PINIAALTA:
@@ -353,6 +355,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case PATADABAJA:
 			this->accionActual = this->estado->patadaBaja;
+			break;
+		case ARROJARARMA:
+			this->accionActual = this->estado->arrojarproyectil;
 			break;
 		case PATADABAJAAGACHADO:
 			this->accionActual = this->estado->patadaBajaAgachado;
