@@ -142,21 +142,17 @@ void Director::verificar_movimientos(){
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
 	std::vector<Rectangulo*>* rectangulos_jug2 = jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos;
 
-
-
 	// esta verificación es porque todavíá todo no tiene rectangulos
 	if (rectangulos_jug1->size() && rectangulos_jug2->size()){
 
 		for (unsigned int i = 0; i < rectangulos_jug1->size(); i++){
 			for (unsigned int j = 0; j < rectangulos_jug2->size(); j++){
 				// verifico las colisiones
-				// SDL_bool coli = SDL_FALSE;
 				bool coli = IntersectRect(
 					rectangulos_jug1->at(i)->sdl_rec,
 					rectangulos_jug2->at(j)->sdl_rec
 				);
 				
-				// cout << "llego"<<endl;
 				Rectangulo* recibe=NULL;
 				if (coli && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos){
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
