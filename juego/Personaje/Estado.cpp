@@ -34,10 +34,10 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	this->roundKick = new RoundKick(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->gancho = new Gancho(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	
-	this->piniaAire = new PiniaAire(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
-	this->patadaDiag = new PatadaSaltoDiagonal(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
-	this->patadaVert = new PatadaSaltoVertical(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
-	this->piniaAireVertical = new PiniaAire(ruta, ren, 0, VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
+	this->piniaAire = new PiniaAire(ruta, ren, 3*VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
+	this->patadaDiag = new PatadaSaltoDiagonal(ruta, ren, 3*VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
+	this->patadaVert = new PatadaSaltoVertical(ruta, ren, 0, (2./3.)*VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), alto_personaje, hue_init, hue_fin, hue_offset);
+	this->piniaAireVertical = new PiniaAire(ruta, ren, 0, (2./3.)*VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), alto_personaje, hue_init, hue_fin, hue_offset);
 	
 	this->recibirgolpealto = new RecibirGolpeAlto(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	this->recibirgolpebajo = new RecibirGolpeBajo(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
