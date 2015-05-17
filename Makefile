@@ -60,7 +60,7 @@ Director.o: juego/Director/Director.cpp
 Logger.o: juego/Logger/Logger.cpp
 	$(CC) "juego/Logger/Logger.cpp" $(CFLAGS) -c
 
-LTexture.o:
+LTexture.o: juego/LTexture.cpp
 	$(CC) "juego/LTexture.cpp" $(CFLAGS) -c
 
 Accion.o: juego/Personaje/Acciones/Accion.cpp
@@ -150,14 +150,14 @@ Personaje.o: juego/Personaje/Personaje.cpp
 Estado: Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Traba.o PiniaAlta.o PiniaBaja.o PiniaAgachado.o PatadaAlta.o  PatadaBajaAgachado.o PatadaAltaAgachado.o PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Accion.o PiniaEnAire.o PatadaSaltoDiagonal.o
 	$(CC)  Estado.o Quieto.o SaltarVertical.o SaltarDiagonal.o Caminar.o Agacharse.o Accion.o PiniaAlta.o PiniaBaja.o Girar.o PatadaSaltoDiagonal.o PiniaEnAire.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Estado"
 
-Timer.o: 
+Timer.o: juego/Escenario/Timer.cpp
 	$(CC) "juego/Escenario/Timer.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -c
 	
 Accion: Accion.o
 	$(CC)  Accion.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Accion"
 
 
-Quieto: Accion.o Quieto.o
+Quieto: Accion.o Quieto.o 
 	$(CC)  Accion.o Quieto.o  $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) -o "Quieto"
 
 Girar: Accion.o Girar.o
@@ -222,7 +222,7 @@ compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o P
 
 juego: compilar_juego
 	./juego_ejecutable ${jsonpath}
-	make clean
+	# make clean
 	
 juegoJsonTest: compilar_juego
 	./juego_ejecutable $(JSONTEST)
