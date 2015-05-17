@@ -32,6 +32,7 @@
 #include "../Personaje/Acciones/RecibirGolpeBajo.hpp"
 #include "../Personaje/Acciones/RecibirGolpeAlto.hpp"
 #include "../Personaje/Acciones/SiendoArrojado.hpp"
+#include "../Personaje/Acciones/RecibirTraba.hpp"
 
 using namespace std;
 
@@ -57,6 +58,7 @@ class Estado{
 		CubrirAlto* cubrirAlto;
 		CubrirBajo* cubrirBajo;
 		Gancho* gancho;
+		RecibirTraba* recibirTraba;
 		RoundKick* roundKick;
 		string ruta_arrojable;
 		~Estado();

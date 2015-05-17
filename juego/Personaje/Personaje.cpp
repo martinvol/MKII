@@ -146,6 +146,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case RECIBIRGOLPEALTO: ///					
 			case PATADAALTA:
 			case PATADABAJA:
+			case CAERPORTRABA:
 			case PINIABAJA:
 			//~ case PINIAAGACHADO:
 			case PINIAALTA:
@@ -332,6 +333,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->piniaBaja;
 			break;
 		case PINIAAGACHADO:
+			cout<<"HOLA NRO:"<<PINIAAGACHADO<<endl;
 			this->accionActual = this->estado->piniaAgachado;
 			break;
 		case PATADAALTA:
@@ -405,6 +407,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case CAERPORGANCHO:
 			this->accionActual = this->estado->siendoarrojado;
+			break;
+		case CAERPORTRABA:
+			this->accionActual = this->estado->recibirTraba;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
