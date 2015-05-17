@@ -445,7 +445,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 	}
 		this->accionActual->saque_vida = false;
-	
+		this->accionActual->dibuje_rectangulos = false;	
 }
 
 
@@ -494,6 +494,7 @@ void Personaje::Dibujarse(){
 		this->accionActual->rectangulos->at(i)->generar_rectanguloSDL(destino.x, destino.y, destino.w, destino.h ,renderer, !mirarDerecha);
 			
 	}
+	this->accionActual->dibuje_rectangulos = true;
 	
 	delete coord1;
 	delete coord1_fis;

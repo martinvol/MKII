@@ -1,3 +1,6 @@
+#include <sstream>
+
+
 #include "Director.hpp"
 #include "../Logger/Logger.hpp"
 
@@ -122,10 +125,19 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 
 }
 
+bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
+	if (r1== NULL || r2 == NULL){
+		return false;
+	}
+	bool out = !((r2->x > (r1->x + r1->w)) || ((r2->x + r2->w) < r1->x) || (r2->y > (r1->y + r1->h)) || ((r2->y + r2->h) < r1->y));
+	return out;
+	// return false;
+}
+
 void Director::verificar_movimientos(){
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
 	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
-	
+
 	// chequear colisiones:
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
 	std::vector<Rectangulo*>* rectangulos_jug2 = jugadores[jugador2]->obtenerPersonaje()->accionActual->rectangulos;
@@ -138,15 +150,15 @@ void Director::verificar_movimientos(){
 		for (unsigned int i = 0; i < rectangulos_jug1->size(); i++){
 			for (unsigned int j = 0; j < rectangulos_jug2->size(); j++){
 				// verifico las colisiones
-				SDL_Rect interseccion; // no lo usamos
-				SDL_bool coli = SDL_IntersectRect(
+				// SDL_bool coli = SDL_FALSE;
+				bool coli = IntersectRect(
 					rectangulos_jug1->at(i)->sdl_rec,
-					rectangulos_jug2->at(j)->sdl_rec, 
-					&interseccion
+					rectangulos_jug2->at(j)->sdl_rec
 				);
 				
-				Rectangulo* recibe;
-				if (coli){
+				// cout << "llego"<<endl;
+				Rectangulo* recibe=NULL;
+				if (coli && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos){
 					if (rectangulos_jug1->at(i)->ataque ^ rectangulos_jug2->at(j)->ataque){
 						Jugador* sufre, *pegando;
 
@@ -162,10 +174,11 @@ void Director::verificar_movimientos(){
 
 						// Este if hace que solo se le pueda sacr vida una sola vez
 						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
+
 							float danio = pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio;							
-							cout<<"Personaje recibe daño: "<<danio<<endl;
-							//Volpe: loggea lo del cout.
-							//Logger::instance()->log_debug("Personaje recibe daño: ");
+							// Esta linea fea hace la conversion numero -> string
+							string result;ostringstream convert;convert << danio;result = convert.str(); 
+							Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 							if (recibe->bloqueo){
 								Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");	
 								danio = danio/4.;
@@ -192,7 +205,6 @@ void Director::verificar_movimientos(){
 							}
 							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true; // Para que no le saque vida dos veces
-							
 						}
 
 					}
@@ -224,7 +236,7 @@ void Director::verificar_movimientos(){
 				);
 				
 				if (coli){
-					Logger::instance()->log_debug("Le pego!!!");
+					Logger::instance()->log_debug("Le pego el arrojable!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
 					float danio = 30;
 					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
