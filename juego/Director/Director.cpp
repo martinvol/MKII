@@ -173,7 +173,12 @@ void Director::verificar_movimientos(){
 							//Se lo lastima con un numero 0-1000
 							sufre->barra->Lastimar(danio);
 							//sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
-							sufre->personaje->activarAccion(CAERPORGANCHO);
+							if(pegando->personaje->accionActual->accionNro == 15){
+								puts("Hola director");
+								sufre->personaje->activarAccion(CAERPORTRABA);
+							}else{
+								sufre->personaje->activarAccion(CAERPORGANCHO);
+							}
 							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true;
 							
