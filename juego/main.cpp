@@ -344,7 +344,8 @@ public:
 //----------------------------------------------------------------
 //----------------------------------------------------------------
     void reiniciarJuego(){
-        logger->log_debug("Tengo que cambiar las configuraciones");
+        logger->log_debug("-------------------------------------");
+        logger->log_debug("Vuelve a empezar el juego, cambiando las configuraciones");
         terminar_juego();        
 		
         configurar();
@@ -428,7 +429,7 @@ void Controlador(SDL_Event *evento){
 		} 
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
-		//-----------------------------------------		
+		//--------"--------"-------------------------		
 		switch(evento->type){
 			//~ case SDL_JOYBUTTONDOWN:
 				//~ if ( event.jbutton.button == 0 )
@@ -796,7 +797,6 @@ int main(int argc, char* argv[]){
     logger->set_warning(true);
     logger->set_error(true);
 
-    logger->log_debug("-------------------------------------");
     logger->log_debug("Empieza el juego");
 
     Juego juego(argc, argv);
