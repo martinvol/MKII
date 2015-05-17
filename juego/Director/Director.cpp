@@ -180,7 +180,7 @@ void Director::verificar_movimientos(){
 								sufre->personaje->activarAccion(CAERPORTRABA);
 							} else if(pegando->personaje->accionActual->accionNro == 21){
 								sufre->personaje->activarAccion(CAERPORGANCHO);
-							}else{
+							}else {
 								sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 							}
 							this->escenario->Temblar(SDL_GetTicks());

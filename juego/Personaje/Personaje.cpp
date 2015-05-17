@@ -407,6 +407,10 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case CAERPORGANCHO:
 			this->accionActual = this->estado->siendoarrojado;
+			if(this->mirarDerecha){
+				this->accionActual->setInvertirSecuencia();
+				this->accionActual->setDireccionIzquierda();
+			}
 			break;
 		case CAERPORTRABA:
 			this->accionActual = this->estado->recibirTraba;
