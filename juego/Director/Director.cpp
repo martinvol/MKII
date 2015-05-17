@@ -173,9 +173,13 @@ void Director::verificar_movimientos(){
 							//Se lo lastima con un numero 0-1000
 							sufre->barra->Lastimar(danio);
 							//sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
+
+							cout << pegando->personaje->accionActual->accionNro << endl;
 							if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
 								puts("Hola director");
 								sufre->personaje->activarAccion(CAERPORTRABA);
+							} else if(pegando->personaje->accionActual->accionNro == 21){
+								sufre->personaje->activarAccion(CAERPORGANCHO);
 							}else{
 								sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 							}
