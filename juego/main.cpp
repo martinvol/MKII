@@ -312,7 +312,7 @@ public:
             DibujarTodo();              //Vista
             SDL_FlushEvent(SDL_KEYDOWN);
 
-            //SDL_Delay(75);
+            // SDL_Delay(100);
             timerFps = SDL_GetTicks() - timerFps;
             
             if(timerFps < 1.*1000./CONST_MAXI_DELAY){
