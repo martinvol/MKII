@@ -172,15 +172,15 @@ void Director::verificar_movimientos(){
 						if (!pegando->obtenerPersonaje()->accionActual->saque_vida){
 
 							float danio = pegando->obtenerPersonaje()->accionActual->porcentajeDeDanio;							
-							// Esta linea fea hace la conversion numero -> string
-							string result;ostringstream convert;convert << danio;result = convert.str(); 
-							Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 							if (recibe->bloqueo){
 								Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");	
 								danio = danio/4.;
 							}
 							//Se lo lastima con un numero 0-1000
 							sufre->barra->Lastimar(danio);
+							// Esta linea fea hace la conversion numero -> string
+							string result;ostringstream convert;convert << danio;result = convert.str(); 
+							Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 							//sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 
 							if (!recibe->bloqueo){
@@ -239,6 +239,9 @@ void Director::verificar_movimientos(){
 						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
 						danio = danio/4;
 					}
+					// Esta linea fea hace la conversion numero -> string
+					string result;ostringstream convert;convert << danio;result = convert.str(); 
+					Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 					jugadores[(i+1)%2]->barra->Lastimar(danio);
 					this->escenario->Temblar(SDL_GetTicks());
 				}
