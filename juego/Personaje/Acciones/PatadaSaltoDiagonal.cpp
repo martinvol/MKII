@@ -9,13 +9,9 @@ using namespace std;
 
 PatadaSaltoDiagonal::PatadaSaltoDiagonal(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(PATADASALTANDODIAGONAL,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 	// (float empieza_alto, float empieza_ancho, float porcentaje_alto, float porcentaje_ancho, bool ataque, bool bloqueo)
-	//rectangulos->push_back(new Rectangulo(0, 45, 14, 22, false, false)); // Cabeza
-	//rectangulos->push_back(new Rectangulo(20, 10, 15, 70, false, false)); // torso
-	//rectangulos->push_back(new Rectangulo(35, 10, 17, 90, false, false)); // torso
-	//rectangulos->push_back(new Rectangulo(49, 15, 50, 70, false, false)); // piernas
-	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
-	rectangulos->push_back(new Rectangulo(0, 73, 15, 30, true, false)); // piña
-	rectangulos->push_back(new Rectangulo(20, 20, 80, 50, false, false)); // piernas
+	rectangulos->push_back(new Rectangulo(0, 0, 70, 65, false, false)); // Cabeza
+	rectangulos->push_back(new Rectangulo(70, 50, 15, 35, true, false)); // piña
+	rectangulos->push_back(new Rectangulo(85, 70, 15, 30, true, false)); // piña
 }
 
 void PatadaSaltoDiagonal::cambiarModo(){
