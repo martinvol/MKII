@@ -37,7 +37,7 @@
    "personaje":{
       "nombre": "Volpe",
       "ancho":63,
-      "alto":127,
+      "alto":90,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"

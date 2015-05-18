@@ -124,13 +124,13 @@ public:
 	}
 	
 	bool estaSuperpuestoEnYCon(Rect_Per* otro){
-		return ((this->izq_inf->y <= otro->izq_sup->y) && (this->izq_inf->y >= otro->izq_inf->y)
-				|| (otro->izq_inf->y <= this->izq_sup->y) && (otro->izq_inf->y >= this->izq_inf->y));
+		return (((this->izq_inf->y <= otro->izq_sup->y) && (this->izq_inf->y >= otro->izq_inf->y))
+				|| ((otro->izq_inf->y <= this->izq_sup->y) && (otro->izq_inf->y >= this->izq_inf->y)));
 	}
 	
 	bool estaSuperpuestoEnXCon(Rect_Per* otro){
-		return ((this->izq_inf->x <= otro->der_inf->x) && (this->izq_inf->x >= otro->izq_inf->x)
-				|| (otro->izq_inf->x <= this->der_inf->x) && (otro->izq_inf->x >= this->izq_inf->x));
+		return (((this->izq_inf->x <= otro->der_inf->x) && (this->izq_inf->x >= otro->izq_inf->x))
+				|| ((otro->izq_inf->x <= this->der_inf->x) && (otro->izq_inf->x >= this->izq_inf->x)));
 	}
 
 	bool estaAMismaAlturaQue(Rect_Per* otro){
@@ -162,7 +162,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	// Verifica altura.
 	CoordenadaFisica* coordSig_fis = this->conversor->aFisica(rect_sig->izq_sup);
 	if (this->ventana->superaTecho(coordSig_fis)){
-		cout << "ENTRO TECHO" << endl;
 		rect_sig->moverAIzqSup(rect_sig->izq_sup->x, this->ventana->obtenerBordeLogicoSuperior(this->conversor));
 		
 		jugador->personaje->estado->piniaAire->alcanzo_max = true; //%
@@ -174,7 +173,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	
 	// Verifica piso
 	if (rect_sig->izq_inf->y < this->y_piso){
-		cout << "ENTRO PISO" << endl;
 		rect_sig->moverAIzqInf(rect_sig->izq_inf->x, this->y_piso);
 	}
 	
@@ -183,16 +181,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	
 	// Choca por Lado Derecho de Este jugador:
 		  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
-	cout << "Verificar choque por DERECHA" << endl;
-	cout << "ESTE a la izquierda: " << rect_este->estaALaIzquierdaDe(rect_otro) << endl;
-	cout << "borde derecho de ESTE: " << rect_este->der_inf->x << " y borde izquierdo de OTRO: " << rect_otro->izq_inf->x << endl;
-	cout << "SIG a la derecha: " << rect_sig->estaALaDerechaDe(rect_otro) << endl;
-	cout << "SIG superpuesto en X: " << rect_sig->estaSuperpuestoEnXCon(rect_otro) << endl;
-	cout << "SIG y OTRO a misma altura: " << rect_sig->estaAMismaAlturaQue(rect_otro) << endl;
 	if (rect_este->estaALaIzquierdaDe(rect_otro) && 
 		(rect_sig->estaALaDerechaDe(rect_otro) || rect_sig->estaSuperpuestoEnXCon(rect_otro)) &&
 		rect_sig->estaAMismaAlturaQue(rect_otro)){
-		cout << "Entra CHOQUE DERECHA" << endl;
 		rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
 	}
 	
@@ -201,7 +192,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	if (rect_este->estaALaDerechaDe(rect_otro) && 
 		(rect_sig->estaALaIzquierdaDe(rect_otro) || rect_sig->estaSuperpuestoEnXCon(rect_otro)) &&
 		rect_sig->estaAMismaAlturaQue(rect_otro)){
-		cout << "Entra CHOQUE IZQUIERDA" << endl;
 		rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
 	}
 	
@@ -209,7 +199,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	if (rect_este->estaEncimaDe(rect_otro) &&
 		(rect_sig->estaDebajoDe(rect_otro) || rect_sig->estaSuperpuestoEnYCon(rect_otro)) &&
 		rect_sig->estaSuperpuestoEnXCon(rect_otro)){
-		cout << "ENTRO CAER ENCIMA" << endl;
 		// Si se mueve para la derecha
 		if (rect_este->izq_inf->x <= rect_sig->izq_inf->x){
 			// Intento ponerlo a la derecha del otro.
@@ -244,7 +233,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	CoordenadaFisica* coord_der = this->conversor->aFisica(rect_sig->der_inf);
 	// (jugador->personaje->nroAccionActual != QUIETO) && 
 	if ((this->ventana->coordenadaEnPantalla(coord_der) == bordeDer)){
-		cout << "ENTRO SCROLL DERECHA" << endl;
 		scrollearDerecha(rect_sig->der_inf->x - this->ventana->obtenerMargenLogicoDerecho(this->conversor));
 		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
 		if (rect_sig->der_inf->x > margen_der){
@@ -257,7 +245,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	CoordenadaFisica* coord_izq = this->conversor->aFisica(rect_sig->izq_inf);
 	// (jugador->personaje->nroAccionActual != QUIETO) && 
 	if ((this->ventana->coordenadaEnPantalla(coord_izq) == bordeIzq)) {
-		cout << "ENTRO SCROLL IZQUIERDA" << endl;
 	    scrollearIzquierda(this->ventana->obtenerMargenLogicoIzquierdo(this->conversor) - rect_sig->izq_inf->x);
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
 		if (rect_sig->izq_inf->x < margen_izq){
@@ -280,7 +267,7 @@ bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 
 void Director::verificar_movimientos(){
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
-	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
+	//~ verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
 
 	// chequear colisiones:
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;
