@@ -78,3 +78,11 @@ void Jugador::moverseAIzqSup(CoordenadaLogica* coord){
 void Jugador::moverseADerSup(CoordenadaLogica* coord){
 	(this->personaje)->moverseADerSup(coord);
 }
+
+void Jugador::moverseAIzqInf(CoordenadaLogica* coord){
+	(this->personaje)->moverseAIzqInf(coord);
+}
+
+void Jugador::moverseADerInf(CoordenadaLogica* coord){
+	(this->personaje)->moverseADerInf(coord);
+}

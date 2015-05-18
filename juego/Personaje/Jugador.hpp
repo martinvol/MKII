@@ -47,6 +47,8 @@ class Jugador {
 		/* Coordenada a la que debe moverse el pesonaje. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
+		void moverseAIzqInf(CoordenadaLogica* coord);
+		void moverseADerInf(CoordenadaLogica* coord);
 	
 	
 	// Para BARRA DE VIDA:

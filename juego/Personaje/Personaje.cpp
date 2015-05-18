@@ -283,6 +283,17 @@ void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	coordenada->desplazarX(-ancho);
 }
 
+void Personaje::moverseAIzqInf(CoordenadaLogica* coord){
+	delete coordenada;
+	coordenada = new CoordenadaLogica(coord);
+}
+
+void Personaje::moverseADerInf(CoordenadaLogica* coord){
+	delete coordenada;
+	coordenada = new CoordenadaLogica(coord);
+	coordenada->desplazarX(-ancho);
+}
+
 /***********************************************************************
  * 
  * 							DEMAS

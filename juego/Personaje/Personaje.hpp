@@ -114,6 +114,9 @@ class Personaje {
 		/* Se queda con la coordenada, no la deben liberar por afuera. */
 		void moverseAIzqSup(CoordenadaLogica* coord);
 		void moverseADerSup(CoordenadaLogica* coord);
+		void moverseAIzqInf(CoordenadaLogica* coord);
+		void moverseADerInf(CoordenadaLogica* coord);
+		
 	private:
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;

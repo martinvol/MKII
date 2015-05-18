@@ -10,10 +10,11 @@
  * 
  *********************************************************************/
 
-Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer){
+Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
+	this->y_piso = y_piso;
 	jugadores.push_back(new Jugador(personaje1, barra1));
 	jugadores.push_back(new Jugador(personaje2, barra2));
 	this->timer = timer;
@@ -30,6 +31,120 @@ Director::~Director(){
     delete timer;
 }
 
+
+/*********************************************************************
+ * 
+ * 						  CLASES AUXILIARES
+ * 
+ *********************************************************************/
+
+class Rect_Per {
+public:
+	CoordenadaLogica* izq_inf;
+	CoordenadaLogica* der_inf;
+	CoordenadaLogica* izq_sup;
+	CoordenadaLogica* der_sup;
+	float ancho;
+	float alto;
+	
+	Rect_Per(CoordenadaLogica* izq_inf, float ancho, float alto){
+		this->izq_inf = new CoordenadaLogica(izq_inf);
+		this->der_inf = new CoordenadaLogica(izq_inf->x + ancho, izq_inf->y);
+		this->izq_sup = new CoordenadaLogica(izq_inf->x, izq_inf->y + alto);
+		this->der_sup = new CoordenadaLogica(izq_inf->x + ancho, izq_inf->y + alto);
+		this->ancho = ancho;
+		this->alto = alto;
+	}
+	
+	~Rect_Per(){
+		delete izq_inf;
+		delete der_inf;
+		delete izq_sup;
+		delete der_sup;
+	}
+	
+	void moverAIzqInf(float x, float y){
+		delete this->izq_inf;
+		delete this->der_inf;
+		delete this->izq_sup;
+		delete this->der_sup;
+		this->izq_inf = new CoordenadaLogica(x, y);
+		this->der_inf = new CoordenadaLogica(x + ancho, y);
+		this->izq_sup = new CoordenadaLogica(x, y + alto);
+		this->der_sup = new CoordenadaLogica(x + ancho, y + alto);
+	}
+	
+	void moverADerInf(float x, float y){
+		delete this->izq_inf;
+		delete this->der_inf;
+		delete this->izq_sup;
+		delete this->der_sup;
+		this->izq_inf = new CoordenadaLogica(x - ancho, y);
+		this->der_inf = new CoordenadaLogica(x, y);
+		this->izq_sup = new CoordenadaLogica(x - ancho, y + alto);
+		this->der_sup = new CoordenadaLogica(x, y + alto);
+	}
+	
+	void moverAIzqSup(float x, float y){
+		delete this->izq_inf;
+		delete this->der_inf;
+		delete this->izq_sup;
+		delete this->der_sup;
+		this->izq_inf = new CoordenadaLogica(x, y - alto);
+		this->der_inf = new CoordenadaLogica(x + ancho, y - alto);
+		this->izq_sup = new CoordenadaLogica(x, y);
+		this->der_sup = new CoordenadaLogica(x + ancho, y);
+	}
+	
+	void moverADerSup(float x, float y){
+		delete this->izq_inf;
+		delete this->der_inf;
+		delete this->izq_sup;
+		delete this->der_sup;
+		this->izq_inf = new CoordenadaLogica(x - ancho, y - alto);
+		this->der_inf = new CoordenadaLogica(x, y - alto);
+		this->izq_sup = new CoordenadaLogica(x - ancho, y);
+		this->der_sup = new CoordenadaLogica(x, y);
+	}
+	
+	bool estaALaDerechaDe(Rect_Per* otro){
+		return (this->izq_inf->x >= otro->der_inf->x);
+	}
+	
+	bool estaALaIzquierdaDe(Rect_Per* otro){
+		return (this->der_inf->x <= otro->izq_inf->x);
+	}
+	
+	bool estaEncimaDe(Rect_Per* otro){
+		return (this->izq_inf->y >= otro->izq_sup->y);
+	}
+
+	bool estaDebajoDe(Rect_Per* otro){
+		return (this->izq_sup->y <= otro->izq_inf->y);
+	}
+	
+	bool estaSuperpuestoEnYCon(Rect_Per* otro){
+		return ((this->izq_inf->y <= otro->izq_sup->y) && (this->izq_inf->y >= otro->izq_inf->y));
+	}
+	
+	bool estaSuperpuestoEnXCon(Rect_Per* otro){
+		return ((this->izq_inf->x <= otro->der_inf->x) && (this->izq_inf->x >= otro->izq_inf->x));
+	}
+
+	bool estaAMismaAlturaQue(Rect_Per* otro){
+		return ((this->izq_inf->y >= otro->izq_inf->y && this->izq_sup->y <= otro->izq_sup->y)
+				||
+				(otro->izq_inf->y >= this->izq_inf->y && otro->izq_sup->y <= this->izq_sup->y));
+	}
+
+	bool estaAMismoAnchoQue(Rect_Per* otro){
+		return ((this->izq_inf->x >= otro->izq_inf->x && this->der_inf->x <= otro->der_inf->x)
+				||
+				(otro->izq_inf->x >= this->izq_inf->x && otro->der_inf->x <= this->der_inf->x));
+	}
+
+};
+
 /*********************************************************************
  * 
  * 						AUXILIARES ṔRIVADAS
@@ -37,92 +152,105 @@ Director::~Director(){
  *********************************************************************/
 
 void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
+	Rect_Per* rect_este = new Rect_Per(jugador->obtenerCoordenadaIzqInf(), jugador->personaje->ancho, jugador->personaje->alto);
+	Rect_Per* rect_sig = new Rect_Per(jugador->obtenerSiguienteCoordenadaIzqInf(), jugador->personaje->ancho, jugador->personaje->alto);
+	Rect_Per* rect_otro = new Rect_Per(elOtro->obtenerCoordenadaIzqInf(), elOtro->personaje->ancho, elOtro->personaje->alto);
 
-	// Verificar en cada uno si debería scrollear, o si debería quedarse donde está.
-	CoordenadaLogica* coordSig = jugador->obtenerSiguienteCoordenadaDerSup();
-	CoordenadaFisica* coordSig_fis = this->conversor->aFisica(coordSig);
-		// Verifica altura.
+
+	// Verifica altura.
+	CoordenadaFisica* coordSig_fis = this->conversor->aFisica(rect_sig->izq_sup);
 	if (this->ventana->superaTecho(coordSig_fis)){
-		coordSig->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+		rect_sig->moverAIzqSup(rect_sig->izq_sup->x, this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+		
 		jugador->personaje->estado->piniaAire->alcanzo_max = true; //%
 		jugador->personaje->estado->patadaVert->alcanzo_max = true; //%
 		jugador->personaje->estado->patadaDiag->alcanzo_max = true; //% 
 		jugador->personaje->estado->piniaAireVertical->alcanzo_max = true; //%
 	}
+	delete coordSig_fis;
 	
-	// Si se choca con el otro personaje, no se puede mover.
-	// Lado Derecho de Este jugador:
-	CoordenadaLogica* coordEste = jugador->obtenerCoordenadaDerInf();
-	CoordenadaLogica* coordOtro = elOtro->obtenerCoordenadaIzqSup();
-	  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
-	if ((coordEste->x <= coordOtro->x) && (coordSig->x >= coordOtro->x) && (coordSig->y <= coordOtro->y) && ((coordSig->y - jugador->personaje->alto) >= (coordOtro->y - elOtro->personaje->alto))){
-		coordSig->setearX(coordOtro->x);
-		jugador->moverseADerSup(coordSig);
-		delete coordSig;
-		delete coordSig_fis;
-		delete coordEste;
-		delete coordOtro;
-		return;
+	// Verifica piso
+	if (rect_sig->izq_inf->y < this->y_piso){
+		rect_sig->moverAIzqInf(rect_sig->izq_inf->x, this->y_piso);
 	}
-	delete coordEste;
-	delete coordOtro;
 	
-	// Caso: scrollear a la derecha.
-	if ((jugador->personaje->nroAccionActual != QUIETO) && (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeDer)){
-		scrollearDerecha(coordSig->x - this->ventana->obtenerMargenLogicoDerecho(this->conversor));
-		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
-		if (coordSig->x > margen_der){
-			coordSig->setearX(margen_der);
+	// Verifica si se choca con el otro personaje.
+		// Tienen que estar a la misma altura (el sig con el otro).
+	// Choca por Lado Derecho de Este jugador:
+		  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
+	if (rect_este->estaALaIzquierdaDe(rect_otro) && 
+		(rect_sig->estaALaDerechaDe(rect_otro) || rect_sig->estaSuperpuestoEnXCon(rect_otro)) &&
+		rect_sig->estaAMismaAlturaQue(rect_otro)){
+		rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
+	}
+	
+	// Choca por Lado Izquierdo de Este jugador:
+		// Si estaba a la derecha, y quiere terminar a la izquierda, se choca y no puede.
+	if (rect_este->estaALaDerechaDe(rect_otro) && 
+		(rect_sig->estaALaIzquierdaDe(rect_otro) || rect_sig->estaSuperpuestoEnXCon(rect_otro)) &&
+		rect_sig->estaAMismaAlturaQue(rect_otro)){
+		rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
+	}
+	
+	// Cae encima del otro.
+	if (rect_este->estaEncimaDe(rect_otro) &&
+		(rect_sig->estaDebajoDe(rect_otro) || rect_sig->estaSuperpuestoEnYCon(rect_otro)) &&
+		rect_sig->estaSuperpuestoEnXCon(rect_otro)){
+		// Si se mueve para la derecha
+		if (rect_este->izq_inf->x <= rect_sig->izq_inf->x){
+			// Intento ponerlo a la derecha del otro.
+			// Si no se puede (scrollear), a la izquierda.
+			CoordenadaLogica* sig_der = new CoordenadaLogica(rect_otro->der_inf->x + rect_sig->ancho, rect_sig->der_inf->y);
+			CoordenadaFisica* sig_der_fis = this->conversor->aFisica(sig_der);
+			if (this->ventana->coordenadaEnPantalla(sig_der_fis) == bordeDer && !sePuedeScrollearDerecha()){
+				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
+			} else {
+				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
+			}
+			delete sig_der;
+			delete sig_der_fis;
 		}
-		jugador->moverseADerSup(coordSig);
-		delete coordSig;
-		delete coordSig_fis;
-		return;		
+		// Si se mueve para la izquierda
+		else {
+			// Intento ponerlo a la izquierda del otro.
+			// Si no se puede (scrollear), a la derecha.
+			CoordenadaLogica* sig_izq = new CoordenadaLogica(rect_otro->izq_inf->x - rect_sig->ancho, rect_sig->izq_inf->y);
+			CoordenadaFisica* sig_izq_fis = this->conversor->aFisica(sig_izq);
+			if (this->ventana->coordenadaEnPantalla(sig_izq_fis) == bordeIzq && !sePuedeScrollearIzquierda()){
+				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
+			} else {
+				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
+			}
+			delete sig_izq;
+			delete sig_izq_fis;
+		}
 	}
-	delete coordSig;
-	delete coordSig_fis;
 	
-	// Caso: scrollear izquierda
-	coordSig = jugador->obtenerSiguienteCoordenadaIzqSup();
-	coordSig_fis = this->conversor->aFisica(coordSig);
-		// Verifica altura.
-	if (this->ventana->superaTecho(coordSig_fis)){
-		coordSig->setearY(this->ventana->obtenerBordeLogicoSuperior(this->conversor));
+	// Scrollear a la derecha.
+	CoordenadaFisica* coord_der = this->conversor->aFisica(rect_sig->der_inf);
+	// (jugador->personaje->nroAccionActual != QUIETO) && 
+	if ((this->ventana->coordenadaEnPantalla(coord_der) == bordeDer)){
+		scrollearDerecha(rect_sig->der_inf->x - this->ventana->obtenerMargenLogicoDerecho(this->conversor));
+		float margen_der = this->ventana->obtenerMargenLogicoDerecho(this->conversor);
+		if (rect_sig->der_inf->x > margen_der){
+			rect_sig->moverADerInf(margen_der, rect_sig->der_inf->y);
+		}
 	}
+	delete coord_der;
 	
-	// Si se choca con el otro personaje, no se puede mover.
-	// Lado Izquierdo de Este jugador:
-	coordEste = jugador->obtenerCoordenadaIzqInf();
-	coordOtro = elOtro->obtenerCoordenadaDerSup();
-	  // Si estaba a la derecha, y quiere terminar a la izquierda, se choca y no puede.
-	if ((coordEste->x >= coordOtro->x) && (coordSig->x <= coordOtro->x) && (coordSig->y <= coordOtro->y) && ((coordSig->y - jugador->personaje->alto) >= (coordOtro->y - elOtro->personaje->alto))){
-		coordSig->setearX(coordOtro->x);
-		jugador->moverseAIzqSup(coordSig);
-		delete coordSig;
-		delete coordSig_fis;
-		delete coordEste;
-		delete coordOtro;
-		return;
-	}
-	delete coordEste;
-	delete coordOtro;
-	
-	// Caso: scrollear a la izquierda.
-	if ((jugador->personaje->nroAccionActual != QUIETO) && (this->ventana->coordenadaEnPantalla(coordSig_fis) == bordeIzq)) {
-	    scrollearIzquierda(this->ventana->obtenerMargenLogicoIzquierdo(this->conversor) - coordSig->x);
+	// Scrollear izquierda
+	CoordenadaFisica* coord_izq = this->conversor->aFisica(rect_sig->izq_inf);
+	// (jugador->personaje->nroAccionActual != QUIETO) && 
+	if ((this->ventana->coordenadaEnPantalla(coord_izq) == bordeIzq)) {
+	    scrollearIzquierda(this->ventana->obtenerMargenLogicoIzquierdo(this->conversor) - rect_sig->izq_inf->x);
 		float margen_izq = this->ventana->obtenerMargenLogicoIzquierdo(this->conversor);
-		if (coordSig->x < margen_izq) coordSig->setearX(margen_izq);
-		jugador->moverseAIzqSup(coordSig);
-		delete coordSig;
-		delete coordSig_fis;
-		return;
+		if (rect_sig->izq_inf->x < margen_izq){
+			rect_sig->moverAIzqInf(margen_izq, rect_sig->izq_inf->y);
+		}
 	}
-	    
-	// Caso: la posición era válida en ancho.
-	jugador->moverseAIzqSup(coordSig);
-	delete coordSig;
-	delete coordSig_fis;
-
+	delete coord_izq;
+	
+	jugador->moverseAIzqInf(rect_sig->izq_inf);
 }
 
 bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
@@ -310,16 +438,6 @@ void Director::scrollearIzquierda(float factor_scroll){
 		this->conversor->seMueveVentana(this->escenario->obtenerLimiteIzquierdo() - borde_izq);
 	else this->conversor->seMueveVentana(- factor_scroll);
 }
-/*
-bool esta_saltando(Jugador* jugador) {
-	return jugador->personaje->nroAccionActual != SALTAR &&
-	       jugador->personaje->nroAccionActual != SALTARDIAGONAL_DER &&
-	       jugador->personaje->nroAccionActual != SALTARDIAGONAL_IZQ &&
-	       jugador->personaje->nroAccionActual != PINIASALTANDODIAGONAL &&
-	       jugador->personaje->nroAccionActual != PINIASALTANDOVERTICAL &&
-	       jugador->personaje->nroAccionActual != PINIASALTANDODIAGONAL;
-} */
-
 
 void Director::verificar_orientaciones(){
 	//~ // Cuando haya dos jugadores, se descomenta.

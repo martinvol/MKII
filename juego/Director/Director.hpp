@@ -25,12 +25,12 @@ enum movimiento {Nada, Derecha, Izquierda, Arriba, Abajo,
 class Director {
 		
     private:
-		//~ vector<Personaje*> personajes;
 		vector<Jugador*> jugadores;
 		Escenario* escenario;
 		Ventana* ventana;
 		Timer* timer;
 		ConversorDeCoordenadas* conversor;
+		float y_piso;
 		
 		// Atributos necesarios para recopilar la información del loop y actualizar al final ambos jugadores.
 		movimiento mov1 = Nada;
@@ -45,7 +45,7 @@ class Director {
 		void scrollearIzquierda(float factor_scroll);
 		
 	public:
-		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer);
+		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer);
 		~Director();
 		
 		/* Va a recibir donde intenta moverse, qué intenta hacer. */

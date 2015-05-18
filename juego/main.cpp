@@ -245,7 +245,7 @@ public:
         cargar_configuracion(this->parser);
 		
 		// Para dos personajes:
-		director = new Director(this->escenario, this->ventana, this->conversor, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, this->timer);
+		director = new Director(this->escenario, this->ventana, this->conversor, this->parser->escenario_ypiso, this->personajeJuego, this->personajeJuego2, barraDeVida1, barraDeVida2, this->timer);
 		        
     }
 //----------------------------------------------------------------
