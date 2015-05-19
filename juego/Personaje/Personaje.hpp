@@ -22,7 +22,6 @@ using namespace std;
 //enum botones {Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, MirarDerecha, MirarIzquierda};
 
 class Personaje {
-		//Conf* parser;
 		
 	public:
 	bool Nada, Izquierda, Derecha, Arriba, Abajo, PiniaAlta, PiniaBaja, PatadaAlta, PatadaBaja, ArrojarArma, CubrirAlto;
@@ -33,6 +32,12 @@ class Personaje {
 		/* Sus anchos y altos lógicos. */
 		float ancho;
 		float alto;
+		
+		/* Para escalar imagen */
+		int _h, _w;
+		int ancho_fisico, alto_fisico;
+		int ancho_quieto, altura_quieto;
+		int x, y, w, h;
 		
 		/* Para saltos */
 		float y_inicial;
@@ -66,24 +71,17 @@ class Personaje {
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
 		void Arrojar();
-		
-		/* VIEJO:
-		void cambiarAccionA(accion_posible nroAccion);
-		void Dibujarse(float alto, float ancho);
-		//void Dibujarse(int x, int y, int alto, int ancho);
-		void Dibujarse(int x, int y, float alto, float ancho); // Esto esta sobrecargado *Manu*
-		//~ int getSpriteActual();
-		//Para Maxi
-		//SDL_Texture* DibujarSpriteNumero(int numeroDeSprite);
-		*/
 
 		// Funciones internas
 		void cambiarAccionA(accion_posible nroAccion);
 
 		// Dibujarse que debería usarse finalmente así
 		void Dibujarse();
-
-        
+		
+		float calcularAnchoYAltoImagen();
+		void calcularDatosDibujables();
+		
+		// Funciones usables:
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
@@ -120,8 +118,6 @@ class Personaje {
 	private:
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
-		float altura_quieto;
-		float ancho_quieto;
 };
 
 

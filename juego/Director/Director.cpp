@@ -183,7 +183,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 		  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
 	if (rect_este->estaALaIzquierdaDe(rect_otro) && 
 		(rect_sig->estaALaDerechaDe(rect_otro) || rect_sig->estaSuperpuestoEnXCon(rect_otro)) &&
-		rect_sig->estaAMismaAlturaQue(rect_otro)){
+		(rect_sig->estaAMismaAlturaQue(rect_otro) || // Están a misma altura o
+													  // Se superponen en ambos ejes y está bajando.
+			(rect_sig->estaSuperpuestoEnXCon(rect_otro) && rect_sig->estaSuperpuestoEnYCon(rect_otro) && rect_sig->izq_inf->y <= rect_este->izq_inf->y))){
 		rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
 	}
 	
@@ -191,7 +193,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 		// Si estaba a la derecha, y quiere terminar a la izquierda, se choca y no puede.
 	if (rect_este->estaALaDerechaDe(rect_otro) && 
 		(rect_sig->estaALaIzquierdaDe(rect_otro) || rect_sig->estaSuperpuestoEnXCon(rect_otro)) &&
-		rect_sig->estaAMismaAlturaQue(rect_otro)){
+		(rect_sig->estaAMismaAlturaQue(rect_otro) || // Están a misma altura o
+													  // Se superponen en ambos ejes y está bajando.
+			(rect_sig->estaSuperpuestoEnXCon(rect_otro) && rect_sig->estaSuperpuestoEnYCon(rect_otro) && rect_sig->izq_inf->y <= rect_este->izq_inf->y))){
 		rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
 	}
 	
@@ -267,7 +271,7 @@ bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 
 void Director::verificar_movimientos(){
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
-	//~ verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
+	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
 
 	// chequear colisiones:
 	std::vector<Rectangulo*>* rectangulos_jug1 = jugadores[jugador1]->obtenerPersonaje()->accionActual->rectangulos;

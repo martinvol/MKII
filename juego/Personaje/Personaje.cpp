@@ -35,7 +35,6 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->y_inicial = coord->y;
 	this->coordenada = coord;
 	this->siguiente = new CoordenadaLogica(coord);
-	
 	this->mirarDerecha = miraADerecha;
 	
 	this->estado = estado;
@@ -43,12 +42,24 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->accionActual = this->estado->	quieto;
 	this->imagenActual = this->accionActual->getImagenActual();
 	
+	calcularAnchoYAltoImagen();
+	this->ancho_quieto = this->_w;
+	this->altura_quieto = this->_h;
+
+	CoordenadaLogica* coord1 = this->coordenada;
+	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+	CoordenadaLogica* coord2 = new CoordenadaLogica(coordenada->x + ancho, coordenada->y + alto);
+	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
+	this->ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
+	this->alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
+	delete coord2;
+	delete coord1_fis;
+	delete coord2_fis;
+	
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
 	this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
-	this->altura_quieto = 0;
-	this->ancho_quieto = 0;
 }
 
 Personaje::~Personaje(){
@@ -187,53 +198,40 @@ void Personaje::activarAccion(accion_posible accion){
 				break;
 		}
 	}
-	
-	 //~ this->imagenActual = this->accionActual->getImagenActual();
-	 //return;
-	 
-	//~ switch(nroAccionActual){
-		//~ case SALTARDIAGONAL_DER:
-			//~ if (accion == PINIAALTA || accion == PINIABAJA){
-				//~ cambiarAccionA(PINIASALTANDODIAGONAL);								
-				//~ cout<<"SALTO DIAGONAL CON PINIA"<<endl; ///
-			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
-				//~ cambiarAccionA(PATADASALTANDODIAGONAL);
-				//~ cout<< "SALTO DIAGONAL CON PATADA"<<endl; ///
-			//~ }
-			//~ break;
-		//~ case SALTARDIAGONAL_IZQ:
-			//~ if (accion == PINIAALTA || accion == PINIABAJA){
-				//~ cambiarAccionA(PINIASALTANDODIAGONAL);				
-			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
-				//~ cambiarAccionA(PATADASALTANDODIAGONAL);
-			//~ }			
-			//~ break;
-		//~ case SALTAR:
-			//~ if (accion == PINIAALTA || accion == PINIABAJA){				
-				//~ cambiarAccionA(PINIASALTANDOVERTICAL);
-			//~ }else if (accion == PATADAALTA || accion == PATADABAJA){
-				//~ cambiarAccionA(PATADASALTANDOVERTICAL);
-			//~ }else if (accion == ARROJARARMA){
-				//~ cout<< "SALTO VERTICAL + ARROJO ARMA"<<endl; ///
-			//~ }
-			//~ break;
-	//~ }
+
 	this->imagenActual = this->accionActual->getImagenActual();	
+	
+	//~ calcularAnchoYAltoImagen();
+	//~ calcularDatosDibujables();
 	
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){
+	//~ CoordenadaFisica* coord_fis_izq_sup = new CoordenadaFisica(this->x, this->y);
+	//~ CoordenadaLogica* coord = this->conversor->aLogica(coord_fis_izq_sup);
+	//~ delete coord_fis_izq_sup;
+	//~ return coord;
 	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	coord->desplazarY(alto);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqInf(){
+	//~ CoordenadaFisica* coord_fis_izq_sup = new CoordenadaFisica(this->x, this->y);
+	//~ CoordenadaLogica* coord = this->conversor->aLogica(coord_fis_izq_sup);
+	//~ coord->desplazarY(-_h);
+	//~ delete coord_fis_izq_sup;
+	//~ return coord;
 	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	return coord;
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaDerSup(){
+	//~ CoordenadaFisica* coord_fis_izq_sup = new CoordenadaFisica(this->x, this->y);
+	//~ CoordenadaLogica* coord = this->conversor->aLogica(coord_fis_izq_sup);
+	//~ coord->desplazarX(_w);
+	//~ delete coord_fis_izq_sup;
+	//~ return coord;
 	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	coord->desplazarY(alto);
 	coord->desplazarX(ancho);
@@ -241,6 +239,12 @@ CoordenadaLogica* Personaje::obtenerCoordenadaDerSup(){
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaDerInf(){
+	//~ CoordenadaFisica* coord_fis_izq_sup = new CoordenadaFisica(this->x, this->y);
+	//~ CoordenadaLogica* coord = this->conversor->aLogica(coord_fis_izq_sup);
+	//~ coord->desplazarY(-_h);
+	//~ coord->desplazarX(_w);
+	//~ delete coord_fis_izq_sup;
+	//~ return coord;
 	CoordenadaLogica* coord = new CoordenadaLogica(coordenada);
 	coord->desplazarX(ancho);
 	return coord;
@@ -274,6 +278,8 @@ void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
 	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
+	
+	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
@@ -281,17 +287,23 @@ void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
+	
+	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseAIzqInf(CoordenadaLogica* coord){
 	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
+	
+	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseADerInf(CoordenadaLogica* coord){
 	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarX(-ancho);
+	
+	//~ calcularDatosDibujables();
 }
 
 /***********************************************************************
@@ -462,36 +474,50 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 	}
 		this->accionActual->saque_vida = false;
 		this->accionActual->dibuje_rectangulos = false;	
+	
+	//~ calcularAnchoYAltoImagen();
+	//~ calcularDatosDibujables();
 }
 
+float Personaje::calcularAnchoYAltoImagen(){
+	SDL_QueryTexture(this->imagenActual, NULL, NULL, &(this->_w), &(this->_h));
+}
+
+void Personaje::calcularDatosDibujables(){
+	CoordenadaLogica* coord1 = new CoordenadaLogica(this->coordenada);
+	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+	CoordenadaLogica* coord2 = new CoordenadaLogica(coordenada->x + ancho, coordenada->y + alto);
+	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
+
+	
+	this->x = coord1_fis->x_fisico;
+	if (!this->mirarDerecha && nroAccionActual != QUIETO)
+		this->x = coord1_fis->x_fisico + float(this->ancho_quieto - this->_w)*this->conversor->factor_ancho;
+	this->y = coord2_fis->y_fisico + float(this->altura_quieto - this->_h)*this->conversor->factor_alto;
+	this->w = (float(this->_w)/this->ancho_quieto)*ancho_fisico;
+	this->h = (float(this->_h) / this->altura_quieto)*alto_fisico;
+
+	delete coord1;
+	delete coord2;
+	delete coord1_fis;
+	delete coord2_fis;
+}
 
 void Personaje::Dibujarse(){
-	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
-	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
 	
-	CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
-	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
-	
-	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
-	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
-	
+	// Ancho y alto fisico y ancho y alto de quieto, en el constructor.
 
-	int _w, _h;
-	
-	SDL_QueryTexture(this->imagenActual, NULL, NULL, &_w, &_h);
-	if (this->altura_quieto == 0 && this->nroAccionActual == 0) this->altura_quieto = (float) _h;
-	if (this->ancho_quieto == 0 && this->nroAccionActual == 0) this->ancho_quieto = (float) _w;
+	calcularAnchoYAltoImagen();
+	calcularDatosDibujables();
 
 	//Rectangulo destino
 	SDL_Rect destino;
-	destino.x = coord1_fis->x_fisico;
-	if (!this->mirarDerecha && nroAccionActual != QUIETO) destino.x = coord1_fis->x_fisico + (this->ancho_quieto - _w)*this->conversor->factor_ancho;
-	destino.y = coord2_fis->y_fisico + (this->altura_quieto - _h)*this->conversor->factor_alto;
-	//destino.w = (_w)*this->conversor->factor_ancho;//ancho_fisico;
-	destino.w = (_w)/this->ancho_quieto*ancho_fisico;//ancho_fisico;
-	destino.h = (_h / this->altura_quieto)*alto_fisico; //
-
-	SDL_Point point = {_w/2, _h};
+	destino.x = this->x;
+	destino.y = this->y;
+	destino.h = this->h;
+	destino.w = this->w;
+	
+	SDL_Point point = {this->_w/2, this->_h};
 	
 	
 	// Espeja si debe mirar para la izquierda.
@@ -511,11 +537,6 @@ void Personaje::Dibujarse(){
 			
 	}
 	this->accionActual->dibuje_rectangulos = true;
-	
-	delete coord1;
-	delete coord1_fis;
-	delete coord2;
-	delete coord2_fis;
 	
 	if (this->arrojable){
 
@@ -632,49 +653,5 @@ void Personaje::Dibujarse(){
 			break;
 	
 	}
-	
-	/*for ( int i=0; i < SDL_JoystickNumButtons ( joystick ); ++i ){
-		unsigned int boton = SDL_JoystickGetButton ( joystick, i );
-		if ( boton != 0 ){
-			// Aca había un swich case que Volpe sacó
-			// porque solo interpreta constantes y no
-			// podía cargar las configuraciones
-			if (i ==  (*conf_joys)["pinia_baja"]){
-				PiniaBaja = true;					
-			} else if (i == (*conf_joys)["cubrirse"]){
-				CubrirAlto = true;
-			} else if (i == (*conf_joys)["patada_baja"]){
-				PatadaBaja = true;
-			} else if (i == (*conf_joys)["pinia_alta"]){
-				PiniaAlta = true;
-			} else if (i == (*conf_joys)["arrojar_arma"]){
-				//ArrojarArma = true;
-				this->Arrojar();
-			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
-				//ArrojarArma = true;
-				this->Arrojar();
-				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
-			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
-				//ArrojarArma = true;
-				this->Arrojar();
-				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
-			} else if (i == (*conf_joys)["patada_alta"]){
-				PatadaAlta = true;
-			}
-				
-			///cout <<"Apretado boton "<< i <<endl; ///				
-			
-		}else{
-			//Si no se aprieto boton --> todos en falso.
-			//PiniaBaja = Cubrirse = PatadaBaja = PiniaAlta = ArrojarArma = PatadaAlta = false;			
-		}
-		//Si ya estaba apretado lo dejo.
-		if (SDL_JoystickGetButton(joystick,1) == (*conf_joys)["cubrirse"]){
-			CubrirAlto = true;
-			///cout<<"cubriendose"<<endl; ///
-		}else{
-			CubrirAlto = false;
-		}		
-	}*/
 	 
 }

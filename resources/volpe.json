@@ -37,7 +37,7 @@
    "personaje":{
       "nombre": "Volpe",
       "ancho":63,
-      "alto":90,
+      "alto":125,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
@@ -52,7 +52,7 @@
    "personaje2":{
       "nombre": "Battán",
       "ancho":63,
-      "alto":127,
+      "alto":125,
       "zindex":60,
       "sprites":{
             "personaje1":"resources/jugador/SubZero/"
