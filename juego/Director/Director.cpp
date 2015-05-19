@@ -210,9 +210,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 			CoordenadaLogica* sig_der = new CoordenadaLogica(rect_otro->der_inf->x + rect_sig->ancho, rect_sig->der_inf->y);
 			CoordenadaFisica* sig_der_fis = this->conversor->aFisica(sig_der);
 			if (this->ventana->coordenadaEnPantalla(sig_der_fis) == bordeDer && !sePuedeScrollearDerecha()){
-				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
+				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y); //VOLPE
 			} else {
-				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
+				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y); //VOLPE
 			}
 			delete sig_der;
 			delete sig_der_fis;
@@ -224,9 +224,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 			CoordenadaLogica* sig_izq = new CoordenadaLogica(rect_otro->izq_inf->x - rect_sig->ancho, rect_sig->izq_inf->y);
 			CoordenadaFisica* sig_izq_fis = this->conversor->aFisica(sig_izq);
 			if (this->ventana->coordenadaEnPantalla(sig_izq_fis) == bordeIzq && !sePuedeScrollearIzquierda()){
-				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
+				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y); //VOLPE
 			} else {
-				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
+				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y); //VOLPE
 			}
 			delete sig_izq;
 			delete sig_izq_fis;
