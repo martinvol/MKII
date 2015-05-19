@@ -212,7 +212,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 			if (this->ventana->coordenadaEnPantalla(sig_der_fis) == bordeDer && !sePuedeScrollearDerecha()){
 				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y); //VOLPE
 			} else {
-				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y); //VOLPE
+				rect_sig->moverAIzqInf(rect_sig->izq_inf->x + 30, rect_este->izq_inf->y+5); //VOLPE
 			}
 			delete sig_der;
 			delete sig_der_fis;
@@ -226,7 +226,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 			if (this->ventana->coordenadaEnPantalla(sig_izq_fis) == bordeIzq && !sePuedeScrollearIzquierda()){
 				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y); //VOLPE
 			} else {
-				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y); //VOLPE
+				rect_sig->moverADerInf(rect_sig->der_inf->x - 30, rect_sig->der_inf->y + 5); //VOLPE
 			}
 			delete sig_izq;
 			delete sig_izq_fis;
