@@ -279,6 +279,7 @@ public:
         Uint32 t1;
 
         SDL_Event evento;
+        unsigned int n=0;
         while (!salir){					
 
             timerFps = SDL_GetTicks();
@@ -298,15 +299,25 @@ public:
                 // cout << SDL_GetTicks()-t1<< " 2"<<endl;
                 
                 // t1 = SDL_GetTicks();
-                SDL_JoystickClose(Player1);
-                SDL_JoystickClose(Player2);
+                if (n<80 || n>95){
+                    // ESTO ESTA MUY MAL
+                    // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
+                    // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
+                    //cout << n<< " cierro"<<endl;
+                    SDL_JoystickClose(Player1);
+                    SDL_JoystickClose(Player2);
+
+                    // t1 = SDL_GetTicks();
+                    Player1 = SDL_JoystickOpen(0); 
+                    Player2 = SDL_JoystickOpen(1); 
+                    // cout << SDL_GetTicks()-t1<< " 4"<<endl;
+                } if (n<100){
+                    n++;
+                }
                 // cout << SDL_GetTicks()-t1<< " 3"<<endl;
+                //cout << n<< " ita"<<endl;
 
 
-                // t1 = SDL_GetTicks();
-                Player1 = SDL_JoystickOpen(0); 
-                Player2 = SDL_JoystickOpen(1); 
-                // cout << SDL_GetTicks()-t1<< " 4"<<endl;
 
             }
             DibujarTodo();              //Vista
