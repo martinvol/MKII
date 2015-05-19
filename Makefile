@@ -249,7 +249,7 @@ compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o P
 
 juego: compilar_juego
 	./juego_ejecutable ${jsonpath}
-	make clean
+	# make clean
 	
 juegoJsonTest: compilar_juego
 	./juego_ejecutable $(JSONTEST)

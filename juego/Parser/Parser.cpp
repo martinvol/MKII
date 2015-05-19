@@ -104,7 +104,7 @@ void Parser::set_values (char* my_file) {
             
             ventana_anchopx = cargarValidar(ventana, 800, "anchopx", "Usando anchopx default de 800px");
             if (ventana_anchopx > 1200 || ventana_anchopx<400){
-                logger->log_error("El ancho de la ventana es inválido, se usará el ancho por defautl, 800px.");
+                logger->log_error("El ancho de la ventana es inválido, se usará el ancho por defautl, 800");
                 ventana_anchopx = 800;
             }
 
@@ -138,7 +138,7 @@ void Parser::set_values (char* my_file) {
             }
 
             personaje_alto = cargarValidar(personaje, 100, "alto", "Usando alto (personaje) default de 100");
-            if (personaje_alto >(3./4)*escenario_alto || personaje_alto < (1./8)*escenario_alto){
+            if (personaje_alto > ((escenario_alto-escenario_ypiso)/2.) || personaje_alto < (1./8)*escenario_alto){
                 logger->log_error("El alto del personaje es inválido, se usa un cuarto del ancho de la pantalla (logica).");
                 personaje_alto = escenario_alto/4.;
             }
@@ -283,7 +283,7 @@ void Parser::set_values (char* my_file) {
             }
 
             personaje2_alto = cargarValidar(personaje2, 100, "alto", "Usando alto (personaje2) default de 100");
-            if (personaje2_alto >(3./4)*escenario_alto || personaje2_alto < (1./8)*escenario_alto){
+            if (personaje2_alto > ((escenario_alto-escenario_ypiso)/2.) || personaje2_alto < (1./8)*escenario_alto){
                 logger->log_error("El alto del personaje2 es inválido, se usa un cuarto del ancho de la pantalla (logica).");
                 personaje2_alto = escenario_alto/4.;
             }
