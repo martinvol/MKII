@@ -47,7 +47,7 @@
       "velocidad_arma": 10,
       "inicio": 150,
       "fin": 200,
-      "offset": 200
+      "offset": 100
    },
    "personaje2":{
       "nombre": "Battán",

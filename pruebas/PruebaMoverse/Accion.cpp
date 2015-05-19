@@ -118,7 +118,7 @@ Accion::Accion(int nroAccion, string ruta, bool permite,SDL_Renderer* ren){
 void Accion::destruirAccion(){
 	
 	for (int i = 0; i < this->cantModos; i++){
-			SDL_DestroyTexture(imagenes[i]);
+		SDL_DestroyTexture(imagenes[i]);
 	}
 }
 

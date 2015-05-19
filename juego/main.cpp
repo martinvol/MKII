@@ -72,6 +72,7 @@ public:
     bool golpeandoPJbaja = false;
     bool cansandoPJ = false;
     bool arrojandoPk=false;
+    SDL_Texture* splash;
     
     Sint16 presionado=0;
     SDL_Rect r;
@@ -278,8 +279,38 @@ public:
         //SDL_JoystickEventState (SDL_QUERY);
         Uint32 t1;
 
+        splash = IMG_LoadTexture(renderer, "resources/background/splash.jpg");
+        SDL_Rect source_rect;
+        source_rect.x = 0;
+        source_rect.y = 0;
+        source_rect.w = parser->ventana_anchopx;
+        source_rect.h = parser->ventana_altopx;
+        //DibujarTodo();
+
+        SDL_RenderClear(renderer);
+
+
+        for (int j=0; j<100; j++){
+            // ESTO ESTA MUY MAL
+            // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
+            // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
+            SDL_JoystickClose(Player1);
+            SDL_JoystickClose(Player2);
+            Player1 = SDL_JoystickOpen(0); 
+            Player2 = SDL_JoystickOpen(1); 
+            // lo pongo acá en el splash y disimulo
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer, splash, &source_rect, NULL);
+            SDL_Delay((1.*1000./CONST_MAXI_DELAY));
+            SDL_RenderPresent(renderer);
+        }
+
+        SDL_RenderClear(renderer);
+        SDL_DestroyTexture(splash);
+
+
+
         SDL_Event evento;
-        unsigned int n=0;
         while (!salir){					
 
             timerFps = SDL_GetTicks();
@@ -299,21 +330,14 @@ public:
                 // cout << SDL_GetTicks()-t1<< " 2"<<endl;
                 
                 // t1 = SDL_GetTicks();
-                if (n<80 || n>95){
-                    // ESTO ESTA MUY MAL
-                    // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
-                    // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
-                    //cout << n<< " cierro"<<endl;
-                    SDL_JoystickClose(Player1);
-                    SDL_JoystickClose(Player2);
+                //cout << n<< " cierro"<<endl;
+                SDL_JoystickClose(Player1);
+                SDL_JoystickClose(Player2);
 
-                    // t1 = SDL_GetTicks();
-                    Player1 = SDL_JoystickOpen(0); 
-                    Player2 = SDL_JoystickOpen(1); 
-                    // cout << SDL_GetTicks()-t1<< " 4"<<endl;
-                } if (n<100){
-                    n++;
-                }
+                // t1 = SDL_GetTicks();
+                Player1 = SDL_JoystickOpen(0); 
+                Player2 = SDL_JoystickOpen(1); 
+                // cout << SDL_GetTicks()-t1<< " 4"<<endl;
                 // cout << SDL_GetTicks()-t1<< " 3"<<endl;
                 //cout << n<< " ita"<<endl;
 
