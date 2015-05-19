@@ -320,9 +320,10 @@ void Director::verificar_movimientos(){
 
 							if (!recibe->bloqueo){
 								cout << pegando->personaje->accionActual->accionNro << endl;
+								///cout << sufre->personaje->accionActual->accionNro<< endl;
 								if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
 									sufre->personaje->activarAccion(CAERPORTRABA);
-								} else if (pegando->personaje->accionActual->accionNro == 21){
+								} else if (pegando->personaje->accionActual->accionNro == 21 || pegando->personaje->accionActual->accionNro == 25){
 									sufre->personaje->activarAccion(CAERPORGANCHO);
 								} else if (pegando->personaje->accionActual->accionNro == 7 ||
 										   pegando->personaje->accionActual->accionNro == 34){
@@ -331,7 +332,7 @@ void Director::verificar_movimientos(){
 									sufre->personaje->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
 								}else {
 									sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
-									cout<<sufre->personaje->accionActual->accionNro<<endl;
+									// cout<<sufre->personaje->accionActual->accionNro<<endl;
 								}
 							}
 							this->escenario->Temblar(SDL_GetTicks());

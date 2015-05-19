@@ -607,11 +607,15 @@ void Personaje::Dibujarse(){
 			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+				if (this->arrojable != NULL){
+					this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+				}
 			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+				if (this->arrojable != NULL){
+					this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+				}
 			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = true;
 			}
@@ -638,14 +642,18 @@ void Personaje::Dibujarse(){
 			} else if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
+/*			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-				this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+				if (this->arrojable != NULL){
+					this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
+				}
 			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-				this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+				if (this->arrojable != NULL){
+					this->arrojable->tirarDiagonal(TIRAR_ABAJO);
+				}*/
 			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = false;
 			}
