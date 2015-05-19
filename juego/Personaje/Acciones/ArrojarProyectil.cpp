@@ -11,7 +11,8 @@ ArrojarProyectil::ArrojarProyectil(string ruta, SDL_Renderer* ren, float despl_x
 	// (float empieza_alto, float empieza_ancho, float porcentaje_alto, float porcentaje_ancho, bool ataque, bool bloqueo)
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(14, 73, 10, 28, true, false)); // piña
-	rectangulos->push_back(new Rectangulo(20, 20, 80, 50, false, false)); // piernas	
+	rectangulos->push_back(new Rectangulo(20, 20, 80, 50, false, false)); // piernas
+	intervalo = 250/cantModos;
 };
 
 

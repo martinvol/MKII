@@ -66,7 +66,7 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	CoordenadaFisica* coord1_fis = conv->aFisica(this->coord);
 
 	SDL_Rect destino;
-	destino.x = coord1_fis->x_fisico;
+	destino.x = coord1_fis->x_fisico ;
 	destino.y = coord1_fis->y_fisico + this->alto_original*1./3.;
 
 	destino.w = this->ancho;//ancho_fisico;
@@ -91,12 +91,14 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	}
 	
 	if (this->espejado){
-		destino.x -= ancho;
+		destino.x -= 2*ancho;
+		cout << "espejado"<<endl;
 		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
 		this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
 
 		/* code */
 	} else {
+		destino.x += ancho;
 		this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
 		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_NONE);
 	}
