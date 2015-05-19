@@ -69,8 +69,7 @@ Personaje::~Personaje(){
 
 void Personaje::Arrojar(){
 	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
-
-	if (this->arrojable == NULL){
+	if (this->arrojable == NULL && this->nroAccionActual == QUIETO){
 		this->arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
 	
 	
