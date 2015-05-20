@@ -291,6 +291,7 @@ public:
         SDL_RenderClear(renderer);
 
 
+        SDL_Event evento;
         for (int j=0; j<100; j++){
             // ESTO ESTA MUY MAL
             // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
@@ -311,7 +312,7 @@ public:
                 SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
             SDL_FlushEvent(SDL_KEYDOWN);
-
+            Controlador(&evento);
         }
 
         SDL_RenderClear(renderer);
@@ -319,7 +320,6 @@ public:
 
 
 
-        SDL_Event evento;
         while (!salir){					
 
             timerFps = SDL_GetTicks();
