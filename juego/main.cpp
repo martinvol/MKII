@@ -300,7 +300,7 @@ public:
 
 
         SDL_Event evento;
-        //~ for (int j=0; j<100; j++){
+        for (int j=0; j<50; j++){
             // ESTO ESTA MUY MAL
             // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
             // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
@@ -325,7 +325,7 @@ public:
         //~ }
 
             Controlador(&evento);
-        //~ }
+        }
 
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(splash);
@@ -621,7 +621,7 @@ void ActualizarModelo(Personaje* personaje){
 		return;
 	} 	
 	
-	//DERECHA		
+//DERECHA		
 	if (personaje->Derecha){
 		//+ARRIBA = SALTO DIAGONAL DERECHA
 		if (personaje->Arriba){
@@ -647,11 +647,13 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(TRABA);
 			personaje->PatadaBaja = false;			
 		}
+		else if (personaje->PatadaAlta && !personaje->mirarDerecha){
+			personaje->activarAccion(ROUNDKICK);
 		//CAMINAR DERECHA
-		else {			
+		}else {			
 			personaje->activarAccion(CAMINAR_DERECHA);			
 		}
-	//IZQUIERDA
+//IZQUIERDA
 	} else if (personaje->Izquierda) {
 		//+ARRIBA = SALTO DIAGONAL IZQUIERDA
 		if (personaje->Arriba){
@@ -672,9 +674,11 @@ void ActualizarModelo(Personaje* personaje){
 		else if (personaje->PatadaBaja && personaje->mirarDerecha){
 			personaje->activarAccion(TRABA);
 			personaje->PatadaBaja = false;			
-		}
+		}else if (personaje->PatadaAlta && personaje->mirarDerecha){
+			personaje->activarAccion(ROUNDKICK);
+			personaje->PatadaAlta = false;			
 		//+ABAJO = ABAJO IZQUIERDA
-		else if (personaje->Abajo){			
+		}else if (personaje->Abajo){			
 			personaje->activarAccion(AGACHARSE);			
 		}
 		//CAMINAR IZQUIERDA

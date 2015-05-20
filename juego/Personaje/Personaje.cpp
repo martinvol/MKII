@@ -184,6 +184,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case PINIAALTA:
 			case GANCHO:
 			case TRABA:
+			case ROUNDKICK:
 			case LEVANTARSEDELGANCHO:
 			case LEVANTARSEDELATRABA:								
 				if (this->accionActual->ciclos == 1){
