@@ -124,17 +124,17 @@ void Personaje::activarAccion(accion_posible accion){
 		siguiente = this->accionActual->execute(this->coordenada);				
 		switch (nroAccionActual){			
 			case SALTAR:
-				if (accion == PATADASALTANDOVERTICAL){
+				if (accion == PATADASALTANDOVERTICAL || accion == PATADAALTA || accion == PATADABAJA){
 					cambiarAccionA(PATADASALTANDOVERTICAL);
 				}
-				else if (accion == PINIASALTANDOVERTICAL){	
+				else if (accion == PINIASALTANDOVERTICAL || accion == PINIABAJA || accion == PINIAALTA){	
 					cambiarAccionA(PINIASALTANDOVERTICAL);	
 				}
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
-				if(accion == PATADASALTANDODIAGONAL){
+				if(accion == PATADASALTANDODIAGONAL || accion == PATADAALTA || accion == PATADABAJA){
 					cambiarAccionA(PATADASALTANDODIAGONAL);
-				}else if (accion == PINIASALTANDODIAGONAL){
+				}else if (accion == PINIASALTANDODIAGONAL || accion == PINIABAJA || accion == PINIAALTA){
 					cambiarAccionA(PINIASALTANDODIAGONAL);
 				}
 			case CAERPORGANCHO:
@@ -184,6 +184,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case PINIAALTA:
 			case GANCHO:
 			case TRABA:
+			case ROUNDKICK:
 			case LEVANTARSEDELGANCHO:
 			case LEVANTARSEDELATRABA:								
 				if (this->accionActual->ciclos == 1){
