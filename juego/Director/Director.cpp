@@ -296,7 +296,8 @@ void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre) {
     if (pegando->accionActual->accionNro == 21){
 	    sufre->activarAccion(CAERPORGANCHO);
 	} else if (pegando->accionActual->accionNro == 7 ||
-	    pegando->accionActual->accionNro == 34 || pegando->nroAccionActual == PATADABAJA){
+	    pegando->accionActual->accionNro == 34 || pegando->nroAccionActual == PATADABAJA || 
+	    pegando->nroAccionActual == PATADAALTAAGACHADO || pegando->nroAccionActual == PATADABAJAAGACHADO){
 	    sufre->activarAccion(RECIBIRGOLPEBAJO);
 	} else if (sufre->accionActual->accionNro == 5){
 	    sufre->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
