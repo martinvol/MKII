@@ -4,13 +4,14 @@
 #include "../Personaje/Personaje.hpp"
 
 class AI {
-	Personaje* personajeAI;
-	Personaje* personajeHumano;
-	
-	void reaccionar();
-	
-	AI(Personaje* personajeAI, Personaje* personajeHumano);
-	~AI();
+	public:
+		Personaje* personajeAI;
+		Personaje* personajeHumano;
+		
+		void reaccionar();
+		
+		AI(Personaje* personajeAI, Personaje* personajeHumano);
+		~AI();
 };
 
 #endif
