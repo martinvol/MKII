@@ -561,40 +561,43 @@ void Personaje::Dibujarse(){
  *
  **********************************************************************/  
  void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf, SDL_Event *evento){
-	if (joystick == NULL){
-		//cout<<"NO hay joystick. Personaje.cpp"<<endl;
-		return;
-	}
-			 
-	int x_Joystick = SDL_JoystickGetAxis(joystick, 0);
-	int y_Joystick = SDL_JoystickGetAxis(joystick, 1);
-	
-//Horizontal
-	if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
-		Izquierda = true;		
-	}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
-		Derecha = true;			
-	}else{	//  x = 0;				
-		Izquierda = false;
-		Derecha = false;
-	}
-//Vertical
-	if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
-		Arriba = true;		
-	}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
-		Abajo = true;		
-	}else{ //yDir = 0;		
-		Arriba = false;
-		Abajo = false;
-	}	 
-	
-	
-	
-	SDL_JoystickID numeroJoystick = (evento->jdevice.which);	
-	
+		
+	SDL_JoystickID numeroJoystick = (evento->jdevice.which);		
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
 	Uint8 i = evento->jbutton.button;
-	switch (evento->type){			
+	
+	switch (evento->type){
+		case SDL_JOYAXISMOTION:
+		if (numeroJoystick != (this->numero_jugador))
+				break;
+				
+			if( evento->jaxis.axis == 0){
+				/* Left-right movement code goes here */
+				int x_Joystick = evento->jaxis.value;
+				if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
+					Izquierda = true;		
+				}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
+					Derecha = true;			
+				}else{	//  x = 0;				
+					Izquierda = false;
+					Derecha = false;
+				}
+            
+			}
+			if( evento->jaxis.axis == 1){
+				int y_Joystick = evento->jaxis.value;
+            /* Up-Down movement code goes here */
+				if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
+					Arriba = true;		
+				}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
+					Abajo = true;		
+				}else{ //yDir = 0;		
+					Arriba = false;
+					Abajo = false;
+				}	
+            
+			}
+			break;
 		case SDL_JOYBUTTONDOWN:
 			//Si el ID del joystick no corresponde
 			//con el numero de jugador, no procese el evento.
@@ -633,8 +636,7 @@ void Personaje::Dibujarse(){
 		//Si el ID del joystick no corresponde
 		//con el numero de jugador, no procese el evento.
 			if (numeroJoystick != (this->numero_jugador))
-				break;
-		
+				break;		
 			
 			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = false;					
@@ -644,25 +646,13 @@ void Personaje::Dibujarse(){
 					cambiarAccionA(AGACHARSE);	
 					this->accionActual->setModoActual(this->accionActual->cantModos-1);					
 				}
+				CubrirAlto = false;
 			} else if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = false;
 			} else if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = false;
-			} else if (i == (*conf_joys)["arrojar_arma"]){
-				//ArrojarArma = true;
+			} else if (i == (*conf_joys)["arrojar_arma"]){				
 				this->Arrojar();
-/*			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
-				//ArrojarArma = true;
-				this->Arrojar();
-				if (this->arrojable != NULL){
-					this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
-				}
-			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
-				//ArrojarArma = true;
-				this->Arrojar();
-				if (this->arrojable != NULL){
-					this->arrojable->tirarDiagonal(TIRAR_ABAJO);
-				}*/
 			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = false;
 			}
