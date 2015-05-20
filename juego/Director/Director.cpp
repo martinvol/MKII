@@ -280,9 +280,19 @@ bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 }
 
 void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre) {
-    if(pegando->accionActual->accionNro == PATADAALTAAGACHADO){
+	
+	if(pegando->accionActual->accionNro == PATADAALTAAGACHADO){
 		sufre->activarAccion(CAERPORTRABA);
-	} else if (pegando->accionActual->accionNro == 21 || pegando->accionActual->accionNro == 25){
+		return;
+	}
+	
+	if(sufre->nroAccionActual == AGACHARSE || sufre->nroAccionActual == PATADAALTAAGACHADO ||
+	sufre->nroAccionActual == PATADABAJAAGACHADO || sufre->nroAccionActual == PINIAAGACHADO) {
+		sufre->activarAccion(RECIBIRGOLPEAGACHADO); 
+		return;
+	}
+	
+    if (pegando->accionActual->accionNro == 21 || pegando->accionActual->accionNro == 25){
 	    sufre->activarAccion(CAERPORGANCHO);
 	} else if (pegando->accionActual->accionNro == 7 ||
 	    pegando->accionActual->accionNro == 34 || pegando->nroAccionActual == PATADABAJA){

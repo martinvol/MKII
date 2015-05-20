@@ -464,6 +464,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 				this->accionActual->setDireccionIzquierda();
 			}
 			break;
+		case RECIBIRGOLPEAGACHADO:
+			this->accionActual = this->estado->recibirGolpeAgachado;
+			break;
 		case CAERPORTRABA:
 			this->accionActual = this->estado->recibirTraba;
 			break;
