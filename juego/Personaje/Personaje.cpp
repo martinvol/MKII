@@ -65,6 +65,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 Personaje::~Personaje(){
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
+	delete this->siguiente;
 }
 
 void Personaje::Arrojar(){
@@ -81,14 +82,22 @@ void Personaje::Arrojar(){
 		
 		int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
 		int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
+		CoordenadaLogica* desde;
 		if (mirarDerecha){
-			arrojable->setCoordenadas(this->obtenerCoordenadaIzqSup(), alto_fisico, ancho_fisico);
+			desde = this->obtenerCoordenadaIzqSup();
+			arrojable->setCoordenadas(desde, alto_fisico, ancho_fisico);
 		} else {
-			arrojable->setCoordenadas(this->obtenerCoordenadaDerSup(), alto_fisico, ancho_fisico);
+			desde = this->obtenerCoordenadaDerSup();
+			arrojable->setCoordenadas(desde, alto_fisico, ancho_fisico);
 		}
+
 		arrojable->tirar(this->velocidad_arma);
 	
-		delete coord1,coord1_fis,coord2,coord2_fis;
+		// desde la borra el personaje desde adentro
+		delete coord1;
+		delete coord1_fis;
+		delete coord2;
+		delete coord2_fis;
 		
 		if (this->nroAccionActual == QUIETO) this->cambiarAccionA(ARROJARARMA);
 	}
@@ -411,7 +420,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->traba;
 			break;
 		case GANCHO:
-			cout<<"gancho"<<endl; ///
+			//cout<<"gancho"<<endl; ///
 			this->accionActual = this->estado->gancho;
 			break;
 		case PINIASALTANDODIAGONAL:

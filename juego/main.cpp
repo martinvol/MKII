@@ -103,8 +103,8 @@ public:
 
     ConversorDeCoordenadas* conversor;
 
-	Estado* estado, *estado2;
-    Personaje* personajeJuego, *personajeJuego2;
+	Estado* estado=NULL, *estado2=NULL;
+    Personaje* personajeJuego = NULL, *personajeJuego2 = NULL;
     BarraDeVida* barraDeVida1, *barraDeVida2;
 
 	Director* director;
@@ -166,6 +166,7 @@ public:
 		// Este x_logico es del extremo izquierdo del personaje.
         x_logico_personaje = (parser->escenario_ancho/2.) - (parser->personaje_ancho) - SEPARACION/2;
         
+
         this->estado = new Estado((string)(this->parser->sprites_map["personaje1"]),
 							renderer, parser->personaje_alto, parser->escenario_alto,
 							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
@@ -402,6 +403,7 @@ public:
         delete this->parser;	// Elimina sus propias capas.
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         logger->log_debug("Borramos todos los objetos");
+
     };
 
     void terminar_sdl(){
@@ -733,7 +735,6 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->PatadaAlta = false;
 		//+PINIA ALTA = GANCHO
 		}else if (personaje->PiniaAlta){
-			cout<<"gancho desde main"<<endl;			
 			personaje->activarAccion(GANCHO);
 			personaje->PiniaAlta = false;
 		}else if(personaje->PiniaBaja){

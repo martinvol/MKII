@@ -175,6 +175,10 @@ Accion::~Accion(){
 		
 		SDL_DestroyTexture(imagenes[i]);
 	}
+	for (int i = 0; i<this->rectangulos->size(); i++){
+		delete this->rectangulos->at(i);
+	}
+	delete this->rectangulos;
 }
 
 /***********************************************************************

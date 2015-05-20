@@ -154,9 +154,12 @@ public:
  *********************************************************************/
 
 void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
-	Rect_Per* rect_este = new Rect_Per(jugador->obtenerCoordenadaIzqInf(), jugador->personaje->ancho, jugador->personaje->alto);
-	Rect_Per* rect_sig = new Rect_Per(jugador->obtenerSiguienteCoordenadaIzqInf(), jugador->personaje->ancho, jugador->personaje->alto);
-	Rect_Per* rect_otro = new Rect_Per(elOtro->obtenerCoordenadaIzqInf(), elOtro->personaje->ancho, elOtro->personaje->alto);
+	CoordenadaLogica* temp1=jugador->obtenerCoordenadaIzqInf();
+	CoordenadaLogica* temp2 = jugador->obtenerSiguienteCoordenadaIzqInf();
+	CoordenadaLogica* temp3=elOtro->obtenerCoordenadaIzqInf();
+	Rect_Per* rect_este = new Rect_Per(temp1, jugador->personaje->ancho, jugador->personaje->alto);
+	Rect_Per* rect_sig = new Rect_Per(temp2, jugador->personaje->ancho, jugador->personaje->alto);
+	Rect_Per* rect_otro = new Rect_Per(temp3, elOtro->personaje->ancho, elOtro->personaje->alto);
 
 
 	// Verifica altura.
@@ -258,6 +261,13 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	delete coord_izq;
 	
 	jugador->moverseAIzqInf(rect_sig->izq_inf);
+	delete temp1;
+	delete temp2;
+	delete temp3;
+	delete rect_sig;
+	delete rect_este;
+	delete rect_otro;
+
 }
 
 bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
