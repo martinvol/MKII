@@ -279,6 +279,22 @@ bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 	// return false;
 }
 
+void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre) {
+    if(pegando->accionActual->accionNro == PATADAALTAAGACHADO){
+		sufre->activarAccion(CAERPORTRABA);
+	} else if (pegando->accionActual->accionNro == 21 || pegando->accionActual->accionNro == 25){
+	    sufre->activarAccion(CAERPORGANCHO);
+	} else if (pegando->accionActual->accionNro == 7 ||
+	    pegando->accionActual->accionNro == 34 || pegando->nroAccionActual == PATADABAJA){
+	    sufre->activarAccion(RECIBIRGOLPEBAJO);
+	} else if (sufre->accionActual->accionNro == 5){
+	    sufre->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
+	}else sufre->activarAccion(RECIBIRGOLPEALTO);
+	// cout<<sufre->personaje->accionActual->accionNro<<endl;								}
+}
+
+
+
 void Director::verificar_movimientos(){
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
 	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
@@ -331,19 +347,7 @@ void Director::verificar_movimientos(){
 							if (!recibe->bloqueo){
 								/// cout << pegando->personaje->accionActual->accionNro << endl;
 								///cout << sufre->personaje->accionActual->accionNro<< endl;
-								if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
-									sufre->personaje->activarAccion(CAERPORTRABA);
-								} else if (pegando->personaje->accionActual->accionNro == 21 || pegando->personaje->accionActual->accionNro == 25){
-									sufre->personaje->activarAccion(CAERPORGANCHO);
-								} else if (pegando->personaje->accionActual->accionNro == 7 ||
-										   pegando->personaje->accionActual->accionNro == 34){
-									sufre->personaje->activarAccion(RECIBIRGOLPEBAJO);
-								} else if (sufre->personaje->accionActual->accionNro == 5){
-									sufre->personaje->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
-								}else {
-									sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
-									// cout<<sufre->personaje->accionActual->accionNro<<endl;
-								}
+								presentarAnimacionRecibirGolpe(pegando->obtenerPersonaje(), sufre->obtenerPersonaje());
 							}
 							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true; // Para que no le saque vida dos veces

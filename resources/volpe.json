@@ -1,5 +1,3 @@
-/*Configuraciones que andan con los joystick que tiene Volpe*/
-
 {
    "ventana":{
       "anchopx":800,
@@ -36,7 +34,7 @@
    ],
    "personaje":{
       "nombre": "Volpe",
-      "ancho":125,
+      "ancho":80,
       "alto":125,
       "zindex":60,
       "sprites":{
@@ -51,11 +49,11 @@
    },
    "personaje2":{
       "nombre": "Battán",
-      "ancho":63,
+      "ancho":80,
       "alto":125,
       "zindex":60,
       "sprites":{
-            "personaje1":"resources/jugador/SubZero/"
+            "personaje2":"resources/jugador/SubZero/"
       }
    },
    "joystick1": {
