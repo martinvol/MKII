@@ -294,6 +294,7 @@ public:
             // ESTO ESTA MUY MAL
             // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
             // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
+            timerFps = SDL_GetTicks();
             SDL_JoystickClose(Player1);
             SDL_JoystickClose(Player2);
             Player1 = SDL_JoystickOpen(0); 
@@ -303,6 +304,13 @@ public:
             SDL_RenderCopy(renderer, splash, &source_rect, NULL);
             SDL_Delay((1.*1000./CONST_MAXI_DELAY));
             SDL_RenderPresent(renderer);
+            timerFps = SDL_GetTicks() - timerFps;
+            
+            if(timerFps < 1.*1000./CONST_MAXI_DELAY){
+                SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
+            }
+            SDL_FlushEvent(SDL_KEYDOWN);
+
         }
 
         SDL_RenderClear(renderer);
