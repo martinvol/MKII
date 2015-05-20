@@ -11,6 +11,7 @@
 #include "Coordenadas/ConversorDeCoordenadas.hpp"
 #include "Escenario/Timer.hpp"
 #include "Director/Director.hpp"
+#include "AI/AI.hpp"
 
 using namespace std;
 
@@ -23,6 +24,8 @@ using namespace std;
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
+
+#define USAR_AI false
 
 Logger *logger = Logger::instance();
 
@@ -105,6 +108,7 @@ public:
 
 	Estado* estado=NULL, *estado2=NULL;
     Personaje* personajeJuego = NULL, *personajeJuego2 = NULL;
+    AI* ai = NULL;
     BarraDeVida* barraDeVida1, *barraDeVida2;
 
 	Director* director;
@@ -209,6 +213,8 @@ public:
                                         2, false); // jugador 2
                                         // parser->personaje2_mirar_derecha, this->conversor)
         
+
+		if (USAR_AI) this->ai = new AI(this->personajeJuego2, this->personajeJuego);
 
        //Derecha
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
@@ -411,6 +417,7 @@ public:
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         delete this->parser;	// Elimina sus propias capas.
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
+        if (this->ai != NULL) delete this->ai;
         logger->log_debug("Borramos todos los objetos");
 
     };
@@ -607,6 +614,9 @@ void Controlador(SDL_Event *evento){
 }
 
 void ActualizarModelo(Personaje* personaje){
+	
+	if ((this->ai != NULL ) && (personaje == this->ai->personajeAI)) this->ai->reaccionar();
+	
 	if (personaje->nroAccionActual == PATADABAJAAGACHADO){
 		personaje->activarAccion(PATADABAJAAGACHADO);
 		return;
