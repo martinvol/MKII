@@ -11,7 +11,7 @@ class AI {
 		void reaccionar();
 		
 		AI(Personaje* personajeAI, Personaje* personajeHumano);
-		~AI();
+		// ~AI();
 };
 
 #endif

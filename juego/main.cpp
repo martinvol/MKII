@@ -417,6 +417,7 @@ public:
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         delete this->parser;	// Elimina sus propias capas.
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
+        if (this->ai != NULL) delete this->ai;
         logger->log_debug("Borramos todos los objetos");
 
     };
