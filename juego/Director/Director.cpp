@@ -329,7 +329,7 @@ void Director::verificar_movimientos(){
 							//sufre->personaje->activarAccion(RECIBIRGOLPEALTO);
 
 							if (!recibe->bloqueo){
-								cout << pegando->personaje->accionActual->accionNro << endl;
+								/// cout << pegando->personaje->accionActual->accionNro << endl;
 								///cout << sufre->personaje->accionActual->accionNro<< endl;
 								if(pegando->personaje->accionActual->accionNro == PATADAALTAAGACHADO){
 									sufre->personaje->activarAccion(CAERPORTRABA);

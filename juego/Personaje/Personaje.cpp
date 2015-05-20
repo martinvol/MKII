@@ -378,7 +378,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual = this->estado->piniaBaja;
 			break;
 		case PINIAAGACHADO:
-			cout<<"HOLA NRO:"<<PINIAAGACHADO<<endl;
+			//cout<<"HOLA NRO:"<<PINIAAGACHADO<<endl;
 			this->accionActual = this->estado->piniaAgachado;
 			break;
 		case PATADAALTA:

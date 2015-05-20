@@ -738,7 +738,6 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(GANCHO);
 			personaje->PiniaAlta = false;
 		}else if(personaje->PiniaBaja){
-			puts("pinia baja");
 			personaje->activarAccion(PINIAAGACHADO);
 			personaje->PiniaBaja = false;
 		}else{			
