@@ -190,11 +190,19 @@ public:
 		// DEFECTO IGUAL A CERO.
 		// Nada, eso solo. Queria llamar la atencion con las mayusculas. *Manuel*
 
+
+        cout << this->parser->sprites_map["personaje1"] << endl; ///
+        cout << this->parser->sprites_map2["personaje2"] << endl; ///
+        
+        if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                             renderer, parser->personaje2_alto, parser->escenario_alto,
                             parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                             parser->color_inicio, parser->color_fin, parser->color_offset);
-                            // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+                        
+        else this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
+                            renderer, parser->personaje2_alto, parser->escenario_alto,
+                            parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje2_alto,
                                         // "Kabal", renderer, parser->personaje2_ancho,
@@ -291,8 +299,16 @@ public:
         SDL_RenderClear(renderer);
 
 
+<<<<<<< HEAD
         //~ for (int j=0; j<100; j++){
             //Ya no esta mas.
+=======
+        SDL_Event evento;
+        for (int j=0; j<100; j++){
+            // ESTO ESTA MUY MAL
+            // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
+            // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
+>>>>>>> a4fdaafff24bb69304a724d3ae824d0b7f012a50
             timerFps = SDL_GetTicks();
             //~ SDL_JoystickClose(Player1);
             //~ SDL_JoystickClose(Player2);
@@ -309,15 +325,19 @@ public:
                 SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
             SDL_FlushEvent(SDL_KEYDOWN);
+<<<<<<< HEAD
 
         //~ }
+=======
+            Controlador(&evento);
+        }
+>>>>>>> a4fdaafff24bb69304a724d3ae824d0b7f012a50
 
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(splash);
 
 
 
-        SDL_Event evento;
         while (!salir){					
 
             timerFps = SDL_GetTicks();

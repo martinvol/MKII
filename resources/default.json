@@ -1,8 +1,10 @@
+/*Configuraciones que andan con los joystick que tiene Volpe*/
+
 {
    "ventana":{
       "anchopx":800,
       "altopx":600,
-      "ancho":400,
+      "ancho":600,
       "margen":90
    },
    "escenario":{
@@ -13,15 +15,15 @@
    "capas":[
       {
          "imagen_fondo":"resources/background/fondo.png",
-         "anchoLogico": 400
+         "anchoLogico": 800
       }, 
       {
          "imagen_fondo":"resources/background/p_4b.png",
-         "anchoLogico": 504 
+         "anchoLogico": 850 
       }, 
       {
          "imagen_fondo":"resources/background/p_3.png",
-         "anchoLogico": 700
+         "anchoLogico": 900
       }, 
       {
          "imagen_fondo":"resources/background/ScorpionsLair/p_2.png",
@@ -33,47 +35,47 @@
       }
    ],
    "personaje":{
-      "nombre": "nombre1",
-      "ancho":63,
-      "alto":127,
+      "nombre": "Volpe",
+      "ancho":80,
+      "alto":125,
       "zindex":60,
       "sprites":{
-            "personaje1":"resources/jugador/Reptile/"
+            "personaje1":"resources/jugador/SubZero/"
       },
 
       /*Estas configuraciones son para los dos personajes*/
       "velocidad_arma": 10,
-      "inicio": 0,
+      "inicio": 150,
       "fin": 200,
-      "offset": 200
+      "offset": 100
    },
    "personaje2":{
-      "nombre": "nombre2",
-      "ancho":63,
-      "alto":127,
+      "nombre": "Battán",
+      "ancho":80,
+      "alto":125,
       "zindex":60,
       "sprites":{
-            "personaje1":"resources/jugador/SubZero/"
+            "personaje2":"resources/jugador/Reptile/"
       }
    },
    "joystick1": {
-      "pinia_baja": 0,
-      "pinia_alta": 3,
+      "pinia_baja": 3,
+      "pinia_alta": 0,
       "cubrirse": 1,
       "patada_baja": 2,
-      "patada_alta": 5,
+      "patada_alta": 8,
       "arrojar_arma": 4,
-      "arrojar_arma_baja": 50, // todavíá no esta bien esto
-      "arrojar_arma_alta": 50
+      "arrojar_arma_baja": 7, // todavíá no esta bien esto
+      "arrojar_arma_alta": 5
    },
    "joystick2": {
-      "pinia_baja": 0,
-      "pinia_alta": 3,
+      "pinia_baja": 3,
+      "pinia_alta": 0,
       "cubrirse": 1,
       "patada_baja": 2,
-      "patada_alta": 5,
+      "patada_alta": 8,
       "arrojar_arma": 4,
-      "arrojar_arma_baja": 50, // todavíá no esta bien esto
-      "arrojar_arma_alta": 50
+      "arrojar_arma_baja": 7, // todavíá no esta bien esto
+      "arrojar_arma_alta": 5
    }
 }
