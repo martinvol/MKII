@@ -299,16 +299,11 @@ public:
         SDL_RenderClear(renderer);
 
 
-<<<<<<< HEAD
-        //~ for (int j=0; j<100; j++){
-            //Ya no esta mas.
-=======
         SDL_Event evento;
-        for (int j=0; j<100; j++){
+        //~ for (int j=0; j<100; j++){
             // ESTO ESTA MUY MAL
             // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
             // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
->>>>>>> a4fdaafff24bb69304a724d3ae824d0b7f012a50
             timerFps = SDL_GetTicks();
             //~ SDL_JoystickClose(Player1);
             //~ SDL_JoystickClose(Player2);
@@ -325,13 +320,12 @@ public:
                 SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
             }
             SDL_FlushEvent(SDL_KEYDOWN);
-<<<<<<< HEAD
+
 
         //~ }
-=======
+
             Controlador(&evento);
-        }
->>>>>>> a4fdaafff24bb69304a724d3ae824d0b7f012a50
+        //~ }
 
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(splash);
