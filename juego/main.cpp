@@ -190,11 +190,19 @@ public:
 		// DEFECTO IGUAL A CERO.
 		// Nada, eso solo. Queria llamar la atencion con las mayusculas. *Manuel*
 
+
+        cout << this->parser->sprites_map["personaje1"] << endl; ///
+        cout << this->parser->sprites_map2["personaje2"] << endl; ///
+        
+        if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
         this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                             renderer, parser->personaje2_alto, parser->escenario_alto,
                             parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                             parser->color_inicio, parser->color_fin, parser->color_offset);
-                            // parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+                        
+        else this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
+                            renderer, parser->personaje2_alto, parser->escenario_alto,
+                            parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                         "Segundo", renderer, parser->personaje2_alto,
                                         // "Kabal", renderer, parser->personaje2_ancho,

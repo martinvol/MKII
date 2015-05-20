@@ -55,7 +55,7 @@
       "alto":125,
       "zindex":60,
       "sprites":{
-            "personaje1":"resources/jugador/SubZero/"
+            "personaje2":"resources/jugador/Reptile/"
       }
    },
    "joystick1": {
