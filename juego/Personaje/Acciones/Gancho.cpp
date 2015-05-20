@@ -16,15 +16,34 @@ Gancho::Gancho(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, flo
 	rectangulos->push_back(new Rectangulo(49, 10, 50, 70, false, false)); // piernas
 };
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
-//~ void Gancho::cambiarModo(){
-	//~ if(esUltimoModo()){}
-	//~ else{
-		//~ Accion::cambiarModo();
-	//~ }
-//~ }
+void Gancho::cambiarModoInversamente(){
+	if (this->modoActual==0){
+		if(this->cantModos>0)
+			setModoActual(this->cantModos-1);	
+			ciclos = 1;
+	}
+	else{
+		if (this->modoActual>0)
+			setModoActual(this->modoActual-1);
+	}
+}	
+  	
+void Gancho::cambiarModo(){
+	if (modoActual==(cantModos-2)){
+		setModoActual(0);
+		setInvertirSecuencia();	
+	}else{
+		setModoActual(this->modoActual+1);
+	}
+}
 
 CoordenadaLogica* Gancho::execute(CoordenadaLogica* coord_personaje){
-	Accion::cambiarModo();
+	if(secuenciaInversa){
+		Gancho::cambiarModoInversamente();	
+	}
+	else{
+		Gancho::cambiarModo();
+	}
 	return new CoordenadaLogica(coord_personaje);
 };
 

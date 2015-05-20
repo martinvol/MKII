@@ -160,6 +160,7 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 				break;			
 			
+			case GANCHO:
 			case PATADAALTAAGACHADO:
 			case PATADABAJAAGACHADO:	
 			case PINIAAGACHADO:			
@@ -181,8 +182,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case ARROJARARMA:
 			case PINIABAJA:
 			//~ case PINIAAGACHADO:
-			case PINIAALTA:
-			case GANCHO:
+			case PINIAALTA:			
 			case TRABA:
 			case ROUNDKICK:
 			case LEVANTARSEDELGANCHO:
