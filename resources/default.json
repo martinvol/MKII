@@ -36,7 +36,7 @@
    ],
    "personaje":{
       "nombre": "Volpe",
-      "ancho":63,
+      "ancho":80,
       "alto":125,
       "zindex":60,
       "sprites":{
@@ -51,7 +51,7 @@
    },
    "personaje2":{
       "nombre": "Battán",
-      "ancho":63,
+      "ancho":80,
       "alto":125,
       "zindex":60,
       "sprites":{
