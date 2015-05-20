@@ -297,7 +297,7 @@ public:
 
 
         SDL_Event evento;
-        //~ for (int j=0; j<100; j++){
+        for (int j=0; j<30; j++){
             // ESTO ESTA MUY MAL
             // PERO LO HIZO VOLPE PARA QUE EL JOYSTICK NO SE TRABE
             // SI ENTREGAMOS CON LA COMPUTADORA DE OTRO, HAY QUE SACARLO
@@ -319,7 +319,7 @@ public:
             SDL_FlushEvent(SDL_KEYDOWN);
 
 
-        //~ }
+        }
 
             Controlador(&evento);
         //~ }
