@@ -92,7 +92,6 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 	
 	if (this->espejado){
 		destino.x -= 2*ancho;
-		cout << "espejado"<<endl;
 		SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
 		this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y - this->vel_vertical, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
 
