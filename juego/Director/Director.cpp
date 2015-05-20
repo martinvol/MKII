@@ -360,8 +360,8 @@ void Director::verificar_movimientos(){
 								/// cout << pegando->personaje->accionActual->accionNro << endl;
 								///cout << sufre->personaje->accionActual->accionNro<< endl;
 								presentarAnimacionRecibirGolpe(pegando->obtenerPersonaje(), sufre->obtenerPersonaje());
+								this->escenario->Temblar(SDL_GetTicks());
 							}
-							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true; // Para que no le saque vida dos veces
 						}
 
