@@ -183,6 +183,8 @@ bool LTexture::loadFromRenderedText( string textureText, SDL_Color textColor )
 #endif
 
 bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int hue_offset){
+
+    hue_offset = (( hue_offset % 360 ) + 360 ) % 360;
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
 	
 	SDL_LockSurface(loadedSurface);
@@ -198,6 +200,7 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 		hsv out = rgb2hsv(in);
 		if ((hue_init <= out.h) && (out.h <= hue_final)) { 
 			out.h += hue_offset;
+			if (out.h >= 360.0) out.h -= 360.0;
 			in = hsv2rgb(out);
 			r = in.r*255; g = in.g*255; b = in.b*255; 
 			pixels[i] = SDL_MapRGBA(loadedSurface->format, r, g, b, a);
