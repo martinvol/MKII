@@ -283,11 +283,13 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 		SDL_GetRGBA(pixels[i], loadedSurface->format, &r, &g, &b, &a);
 		rgb in;
 		in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
-		hsv out = rgb2hsv(in);
+		//hsv out = rgb2hsv(in);
+		hsv out = RGBaHSV(in);
 		if ((hue_init <= out.h) && (out.h <= hue_final)) { 
 			out.h += hue_offset;
 			if (out.h >= 360.0) out.h -= 360.0;
-			in = hsv2rgb(out);
+			//in = hsv2rgb(out);
+			in = HSVaRGB(out);
 			r = in.r*255; g = in.g*255; b = in.b*255; 
 			pixels[i] = SDL_MapRGBA(loadedSurface->format, r, g, b, a);
 		}
