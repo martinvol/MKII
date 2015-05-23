@@ -13,15 +13,17 @@ and may not be redistributed without written permission.*/
 #include <SDL2/SDL_image.h>
 #include <cstdlib>
 #include <stdio.h>
+#include <cmath>
 
+using namespace std;
 
-    typedef struct {
+typedef struct {
     double r;       // percent
     double g;       // percent
     double b;       // percent
 } rgb;
 
-    typedef struct {
+typedef struct {
     double h;       // angle in degrees
     double s;       // percent
     double v;       // percent
@@ -127,9 +129,93 @@ rgb hsv2rgb(hsv in)
     return out;     
 }
 
+double max3(double a, double b, double c) {
+    if ((a >= b) && (a >= c)) return a;
+    if ((b >= a) && (b >= c)) return b;
+    return c;
+}
+
+double min3(double a, double b, double c) {
+    if ((a <= b) && (a <= c)) return a;
+    if ((b <= a) && (b <= c)) return b;
+    return c;
+}
 
 
-using namespace std;
+
+hsv RGBaHSV(rgb in) {
+// Taken from Wikipedia
+    hsv out;
+    
+    double max = max3(in.r, in.g, in.b);
+    double min = min3(in.r, in.g, in.b);
+    
+    if (min == max) out.h = NAN; 
+     
+    else if ((max == in.r) && (in.g >= in.b)) out.h = 60.0 * ((in.g - in.b) / (max - min)) + 0.0;
+    else if ((max == in.r) && (in.g < in.b)) out.h = 60.0 * ((in.g - in.b) / (max - min)) + 360.0;
+    else if (max == in.g) out.h = 60.0 * ((in.b - in.r) / (max - min)) + 120.0;
+    else if (max == in.b) out.h = 60.0 * ((in.r - in.g) / (max - min)) + 240.0;
+    
+    if (max == 0) out.s = 0;
+    else out.s = 1 - (min/max);
+    
+    out.v = max;
+    
+    return out;
+}
+
+void setHBetweenZeroAndTwoPi(double* h) {
+    while ((*h < 0.0) || (*h >= 360.0)) *h += (-1)*(abs(*h)/(*h))*360.0;
+}
+
+rgb HSVaRGB(hsv in) {
+// Tambien taken from Wiki
+
+    rgb.out;
+    setHBetweenZeroAndTwoPi(&(in.h));
+    
+    long h_i = ((long)in.h) / 60; // Hay un mod 6 pero no le doy bola.
+    double f = (in.h / 60.0) - h_i; // Tambien hay otro mod 6 pero tampoco le doy bola.
+    
+    double p = in.v * (1 - in.s);
+    double q = in.v * (1 - f*(in.s));
+    double t = in.v * (1 - (1 - f)*in.s);
+    
+    if (h_i == 0) {
+        out.r = in.v;
+        out.g = t;
+        out.b = p;
+    }
+    else if (h_i == 1) {
+        out.r = q;
+        out.g = in.v;
+        out.b = p;
+    }
+    else if (h_i == 2) {
+        out.r = p;
+        out.g = in.v;
+        out.b = t;
+    }
+    else if (h_i == 3) {
+        out.r = p;
+        out.g = q;
+        out.b = in.v;
+    }
+    else if (h_i == 4) {
+        out.r = t;
+        out.g = p;
+        out.b = in.v;
+    }
+    else if (h_i == 5) {
+        out.r = in.v;
+        out.g = p;
+        out.b = q;
+    }
+    
+    return out;
+}
+
 
 LTexture::LTexture(SDL_Renderer* ren)
 {
