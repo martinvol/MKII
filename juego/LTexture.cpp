@@ -172,7 +172,7 @@ void setHBetweenZeroAndTwoPi(double* h) {
 rgb HSVaRGB(hsv in) {
 // Tambien taken from Wiki
 
-    rgb.out;
+    rgb out;
     setHBetweenZeroAndTwoPi(&(in.h));
     
     long h_i = ((long)in.h) / 60; // Hay un mod 6 pero no le doy bola.
