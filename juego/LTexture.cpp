@@ -17,6 +17,12 @@ and may not be redistributed without written permission.*/
 
 using namespace std;
 
+//RGB Default Transparent
+Uint8 RT = 255;
+Uint8 BT = 0;
+Uint8 GT = 255;
+
+
 typedef struct {
     double r;       // percent
     double g;       // percent
@@ -272,26 +278,37 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 
     hue_offset = (( hue_offset % 360 ) + 360 ) % 360;
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-	
+	//printf("Bits: %d \n", loadedSurface->format->BitsPerPixel);
 	SDL_LockSurface(loadedSurface);
 	
 	Uint8 r, g, b, a;
-	Uint8* pixels = (Uint8*)loadedSurface->pixels;
-	int pixelCount = ( loadedSurface->pitch ) * loadedSurface->h; 
+	Uint32* pixels = (Uint32*) loadedSurface->pixels;
+	int pixelCount = ( loadedSurface->pitch/4 ) * loadedSurface->h; 
 
-		for( int i = 0; i < pixelCount; ++i ) {
+    SDL_SetColorKey(loadedSurface,SDL_TRUE,SDL_MapRGB(loadedSurface->format,RT,BT,GT));
+
+	for( int i = 0; i < pixelCount; ++i ) {
 		SDL_GetRGBA(pixels[i], loadedSurface->format, &r, &g, &b, &a);
-		rgb in;
-		in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
+        // printf("r:%d g:%d b:%d\n", r, g, b);
+        rgb in;
+        in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
 		//hsv out = rgb2hsv(in);
 		hsv out = RGBaHSV(in);
+        //printf("h:%f s:%f v:%f \n", out.h, out.s, out.v);
 		if ((hue_init <= out.h) && (out.h <= hue_final)) { 
 			out.h += hue_offset;
 			if (out.h >= 360.0) out.h -= 360.0;
 			//in = hsv2rgb(out);
+            // printf("h:%f s:%f v:%f \n", out.h, out.s, out.v);
 			in = HSVaRGB(out);
-			r = in.r*255; g = in.g*255; b = in.b*255; 
+            r =in.r*255; g = in.g*255; b = in.b*255; 
+            // r = (Uint8) in.r*255.; g = (Uint8) in.g*255.; b = (Uint8) in.b*255.; 
+            // printf("r:%d g:%d b:%d\n", r, g, b);
+            /*r = 0;
+            g = 0;
+            b = 0;*/
 			pixels[i] = SDL_MapRGBA(loadedSurface->format, r, g, b, a);
+            //puts("");
 		}
 	}
 	
