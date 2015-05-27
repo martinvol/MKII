@@ -240,8 +240,6 @@ void Parser::set_values (char* my_file) {
                 color_fin = color_fin + 360;
             }
 
-            printf("%d\n", (((int) color_inicio)%360));
-
             if (((int) color_fin)%360 <= ((int) color_inicio)%360){
                 logger->log_error("El fin no puede ser menor que el inicio (color), fin=inicio + 50");
                 color_fin = color_inicio + 50;
