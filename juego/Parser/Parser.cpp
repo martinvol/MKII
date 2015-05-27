@@ -230,13 +230,13 @@ void Parser::set_values (char* my_file) {
             }
 
             color_inicio = cargarValidar(personaje, 150, "inicio", "Usando inicio (color) default de 150");
-            if (color_inicio<0){
+            while (color_inicio<0){
                 color_inicio = color_inicio + 360;
             }
 
             color_fin = cargarValidar(personaje, 200, "fin", "Usando inicio (color) default de 200");
 
-            if (color_fin<0){
+            while (color_fin<0){
                 color_fin = color_fin + 360;
             }
 
