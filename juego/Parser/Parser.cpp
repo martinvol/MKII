@@ -230,10 +230,19 @@ void Parser::set_values (char* my_file) {
             }
 
             color_inicio = cargarValidar(personaje, 150, "inicio", "Usando inicio (color) default de 150");
+            if (color_inicio<0){
+                color_inicio = color_inicio + 360;
+            }
 
             color_fin = cargarValidar(personaje, 200, "fin", "Usando inicio (color) default de 200");
 
-            if (((int) color_fin)%360 < ((int) color_inicio)%360){
+            if (color_fin<0){
+                color_fin = color_fin + 360;
+            }
+
+            printf("%d\n", (((int) color_inicio)%360));
+
+            if (((int) color_fin)%360 <= ((int) color_inicio)%360){
                 logger->log_error("El fin no puede ser menor que el inicio (color), fin=inicio + 50");
                 color_fin = color_inicio + 50;
 
