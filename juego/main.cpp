@@ -419,7 +419,7 @@ public:
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         if (this->ai != NULL) delete this->ai;
         logger->log_debug("Borramos todos los objetos");
-
+        SDL_DestroyRenderer(renderer);
     };
 
     void terminar_sdl(){
