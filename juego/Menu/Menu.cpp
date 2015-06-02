@@ -21,7 +21,7 @@ Boton::Boton(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Ren
 	this->destino.y = y;
 	this->destino.w = ancho_fisico;
 	this->destino.h = alto_fisico;
-	
+	cout << "x,y,w,h: " << x <<"," <<y<<","<<ancho_fisico<<","<<alto_fisico<<endl;
 }
 
 Boton::~Boton(){
@@ -29,9 +29,9 @@ Boton::~Boton(){
 }
 
 void Boton::Dibujarse(SDL_Texture* seleccion){
-	SDL_RenderCopy(renderer, boton, &destino, NULL);
+	SDL_RenderCopy(renderer, boton, NULL, &destino);
 	if (seleccion != NULL){
-		SDL_RenderCopy(renderer, seleccion, &destino, NULL);
+		SDL_RenderCopy(renderer, seleccion, NULL, &destino);
 	}
 }
 
