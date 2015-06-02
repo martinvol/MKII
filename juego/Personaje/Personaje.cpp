@@ -60,12 +60,14 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->renderer = ren;
 
 	this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
+	pinia_sonido = Mix_LoadWAV("resources/music/male_scream_short.wav");
 }
 
 Personaje::~Personaje(){
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 	delete this->siguiente;
+	Mix_FreeChunk(this->pinia_sonido);
 }
 
 void Personaje::Arrojar(){
@@ -373,9 +375,11 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual->setDireccionDerecha();
 			break;	
 		case PINIAALTA:
+			gritar();
 			this->accionActual = this->estado->piniaAlta;
 			break;
 		case PINIABAJA:
+			gritar();
 			this->accionActual = this->estado->piniaBaja;
 			break;
 		case PINIAAGACHADO:
@@ -664,4 +668,8 @@ void Personaje::Dibujarse(){
 	
 	}
 	 
+}
+
+void Personaje::gritar(){
+	Mix_PlayChannel(-1, pinia_sonido, 0);
 }

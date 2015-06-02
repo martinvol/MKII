@@ -130,8 +130,9 @@ void BarraDeVida::Lastimar(int porcentaje){
         muerto = true;
         ActualizarAnchos();
         Dibujarse();
-   }else
+   }else{
         vidaNumerica -= porcentaje;
+    }
     Mix_PlayChannel(-1, pinia_sonido, 0);
 
 }
