@@ -78,14 +78,12 @@ void Menu::Dibujarse(){
 	SDL_RenderCopy(renderer, fondo, NULL, NULL);
 	for(int i=0;i<botones.size();i++){
 		if (i == (int) modo_actual){
-			//~ cout << "ENTRO para: " << i << endl;
 			if (seleccionado){
 				botones[i]->Dibujarse(this->seleccion);
 			} else {
 				botones[i]->Dibujarse(this->opcion);
 			}
 		} else {
-			//~ cout << "NO ENTRO para: " << i << endl;
 			botones[i]->Dibujarse(NULL);
 		}
 	}
@@ -114,6 +112,7 @@ vector<SDL_Rect> Menu::obtenerPosicionesBotones(){
 	for(int i=0;i<botones.size();i++){
 		vector.push_back(botones[i]->obtenerPosicionEnVentana());
 	}
+	return vector;
 }
 
 SDL_Renderer* Menu::obtenerRenderer(){

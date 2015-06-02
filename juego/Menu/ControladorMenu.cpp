@@ -1,7 +1,7 @@
 #include "ControladorMenu.hpp"
 
 #include <vector>
-
+#include <iostream>
 ControladorMenu::ControladorMenu(Menu* menu){
 	abajo = false;
 	arriba = false;
