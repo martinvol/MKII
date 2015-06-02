@@ -3,6 +3,8 @@
 
 #include "Menu.hpp"
 
+#define JOYSTICK_DEAD_ZONE 10000
+
 class ControladorMenu{
 	private:
 	

@@ -343,13 +343,17 @@ public:
 
 		ControladorMenu* controlador = new ControladorMenu(menu);
 		while (!salir){
+			SDL_FlushEvent(SDL_KEYDOWN);
 			ControladorBasico(&evento);
 			if(usandoJoystick){		
 				SDL_JoystickUpdate();
 			}
 			
 			modo modo_a_cambiar = controlador->procesarEvento(&evento);
-			SDL_FlushEvent(SDL_KEYDOWN);
+			
+			SDL_RenderClear(renderer);
+			menu->Dibujarse();
+			SDL_RenderPresent(renderer);
 			
 			if (modo_a_cambiar == Pelea) {
 				logger->log_debug("Debería pasar a: Pelea"); ///
