@@ -9,7 +9,7 @@ class ControladorMenu{
 	private:
 	
 	public:
-		bool arriba, abajo, enter;
+		bool arriba, abajo, enter, en_boton;
 		Menu* menu;
 		
 		ControladorMenu(Menu* menu);

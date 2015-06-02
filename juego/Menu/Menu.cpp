@@ -1,6 +1,5 @@
 #include "Menu.hpp"
 
-#include <iostream>
 /************************************************************
 *	 						BOTON							*
 ************************************************************/
@@ -21,7 +20,6 @@ Boton::Boton(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Ren
 	this->destino.y = y;
 	this->destino.w = ancho_fisico;
 	this->destino.h = alto_fisico;
-	cout << "x,y,w,h: " << x <<"," <<y<<","<<ancho_fisico<<","<<alto_fisico<<endl;
 }
 
 Boton::~Boton(){
@@ -35,35 +33,38 @@ void Boton::Dibujarse(SDL_Texture* seleccion){
 	}
 }
 
+SDL_Rect Boton::obtenerPosicionEnVentana(){
+	return destino;
+}
+
+
 
 /************************************************************
 *	 						MENU							*
 ************************************************************/
 
-Menu::Menu(SDL_Renderer* renderer, int ancho_fis_ventana, int alto_fis_ventana){
+Menu::Menu(SDL_Renderer* renderer, Ventana* ventana){
 	this->renderer = renderer;
 	fondo = IMG_LoadTexture(renderer, "resources/menu/fondo.png");
 	opcion = IMG_LoadTexture(renderer, "resources/menu/Opcion.png");
 	seleccion = IMG_LoadTexture(renderer, "resources/menu/Seleccion.png");
 	
-	ancho_fisico = ancho_fis_ventana;
-	alto_fisico = alto_fis_ventana;
+	ancho_fisico = ventana->ancho_fisico;
+	alto_fisico = ventana->alto_fisico;
+	idVentana = SDL_GetWindowID(ventana->window);
+	
 	modo_actual = CPU;
 	seleccionado = false;
 	
-	int ancho_fisico_botones = ancho_fis_ventana / 2.0;
-	int alto_fisico_botones = alto_fis_ventana / 6.0;
+	int ancho_fisico_botones = ancho_fisico / 2.0;
+	int alto_fisico_botones = alto_fisico / 6.0;
 	int offset_entre_botones = alto_fisico_botones / 3.0;
-	int x = (ancho_fis_ventana / 2.0) - (ancho_fisico_botones / 2.0);
-	int y = alto_fis_ventana - 2*alto_fisico_botones;
-	cout << "Ancho,Alto pantalla: " << ancho_fisico << "," << alto_fisico << endl;
-	cout << "Primer par: " << x << "," << y << endl;
+	int x = (ancho_fisico / 2.0) - (ancho_fisico_botones / 2.0);
+	int y = alto_fisico - 2*alto_fisico_botones;
 	botones.push_back(new Boton(Pelea, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 	y = y - offset_entre_botones - alto_fisico_botones;
-	cout << "Segundo par: " << x << "," << y << endl;
 	botones.push_back(new Boton(Practica, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 	y = y - offset_entre_botones - alto_fisico_botones;
-	cout << "Tercer par: " << x << "," << y << endl;
 	botones.push_back(new Boton(CPU, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 }
 
@@ -106,4 +107,23 @@ void Menu::bajarOpcion(){
 modo Menu::seleccionarOpcion(){
 	seleccionado = true;
 	return modo_actual;
+}
+
+vector<SDL_Rect> Menu::obtenerPosicionesBotones(){
+	vector<SDL_Rect> vector;
+	for(int i=0;i<botones.size();i++){
+		vector.push_back(botones[i]->obtenerPosicionEnVentana());
+	}
+}
+
+SDL_Renderer* Menu::obtenerRenderer(){
+	return renderer;
+}
+
+Uint32 Menu::obtenerIDventana(){
+	return idVentana;
+}
+
+void Menu::apuntarAOpcion(modo mode){
+	modo_actual = mode;
 }

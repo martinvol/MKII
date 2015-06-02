@@ -335,7 +335,7 @@ public:
         SDL_DestroyTexture(splash);
 
 
-		Menu* menu = new Menu (renderer, (int) parser->ventana_anchopx, (int) parser->ventana_altopx);
+		Menu* menu = new Menu (renderer, ventana);
 		SDL_RenderClear(renderer);
 		menu->Dibujarse();
 		SDL_RenderPresent(renderer);

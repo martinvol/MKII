@@ -1,10 +1,13 @@
 #include "ControladorMenu.hpp"
 
+#include <vector>
+
 ControladorMenu::ControladorMenu(Menu* menu){
 	abajo = false;
 	arriba = false;
 	enter = false;
 	this->menu = menu;
+	en_boton = false;
 }
 
 modo ControladorMenu::procesarEvento(SDL_Event* evento){
@@ -50,6 +53,29 @@ modo ControladorMenu::procesarEvento(SDL_Event* evento){
 			case SDL_JOYBUTTONDOWN:
 				if (evento->jbutton.button == 0){
 					enter = true;
+				}
+				break;
+			case SDL_MOUSEMOTION:
+				if (evento->motion.windowID == menu->obtenerIDventana()){
+					bool entro = false;
+					vector<SDL_Rect> botones = menu->obtenerPosicionesBotones();
+					for(int i=0;i<botones.size();i++){
+						if ( (evento->motion.x >= (Sint32) botones[i].x) &&
+							 (evento->motion.x <= (Sint32) (botones[i].x + botones[i].w)) &&
+							 (evento->motion.y >= (Sint32) botones[i].y) &&
+							 (evento->motion.y <= (Sint32) (botones[i].y + botones[i].h))
+						){
+							menu->apuntarAOpcion((modo) i);
+							entro = true;
+						}
+					}
+					if (entro) en_boton = true;
+					else en_boton = false;
+				}
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (evento->button.windowID == menu->obtenerIDventana()){
+					if (en_boton) enter = true;
 				}
 				break;
 			default:
