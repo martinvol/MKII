@@ -4,6 +4,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+// Música
+#include <SDL2/SDL_mixer.h>
+
 class BarraDeVida{
 public:
     // 0 - 1000
@@ -18,6 +21,7 @@ private:
     bool terminnoDeCansarse;
     SDL_Renderer *renderer;
 
+    Mix_Chunk *pinia_sonido;
 
     int x_ini, x_fin, y_ini, y_fin;
     int anchoRectanguloInterior;

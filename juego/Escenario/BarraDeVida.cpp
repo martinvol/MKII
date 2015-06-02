@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
 using namespace std;
 
 BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
@@ -9,7 +10,7 @@ BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Rende
 }
 
 BarraDeVida::~BarraDeVida(){
-	
+	Mix_FreeChunk(pinia_sonido);
 }
 
 void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
@@ -79,6 +80,9 @@ void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_
         staminaBorde= {x_fin-anchoStamina-1, y_fin, anchoStamina+2, altoStamina+2};
     }
     this->anchoRectanguloStaminaInterior = this->staminaVerde.w;
+
+   pinia_sonido = Mix_LoadWAV("resources/music/punch.wav");
+
 }
 
 //-----------------------------------------------------------
@@ -126,8 +130,11 @@ void BarraDeVida::Lastimar(int porcentaje){
         muerto = true;
         ActualizarAnchos();
         Dibujarse();
-   }else
+   }else{
         vidaNumerica -= porcentaje;
+    }
+    Mix_PlayChannel(-1, pinia_sonido, 0);
+
 }
 //-----------------------------------------------------------
 //-----------------------------------------------------------

@@ -13,6 +13,10 @@
 #include "Director/Director.hpp"
 #include "AI/AI.hpp"
 
+// Música
+#include <SDL2/SDL_mixer.h>
+
+
 using namespace std;
 
 #define MOVER_PIXELES 80*(parser->personaje_ancho/parser->ventana_ancho)
@@ -46,6 +50,11 @@ int InicializarSDL() {
 		logger->log_error("No se pudo inizializar SDL_Joystick");
 		return 1;
 	}
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        logger->log_error("No se pudo inizializar SDL_mixer");
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+        return 1;
+    }
     logger->log_debug("SDL cargada correctamente");    
     return 0;
 }
@@ -112,6 +121,7 @@ public:
     BarraDeVida* barraDeVida1, *barraDeVida2;
 
 	Director* director;
+    Mix_Music *musica_fondo;
 
 //----------------------------------------------------------------
 
@@ -122,6 +132,8 @@ public:
 
 //----------------------------------------------------------------
     int jugar(){
+
+
         if (InicializarSDL() != 0) return 1;
         renderer = SDL_CreateRenderer(NULL, -1, 0);
 
@@ -250,6 +262,17 @@ public:
             usandoJoystick = true;
             logger->log_debug("Player 2 JOYSTICK conectado");            
         }
+    
+    musica_fondo = Mix_LoadMUS("resources/music/mision.ogg");
+    if(musica_fondo == NULL){
+        printf("Falló SDL_mixer, Error: %s\n", Mix_GetError());
+    }
+
+    if(Mix_PlayMusic(musica_fondo, -1) == -1){
+        logger->log_debug("Error al cargar la música");
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
+
+    }
 }
 
     void configurar(){
@@ -418,8 +441,10 @@ public:
         delete this->parser;	// Elimina sus propias capas.
         delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         if (this->ai != NULL) delete this->ai;
-        logger->log_debug("Borramos todos los objetos");
+        Mix_FreeMusic(musica_fondo);
+
         SDL_DestroyRenderer(renderer);
+        logger->log_debug("Borramos todos los objetos");
     };
 
     void terminar_sdl(){
