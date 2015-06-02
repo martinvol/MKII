@@ -268,7 +268,7 @@ public:
         printf("Falló SDL_mixer, Error: %s\n", Mix_GetError());
     }
 
-    if(Mix_PlayMusic(musica_fondo, 1) == -1){
+    if(Mix_PlayMusic(musica_fondo, -1) == -1){
         logger->log_debug("Error al cargar la música");
         printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
