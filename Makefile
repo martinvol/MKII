@@ -1,4 +1,4 @@
-CFLAGS=-g -Wall -std=c++11 -pedantic -O3 
+CFLAGS= -g -Wall -std=c++11 -pedantic 
 JSONFLAGS = -ljsoncpp
 SDLFLAGS= -w -lSDL2 -lSDL2_mixer -lSDL2
 IMGFLAGS = -lSDL2_image

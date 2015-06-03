@@ -1,0 +1,1750 @@
+desc: (none)
+cmd: ./juego_ejecutable
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=2399611054
+mem_heap_B=17449393
+mem_heap_extra_B=129255
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=4034136687
+mem_heap_B=17808841
+mem_heap_extra_B=129543
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=6777204308
+mem_heap_B=18914833
+mem_heap_extra_B=129887
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=8401190303
+mem_heap_B=18914833
+mem_heap_extra_B=129871
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=10660132211
+mem_heap_B=19085205
+mem_heap_extra_B=130043
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=13126832320
+mem_heap_B=19986645
+mem_heap_extra_B=130275
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=14769396110
+mem_heap_B=20212309
+mem_heap_extra_B=130323
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=17521863552
+mem_heap_B=20728341
+mem_heap_extra_B=130491
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=19603572982
+mem_heap_B=20728341
+mem_heap_extra_B=130491
+mem_stacks_B=0
+heap_tree=detailed
+n5: 20728341 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 17106936 0x4EF416A: SDL_CreateRGBSurface_REAL (SDL_surface.c:91)
+  n1: 13312388 0x4EAAFD4: SW_CreateTexture (SDL_render_sw.c:234)
+   n1: 13312388 0x4E8DA77: SDL_CreateTexture_REAL (SDL_render.c:442)
+    n2: 13312388 0x4E8DD28: SDL_CreateTextureFromSurface_REAL (SDL_render.c:519)
+     n1: 9197744 0x4120F5: LTexture::loadFromFile(std::string, int, int, int) (LTexture.cpp:217)
+      n1: 9197744 0x4045DB: Accion::setImagenes() (Accion.cpp:76)
+       n19: 9197744 0x404C37: Accion::Accion(int, std::string, SDL_Renderer*, float, float, float, int, int, int) (Accion.cpp:158)
+        n0: 1774736 in 11 places, all below massif's threshold (01.00%)
+        n1: 639840 0x4210D5: Quieto::Quieto(std::string, SDL_Renderer*, float, float, float, int, int, int) (Quieto.cpp:10)
+         n2: 639840 0x40E45D: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:14)
+          n1: 319920 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 319920 0x424506: main (main.cpp:838)
+          n1: 319920 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 319920 0x424506: main (main.cpp:838)
+        n1: 591336 0x40890D: Caminar::Caminar(std::string, SDL_Renderer*, float, float, float, int, int, int) (Caminar.cpp:11)
+         n2: 591336 0x40E666: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:17)
+          n1: 295668 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 295668 0x424506: main (main.cpp:838)
+          n1: 295668 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 295668 0x424506: main (main.cpp:838)
+        n1: 579024 0x42049F: PiniaAlta::PiniaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaAlta.cpp:10)
+         n2: 579024 0x40E7A8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:19)
+          n1: 289512 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 289512 0x424506: main (main.cpp:838)
+          n1: 289512 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 289512 0x424506: main (main.cpp:838)
+        n1: 528776 0x42238B: RoundKick::RoundKick(std::string, SDL_Renderer*, float, float, float, int, int, int) (RoundKick.cpp:11)
+         n2: 528776 0x40EFDC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:34)
+          n1: 264388 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 264388 0x424506: main (main.cpp:838)
+          n1: 264388 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 264388 0x424506: main (main.cpp:838)
+        n1: 524112 0x41C055: PatadaAlta::PatadaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaAlta.cpp:10)
+         n2: 524112 0x40E976: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:22)
+          n1: 262056 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 262056 0x424506: main (main.cpp:838)
+          n1: 262056 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 262056 0x424506: main (main.cpp:838)
+        n1: 521968 0x4208AB: PiniaBaja::PiniaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaBaja.cpp:10)
+         n2: 521968 0x40E842: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:20)
+          n1: 260984 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 260984 0x424506: main (main.cpp:838)
+          n1: 260984 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 260984 0x424506: main (main.cpp:838)
+        n1: 436384 0x41C9F9: PatadaBaja::PatadaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaBaja.cpp:10)
+         n2: 436384 0x40EA13: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:23)
+          n1: 218192 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 218192 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 218192 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 218192 0x424506: main (main.cpp:838)
+          n1: 218192 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 218192 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 218192 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 218192 0x424506: main (main.cpp:838)
+        n1: 427168 0x4238A3: Traba::Traba(std::string, SDL_Renderer*, float, float, float, int, int, int) (Traba.cpp:11)
+         n2: 427168 0x40EC84: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:27)
+          n1: 213584 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 213584 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 213584 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 213584 0x424506: main (main.cpp:838)
+          n1: 213584 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 213584 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 213584 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 213584 0x424506: main (main.cpp:838)
+        n1: 409800 0x41047B: SaltarDiagonal::SaltarDiagonal(std::string, SDL_Renderer*, float, float, float, int, int, int) (SaltarDiagonal.hpp:12)
+         n1: 409800 0x40E5CC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:16)
+          n0: 409800 in 2 places, all below massif's threshold (01.00%)
+        n1: 400048 0x4079D3: ArrojarProyectil::ArrojarProyectil(std::string, SDL_Renderer*, float, float, float, int, int, int) (ArrojarProyectil.cpp:10)
+         n1: 400048 0x40F6F1: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:47)
+          n0: 400048 in 2 places, all below massif's threshold (01.00%)
+        n1: 399400 0x4106F9: SiendoArrojado::SiendoArrojado(std::string, SDL_Renderer*, float, float, float, int, int, int) (SiendoArrojado.hpp:12)
+         n1: 399400 0x40F660: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:46)
+          n0: 399400 in 2 places, all below massif's threshold (01.00%)
+        n1: 395632 0x420CBB: PiniaAire::PiniaAire(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaEnAire.cpp:10)
+         n0: 395632 in 2 places, all below massif's threshold (01.00%)
+        n1: 320240 0x410D9F: Gancho::Gancho(std::string, SDL_Renderer*, float, float, float, int, int, int) (Gancho.cpp:11)
+         n1: 320240 0x40F079: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:35)
+          n0: 320240 in 2 places, all below massif's threshold (01.00%)
+        n1: 291992 0x41229B: Levantarse::Levantarse(std::string, SDL_Renderer*, float, float, float, int, int, int) (Levantarse.cpp:11)
+         n1: 291992 0x40EEA8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:31)
+          n0: 291992 in 2 places, all below massif's threshold (01.00%)
+        n1: 267976 0x421DE1: RecibirTraba::RecibirTraba(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirTraba.cpp:11)
+         n1: 267976 0x40F515: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:44)
+          n0: 267976 in 2 places, all below massif's threshold (01.00%)
+        n1: 237264 0x41D6F7: PatadaSaltoVertical::PatadaSaltoVertical(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaSaltoVertical.cpp:10)
+         n1: 237264 0x40F2B5: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:39)
+          n0: 237264 in 2 places, all below massif's threshold (01.00%)
+        n1: 229312 0x421779: RecibirGolpeAlto::RecibirGolpeAlto(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeAlto.cpp:11)
+         n1: 229312 0x40F3F3: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:42)
+          n0: 229312 in 2 places, all below massif's threshold (01.00%)
+        n1: 222736 0x421AAD: RecibirGolpeBajo::RecibirGolpeBajo(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeBajo.cpp:11)
+         n1: 222736 0x40F484: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:43)
+          n0: 222736 in 2 places, all below massif's threshold (01.00%)
+     n2: 4114644 0x53A0D02: IMG_LoadTexture (IMG.c:212)
+      n1: 3973920 0x408F20: Capa::CargarTextura() (Capa.cpp:54)
+       n1: 3973920 0x408DBA: Capa::Capa(std::string, float, float, SDL_Renderer*, float, float) (Capa.cpp:34)
+        n1: 3973920 0x425B21: Juego::cargar_capas() (main.cpp:302)
+         n1: 3973920 0x4248FE: Juego::cargar_configuracion(Parser*) (main.cpp:175)
+          n1: 3973920 0x425949: Juego::configurar() (main.cpp:281)
+           n1: 3973920 0x4246EE: Juego::jugar() (main.cpp:140)
+            n0: 3973920 0x424506: main (main.cpp:838)
+      n0: 140724 in 3 places, all below massif's threshold (01.00%)
+  n1: 3794548 0x4EAC05C: SW_RenderCopyEx (SDL_render_sw.c:600)
+   n2: 3794548 0x4E8D27D: SDL_RenderCopyEx_REAL (SDL_render.c:1751)
+    n1: 2135756 0x41F3F4: Personaje::Dibujarse() (Personaje.cpp:545)
+     n1: 2135756 0x42680B: Juego::DibujarTodo() (main.cpp:484)
+      n1: 2135756 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 2135756 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 2135756 0x424506: main (main.cpp:838)
+    n1: 1658792 0x41F3BB: Personaje::Dibujarse() (Personaje.cpp:542)
+     n1: 1658792 0x4268A6: Juego::DibujarTodo() (main.cpp:487)
+      n1: 1658792 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 1658792 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 1658792 0x424506: main (main.cpp:838)
+  n0: 0 in 4 places, all below massif's threshold (01.00%)
+ n2: 1494448 0xB6534AF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n3: 1494136 0xB5E6ABD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 1035416 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 1027568 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 704248 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 704248 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 704248 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 704248 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 704248 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 704248 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 704248 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 704248 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 704248 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 704248 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 704248 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 704248 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 704248 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 704248 0x424506: main (main.cpp:838)
+     n1: 323320 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 323320 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 323320 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+        n1: 323320 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 323320 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 323320 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 323320 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+            n1: 323320 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+             n1: 323320 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+              n1: 323320 0x4E40555: SDL_Init_REAL (SDL.c:173)
+               n1: 323320 0x424014: InicializarSDL() (main.cpp:40)
+                n1: 323320 0x4246B3: Juego::jugar() (main.cpp:137)
+                 n0: 323320 0x424506: main (main.cpp:838)
+    n0: 7848 in 1 place, below massif's threshold (01.00%)
+   n2: 363744 0xB5E6C2F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n1: 350656 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n2: 350656 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 243424 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 243424 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 243424 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+         n1: 243424 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 243424 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 243424 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 243424 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+             n1: 243424 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+              n1: 243424 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+               n1: 243424 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+                n1: 243424 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                 n1: 243424 0x424014: InicializarSDL() (main.cpp:40)
+                  n1: 243424 0x4246B3: Juego::jugar() (main.cpp:137)
+                   n0: 243424 0x424506: main (main.cpp:838)
+      n0: 107232 in 1 place, below massif's threshold (01.00%)
+    n0: 13088 in 1 place, below massif's threshold (01.00%)
+   n0: 94976 in 1 place, below massif's threshold (01.00%)
+  n0: 312 in 1 place, below massif's threshold (01.00%)
+ n0: 959395 in 671 places, all below massif's threshold (01.00%)
+ n1: 705600 0x4E68010: SDL_LoadWAV_RW_REAL (SDL_wave.c:611)
+  n2: 705600 0x515B34C: Mix_LoadWAV_RW (mixer.c:608)
+   n1: 705600 0x40821C: BarraDeVida::Inicializar(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:84)
+    n2: 705600 0x407DA7: BarraDeVida::BarraDeVida(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:9)
+     n1: 352800 0x424BBE: Juego::cargar_configuracion(Parser*) (main.cpp:196)
+      n1: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x4246EE: Juego::jugar() (main.cpp:140)
+        n0: 352800 0x424506: main (main.cpp:838)
+     n1: 352800 0x425055: Juego::cargar_configuracion(Parser*) (main.cpp:232)
+      n1: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x4246EE: Juego::jugar() (main.cpp:140)
+        n0: 352800 0x424506: main (main.cpp:838)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+ n2: 461962 0xB6536A0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n2: 441892 0xB6536FC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 382476 0xB5E6B60: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 367312 0xB704481: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 286836 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 286836 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 286836 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 286836 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 286836 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 286836 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 286836 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 286836 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 286836 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 286836 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 286836 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 286836 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 286836 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 286836 0x424506: main (main.cpp:838)
+     n0: 80476 in 1 place, below massif's threshold (01.00%)
+    n0: 15164 in 1 place, below massif's threshold (01.00%)
+   n0: 59416 in 9 places, all below massif's threshold (01.00%)
+  n0: 20070 in 12 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=10
+#-----------
+time=22425510884
+mem_heap_B=20728341
+mem_heap_extra_B=130523
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=24530902719
+mem_heap_B=21015125
+mem_heap_extra_B=130683
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=26084350688
+mem_heap_B=21938101
+mem_heap_extra_B=130907
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=28146554119
+mem_heap_B=22781709
+mem_heap_extra_B=131067
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=29420131372
+mem_heap_B=22781709
+mem_heap_extra_B=131083
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=31385512249
+mem_heap_B=22781581
+mem_heap_extra_B=131035
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=33119804428
+mem_heap_B=22781581
+mem_heap_extra_B=130987
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=35156121232
+mem_heap_B=22781581
+mem_heap_extra_B=131003
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=36348283320
+mem_heap_B=22781581
+mem_heap_extra_B=131019
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=38143905290
+mem_heap_B=22781581
+mem_heap_extra_B=131003
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=40175728847
+mem_heap_B=22781781
+mem_heap_extra_B=131067
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=41901012703
+mem_heap_B=22781709
+mem_heap_extra_B=131051
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=43059980037
+mem_heap_B=22781709
+mem_heap_extra_B=131035
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=44785473299
+mem_heap_B=22781625
+mem_heap_extra_B=130999
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=46904067332
+mem_heap_B=22781709
+mem_heap_extra_B=131067
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=49065540890
+mem_heap_B=22781709
+mem_heap_extra_B=131051
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=50665704009
+mem_heap_B=22781709
+mem_heap_extra_B=131051
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=52826921590
+mem_heap_B=22781709
+mem_heap_extra_B=131083
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=54437255979
+mem_heap_B=22781581
+mem_heap_extra_B=131003
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=56614480031
+mem_heap_B=22781701
+mem_heap_extra_B=131043
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=58749885922
+mem_heap_B=22781581
+mem_heap_extra_B=131019
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=60376230806
+mem_heap_B=22781581
+mem_heap_extra_B=131019
+mem_stacks_B=0
+heap_tree=detailed
+n5: 22781581 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 19156272 0x4EF416A: SDL_CreateRGBSurface_REAL (SDL_surface.c:91)
+  n1: 13312388 0x4EAAFD4: SW_CreateTexture (SDL_render_sw.c:234)
+   n1: 13312388 0x4E8DA77: SDL_CreateTexture_REAL (SDL_render.c:442)
+    n2: 13312388 0x4E8DD28: SDL_CreateTextureFromSurface_REAL (SDL_render.c:519)
+     n1: 9197744 0x4120F5: LTexture::loadFromFile(std::string, int, int, int) (LTexture.cpp:217)
+      n1: 9197744 0x4045DB: Accion::setImagenes() (Accion.cpp:76)
+       n18: 9197744 0x404C37: Accion::Accion(int, std::string, SDL_Renderer*, float, float, float, int, int, int) (Accion.cpp:158)
+        n0: 1997472 in 12 places, all below massif's threshold (01.00%)
+        n1: 639840 0x4210D5: Quieto::Quieto(std::string, SDL_Renderer*, float, float, float, int, int, int) (Quieto.cpp:10)
+         n2: 639840 0x40E45D: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:14)
+          n1: 319920 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 319920 0x424506: main (main.cpp:838)
+          n1: 319920 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 319920 0x424506: main (main.cpp:838)
+        n1: 591336 0x40890D: Caminar::Caminar(std::string, SDL_Renderer*, float, float, float, int, int, int) (Caminar.cpp:11)
+         n2: 591336 0x40E666: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:17)
+          n1: 295668 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 295668 0x424506: main (main.cpp:838)
+          n1: 295668 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 295668 0x424506: main (main.cpp:838)
+        n1: 579024 0x42049F: PiniaAlta::PiniaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaAlta.cpp:10)
+         n2: 579024 0x40E7A8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:19)
+          n1: 289512 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 289512 0x424506: main (main.cpp:838)
+          n1: 289512 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 289512 0x424506: main (main.cpp:838)
+        n1: 528776 0x42238B: RoundKick::RoundKick(std::string, SDL_Renderer*, float, float, float, int, int, int) (RoundKick.cpp:11)
+         n2: 528776 0x40EFDC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:34)
+          n1: 264388 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 264388 0x424506: main (main.cpp:838)
+          n1: 264388 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 264388 0x424506: main (main.cpp:838)
+        n1: 524112 0x41C055: PatadaAlta::PatadaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaAlta.cpp:10)
+         n2: 524112 0x40E976: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:22)
+          n1: 262056 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 262056 0x424506: main (main.cpp:838)
+          n1: 262056 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 262056 0x424506: main (main.cpp:838)
+        n1: 521968 0x4208AB: PiniaBaja::PiniaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaBaja.cpp:10)
+         n2: 521968 0x40E842: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:20)
+          n1: 260984 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 260984 0x424506: main (main.cpp:838)
+          n1: 260984 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 260984 0x424506: main (main.cpp:838)
+        n1: 436384 0x41C9F9: PatadaBaja::PatadaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaBaja.cpp:10)
+         n1: 436384 0x40EA13: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:23)
+          n0: 436384 in 2 places, all below massif's threshold (01.00%)
+        n1: 427168 0x4238A3: Traba::Traba(std::string, SDL_Renderer*, float, float, float, int, int, int) (Traba.cpp:11)
+         n1: 427168 0x40EC84: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:27)
+          n0: 427168 in 2 places, all below massif's threshold (01.00%)
+        n1: 409800 0x41047B: SaltarDiagonal::SaltarDiagonal(std::string, SDL_Renderer*, float, float, float, int, int, int) (SaltarDiagonal.hpp:12)
+         n1: 409800 0x40E5CC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:16)
+          n0: 409800 in 2 places, all below massif's threshold (01.00%)
+        n1: 400048 0x4079D3: ArrojarProyectil::ArrojarProyectil(std::string, SDL_Renderer*, float, float, float, int, int, int) (ArrojarProyectil.cpp:10)
+         n1: 400048 0x40F6F1: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:47)
+          n0: 400048 in 2 places, all below massif's threshold (01.00%)
+        n1: 399400 0x4106F9: SiendoArrojado::SiendoArrojado(std::string, SDL_Renderer*, float, float, float, int, int, int) (SiendoArrojado.hpp:12)
+         n1: 399400 0x40F660: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:46)
+          n0: 399400 in 2 places, all below massif's threshold (01.00%)
+        n1: 395632 0x420CBB: PiniaAire::PiniaAire(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaEnAire.cpp:10)
+         n0: 395632 in 2 places, all below massif's threshold (01.00%)
+        n1: 320240 0x410D9F: Gancho::Gancho(std::string, SDL_Renderer*, float, float, float, int, int, int) (Gancho.cpp:11)
+         n1: 320240 0x40F079: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:35)
+          n0: 320240 in 2 places, all below massif's threshold (01.00%)
+        n1: 291992 0x41229B: Levantarse::Levantarse(std::string, SDL_Renderer*, float, float, float, int, int, int) (Levantarse.cpp:11)
+         n1: 291992 0x40EEA8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:31)
+          n0: 291992 in 2 places, all below massif's threshold (01.00%)
+        n1: 267976 0x421DE1: RecibirTraba::RecibirTraba(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirTraba.cpp:11)
+         n1: 267976 0x40F515: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:44)
+          n0: 267976 in 2 places, all below massif's threshold (01.00%)
+        n1: 237264 0x41D6F7: PatadaSaltoVertical::PatadaSaltoVertical(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaSaltoVertical.cpp:10)
+         n1: 237264 0x40F2B5: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:39)
+          n0: 237264 in 2 places, all below massif's threshold (01.00%)
+        n1: 229312 0x421779: RecibirGolpeAlto::RecibirGolpeAlto(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeAlto.cpp:11)
+         n1: 229312 0x40F3F3: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:42)
+          n0: 229312 in 2 places, all below massif's threshold (01.00%)
+     n2: 4114644 0x53A0D02: IMG_LoadTexture (IMG.c:212)
+      n1: 3973920 0x408F20: Capa::CargarTextura() (Capa.cpp:54)
+       n1: 3973920 0x408DBA: Capa::Capa(std::string, float, float, SDL_Renderer*, float, float) (Capa.cpp:34)
+        n1: 3973920 0x425B21: Juego::cargar_capas() (main.cpp:302)
+         n1: 3973920 0x4248FE: Juego::cargar_configuracion(Parser*) (main.cpp:175)
+          n1: 3973920 0x425949: Juego::configurar() (main.cpp:281)
+           n1: 3973920 0x4246EE: Juego::jugar() (main.cpp:140)
+            n0: 3973920 0x424506: main (main.cpp:838)
+      n0: 140724 in 3 places, all below massif's threshold (01.00%)
+  n1: 5843884 0x4EAC05C: SW_RenderCopyEx (SDL_render_sw.c:600)
+   n3: 5843884 0x4E8D27D: SDL_RenderCopyEx_REAL (SDL_render.c:1751)
+    n1: 3703256 0x41F3BB: Personaje::Dibujarse() (Personaje.cpp:542)
+     n1: 3703256 0x4268A6: Juego::DibujarTodo() (main.cpp:487)
+      n1: 3703256 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 3703256 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 3703256 0x424506: main (main.cpp:838)
+    n1: 2135756 0x41F3F4: Personaje::Dibujarse() (Personaje.cpp:545)
+     n1: 2135756 0x42680B: Juego::DibujarTodo() (main.cpp:484)
+      n1: 2135756 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 2135756 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 2135756 0x424506: main (main.cpp:838)
+    n0: 4872 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 4 places, all below massif's threshold (01.00%)
+ n2: 1494448 0xB6534AF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n3: 1494136 0xB5E6ABD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 1035416 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 1027568 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 704248 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 704248 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 704248 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 704248 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 704248 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 704248 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 704248 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 704248 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 704248 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 704248 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 704248 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 704248 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 704248 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 704248 0x424506: main (main.cpp:838)
+     n1: 323320 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 323320 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 323320 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+        n1: 323320 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 323320 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 323320 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 323320 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+            n1: 323320 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+             n1: 323320 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+              n1: 323320 0x4E40555: SDL_Init_REAL (SDL.c:173)
+               n1: 323320 0x424014: InicializarSDL() (main.cpp:40)
+                n1: 323320 0x4246B3: Juego::jugar() (main.cpp:137)
+                 n0: 323320 0x424506: main (main.cpp:838)
+    n0: 7848 in 1 place, below massif's threshold (01.00%)
+   n2: 363744 0xB5E6C2F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n1: 350656 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n2: 350656 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 243424 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 243424 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 243424 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+         n1: 243424 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 243424 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 243424 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 243424 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+             n1: 243424 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+              n1: 243424 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+               n1: 243424 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+                n1: 243424 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                 n1: 243424 0x424014: InicializarSDL() (main.cpp:40)
+                  n1: 243424 0x4246B3: Juego::jugar() (main.cpp:137)
+                   n0: 243424 0x424506: main (main.cpp:838)
+      n0: 107232 in 1 place, below massif's threshold (01.00%)
+    n0: 13088 in 1 place, below massif's threshold (01.00%)
+   n0: 94976 in 1 place, below massif's threshold (01.00%)
+  n0: 312 in 1 place, below massif's threshold (01.00%)
+ n0: 963299 in 677 places, all below massif's threshold (01.00%)
+ n1: 705600 0x4E68010: SDL_LoadWAV_RW_REAL (SDL_wave.c:611)
+  n2: 705600 0x515B34C: Mix_LoadWAV_RW (mixer.c:608)
+   n1: 705600 0x40821C: BarraDeVida::Inicializar(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:84)
+    n2: 705600 0x407DA7: BarraDeVida::BarraDeVida(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:9)
+     n1: 352800 0x424BBE: Juego::cargar_configuracion(Parser*) (main.cpp:196)
+      n1: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x4246EE: Juego::jugar() (main.cpp:140)
+        n0: 352800 0x424506: main (main.cpp:838)
+     n1: 352800 0x425055: Juego::cargar_configuracion(Parser*) (main.cpp:232)
+      n1: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x4246EE: Juego::jugar() (main.cpp:140)
+        n0: 352800 0x424506: main (main.cpp:838)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+ n2: 461962 0xB6536A0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n2: 441892 0xB6536FC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 382476 0xB5E6B60: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 367312 0xB704481: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 286836 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 286836 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 286836 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 286836 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 286836 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 286836 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 286836 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 286836 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 286836 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 286836 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 286836 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 286836 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 286836 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 286836 0x424506: main (main.cpp:838)
+     n0: 80476 in 1 place, below massif's threshold (01.00%)
+    n0: 15164 in 1 place, below massif's threshold (01.00%)
+   n0: 59416 in 9 places, all below massif's threshold (01.00%)
+  n0: 20070 in 12 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=32
+#-----------
+time=62625145916
+mem_heap_B=23315993
+mem_heap_extra_B=131135
+mem_stacks_B=0
+heap_tree=peak
+n6: 23315993 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 19404996 0x4EF416A: SDL_CreateRGBSurface_REAL (SDL_surface.c:91)
+  n1: 13312388 0x4EAAFD4: SW_CreateTexture (SDL_render_sw.c:234)
+   n1: 13312388 0x4E8DA77: SDL_CreateTexture_REAL (SDL_render.c:442)
+    n2: 13312388 0x4E8DD28: SDL_CreateTextureFromSurface_REAL (SDL_render.c:519)
+     n1: 9197744 0x4120F5: LTexture::loadFromFile(std::string, int, int, int) (LTexture.cpp:217)
+      n1: 9197744 0x4045DB: Accion::setImagenes() (Accion.cpp:76)
+       n17: 9197744 0x404C37: Accion::Accion(int, std::string, SDL_Renderer*, float, float, float, int, int, int) (Accion.cpp:158)
+        n0: 2226784 in 13 places, all below massif's threshold (01.00%)
+        n1: 639840 0x4210D5: Quieto::Quieto(std::string, SDL_Renderer*, float, float, float, int, int, int) (Quieto.cpp:10)
+         n2: 639840 0x40E45D: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:14)
+          n1: 319920 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 319920 0x424506: main (main.cpp:838)
+          n1: 319920 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 319920 0x424506: main (main.cpp:838)
+        n1: 591336 0x40890D: Caminar::Caminar(std::string, SDL_Renderer*, float, float, float, int, int, int) (Caminar.cpp:11)
+         n2: 591336 0x40E666: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:17)
+          n1: 295668 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 295668 0x424506: main (main.cpp:838)
+          n1: 295668 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 295668 0x424506: main (main.cpp:838)
+        n1: 579024 0x42049F: PiniaAlta::PiniaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaAlta.cpp:10)
+         n2: 579024 0x40E7A8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:19)
+          n1: 289512 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 289512 0x424506: main (main.cpp:838)
+          n1: 289512 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 289512 0x424506: main (main.cpp:838)
+        n1: 528776 0x42238B: RoundKick::RoundKick(std::string, SDL_Renderer*, float, float, float, int, int, int) (RoundKick.cpp:11)
+         n2: 528776 0x40EFDC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:34)
+          n1: 264388 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 264388 0x424506: main (main.cpp:838)
+          n1: 264388 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 264388 0x424506: main (main.cpp:838)
+        n1: 524112 0x41C055: PatadaAlta::PatadaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaAlta.cpp:10)
+         n2: 524112 0x40E976: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:22)
+          n1: 262056 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 262056 0x424506: main (main.cpp:838)
+          n1: 262056 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 262056 0x424506: main (main.cpp:838)
+        n1: 521968 0x4208AB: PiniaBaja::PiniaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaBaja.cpp:10)
+         n2: 521968 0x40E842: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:20)
+          n1: 260984 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n1: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 260984 0x424506: main (main.cpp:838)
+          n1: 260984 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n1: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x4246EE: Juego::jugar() (main.cpp:140)
+             n0: 260984 0x424506: main (main.cpp:838)
+        n1: 436384 0x41C9F9: PatadaBaja::PatadaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaBaja.cpp:10)
+         n1: 436384 0x40EA13: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:23)
+          n0: 436384 in 2 places, all below massif's threshold (01.00%)
+        n1: 427168 0x4238A3: Traba::Traba(std::string, SDL_Renderer*, float, float, float, int, int, int) (Traba.cpp:11)
+         n1: 427168 0x40EC84: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:27)
+          n0: 427168 in 2 places, all below massif's threshold (01.00%)
+        n1: 409800 0x41047B: SaltarDiagonal::SaltarDiagonal(std::string, SDL_Renderer*, float, float, float, int, int, int) (SaltarDiagonal.hpp:12)
+         n1: 409800 0x40E5CC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:16)
+          n0: 409800 in 2 places, all below massif's threshold (01.00%)
+        n1: 400048 0x4079D3: ArrojarProyectil::ArrojarProyectil(std::string, SDL_Renderer*, float, float, float, int, int, int) (ArrojarProyectil.cpp:10)
+         n1: 400048 0x40F6F1: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:47)
+          n0: 400048 in 2 places, all below massif's threshold (01.00%)
+        n1: 399400 0x4106F9: SiendoArrojado::SiendoArrojado(std::string, SDL_Renderer*, float, float, float, int, int, int) (SiendoArrojado.hpp:12)
+         n1: 399400 0x40F660: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:46)
+          n0: 399400 in 2 places, all below massif's threshold (01.00%)
+        n1: 395632 0x420CBB: PiniaAire::PiniaAire(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaEnAire.cpp:10)
+         n0: 395632 in 2 places, all below massif's threshold (01.00%)
+        n1: 320240 0x410D9F: Gancho::Gancho(std::string, SDL_Renderer*, float, float, float, int, int, int) (Gancho.cpp:11)
+         n1: 320240 0x40F079: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:35)
+          n0: 320240 in 2 places, all below massif's threshold (01.00%)
+        n1: 291992 0x41229B: Levantarse::Levantarse(std::string, SDL_Renderer*, float, float, float, int, int, int) (Levantarse.cpp:11)
+         n1: 291992 0x40EEA8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:31)
+          n0: 291992 in 2 places, all below massif's threshold (01.00%)
+        n1: 267976 0x421DE1: RecibirTraba::RecibirTraba(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirTraba.cpp:11)
+         n1: 267976 0x40F515: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:44)
+          n0: 267976 in 2 places, all below massif's threshold (01.00%)
+        n1: 237264 0x41D6F7: PatadaSaltoVertical::PatadaSaltoVertical(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaSaltoVertical.cpp:10)
+         n1: 237264 0x40F2B5: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:39)
+          n0: 237264 in 2 places, all below massif's threshold (01.00%)
+     n2: 4114644 0x53A0D02: IMG_LoadTexture (IMG.c:212)
+      n1: 3973920 0x408F20: Capa::CargarTextura() (Capa.cpp:54)
+       n1: 3973920 0x408DBA: Capa::Capa(std::string, float, float, SDL_Renderer*, float, float) (Capa.cpp:34)
+        n1: 3973920 0x425B21: Juego::cargar_capas() (main.cpp:302)
+         n1: 3973920 0x4248FE: Juego::cargar_configuracion(Parser*) (main.cpp:175)
+          n1: 3973920 0x425949: Juego::configurar() (main.cpp:281)
+           n1: 3973920 0x4246EE: Juego::jugar() (main.cpp:140)
+            n0: 3973920 0x424506: main (main.cpp:838)
+      n0: 140724 in 3 places, all below massif's threshold (01.00%)
+  n1: 5949808 0x4EAC05C: SW_RenderCopyEx (SDL_render_sw.c:600)
+   n3: 5949808 0x4E8D27D: SDL_RenderCopyEx_REAL (SDL_render.c:1751)
+    n1: 3703256 0x41F3BB: Personaje::Dibujarse() (Personaje.cpp:542)
+     n1: 3703256 0x4268A6: Juego::DibujarTodo() (main.cpp:487)
+      n1: 3703256 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 3703256 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 3703256 0x424506: main (main.cpp:838)
+    n1: 2241680 0x41F3F4: Personaje::Dibujarse() (Personaje.cpp:545)
+     n1: 2241680 0x42680B: Juego::DibujarTodo() (main.cpp:484)
+      n1: 2241680 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 2241680 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 2241680 0x424506: main (main.cpp:838)
+    n0: 4872 in 1 place, below massif's threshold (01.00%)
+  n0: 142800 in 4 places, all below massif's threshold (01.00%)
+ n2: 1494448 0xB6534AF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n3: 1494136 0xB5E6ABD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 1035416 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 1027568 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 704248 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 704248 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 704248 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 704248 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 704248 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 704248 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 704248 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 704248 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 704248 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 704248 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 704248 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 704248 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 704248 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 704248 0x424506: main (main.cpp:838)
+     n1: 323320 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 323320 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 323320 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+        n1: 323320 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 323320 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 323320 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 323320 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+            n1: 323320 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+             n1: 323320 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+              n1: 323320 0x4E40555: SDL_Init_REAL (SDL.c:173)
+               n1: 323320 0x424014: InicializarSDL() (main.cpp:40)
+                n1: 323320 0x4246B3: Juego::jugar() (main.cpp:137)
+                 n0: 323320 0x424506: main (main.cpp:838)
+    n0: 7848 in 1 place, below massif's threshold (01.00%)
+   n2: 363744 0xB5E6C2F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n1: 350656 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n2: 350656 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 243424 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 243424 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 243424 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+         n1: 243424 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 243424 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 243424 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 243424 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+             n1: 243424 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+              n1: 243424 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+               n1: 243424 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+                n1: 243424 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                 n1: 243424 0x424014: InicializarSDL() (main.cpp:40)
+                  n1: 243424 0x4246B3: Juego::jugar() (main.cpp:137)
+                   n0: 243424 0x424506: main (main.cpp:838)
+      n0: 107232 in 1 place, below massif's threshold (01.00%)
+    n0: 13088 in 1 place, below massif's threshold (01.00%)
+   n0: 94976 in 1 place, below massif's threshold (01.00%)
+  n0: 312 in 1 place, below massif's threshold (01.00%)
+ n0: 963867 in 676 places, all below massif's threshold (01.00%)
+ n1: 705600 0x4E68010: SDL_LoadWAV_RW_REAL (SDL_wave.c:611)
+  n2: 705600 0x515B34C: Mix_LoadWAV_RW (mixer.c:608)
+   n1: 705600 0x40821C: BarraDeVida::Inicializar(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:84)
+    n2: 705600 0x407DA7: BarraDeVida::BarraDeVida(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:9)
+     n1: 352800 0x424BBE: Juego::cargar_configuracion(Parser*) (main.cpp:196)
+      n1: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x4246EE: Juego::jugar() (main.cpp:140)
+        n0: 352800 0x424506: main (main.cpp:838)
+     n1: 352800 0x425055: Juego::cargar_configuracion(Parser*) (main.cpp:232)
+      n1: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x4246EE: Juego::jugar() (main.cpp:140)
+        n0: 352800 0x424506: main (main.cpp:838)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+ n2: 461962 0xB6536A0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n2: 441892 0xB6536FC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 382476 0xB5E6B60: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 367312 0xB704481: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 286836 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 286836 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 286836 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 286836 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 286836 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 286836 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 286836 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 286836 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 286836 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 286836 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 286836 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 286836 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 286836 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 286836 0x424506: main (main.cpp:838)
+     n0: 80476 in 1 place, below massif's threshold (01.00%)
+    n0: 15164 in 1 place, below massif's threshold (01.00%)
+   n0: 59416 in 9 places, all below massif's threshold (01.00%)
+  n0: 20070 in 12 places, all below massif's threshold (01.00%)
+ n1: 285120 0x4EBA4AE: SDL_RLESurface (SDL_RLEaccel.c:1082)
+  n1: 285120 0x4EBB0FE: SDL_CalculateBlit (SDL_blit.c:234)
+   n1: 285120 0x4EF34E6: SDL_UpperBlit_REAL (SDL_surface.c:505)
+    n1: 285120 0x4EAC38D: SW_RenderCopyEx (SDL_render_sw.c:650)
+     n2: 285120 0x4E8D27D: SDL_RenderCopyEx_REAL (SDL_render.c:1751)
+      n1: 285120 0x41F3BB: Personaje::Dibujarse() (Personaje.cpp:542)
+       n1: 285120 0x4268A6: Juego::DibujarTodo() (main.cpp:487)
+        n1: 285120 0x425EA7: Juego::game_loop() (main.cpp:394)
+         n1: 285120 0x4246FA: Juego::jugar() (main.cpp:142)
+          n0: 285120 0x424506: main (main.cpp:838)
+      n0: 0 in 2 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=33
+#-----------
+time=64781401073
+mem_heap_B=22887729
+mem_heap_extra_B=131055
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=66918897889
+mem_heap_B=22887929
+mem_heap_extra_B=131135
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=69104495664
+mem_heap_B=22887729
+mem_heap_extra_B=131055
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=71823219902
+mem_heap_B=17812533
+mem_heap_extra_B=130035
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=73537877043
+mem_heap_B=18860625
+mem_heap_extra_B=130399
+mem_stacks_B=0
+heap_tree=detailed
+n5: 18860625 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 15240100 0x4EF416A: SDL_CreateRGBSurface_REAL (SDL_surface.c:91)
+  n1: 13312388 0x4EAAFD4: SW_CreateTexture (SDL_render_sw.c:234)
+   n1: 13312388 0x4E8DA77: SDL_CreateTexture_REAL (SDL_render.c:442)
+    n2: 13312388 0x4E8DD28: SDL_CreateTextureFromSurface_REAL (SDL_render.c:519)
+     n1: 9197744 0x4120F5: LTexture::loadFromFile(std::string, int, int, int) (LTexture.cpp:217)
+      n1: 9197744 0x4045DB: Accion::setImagenes() (Accion.cpp:76)
+       n21: 9197744 0x404C37: Accion::Accion(int, std::string, SDL_Renderer*, float, float, float, int, int, int) (Accion.cpp:158)
+        n0: 1387496 in 9 places, all below massif's threshold (01.00%)
+        n1: 639840 0x4210D5: Quieto::Quieto(std::string, SDL_Renderer*, float, float, float, int, int, int) (Quieto.cpp:10)
+         n2: 639840 0x40E45D: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:14)
+          n1: 319920 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 319920 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 319920 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 319920 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 319920 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 319920 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 319920 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 319920 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 591336 0x40890D: Caminar::Caminar(std::string, SDL_Renderer*, float, float, float, int, int, int) (Caminar.cpp:11)
+         n2: 591336 0x40E666: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:17)
+          n1: 295668 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 295668 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 295668 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 295668 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 295668 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 295668 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 295668 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 295668 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 579024 0x42049F: PiniaAlta::PiniaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaAlta.cpp:10)
+         n2: 579024 0x40E7A8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:19)
+          n1: 289512 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 289512 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 289512 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 289512 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 289512 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 289512 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 289512 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 289512 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 528776 0x42238B: RoundKick::RoundKick(std::string, SDL_Renderer*, float, float, float, int, int, int) (RoundKick.cpp:11)
+         n2: 528776 0x40EFDC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:34)
+          n1: 264388 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 264388 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 264388 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 264388 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 264388 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 264388 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 264388 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 264388 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 524112 0x41C055: PatadaAlta::PatadaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaAlta.cpp:10)
+         n2: 524112 0x40E976: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:22)
+          n1: 262056 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 262056 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 262056 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 262056 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 262056 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 262056 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 262056 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 262056 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 521968 0x4208AB: PiniaBaja::PiniaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaBaja.cpp:10)
+         n2: 521968 0x40E842: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:20)
+          n1: 260984 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 260984 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 260984 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 260984 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 260984 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 260984 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 260984 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 260984 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 436384 0x41C9F9: PatadaBaja::PatadaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaBaja.cpp:10)
+         n2: 436384 0x40EA13: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:23)
+          n1: 218192 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 218192 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 218192 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 218192 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 218192 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 218192 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 218192 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 218192 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 218192 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 218192 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 218192 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 218192 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 427168 0x4238A3: Traba::Traba(std::string, SDL_Renderer*, float, float, float, int, int, int) (Traba.cpp:11)
+         n2: 427168 0x40EC84: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:27)
+          n1: 213584 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 213584 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 213584 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 213584 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 213584 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 213584 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 213584 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 213584 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 213584 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 213584 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 213584 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 213584 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 409800 0x41047B: SaltarDiagonal::SaltarDiagonal(std::string, SDL_Renderer*, float, float, float, int, int, int) (SaltarDiagonal.hpp:12)
+         n2: 409800 0x40E5CC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:16)
+          n1: 204900 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 204900 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 204900 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 204900 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 204900 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 204900 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 204900 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 204900 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 204900 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 204900 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 204900 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 204900 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 400048 0x4079D3: ArrojarProyectil::ArrojarProyectil(std::string, SDL_Renderer*, float, float, float, int, int, int) (ArrojarProyectil.cpp:10)
+         n2: 400048 0x40F6F1: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:47)
+          n1: 200024 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 200024 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 200024 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 200024 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 200024 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 200024 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 200024 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 200024 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 200024 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 200024 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 200024 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 200024 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 399400 0x4106F9: SiendoArrojado::SiendoArrojado(std::string, SDL_Renderer*, float, float, float, int, int, int) (SiendoArrojado.hpp:12)
+         n2: 399400 0x40F660: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:46)
+          n1: 199700 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 199700 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 199700 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 199700 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 199700 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 199700 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 199700 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 199700 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 199700 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 199700 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 199700 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 199700 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n2: 395632 0x420CBB: PiniaAire::PiniaAire(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaEnAire.cpp:10)
+         n1: 197816 0x40F13F: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:37)
+          n0: 197816 in 2 places, all below massif's threshold (01.00%)
+         n1: 197816 0x40F35F: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:40)
+          n0: 197816 in 2 places, all below massif's threshold (01.00%)
+        n1: 320240 0x410D9F: Gancho::Gancho(std::string, SDL_Renderer*, float, float, float, int, int, int) (Gancho.cpp:11)
+         n1: 320240 0x40F079: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:35)
+          n0: 320240 in 2 places, all below massif's threshold (01.00%)
+        n1: 291992 0x41229B: Levantarse::Levantarse(std::string, SDL_Renderer*, float, float, float, int, int, int) (Levantarse.cpp:11)
+         n1: 291992 0x40EEA8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:31)
+          n0: 291992 in 2 places, all below massif's threshold (01.00%)
+        n1: 267976 0x421DE1: RecibirTraba::RecibirTraba(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirTraba.cpp:11)
+         n1: 267976 0x40F515: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:44)
+          n0: 267976 in 2 places, all below massif's threshold (01.00%)
+        n1: 237264 0x41D6F7: PatadaSaltoVertical::PatadaSaltoVertical(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaSaltoVertical.cpp:10)
+         n1: 237264 0x40F2B5: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:39)
+          n0: 237264 in 2 places, all below massif's threshold (01.00%)
+        n1: 229312 0x421779: RecibirGolpeAlto::RecibirGolpeAlto(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeAlto.cpp:11)
+         n1: 229312 0x40F3F3: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:42)
+          n0: 229312 in 2 places, all below massif's threshold (01.00%)
+        n1: 222736 0x421AAD: RecibirGolpeBajo::RecibirGolpeBajo(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeBajo.cpp:11)
+         n1: 222736 0x40F484: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:43)
+          n0: 222736 in 2 places, all below massif's threshold (01.00%)
+        n1: 194576 0x41C525: PatadaAltaAgachado::PatadaAltaAgachado(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaAltaAgachado.cpp:11)
+         n1: 194576 0x40EB4D: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:25)
+          n0: 194576 in 2 places, all below massif's threshold (01.00%)
+        n1: 192664 0x412673: LevantarseDelGancho::LevantarseDelGancho(std::string, SDL_Renderer*, float, float, float, int, int, int) (LevantarseDelGancho.cpp:11)
+         n1: 192664 0x40EF42: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:32)
+          n0: 192664 in 2 places, all below massif's threshold (01.00%)
+     n2: 4114644 0x53A0D02: IMG_LoadTexture (IMG.c:212)
+      n1: 3973920 0x408F20: Capa::CargarTextura() (Capa.cpp:54)
+       n1: 3973920 0x408DBA: Capa::Capa(std::string, float, float, SDL_Renderer*, float, float) (Capa.cpp:34)
+        n1: 3973920 0x425B21: Juego::cargar_capas() (main.cpp:302)
+         n1: 3973920 0x4248FE: Juego::cargar_configuracion(Parser*) (main.cpp:175)
+          n2: 3973920 0x425949: Juego::configurar() (main.cpp:281)
+           n1: 3973920 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+            n1: 3973920 0x426062: Juego::game_loop() (main.cpp:417)
+             n1: 3973920 0x4246FA: Juego::jugar() (main.cpp:142)
+              n0: 3973920 0x424506: main (main.cpp:838)
+           n0: 0 in 1 place, below massif's threshold (01.00%)
+      n0: 140724 in 3 places, all below massif's threshold (01.00%)
+  n1: 1927712 0x4EAC05C: SW_RenderCopyEx (SDL_render_sw.c:600)
+   n3: 1927712 0x4E8D27D: SDL_RenderCopyEx_REAL (SDL_render.c:1751)
+    n1: 1131312 0x41F3F4: Personaje::Dibujarse() (Personaje.cpp:545)
+     n1: 1131312 0x42680B: Juego::DibujarTodo() (main.cpp:484)
+      n1: 1131312 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 1131312 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 1131312 0x424506: main (main.cpp:838)
+    n1: 796400 0x41F3BB: Personaje::Dibujarse() (Personaje.cpp:542)
+     n1: 796400 0x4268A6: Juego::DibujarTodo() (main.cpp:487)
+      n1: 796400 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 796400 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 796400 0x424506: main (main.cpp:838)
+    n0: 0 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 4 places, all below massif's threshold (01.00%)
+ n2: 1494448 0xB6534AF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n3: 1494136 0xB5E6ABD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 1035416 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 1027568 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 704248 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 704248 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 704248 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 704248 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 704248 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 704248 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 704248 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 704248 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 704248 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 704248 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 704248 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 704248 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 704248 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 704248 0x424506: main (main.cpp:838)
+     n1: 323320 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 323320 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 323320 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+        n1: 323320 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 323320 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 323320 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 323320 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+            n1: 323320 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+             n1: 323320 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+              n1: 323320 0x4E40555: SDL_Init_REAL (SDL.c:173)
+               n1: 323320 0x424014: InicializarSDL() (main.cpp:40)
+                n1: 323320 0x4246B3: Juego::jugar() (main.cpp:137)
+                 n0: 323320 0x424506: main (main.cpp:838)
+    n0: 7848 in 1 place, below massif's threshold (01.00%)
+   n2: 363744 0xB5E6C2F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n1: 350656 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n2: 350656 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 243424 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 243424 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 243424 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+         n1: 243424 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 243424 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 243424 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 243424 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+             n1: 243424 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+              n1: 243424 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+               n1: 243424 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+                n1: 243424 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                 n1: 243424 0x424014: InicializarSDL() (main.cpp:40)
+                  n1: 243424 0x4246B3: Juego::jugar() (main.cpp:137)
+                   n0: 243424 0x424506: main (main.cpp:838)
+      n0: 107232 in 1 place, below massif's threshold (01.00%)
+    n0: 13088 in 1 place, below massif's threshold (01.00%)
+   n0: 94976 in 1 place, below massif's threshold (01.00%)
+  n0: 312 in 1 place, below massif's threshold (01.00%)
+ n0: 958515 in 677 places, all below massif's threshold (01.00%)
+ n1: 705600 0x4E68010: SDL_LoadWAV_RW_REAL (SDL_wave.c:611)
+  n2: 705600 0x515B34C: Mix_LoadWAV_RW (mixer.c:608)
+   n1: 705600 0x40821C: BarraDeVida::Inicializar(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:84)
+    n2: 705600 0x407DA7: BarraDeVida::BarraDeVida(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:9)
+     n1: 352800 0x424BBE: Juego::cargar_configuracion(Parser*) (main.cpp:196)
+      n2: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+        n1: 352800 0x426062: Juego::game_loop() (main.cpp:417)
+         n1: 352800 0x4246FA: Juego::jugar() (main.cpp:142)
+          n0: 352800 0x424506: main (main.cpp:838)
+       n0: 0 in 1 place, below massif's threshold (01.00%)
+     n1: 352800 0x425055: Juego::cargar_configuracion(Parser*) (main.cpp:232)
+      n2: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+        n1: 352800 0x426062: Juego::game_loop() (main.cpp:417)
+         n1: 352800 0x4246FA: Juego::jugar() (main.cpp:142)
+          n0: 352800 0x424506: main (main.cpp:838)
+       n0: 0 in 1 place, below massif's threshold (01.00%)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+ n2: 461962 0xB6536A0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n2: 441892 0xB6536FC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 382476 0xB5E6B60: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 367312 0xB704481: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 286836 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 286836 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 286836 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 286836 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 286836 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 286836 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 286836 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 286836 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 286836 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 286836 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 286836 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 286836 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 286836 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 286836 0x424506: main (main.cpp:838)
+     n0: 80476 in 1 place, below massif's threshold (01.00%)
+    n0: 15164 in 1 place, below massif's threshold (01.00%)
+   n0: 59416 in 9 places, all below massif's threshold (01.00%)
+  n0: 20070 in 12 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=38
+#-----------
+time=76361728555
+mem_heap_B=19289777
+mem_heap_extra_B=130519
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=78051475247
+mem_heap_B=19651889
+mem_heap_extra_B=130663
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=80342858841
+mem_heap_B=19916289
+mem_heap_extra_B=130823
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=82056648340
+mem_heap_B=20488893
+mem_heap_extra_B=130947
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=83766369995
+mem_heap_B=20605733
+mem_heap_extra_B=130939
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=86578867570
+mem_heap_B=21230565
+mem_heap_extra_B=131155
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=89415490851
+mem_heap_B=21230581
+mem_heap_extra_B=131147
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=91673556062
+mem_heap_B=21230565
+mem_heap_extra_B=131171
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=94479532590
+mem_heap_B=21230517
+mem_heap_extra_B=131147
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=95628414561
+mem_heap_B=21230517
+mem_heap_extra_B=131147
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=97334672788
+mem_heap_B=21230517
+mem_heap_extra_B=131163
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=99605438808
+mem_heap_B=21676857
+mem_heap_extra_B=131383
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=100767370343
+mem_heap_B=21875097
+mem_heap_extra_B=131439
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=101941921461
+mem_heap_B=22080941
+mem_heap_extra_B=131443
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=103116745764
+mem_heap_B=22080941
+mem_heap_extra_B=131427
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=104281449476
+mem_heap_B=22080941
+mem_heap_extra_B=131427
+mem_stacks_B=0
+heap_tree=detailed
+n5: 22080941 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n3: 18452896 0x4EF416A: SDL_CreateRGBSurface_REAL (SDL_surface.c:91)
+  n1: 13312388 0x4EAAFD4: SW_CreateTexture (SDL_render_sw.c:234)
+   n1: 13312388 0x4E8DA77: SDL_CreateTexture_REAL (SDL_render.c:442)
+    n2: 13312388 0x4E8DD28: SDL_CreateTextureFromSurface_REAL (SDL_render.c:519)
+     n1: 9197744 0x4120F5: LTexture::loadFromFile(std::string, int, int, int) (LTexture.cpp:217)
+      n1: 9197744 0x4045DB: Accion::setImagenes() (Accion.cpp:76)
+       n19: 9197744 0x404C37: Accion::Accion(int, std::string, SDL_Renderer*, float, float, float, int, int, int) (Accion.cpp:158)
+        n0: 1774736 in 11 places, all below massif's threshold (01.00%)
+        n1: 639840 0x4210D5: Quieto::Quieto(std::string, SDL_Renderer*, float, float, float, int, int, int) (Quieto.cpp:10)
+         n2: 639840 0x40E45D: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:14)
+          n1: 319920 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 319920 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 319920 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 319920 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 319920 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 319920 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 319920 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 319920 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 319920 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 319920 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 591336 0x40890D: Caminar::Caminar(std::string, SDL_Renderer*, float, float, float, int, int, int) (Caminar.cpp:11)
+         n2: 591336 0x40E666: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:17)
+          n1: 295668 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 295668 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 295668 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 295668 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 295668 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 295668 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 295668 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 295668 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 295668 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 295668 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 579024 0x42049F: PiniaAlta::PiniaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaAlta.cpp:10)
+         n2: 579024 0x40E7A8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:19)
+          n1: 289512 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 289512 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 289512 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 289512 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 289512 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 289512 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 289512 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 289512 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 289512 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 289512 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 528776 0x42238B: RoundKick::RoundKick(std::string, SDL_Renderer*, float, float, float, int, int, int) (RoundKick.cpp:11)
+         n2: 528776 0x40EFDC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:34)
+          n1: 264388 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 264388 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 264388 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 264388 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 264388 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 264388 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 264388 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 264388 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 264388 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 264388 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 524112 0x41C055: PatadaAlta::PatadaAlta(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaAlta.cpp:10)
+         n2: 524112 0x40E976: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:22)
+          n1: 262056 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 262056 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 262056 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 262056 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 262056 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 262056 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 262056 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 262056 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 262056 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 262056 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 521968 0x4208AB: PiniaBaja::PiniaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaBaja.cpp:10)
+         n2: 521968 0x40E842: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:20)
+          n1: 260984 0x424A41: Juego::cargar_configuracion(Parser*) (main.cpp:188)
+           n2: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 260984 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 260984 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 260984 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+          n1: 260984 0x424DC4: Juego::cargar_configuracion(Parser*) (main.cpp:214)
+           n2: 260984 0x425949: Juego::configurar() (main.cpp:281)
+            n1: 260984 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+             n1: 260984 0x426062: Juego::game_loop() (main.cpp:417)
+              n1: 260984 0x4246FA: Juego::jugar() (main.cpp:142)
+               n0: 260984 0x424506: main (main.cpp:838)
+            n0: 0 in 1 place, below massif's threshold (01.00%)
+        n1: 436384 0x41C9F9: PatadaBaja::PatadaBaja(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaBaja.cpp:10)
+         n1: 436384 0x40EA13: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:23)
+          n0: 436384 in 2 places, all below massif's threshold (01.00%)
+        n1: 427168 0x4238A3: Traba::Traba(std::string, SDL_Renderer*, float, float, float, int, int, int) (Traba.cpp:11)
+         n1: 427168 0x40EC84: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:27)
+          n0: 427168 in 2 places, all below massif's threshold (01.00%)
+        n1: 409800 0x41047B: SaltarDiagonal::SaltarDiagonal(std::string, SDL_Renderer*, float, float, float, int, int, int) (SaltarDiagonal.hpp:12)
+         n1: 409800 0x40E5CC: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:16)
+          n0: 409800 in 2 places, all below massif's threshold (01.00%)
+        n1: 400048 0x4079D3: ArrojarProyectil::ArrojarProyectil(std::string, SDL_Renderer*, float, float, float, int, int, int) (ArrojarProyectil.cpp:10)
+         n1: 400048 0x40F6F1: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:47)
+          n0: 400048 in 2 places, all below massif's threshold (01.00%)
+        n1: 399400 0x4106F9: SiendoArrojado::SiendoArrojado(std::string, SDL_Renderer*, float, float, float, int, int, int) (SiendoArrojado.hpp:12)
+         n1: 399400 0x40F660: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:46)
+          n0: 399400 in 2 places, all below massif's threshold (01.00%)
+        n1: 395632 0x420CBB: PiniaAire::PiniaAire(std::string, SDL_Renderer*, float, float, float, int, int, int) (PiniaEnAire.cpp:10)
+         n0: 395632 in 2 places, all below massif's threshold (01.00%)
+        n1: 320240 0x410D9F: Gancho::Gancho(std::string, SDL_Renderer*, float, float, float, int, int, int) (Gancho.cpp:11)
+         n1: 320240 0x40F079: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:35)
+          n0: 320240 in 2 places, all below massif's threshold (01.00%)
+        n1: 291992 0x41229B: Levantarse::Levantarse(std::string, SDL_Renderer*, float, float, float, int, int, int) (Levantarse.cpp:11)
+         n1: 291992 0x40EEA8: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:31)
+          n0: 291992 in 2 places, all below massif's threshold (01.00%)
+        n1: 267976 0x421DE1: RecibirTraba::RecibirTraba(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirTraba.cpp:11)
+         n1: 267976 0x40F515: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:44)
+          n0: 267976 in 2 places, all below massif's threshold (01.00%)
+        n1: 237264 0x41D6F7: PatadaSaltoVertical::PatadaSaltoVertical(std::string, SDL_Renderer*, float, float, float, int, int, int) (PatadaSaltoVertical.cpp:10)
+         n1: 237264 0x40F2B5: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:39)
+          n0: 237264 in 2 places, all below massif's threshold (01.00%)
+        n1: 229312 0x421779: RecibirGolpeAlto::RecibirGolpeAlto(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeAlto.cpp:11)
+         n1: 229312 0x40F3F3: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:42)
+          n0: 229312 in 2 places, all below massif's threshold (01.00%)
+        n1: 222736 0x421AAD: RecibirGolpeBajo::RecibirGolpeBajo(std::string, SDL_Renderer*, float, float, float, int, int, int) (RecibirGolpeBajo.cpp:11)
+         n1: 222736 0x40F484: Estado::Estado(std::string, SDL_Renderer*, float, float, float, float, float, int, int, int) (Estado.cpp:43)
+          n0: 222736 in 2 places, all below massif's threshold (01.00%)
+     n2: 4114644 0x53A0D02: IMG_LoadTexture (IMG.c:212)
+      n1: 3973920 0x408F20: Capa::CargarTextura() (Capa.cpp:54)
+       n1: 3973920 0x408DBA: Capa::Capa(std::string, float, float, SDL_Renderer*, float, float) (Capa.cpp:34)
+        n1: 3973920 0x425B21: Juego::cargar_capas() (main.cpp:302)
+         n1: 3973920 0x4248FE: Juego::cargar_configuracion(Parser*) (main.cpp:175)
+          n2: 3973920 0x425949: Juego::configurar() (main.cpp:281)
+           n1: 3973920 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+            n1: 3973920 0x426062: Juego::game_loop() (main.cpp:417)
+             n1: 3973920 0x4246FA: Juego::jugar() (main.cpp:142)
+              n0: 3973920 0x424506: main (main.cpp:838)
+           n0: 0 in 1 place, below massif's threshold (01.00%)
+      n0: 140724 in 3 places, all below massif's threshold (01.00%)
+  n1: 5140508 0x4EAC05C: SW_RenderCopyEx (SDL_render_sw.c:600)
+   n3: 5140508 0x4E8D27D: SDL_RenderCopyEx_REAL (SDL_render.c:1751)
+    n1: 2596568 0x41F3BB: Personaje::Dibujarse() (Personaje.cpp:542)
+     n1: 2596568 0x4268A6: Juego::DibujarTodo() (main.cpp:487)
+      n1: 2596568 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 2596568 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 2596568 0x424506: main (main.cpp:838)
+    n1: 2539068 0x41F3F4: Personaje::Dibujarse() (Personaje.cpp:545)
+     n1: 2539068 0x42680B: Juego::DibujarTodo() (main.cpp:484)
+      n1: 2539068 0x425EA7: Juego::game_loop() (main.cpp:394)
+       n1: 2539068 0x4246FA: Juego::jugar() (main.cpp:142)
+        n0: 2539068 0x424506: main (main.cpp:838)
+    n0: 4872 in 1 place, below massif's threshold (01.00%)
+  n0: 0 in 4 places, all below massif's threshold (01.00%)
+ n2: 1494448 0xB6534AF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n3: 1494136 0xB5E6ABD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 1035416 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 1027568 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 704248 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 704248 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 704248 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 704248 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 704248 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 704248 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 704248 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 704248 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 704248 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 704248 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 704248 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 704248 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 704248 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 704248 0x424506: main (main.cpp:838)
+     n1: 323320 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 323320 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 323320 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+        n1: 323320 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 323320 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 323320 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 323320 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+            n1: 323320 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+             n1: 323320 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+              n1: 323320 0x4E40555: SDL_Init_REAL (SDL.c:173)
+               n1: 323320 0x424014: InicializarSDL() (main.cpp:40)
+                n1: 323320 0x4246B3: Juego::jugar() (main.cpp:137)
+                 n0: 323320 0x424506: main (main.cpp:838)
+    n0: 7848 in 1 place, below massif's threshold (01.00%)
+   n2: 363744 0xB5E6C2F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n1: 350656 0xB5E6C98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n2: 350656 0xB70458F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 243424 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 243424 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 243424 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+         n1: 243424 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 243424 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 243424 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 243424 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+             n1: 243424 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+              n1: 243424 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+               n1: 243424 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+                n1: 243424 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                 n1: 243424 0x424014: InicializarSDL() (main.cpp:40)
+                  n1: 243424 0x4246B3: Juego::jugar() (main.cpp:137)
+                   n0: 243424 0x424506: main (main.cpp:838)
+      n0: 107232 in 1 place, below massif's threshold (01.00%)
+    n0: 13088 in 1 place, below massif's threshold (01.00%)
+   n0: 94976 in 1 place, below massif's threshold (01.00%)
+  n0: 312 in 1 place, below massif's threshold (01.00%)
+ n0: 966035 in 678 places, all below massif's threshold (01.00%)
+ n1: 705600 0x4E68010: SDL_LoadWAV_RW_REAL (SDL_wave.c:611)
+  n2: 705600 0x515B34C: Mix_LoadWAV_RW (mixer.c:608)
+   n1: 705600 0x40821C: BarraDeVida::Inicializar(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:84)
+    n2: 705600 0x407DA7: BarraDeVida::BarraDeVida(int, int, int, SDL_Renderer*, bool) (BarraDeVida.cpp:9)
+     n1: 352800 0x424BBE: Juego::cargar_configuracion(Parser*) (main.cpp:196)
+      n2: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+        n1: 352800 0x426062: Juego::game_loop() (main.cpp:417)
+         n1: 352800 0x4246FA: Juego::jugar() (main.cpp:142)
+          n0: 352800 0x424506: main (main.cpp:838)
+       n0: 0 in 1 place, below massif's threshold (01.00%)
+     n1: 352800 0x425055: Juego::cargar_configuracion(Parser*) (main.cpp:232)
+      n2: 352800 0x425949: Juego::configurar() (main.cpp:281)
+       n1: 352800 0x426398: Juego::reiniciarJuego() (main.cpp:433)
+        n1: 352800 0x426062: Juego::game_loop() (main.cpp:417)
+         n1: 352800 0x4246FA: Juego::jugar() (main.cpp:142)
+          n0: 352800 0x424506: main (main.cpp:838)
+       n0: 0 in 1 place, below massif's threshold (01.00%)
+   n0: 0 in 1 place, below massif's threshold (01.00%)
+ n2: 461962 0xB6536A0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+  n2: 441892 0xB6536FC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+   n2: 382476 0xB5E6B60: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+    n2: 367312 0xB704481: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+     n1: 286836 0xB7048EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+      n1: 286836 0xB6C112C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+       n1: 286836 0xB67F287: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+        n1: 286836 0x9446E5F: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+         n1: 286836 0x941B9D2: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+          n1: 286836 0x94180B9: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+           n1: 286836 0x9418931: glXChooseVisual (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+            n1: 286836 0x4F08689: X11_GL_LoadLibrary (SDL_x11opengl.c:525)
+             n1: 286836 0x4EFB045: SDL_CreateWindow_REAL (SDL_video.c:2401)
+              n1: 286836 0x4EFAC3E: SDL_VideoInit_REAL (SDL_video.c:192)
+               n1: 286836 0x4E40555: SDL_Init_REAL (SDL.c:173)
+                n1: 286836 0x424014: InicializarSDL() (main.cpp:40)
+                 n1: 286836 0x4246B3: Juego::jugar() (main.cpp:137)
+                  n0: 286836 0x424506: main (main.cpp:838)
+     n0: 80476 in 1 place, below massif's threshold (01.00%)
+    n0: 15164 in 1 place, below massif's threshold (01.00%)
+   n0: 59416 in 9 places, all below massif's threshold (01.00%)
+  n0: 20070 in 12 places, all below massif's threshold (01.00%)
+#-----------
+snapshot=54
+#-----------
+time=105441316058
+mem_heap_B=22081013
+mem_heap_extra_B=131411
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=106599518170
+mem_heap_B=22081113
+mem_heap_extra_B=131487
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=56
+#-----------
+time=107776467317
+mem_heap_B=22568785
+mem_heap_extra_B=131519
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=108948527582
+mem_heap_B=22568785
+mem_heap_extra_B=131519
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=110123491128
+mem_heap_B=22823293
+mem_heap_extra_B=131595
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=111275505011
+mem_heap_B=22824337
+mem_heap_extra_B=131615
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=112427474444
+mem_heap_B=22824409
+mem_heap_extra_B=131631
+mem_stacks_B=0
+heap_tree=empty
