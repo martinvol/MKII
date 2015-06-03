@@ -15,6 +15,10 @@
 #include "Menu/Menu.hpp"
 #include "Menu/ControladorMenu.hpp"
 
+// Música
+#include <SDL2/SDL_mixer.h>
+
+
 using namespace std;
 
 #define MOVER_PIXELES 80*(parser->personaje_ancho/parser->ventana_ancho)
@@ -46,6 +50,11 @@ int InicializarSDL() {
 		logger->log_error("No se pudo inizializar SDL_Joystick");
 		return 1;
 	}
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        logger->log_error("No se pudo inizializar SDL_mixer");
+        printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+        return 1;
+    }
     logger->log_debug("SDL cargada correctamente");    
     return 0;
 }
@@ -116,6 +125,8 @@ public:
 
 	Director* director = NULL;
 
+    Mix_Music *musica_fondo;
+
 //----------------------------------------------------------------
 
     Juego(int argc_, char* argv_[]){
@@ -125,6 +136,8 @@ public:
 
 //----------------------------------------------------------------
     int jugar(){
+
+
         if (InicializarSDL() != 0) return 1;
         renderer = SDL_CreateRenderer(NULL, -1, 0);
 
@@ -174,7 +187,7 @@ public:
 		// Cargamos al personaje en el medio de la ventana, pero del lado derecho.
 		// Este x_logico es del extremo izquierdo del personaje.
 		x_logico_personaje2 = (parser->escenario_ancho/2.) + SEPARACION/2;
-	
+
         if (SDL_InitSubSystem ( SDL_INIT_JOYSTICK ) < 0){
 		logger->log_error("No se pudo inizializar SDL_Joystick");
 		//return 1;
@@ -202,6 +215,17 @@ public:
             usandoJoystick = true;
             logger->log_debug("Player 2 JOYSTICK conectado");            
         }
+    
+    musica_fondo = Mix_LoadMUS("resources/music/mision.ogg");
+    if(musica_fondo == NULL){
+        printf("Falló SDL_mixer, Error: %s\n", Mix_GetError());
+    }
+
+    if(Mix_PlayMusic(musica_fondo, -1) == -1){
+        logger->log_debug("Error al cargar la música");
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
+
+    }
 }
 
 //----------------------------------------------------------------
@@ -501,8 +525,10 @@ void crear_personajes(){
 			delete this->ventana;
 		}
         if (this->ai != NULL) delete this->ai;
-        logger->log_debug("Borramos todos los objetos");
+        Mix_FreeMusic(musica_fondo);
+
         SDL_DestroyRenderer(renderer);
+        logger->log_debug("Borramos todos los objetos");
     };
 
     void terminar_sdl(){
@@ -699,6 +725,8 @@ void Controlador(SDL_Event *evento){
 void ActualizarModelo(Personaje* personaje){
 	
 	if ((this->ai != NULL ) && (personaje == this->ai->personajeAI)) this->ai->reaccionar();
+	
+	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
 	
 	if (personaje->nroAccionActual == PATADABAJAAGACHADO){
 		personaje->activarAccion(PATADABAJAAGACHADO);

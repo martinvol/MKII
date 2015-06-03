@@ -58,6 +58,8 @@ class Personaje {
 		SDL_Renderer* renderer;
 
 		Arrojable* arrojable = NULL;
+	    Mix_Chunk *pinia_sonido;
+
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -114,6 +116,8 @@ class Personaje {
 		void moverseADerSup(CoordenadaLogica* coord);
 		void moverseAIzqInf(CoordenadaLogica* coord);
 		void moverseADerInf(CoordenadaLogica* coord);
+
+		void gritar();
 		
 	private:
 		SDL_Texture* imagenArrojable;

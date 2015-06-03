@@ -101,4 +101,5 @@ Estado::~Estado(){
 	delete this->levantarse;
 	delete this->levantarseDelGancho;
 	delete this->arrojarproyectil;
+	delete this->recibirGolpeAgachado;
 }
