@@ -62,5 +62,6 @@ CoordenadaLogica* SaltarVertical::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool SaltarVertical::permiteAccion(accion_posible nuevaAccion){
+	if (nuevaAccion == CAERPORGANCHO) return true;
 	return false;
 }

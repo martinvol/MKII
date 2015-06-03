@@ -16,7 +16,8 @@ void AI::reaccionar(){
 //	PiniaAlta, PiniaBaja;
 //	PatadaAlta, PatadaBaja;
 //	ArrojarArma, CubrirAlto;
+
+// 	Para poder usarlo, setear la constante USAR_AI en true en el main ! 
 	
-	this->personajeAI->Abajo = true;
-	
+	this->personajeAI->CubrirAlto = true;	
 }

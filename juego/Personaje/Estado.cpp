@@ -68,7 +68,7 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	//~ this->patadaVert->setDanio();	
 	
 	this->gancho->setDanio(90);
-	//~ this->roundKick->setDanio();
+	this->roundKick->setDanio(70);
 }
 
 Estado::~Estado(){

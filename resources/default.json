@@ -43,9 +43,9 @@
 
       /*Estas configuraciones son para los dos personajes*/
       "velocidad_arma": 10,
-      "inicio": 150,
+      "inicio": 100,
       "fin": 200,
-      "offset": 100
+      "offset": 200
    },
    "personaje2":{
       "nombre": "Battán",

@@ -160,7 +160,9 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	Rect_Per* rect_este = new Rect_Per(temp1, jugador->personaje->ancho, jugador->personaje->alto);
 	Rect_Per* rect_sig = new Rect_Per(temp2, jugador->personaje->ancho, jugador->personaje->alto);
 	Rect_Per* rect_otro = new Rect_Per(temp3, elOtro->personaje->ancho, elOtro->personaje->alto);
-
+	delete temp1;
+	delete temp2;
+	delete temp3;
 
 	// Verifica altura.
 	CoordenadaFisica* coordSig_fis = this->conversor->aFisica(rect_sig->izq_sup);
@@ -181,6 +183,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	
 	// Verifica si se choca con el otro personaje.
 		// Tienen que estar a la misma altura (el sig con el otro).
+	bool choco = false;
 	
 	// Choca por Lado Derecho de Este jugador:
 		  // Si estaba a la izquierda, y quiere terminar a la derecha, se choca y no puede.
@@ -190,6 +193,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 													  // Se superponen en ambos ejes y está bajando.
 			(rect_sig->estaSuperpuestoEnXCon(rect_otro) && rect_sig->estaSuperpuestoEnYCon(rect_otro) && rect_sig->izq_inf->y <= rect_este->izq_inf->y))){
 		rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y);
+		choco = true;
 	}
 	
 	// Choca por Lado Izquierdo de Este jugador:
@@ -200,14 +204,17 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 													  // Se superponen en ambos ejes y está bajando.
 			(rect_sig->estaSuperpuestoEnXCon(rect_otro) && rect_sig->estaSuperpuestoEnYCon(rect_otro) && rect_sig->izq_inf->y <= rect_este->izq_inf->y))){
 		rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y);
+		choco = true;
 	}
 	
 	// Cae encima del otro.
-	if (rect_este->estaEncimaDe(rect_otro) &&
+	float mov;
+	if (!choco && rect_este->estaEncimaDe(rect_otro) &&
 		(rect_sig->estaDebajoDe(rect_otro) || rect_sig->estaSuperpuestoEnYCon(rect_otro)) &&
 		rect_sig->estaSuperpuestoEnXCon(rect_otro)){
 		// Si se mueve para la derecha
 		if (rect_este->izq_inf->x <= rect_sig->izq_inf->x){
+			mov = rect_sig->izq_inf->x - rect_este->izq_inf->x;
 			// Intento ponerlo a la derecha del otro.
 			// Si no se puede (scrollear), a la izquierda.
 			CoordenadaLogica* sig_der = new CoordenadaLogica(rect_otro->der_inf->x + rect_sig->ancho, rect_sig->der_inf->y);
@@ -215,13 +222,14 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 			if (this->ventana->coordenadaEnPantalla(sig_der_fis) == bordeDer && !sePuedeScrollearDerecha()){
 				rect_sig->moverADerInf(rect_otro->izq_inf->x, rect_sig->der_inf->y); //VOLPE
 			} else {
-				rect_sig->moverAIzqInf(rect_sig->izq_inf->x + 30, rect_este->izq_inf->y+5); //VOLPE
+				rect_sig->moverAIzqInf(rect_este->izq_inf->x + mov, rect_este->izq_inf->y); //VOLPE
 			}
 			delete sig_der;
 			delete sig_der_fis;
 		}
 		// Si se mueve para la izquierda
 		else {
+			mov = rect_este->izq_inf->x - rect_sig->izq_inf->x;
 			// Intento ponerlo a la izquierda del otro.
 			// Si no se puede (scrollear), a la derecha.
 			CoordenadaLogica* sig_izq = new CoordenadaLogica(rect_otro->izq_inf->x - rect_sig->ancho, rect_sig->izq_inf->y);
@@ -229,7 +237,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 			if (this->ventana->coordenadaEnPantalla(sig_izq_fis) == bordeIzq && !sePuedeScrollearIzquierda()){
 				rect_sig->moverAIzqInf(rect_otro->der_inf->x, rect_sig->izq_inf->y); //VOLPE
 			} else {
-				rect_sig->moverADerInf(rect_sig->der_inf->x - 30, rect_sig->der_inf->y + 5); //VOLPE
+				rect_sig->moverADerInf(rect_este->der_inf->x - mov, rect_sig->der_inf->y); //VOLPE
 			}
 			delete sig_izq;
 			delete sig_izq_fis;
@@ -261,9 +269,6 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	delete coord_izq;
 	
 	jugador->moverseAIzqInf(rect_sig->izq_inf);
-	delete temp1;
-	delete temp2;
-	delete temp3;
 	delete rect_sig;
 	delete rect_este;
 	delete rect_otro;
@@ -280,12 +285,24 @@ bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 }
 
 void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre) {
-    if(pegando->accionActual->accionNro == PATADAALTAAGACHADO){
+	
+	if(pegando->accionActual->accionNro == PATADAALTAAGACHADO){
 		sufre->activarAccion(CAERPORTRABA);
-	} else if (pegando->accionActual->accionNro == 21 || pegando->accionActual->accionNro == 25){
+		return;
+	}
+	
+	if(sufre->nroAccionActual == AGACHARSE || sufre->nroAccionActual == PATADAALTAAGACHADO ||
+	sufre->nroAccionActual == PATADABAJAAGACHADO || sufre->nroAccionActual == PINIAAGACHADO) {
+		sufre->activarAccion(RECIBIRGOLPEAGACHADO); 
+		return;
+	}
+	
+	//if (pegando->accionActual->accionNro == 21 || pegando->accionActual->accionNro == 25) {
+    if (pegando->accionActual->accionNro == 21){
 	    sufre->activarAccion(CAERPORGANCHO);
 	} else if (pegando->accionActual->accionNro == 7 ||
-	    pegando->accionActual->accionNro == 34 || pegando->nroAccionActual == PATADABAJA){
+	    pegando->accionActual->accionNro == 34 || pegando->nroAccionActual == PATADABAJA || 
+	    pegando->nroAccionActual == PATADAALTAAGACHADO || pegando->nroAccionActual == PATADABAJAAGACHADO){
 	    sufre->activarAccion(RECIBIRGOLPEBAJO);
 	} else if (sufre->accionActual->accionNro == 5){
 	    sufre->activarAccion(RECIBIRGOLPEAGACHADO); ///ESto aun no se puede probar
@@ -348,8 +365,8 @@ void Director::verificar_movimientos(){
 								/// cout << pegando->personaje->accionActual->accionNro << endl;
 								///cout << sufre->personaje->accionActual->accionNro<< endl;
 								presentarAnimacionRecibirGolpe(pegando->obtenerPersonaje(), sufre->obtenerPersonaje());
+								this->escenario->Temblar(SDL_GetTicks());
 							}
-							this->escenario->Temblar(SDL_GetTicks());
 							pegando->obtenerPersonaje()->accionActual->saque_vida = true; // Para que no le saque vida dos veces
 						}
 

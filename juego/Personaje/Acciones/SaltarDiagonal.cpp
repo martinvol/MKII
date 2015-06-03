@@ -84,6 +84,7 @@ CoordenadaLogica* SaltarDiagonal::execute(CoordenadaLogica* coord_personaje){
 }
 
 bool SaltarDiagonal::permiteAccion(accion_posible nuevaAccion){
+	if (nuevaAccion == CAERPORGANCHO) return true;
 	return false;
 }
 

@@ -60,12 +60,14 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->renderer = ren;
 
 	this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
+	pinia_sonido = Mix_LoadWAV("resources/music/male_scream_short.wav");
 }
 
 Personaje::~Personaje(){
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 	delete this->siguiente;
+	Mix_FreeChunk(this->pinia_sonido);
 }
 
 void Personaje::Arrojar(){
@@ -124,17 +126,17 @@ void Personaje::activarAccion(accion_posible accion){
 		siguiente = this->accionActual->execute(this->coordenada);				
 		switch (nroAccionActual){			
 			case SALTAR:
-				if (accion == PATADASALTANDOVERTICAL){
+				if (accion == PATADASALTANDOVERTICAL || accion == PATADAALTA || accion == PATADABAJA){
 					cambiarAccionA(PATADASALTANDOVERTICAL);
 				}
-				else if (accion == PINIASALTANDOVERTICAL){	
+				else if (accion == PINIASALTANDOVERTICAL || accion == PINIABAJA || accion == PINIAALTA){	
 					cambiarAccionA(PINIASALTANDOVERTICAL);	
 				}
 			case SALTARDIAGONAL_DER:
 			case SALTARDIAGONAL_IZQ:
-				if(accion == PATADASALTANDODIAGONAL){
+				if(accion == PATADASALTANDODIAGONAL || accion == PATADAALTA || accion == PATADABAJA){
 					cambiarAccionA(PATADASALTANDODIAGONAL);
-				}else if (accion == PINIASALTANDODIAGONAL){
+				}else if (accion == PINIASALTANDODIAGONAL || accion == PINIABAJA || accion == PINIAALTA){
 					cambiarAccionA(PINIASALTANDODIAGONAL);
 				}
 			case CAERPORGANCHO:
@@ -160,6 +162,7 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 				break;			
 			
+			case GANCHO:
 			case PATADAALTAAGACHADO:
 			case PATADABAJAAGACHADO:	
 			case PINIAAGACHADO:			
@@ -181,8 +184,7 @@ void Personaje::activarAccion(accion_posible accion){
 			case ARROJARARMA:
 			case PINIABAJA:
 			//~ case PINIAAGACHADO:
-			case PINIAALTA:
-			case GANCHO:
+			case PINIAALTA:			
 			case TRABA:
 			case ROUNDKICK:
 			case LEVANTARSEDELGANCHO:
@@ -373,9 +375,11 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual->setDireccionDerecha();
 			break;	
 		case PINIAALTA:
+			gritar();
 			this->accionActual = this->estado->piniaAlta;
 			break;
 		case PINIABAJA:
+			gritar();
 			this->accionActual = this->estado->piniaBaja;
 			break;
 		case PINIAAGACHADO:
@@ -463,6 +467,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 				this->accionActual->setInvertirSecuencia();
 				this->accionActual->setDireccionIzquierda();
 			}
+			break;
+		case RECIBIRGOLPEAGACHADO:
+			this->accionActual = this->estado->recibirGolpeAgachado;
 			break;
 		case CAERPORTRABA:
 			this->accionActual = this->estado->recibirTraba;
@@ -661,4 +668,8 @@ void Personaje::Dibujarse(){
 	
 	}
 	 
+}
+
+void Personaje::gritar(){
+	Mix_PlayChannel(-1, pinia_sonido, 0);
 }

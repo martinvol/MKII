@@ -13,123 +13,116 @@ and may not be redistributed without written permission.*/
 #include <SDL2/SDL_image.h>
 #include <cstdlib>
 #include <stdio.h>
+#include <cmath>
+
+using namespace std;
+
+//RGB Default Transparent
+Uint8 RT = 255;
+Uint8 BT = 0;
+Uint8 GT = 255;
 
 
-    typedef struct {
+typedef struct {
     double r;       // percent
     double g;       // percent
     double b;       // percent
 } rgb;
 
-    typedef struct {
+typedef struct {
     double h;       // angle in degrees
     double s;       // percent
     double v;       // percent
 } hsv;
 
-    static hsv      rgb2hsv(rgb in);
-    static rgb      hsv2rgb(hsv in);
 
-hsv rgb2hsv(rgb in)
-{
-    hsv         out;
-    double      min, max, delta;
+double max3(double a, double b, double c) {
+    if ((a >= b) && (a >= c)) return a;
+    if ((b >= a) && (b >= c)) return b;
+    return c;
+}
 
-    min = in.r < in.g ? in.r : in.g;
-    min = min  < in.b ? min  : in.b;
+double min3(double a, double b, double c) {
+    if ((a <= b) && (a <= c)) return a;
+    if ((b <= a) && (b <= c)) return b;
+    return c;
+}
 
-    max = in.r > in.g ? in.r : in.g;
-    max = max  > in.b ? max  : in.b;
 
-    out.v = max;                                // v
-    delta = max - min;
-    if( max > 0.0 ) { // NOTE: if Max is == 0, this divide would cause a crash
-        out.s = (delta / max);                  // s
-    } else {
-        // if max is 0, then r = g = b = 0              
-            // s = 0, v is undefined
-        out.s = 0.0;
-        out.h = NAN;                            // its now undefined
-        return out;
-    }
-    if( in.r >= max )                           // > is bogus, just keeps compilor happy
-        out.h = ( in.g - in.b ) / delta;        // between yellow & magenta
-    else
-    if( in.g >= max )
-        out.h = 2.0 + ( in.b - in.r ) / delta;  // between cyan & yellow
-    else
-        out.h = 4.0 + ( in.r - in.g ) / delta;  // between magenta & cyan
 
-    out.h *= 60.0;                              // degrees
-
-    if( out.h < 0.0 )
-        out.h += 360.0;
-
+hsv RGBaHSV(rgb in) {
+// Taken from Wikipedia
+    hsv out;
+    
+    double max = max3(in.r, in.g, in.b);
+    double min = min3(in.r, in.g, in.b);
+    
+    if (min == max) out.h = NAN; 
+     
+    else if ((max == in.r) && (in.g >= in.b)) out.h = 60.0 * ((in.g - in.b) / (max - min)) + 0.0;
+    else if ((max == in.r) && (in.g < in.b)) out.h = 60.0 * ((in.g - in.b) / (max - min)) + 360.0;
+    else if (max == in.g) out.h = 60.0 * ((in.b - in.r) / (max - min)) + 120.0;
+    else if (max == in.b) out.h = 60.0 * ((in.r - in.g) / (max - min)) + 240.0;
+    
+    if (max == 0) out.s = 0;
+    else out.s = 1 - (min/max);
+    
+    out.v = max;
+    
     return out;
 }
 
+void setHBetweenZeroAndTwoPi(double* h) {
+    while ((*h < 0.0) || (*h >= 360.0)) *h += (-1)*(abs(*h)/(*h))*360.0;
+}
 
-rgb hsv2rgb(hsv in)
-{
-    double      hh, p, q, t, ff;
-    long        i;
-    rgb         out;
+rgb HSVaRGB(hsv in) {
+// Tambien taken from Wiki
 
-    if(in.s <= 0.0) {       // < is bogus, just shuts up warnings
-        out.r = in.v;
-        out.g = in.v;
-        out.b = in.v;
-        return out;
-    }
-    hh = in.h;
-    if(hh >= 360.0) hh = 0.0;
-    hh /= 60.0;
-    i = (long)hh;
-    ff = hh - i;
-    p = in.v * (1.0 - in.s);
-    q = in.v * (1.0 - (in.s * ff));
-    t = in.v * (1.0 - (in.s * (1.0 - ff)));
-
-    switch(i) {
-    case 0:
+    rgb out;
+    setHBetweenZeroAndTwoPi(&(in.h));
+    
+    long h_i = ((long)in.h) / 60; // Hay un mod 6 pero no le doy bola.
+    double f = (in.h / 60.0) - h_i; // Tambien hay otro mod 6 pero tampoco le doy bola.
+    
+    double p = in.v * (1 - in.s);
+    double q = in.v * (1 - f*(in.s));
+    double t = in.v * (1 - (1 - f)*in.s);
+    
+    if (h_i == 0) {
         out.r = in.v;
         out.g = t;
         out.b = p;
-        break;
-    case 1:
+    }
+    else if (h_i == 1) {
         out.r = q;
         out.g = in.v;
         out.b = p;
-        break;
-    case 2:
+    }
+    else if (h_i == 2) {
         out.r = p;
         out.g = in.v;
         out.b = t;
-        break;
-
-    case 3:
+    }
+    else if (h_i == 3) {
         out.r = p;
         out.g = q;
         out.b = in.v;
-        break;
-    case 4:
+    }
+    else if (h_i == 4) {
         out.r = t;
         out.g = p;
         out.b = in.v;
-        break;
-    case 5:
-    default:
+    }
+    else if (h_i == 5) {
         out.r = in.v;
         out.g = p;
         out.b = q;
-        break;
     }
-    return out;     
+    
+    return out;
 }
 
-
-
-using namespace std;
 
 LTexture::LTexture(SDL_Renderer* ren)
 {
@@ -183,24 +176,40 @@ bool LTexture::loadFromRenderedText( string textureText, SDL_Color textColor )
 #endif
 
 bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int hue_offset){
+
+    hue_offset = (( hue_offset % 360 ) + 360 ) % 360;
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-	
+	//printf("Bits: %d \n", loadedSurface->format->BitsPerPixel);
 	SDL_LockSurface(loadedSurface);
 	
 	Uint8 r, g, b, a;
-	Uint8* pixels = (Uint8*)loadedSurface->pixels;
-	int pixelCount = ( loadedSurface->pitch ) * loadedSurface->h; 
+	Uint32* pixels = (Uint32*) loadedSurface->pixels;
+	int pixelCount = ( loadedSurface->pitch/4 ) * loadedSurface->h; 
 
-		for( int i = 0; i < pixelCount; ++i ) {
+    SDL_SetColorKey(loadedSurface,SDL_TRUE,SDL_MapRGB(loadedSurface->format,RT,BT,GT));
+
+	for( int i = 0; i < pixelCount; ++i ) {
 		SDL_GetRGBA(pixels[i], loadedSurface->format, &r, &g, &b, &a);
-		rgb in;
-		in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
-		hsv out = rgb2hsv(in);
+        // printf("r:%d g:%d b:%d\n", r, g, b);
+        rgb in;
+        in.r = r/255.0; in.g = g/255.0; in.b = b/255.0;
+		//hsv out = rgb2hsv(in);
+		hsv out = RGBaHSV(in);
+        //printf("h:%f s:%f v:%f \n", out.h, out.s, out.v);
 		if ((hue_init <= out.h) && (out.h <= hue_final)) { 
 			out.h += hue_offset;
-			in = hsv2rgb(out);
-			r = in.r*255; g = in.g*255; b = in.b*255; 
+			if (out.h >= 360.0) out.h -= 360.0;
+			//in = hsv2rgb(out);
+            // printf("h:%f s:%f v:%f \n", out.h, out.s, out.v);
+			in = HSVaRGB(out);
+            r =in.r*255; g = in.g*255; b = in.b*255; 
+            // r = (Uint8) in.r*255.; g = (Uint8) in.g*255.; b = (Uint8) in.b*255.; 
+            // printf("r:%d g:%d b:%d\n", r, g, b);
+            /*r = 0;
+            g = 0;
+            b = 0;*/
 			pixels[i] = SDL_MapRGBA(loadedSurface->format, r, g, b, a);
+            //puts("");
 		}
 	}
 	

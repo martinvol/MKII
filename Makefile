@@ -1,6 +1,6 @@
 CFLAGS=-g -Wall -std=c++11 -pedantic -O3 
 JSONFLAGS = -ljsoncpp
-SDLFLAGS= -w -lSDL2
+SDLFLAGS= -w -lSDL2 -lSDL2_mixer -lSDL2
 IMGFLAGS = -lSDL2_image
 FONTFLAGS = -lSDL2_ttf
 JSONTEST = "pruebas/integracion.json"
