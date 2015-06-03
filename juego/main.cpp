@@ -395,11 +395,11 @@ void pelear(SDL_Event* evento){
 		}
 		if (director->seMurio(0)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
-            this->reiniciarJuego();
+            // this->reiniciarJuego();
             return;
         } else if (director->seMurio(1)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
-             this->reiniciarJuego();
+             //this->reiniciarJuego();
             return;
         }
     }
@@ -517,7 +517,10 @@ void crear_personajes(){
         SDL_JoystickClose(Player2);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         delete this->parser;	// Elimina sus propias capas.
-        if (director != NULL) delete this->director; 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
+        if (director != NULL){
+            delete this->director;
+            director = NULL;
+         } 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
         else {
 			delete this->ventana;
 		}
