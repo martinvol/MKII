@@ -6,10 +6,12 @@
 
 class AI {
 	private:
-		accion_posible accActH;
+		//accion_posible accActH;
 		accion_posible accAntH;
 		accion_posible accAntS;
-		accion_posible accActS;	
+		//accion_posible accActS;
+		bool updateH(); 
+		bool updateS();	
 	public:
 		Personaje* personajeAI;
 		Personaje* personajeHumano;

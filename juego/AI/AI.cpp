@@ -49,6 +49,25 @@ void cleanController(Personaje* p) {
 	p->PatadaBaja = p->ArrojarArma = p->CubrirAlto = false;
 }
 
+bool updateH(){
+	if (accAntH != this->personajeHumano->nroAccionActual) {
+		accAntH = this->personajeHumano->nroAccionActual;
+		return true;
+	}
+	return false;
+}
+
+bool updateS(){
+	if (accAntS != this->personajeAI->nroAccionActual) {
+		accAntS = this->personajeAI->nroAccionActual;
+		if (this->personajeAI->nroAccionActual == CAMINAR_DERECHA || 
+			this->personajeAI->nroAccionActual == CAMINAR_IZQUIERDA)
+				cleanController(this->personajeAI);
+		return true;
+	}
+	return false;
+}
+
 void AI::reaccionar(){
 // Esta funcion en primera instancia, modificara los flags internos
 // del joystick del personaje.
