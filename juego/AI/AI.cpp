@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define PROBA_REACCION 0.76
+#define PROBA_REACCION 1
 
 #define RG1 p1->ancho/2
 #define RG2 p1->ancho*2
@@ -82,6 +82,13 @@ bool AI::updateWhere() {
 	return false;
 }
 
+bool seAcerca(Personaje* p) {
+	return ((left(p) && p->nroAccionActual == CAMINAR_IZQUIERDA) ||
+			(left(p) && p->nroAccionActual == SALTARDIAGONAL_IZQ) ||
+			(!left(p) && p->nroAccionActual == SALTARDIAGONAL_DER) ||
+			(!left(p) && p->nroAccionActual == CAMINAR_DERECHA));
+}
+
 void AI::reaccionar(){
 // Esta funcion en primera instancia, modificara los flags internos
 // del joystick del personaje.
@@ -95,9 +102,21 @@ void AI::reaccionar(){
 
 // 	Para poder usarlo, setear la constante USAR_AI en true en el main ! 
 	
-	//if (ran01() > PROBA_REACCION) return;
+	if (ran01() > PROBA_REACCION) return;
 	
-	if (!(this->updateH() && this->updateWhere())) return;
-	
-	this->personajeAI->CubrirAlto = !this->personajeAI->CubrirAlto;	
+	bool actualizarDist = this->updateWhere();
+	bool actualizarHumano = this->updateH();
+	//if (!(this->updateH() && this->updateWhere())) return;
+	if (this->where == FAR) {
+		//% Tirar proyectil o acercarse
+		if (!seAcerca(this->personajeHumano)) {
+			this->personajeAI->Izquierda = left(this->personajeAI);
+			this->personajeAI->Derecha = !left(this->personajeAI);
+		}
+	} else if (this->where == MID) {
+		cleanController(this->personajeAI);
+	} else if (this->where == CLOSE) {
+		cleanController(this->personajeAI);
+	} 
+	updateH();	
 }
