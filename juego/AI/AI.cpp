@@ -89,6 +89,54 @@ bool seAcerca(Personaje* p) {
 			(!left(p) && p->nroAccionActual == CAMINAR_DERECHA));
 }
 
+/*******************************************************************
+ *************************** COMBINACIONES *************************
+ *******************************************************************/
+
+void traba(Personaje* p) {
+	p->PatadaBaja = true;
+	p->Izquierda = !left(p);
+	p->Derecha = left(p);
+}
+
+void gancho(Personaje* p) {
+	p->Abajo = true;
+	p->PiniaAlta = true;
+}
+
+void roundkick(Personaje* p) {
+	p->PatadaAlta = true;
+	p->Izquierda = !left(p);
+	p->Derecha = left(p);
+}
+
+void acercarsesaltando(Personaje* p) {
+	p->Arriba = true;
+	p->Izquierda = left(p);
+	p->Derecha = !left(p);
+}
+
+void alejarsesaltando(Personaje* p) {
+	p->Arriba = true;
+	p->Izquierda = !left(p);
+	p->Derecha = left(p);
+}
+
+void acercarse(Personaje* p){
+	p->Izquierda = left(p);
+	p->Derecha = !left(p);
+}
+
+void alejarse(Personaje* p){
+	p->Izquierda = !left(p);
+	p->Derecha = left(p);
+}
+
+
+/*******************************************************************
+ *********************** Funciones PUBLICAS ************************
+ *******************************************************************/
+
 void AI::reaccionar(){
 // Esta funcion en primera instancia, modificara los flags internos
 // del joystick del personaje.
@@ -114,7 +162,18 @@ void AI::reaccionar(){
 			this->personajeAI->Derecha = !left(this->personajeAI);
 		}
 	} else if (this->where == MID) {
-		cleanController(this->personajeAI);
+		if (actualizarHumano) {
+			if (this->accAntH == QUIETO) this->personajeAI->PatadaBaja = true;
+			else if ((this->accAntH == CAMINAR_IZQUIERDA && left(this->personajeHumano)) ||
+					  this->accAnt == CAMINAR_DERECHA && !left(this->personajeHumano)) 
+					traba(this->personajeAI);
+			else if ((this->accAntH == CAMINAR_IZQUIERDA && !left(this->personajeHumano)) ||
+					  this->accAnt == CAMINAR_DERECHA && left(this->personajeHumano)) 
+					//% Proyectil
+					std::cout << "AI deberia tirar proyectil" << std::endl; ///
+			else if (this->accAntH == AGACHARSE) 
+		}
+		//cleanController(this->personajeAI);
 	} else if (this->where == CLOSE) {
 		cleanController(this->personajeAI);
 	} 
