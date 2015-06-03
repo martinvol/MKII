@@ -10,13 +10,12 @@
 #define RG1 p1->ancho/2
 #define RG2 p1->ancho*2
 
-typedef enum {CLOSE, MID, FAR} Rg;
-
 AI::AI(Personaje* personajeAI, Personaje* personajeHumano) {
 	
 	this->personajeAI = personajeAI;
 	this->personajeHumano = personajeHumano;
 	srand (static_cast <unsigned> (time(0)));
+	this->where = RgDist(personajeAI, personajeHumano); ///
 }
 
 float ran01() {
@@ -65,6 +64,17 @@ bool updateS(){
 				cleanController(this->personajeAI);
 		return true;
 	}
+	return false;
+}
+
+bool updateWhere() {
+	Rg range = RgDist(this->personajeHumano, this->personajeAI);
+	
+	if (this->where != range) {
+		this->where = range;
+		return true;
+	}
+	
 	return false;
 }
 
