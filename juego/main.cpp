@@ -381,18 +381,7 @@ void pelear(SDL_Event* evento){
         if(timerFps < 1.*1000./CONST_MAXI_DELAY){
             SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
         }
-        ///ESTO NO ES DEBUG, VA EN EL FINAL.
-        ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
-        ///CODEEN SIN JOYSTICK
-        if (Player1 == NULL){
-			logger->log_error("Joystick 1 Desconectado");			
-			pausa = true;			
-		}
-		//~ 
-		if (Player2 == NULL){
-			logger->log_error("Joystick 2 Desconectado");			
-			//~ pausa = true;			
-		}
+
 		if (director->seMurio(0)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
             // this->reiniciarJuego();
