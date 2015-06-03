@@ -7,6 +7,11 @@
 
 #define PROBA_REACCION 0.76
 
+#define RG1 this->personajeAI->ancho/2;
+#define RG2 this->personajeAI->ancho*2;
+
+typedef enum {CLOSE, MID, FAR} Rg;
+
 AI::AI(Personaje* personajeAI, Personaje* personajeHumano) {
 	
 	this->personajeAI = personajeAI;
@@ -31,6 +36,12 @@ float dist(Personaje* p1, Personaje* p2) {
 	dist_c(p1->obtenerCoordenadaIzqInf(), p2->obtenerCoordenadaDerInf()));
 }
 
+Rg RgDist(Personaje* p1, Personaje* p2) {
+	float dist = dist(p1, p2);
+	if (dist <= RG1) return CLOSE;
+	if (dist <= RG2 && dist > RG1) return MID;
+	return FAR;
+}
 
 void AI::reaccionar(){
 // Esta funcion en primera instancia, modificara los flags internos
@@ -47,5 +58,5 @@ void AI::reaccionar(){
 	
 	if (ran01() > PROBA_REACCION) return;
 	
-	this->personajeAI->CubrirAlto = !this->personajeAI->CubrirAlto;	
+	
 }
