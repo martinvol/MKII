@@ -33,8 +33,8 @@ float dist_c(CoordenadaLogica* c1, CoordenadaLogica* c2) {
 }
 
 float dist(Personaje* p1, Personaje* p2) {
-	return (left(p1)? dist_c(p1->obtenerCoordenadaDerInf(), p2->obtenerCoordenadaIzqInf()):
-	dist_c(p1->obtenerCoordenadaIzqInf(), p2->obtenerCoordenadaDerInf()));
+	return (left(p1)? dist_c(p1->obtenerCoordenadaIzqInf(), p2->obtenerCoordenadaDerInf()):
+	dist_c(p1->obtenerCoordenadaDerInf(), p2->obtenerCoordenadaIzqInf()));
 }
 
 Rg RgDist(Personaje* p1, Personaje* p2) {
