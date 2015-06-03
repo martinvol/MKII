@@ -46,6 +46,8 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	this->siendoarrojado = new SiendoArrojado(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0.5*VELOCIDAD_VERTICAL*(alto_personaje / ancho_escenario), 2*alto_personaje, hue_init, hue_fin, hue_offset);
 	this->arrojarproyectil = new ArrojarProyectil(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
 	
+	this->ganar = new Ganar(ruta, ren, VELOCIDAD_HORIZONTAL*(ancho_personaje / ancho_ventana), 0, 0, hue_init, hue_fin, hue_offset);
+	
 	this->piniaBaja->setDanio(50);
 	this->patadaDiag->setDanio(50);
 	this->piniaAlta->setDanio(70);
@@ -102,4 +104,5 @@ Estado::~Estado(){
 	delete this->levantarseDelGancho;
 	delete this->arrojarproyectil;
 	delete this->recibirGolpeAgachado;
+	delete this->ganar;
 }
