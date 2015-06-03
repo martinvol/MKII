@@ -2,8 +2,14 @@
 #define AI_H
 
 #include "../Personaje/Personaje.hpp"
+#include "../Personaje/Acciones/Accion.hpp"
 
 class AI {
+	private:
+		accion_posible accActH;
+		accion_posible accAntH;
+		accion_posible accAntS;
+		accion_posible accActS;	
 	public:
 		Personaje* personajeAI;
 		Personaje* personajeHumano;

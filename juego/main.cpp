@@ -29,7 +29,7 @@ using namespace std;
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
-#define USAR_AI false
+#define USAR_AI true
 
 Logger *logger = Logger::instance();
 
