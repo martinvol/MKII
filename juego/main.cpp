@@ -31,6 +31,8 @@ using namespace std;
 
 #define USAR_AI false
 
+#define TIME_DIV 1000
+
 Logger *logger = Logger::instance();
 
 
@@ -232,7 +234,7 @@ public:
         barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
 		
-        this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
+        this->timer = new Timer(TIME_DIV, IMG_DEFAULT, conversor, renderer);
         this->timer->reset(SDL_GetTicks());
         
         if (SDL_InitSubSystem ( SDL_INIT_JOYSTICK ) < 0){
@@ -641,6 +643,8 @@ void Controlador(SDL_Event *evento){
 void ActualizarModelo(Personaje* personaje){
 	
 	if ((this->ai != NULL ) && (personaje == this->ai->personajeAI)) this->ai->reaccionar();
+	
+	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
 	
 	if (personaje->nroAccionActual == PATADABAJAAGACHADO){
 		personaje->activarAccion(PATADABAJAAGACHADO);
