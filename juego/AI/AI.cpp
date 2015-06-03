@@ -10,6 +10,8 @@
 #define RG1 p1->ancho/2
 #define RG2 p1->ancho*2
 
+Rg RgDist(Personaje* p1, Personaje* p2);
+
 AI::AI(Personaje* personajeAI, Personaje* personajeHumano) {
 	
 	this->personajeAI = personajeAI;
@@ -48,7 +50,7 @@ void cleanController(Personaje* p) {
 	p->PatadaBaja = p->ArrojarArma = p->CubrirAlto = false;
 }
 
-bool updateH(){
+bool AI::updateH(){
 	if (accAntH != this->personajeHumano->nroAccionActual) {
 		accAntH = this->personajeHumano->nroAccionActual;
 		return true;
@@ -56,7 +58,7 @@ bool updateH(){
 	return false;
 }
 
-bool updateS(){
+bool AI::updateS(){
 	if (accAntS != this->personajeAI->nroAccionActual) {
 		accAntS = this->personajeAI->nroAccionActual;
 		if (this->personajeAI->nroAccionActual == CAMINAR_DERECHA || 
@@ -67,7 +69,7 @@ bool updateS(){
 	return false;
 }
 
-bool updateWhere() {
+bool AI::updateWhere() {
 	Rg range = RgDist(this->personajeHumano, this->personajeAI);
 	
 	if (this->where != range) {
@@ -91,7 +93,9 @@ void AI::reaccionar(){
 
 // 	Para poder usarlo, setear la constante USAR_AI en true en el main ! 
 	
-	if (ran01() > PROBA_REACCION) return;
+	//if (ran01() > PROBA_REACCION) return;
 	
+	if (!(this->updateH() && this->updateWhere())) return;
 	
+	this->personajeAI->CubrirAlto = !this->personajeAI->CubrirAlto;	
 }
