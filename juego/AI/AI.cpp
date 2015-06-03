@@ -62,7 +62,9 @@ bool AI::updateS(){
 	if (accAntS != this->personajeAI->nroAccionActual) {
 		accAntS = this->personajeAI->nroAccionActual;
 		if (this->personajeAI->nroAccionActual == CAMINAR_DERECHA || 
-			this->personajeAI->nroAccionActual == CAMINAR_IZQUIERDA)
+			this->personajeAI->nroAccionActual == CAMINAR_IZQUIERDA ||
+			this->personajeAI->nroAccionActual == CUBRIRALTO ||
+			this->personajeAI->nroAccionActual == CUBRIRBAJO)
 				cleanController(this->personajeAI);
 		return true;
 	}
