@@ -313,7 +313,7 @@ void game_loop(){
 			}
 			
 			modo modo_a_cambiar = controlador->procesarEvento(&evento);
-			
+
 			SDL_RenderClear(renderer);
 			menu->Dibujarse();
 			SDL_RenderPresent(renderer);
@@ -325,6 +325,15 @@ void game_loop(){
 				comenzar_escenario_de_pelea();
 				crear_personajes();
 				pelear(&evento);
+                modo_actual  = MENU;
+                modo_a_cambiar = MENU;
+
+                delete menu;
+                Menu* menu = new Menu (renderer, ventana);
+                delete controlador;
+                ControladorMenu* controlador = new ControladorMenu(menu);
+                // Acá me parece que pierde memoria,
+                // queda el director vivo
 			} else
 			if (modo_a_cambiar == Practica) {
 				modo_actual = Practica;
@@ -350,65 +359,50 @@ void game_loop(){
 }
 		
 void pelear(SDL_Event* evento){
-        while (!salir){					
+    while (!salir){					
 
-            timerFps = SDL_GetTicks();
-            Controlador(evento);       //Controlador
-            if (!pausa){
-                
-                // t1 = SDL_GetTicks();
-                ActualizarModelo(personajeJuego1);     //Modelo 
-                ActualizarModelo(personajeJuego2);
-                // cout << SDL_GetTicks()-t1<< " 1"<<endl;
-
-                // t1 = SDL_GetTicks();
-                this->director->actualizar();                
-                //Detecto desconectados-conectados en caliente.
-                // cout << SDL_GetTicks()-t1<< " 2"<<endl;
-                
-                // t1 = SDL_GetTicks();
-                //cout << n<< " cierro"<<endl;
-                // SDL_JoystickClose(Player1);
-                // SDL_JoystickClose(Player2);
-                // // t1 = SDL_GetTicks();
-                // Player1 = SDL_JoystickOpen(0); 
-                // Player2 = SDL_JoystickOpen(1); 
-                // cout << SDL_GetTicks()-t1<< " 4"<<endl;
-                // cout << SDL_GetTicks()-t1<< " 3"<<endl;
-                //cout << n<< " ita"<<endl;
-
-
-
-            }
-            DibujarTodo();              //Vista
-            SDL_FlushEvent(SDL_KEYDOWN);
-
-            //SDL_Delay(150);
-            timerFps = SDL_GetTicks() - timerFps;
+        timerFps = SDL_GetTicks();
+        Controlador(evento);       //Controlador
+        if (!pausa){
             
-            if(timerFps < 1.*1000./CONST_MAXI_DELAY){
-                SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
-            }
-            ///ESTO NO ES DEBUG, VA EN EL FINAL.
-            ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
-            ///CODEEN SIN JOYSTICK
-            if (Player1 == NULL){
-				logger->log_error("Joystick 1 Desconectado");			
-				pausa = true;			
-			}
-			//~ 
-			if (Player2 == NULL){
-				logger->log_error("Joystick 2 Desconectado");			
-				//~ pausa = true;			
-			}
-			if (director->seMurio(0)){
-                logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
-                this->reiniciarJuego();
-            } else if (director->seMurio(1)){
-                logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
-                 this->reiniciarJuego();
-            }
+            // t1 = SDL_GetTicks();
+            ActualizarModelo(personajeJuego1);     //Modelo 
+            ActualizarModelo(personajeJuego2);
+            this->director->actualizar();                
+
+
         }
+        DibujarTodo();              //Vista
+        SDL_FlushEvent(SDL_KEYDOWN);
+
+        //SDL_Delay(150);
+        timerFps = SDL_GetTicks() - timerFps;
+        
+        if(timerFps < 1.*1000./CONST_MAXI_DELAY){
+            SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
+        }
+        ///ESTO NO ES DEBUG, VA EN EL FINAL.
+        ///ESTA COMENTADO PARA QUE NO MOLESTE CUANDO
+        ///CODEEN SIN JOYSTICK
+        if (Player1 == NULL){
+			logger->log_error("Joystick 1 Desconectado");			
+			pausa = true;			
+		}
+		//~ 
+		if (Player2 == NULL){
+			logger->log_error("Joystick 2 Desconectado");			
+			//~ pausa = true;			
+		}
+		if (director->seMurio(0)){
+            logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+            this->reiniciarJuego();
+            return;
+        } else if (director->seMurio(1)){
+            logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+             this->reiniciarJuego();
+            return;
+        }
+    }
 
 }
 
@@ -496,6 +490,9 @@ void crear_personajes(){
 	this->timer->reset(SDL_GetTicks());
 
 }
+
+
+
 
 //----------------------------------------------------------------
 //----------------------------------------------------------------

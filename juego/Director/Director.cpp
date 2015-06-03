@@ -401,7 +401,7 @@ void Director::verificar_movimientos(){
 				if (coli){
 					Logger::instance()->log_debug("Le pego el arrojable!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
-					float danio = 30;
+					float danio = 100;
 					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
 						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
 						danio = danio/4;

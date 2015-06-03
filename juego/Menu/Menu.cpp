@@ -72,6 +72,9 @@ Menu::~Menu(){
 	SDL_DestroyTexture(fondo);
 	SDL_DestroyTexture(opcion);
 	SDL_DestroyTexture(seleccion);
+	for (unsigned int i = 0; i < botones.size(); i++){
+		delete botones[i];
+	}
 }
 
 void Menu::Dibujarse(){
