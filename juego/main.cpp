@@ -517,13 +517,10 @@ void crear_personajes(){
         SDL_JoystickClose(Player2);
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
         delete this->parser;	// Elimina sus propias capas.
-        if (director != NULL){
-            delete this->director;
-            director = NULL;
-         } 	// Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario, ventana
-        else {
-			delete this->ventana;
-		}
+        delete this->director;
+        director = NULL;
+        // Elimina, conversor, jugadores (personajes y barras de vida), timer, escenario
+		delete this->ventana;
         if (this->ai != NULL) delete this->ai;
         Mix_FreeMusic(musica_fondo);
 

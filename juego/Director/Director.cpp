@@ -22,7 +22,6 @@ Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenada
 
 Director::~Director(){
 	delete escenario;
-	delete ventana;
 	delete conversor;
 	for (unsigned int i = 0; i <= jugadores.size() -1; i++){
         delete jugadores[i];
