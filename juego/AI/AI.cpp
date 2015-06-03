@@ -7,8 +7,8 @@
 
 #define PROBA_REACCION 0.76
 
-#define RG1 this->personajeAI->ancho/2;
-#define RG2 this->personajeAI->ancho*2;
+#define RG1 p1->ancho/2
+#define RG2 p1->ancho*2
 
 typedef enum {CLOSE, MID, FAR} Rg;
 
@@ -37,10 +37,16 @@ float dist(Personaje* p1, Personaje* p2) {
 }
 
 Rg RgDist(Personaje* p1, Personaje* p2) {
-	float dist = dist(p1, p2);
-	if (dist <= RG1) return CLOSE;
-	if (dist <= RG2 && dist > RG1) return MID;
+	float d = dist(p1, p2);
+	if (d <= RG1) return CLOSE;
+	if ((d <= RG2) && (d > RG1)) return MID;
 	return FAR;
+}
+
+void cleanController(Personaje* p) {
+	p->Nada = p->Izquierda = p->Derecha = p->Arriba =
+	p->Abajo = p->PiniaAlta = p->PiniaBaja = p->PatadaAlta =
+	p->PatadaBaja = p->ArrojarArma = p->CubrirAlto = false;
 }
 
 void AI::reaccionar(){
