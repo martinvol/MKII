@@ -92,6 +92,9 @@ public:
     double t = 5.0;
     bool pausa = false;
     bool salir = false, salir_pelea = false;
+    Menu* menu;
+    ControladorMenu* controlador;
+    modo modo_a_cambiar;
     bool cambiarModo = false;
     float timerFps;
 
@@ -299,13 +302,13 @@ void game_loop(){
         SDL_DestroyTexture(splash);
 
 
-        Menu* menu = new Menu (renderer, ventana);
+        menu = new Menu (renderer, ventana);
         SDL_RenderClear(renderer);
         menu->Dibujarse();
         SDL_RenderPresent(renderer);
 
 
-        ControladorMenu* controlador = new ControladorMenu(menu);
+        controlador = new ControladorMenu(menu);
         while (!salir){
             SDL_FlushEvent(SDL_KEYDOWN);
             ControladorBasico(&evento);
@@ -314,7 +317,7 @@ void game_loop(){
             }
             
 			salir_pelea = false;
-            modo modo_a_cambiar = controlador->procesarEvento(&evento);
+            modo_a_cambiar = controlador->procesarEvento(&evento);
 
             SDL_RenderClear(renderer);
             menu->Dibujarse();
@@ -327,15 +330,7 @@ void game_loop(){
                 comenzar_escenario_de_pelea();
                 crear_personajes();
                 pelear(&evento);      
-                modo_actual  = MENU;
-                modo_a_cambiar = MENU;
-                delete menu;
-                Menu* menu = new Menu (renderer, ventana);
-                delete controlador;
-                ControladorMenu* controlador = new ControladorMenu(menu);
-                delete director;
-                director = NULL;
-                SDL_Delay(100);
+                salir_de_modo();
             } else
             if (modo_a_cambiar == Practica) {
                 modo_actual = Practica;
@@ -346,15 +341,7 @@ void game_loop(){
                 crear_personajes_practica();
 
                 pelear(&evento);
-                modo_actual  = MENU;
-                modo_a_cambiar = MENU;
-                delete menu;
-                Menu* menu = new Menu (renderer, ventana);
-                delete controlador;
-                ControladorMenu* controlador = new ControladorMenu(menu);
-                delete director;
-                director = NULL;
-                SDL_Delay(100);
+                salir_de_modo();
             } else
             if (modo_a_cambiar == CPU) {
                 modo_actual = CPU;
@@ -367,6 +354,18 @@ void game_loop(){
                 pelear(&evento);
             }
 		}
+}
+
+void salir_de_modo(){
+    modo_actual  = MENU;
+    modo_a_cambiar = MENU;
+    delete menu;
+    Menu* menu = new Menu (renderer, ventana);
+    delete controlador;
+    ControladorMenu* controlador = new ControladorMenu(menu);
+    delete director;
+    director = NULL;
+    SDL_Delay(100);
 }
 		
 void pelear(SDL_Event* evento){
