@@ -1,7 +1,11 @@
+
+#include "DirectorPractica.hpp"
+
+
 #include <sstream>
 
 
-#include "Director.hpp"
+#include "DirectorPractica.hpp"
 #include "../Logger/Logger.hpp"
 
 /*********************************************************************
@@ -10,30 +14,25 @@
  * 
  *********************************************************************/
 
-
-Director::Director(){
-
-}
-Director::Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer){
+DirectorPractica::DirectorPractica(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer):Director(escenario, ventana, conversor, y_piso, personaje1, personaje2, barra1, barra2,timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;
 	this->y_piso = y_piso;
-	jugadores.push_back(new Jugador(personaje1, barra1));
-	jugadores.push_back(new Jugador(personaje2, barra2));
-	this->timer = timer;
+	jugadores.push_back(new Jugador(personaje1, NULL));
+	jugadores.push_back(new Jugador(personaje2, NULL)); // el NULL es la barra de vida/
+	this->timer = NULL;
 }
 
-Director::~Director(){
+/*DirectorPractica::~DirectorPractica(){
 	delete escenario;
 	delete conversor;
-	for (unsigned int i = 0; i < jugadores.size(); i++){
+	for (unsigned int i = 0; i <= jugadores.size() -1; i++){
         delete jugadores[i];
     }
     jugadores.clear();
-    delete timer;
 }
-
+*/
 
 /*********************************************************************
  * 
@@ -156,7 +155,7 @@ public:
  * 
  *********************************************************************/
 
-void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
+void DirectorPractica::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 	CoordenadaLogica* temp1=jugador->obtenerCoordenadaIzqInf();
 	CoordenadaLogica* temp2 = jugador->obtenerSiguienteCoordenadaIzqInf();
 	CoordenadaLogica* temp3=elOtro->obtenerCoordenadaIzqInf();
@@ -278,7 +277,7 @@ void Director::verificar_movimiento(Jugador* jugador, Jugador* elOtro){
 
 }
 
-bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
+/*bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 	if (r1== NULL || r2 == NULL){
 		return false;
 	}
@@ -286,7 +285,6 @@ bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2){
 	return out;
 	// return false;
 }
-
 void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre) {
 	
 	if(pegando->accionActual->accionNro == PATADAALTAAGACHADO){
@@ -312,11 +310,11 @@ void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre) {
 	}else sufre->activarAccion(RECIBIRGOLPEALTO);
 	// cout<<sufre->personaje->accionActual->accionNro<<endl;								}
 }
+*/
 
 
 
-void Director::verificar_movimientos(){
-
+void DirectorPractica::verificar_movimientos(){
 	verificar_movimiento(jugadores[jugador1], jugadores[jugador2]);
 	verificar_movimiento(jugadores[jugador2], jugadores[jugador1]);
 
@@ -359,7 +357,7 @@ void Director::verificar_movimientos(){
 								danio = danio/4.;
 							}
 							//Se lo lastima con un numero 0-1000
-							sufre->barra->Lastimar(danio);
+							// sufre->barra->Lastimar(danio);
 							// Esta linea fea hace la conversion numero -> string
 							string result;ostringstream convert;convert << danio;result = convert.str(); 
 							Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
@@ -413,7 +411,7 @@ void Director::verificar_movimientos(){
 					// Esta linea fea hace la conversion numero -> string
 					string result;ostringstream convert;convert << danio;result = convert.str(); 
 					Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
-					jugadores[(i+1)%2]->barra->Lastimar(danio);
+					// jugadores[(i+1)%2]->barra->Lastimar(danio);
 					this->escenario->Temblar(SDL_GetTicks());
 				}
 			}
@@ -422,7 +420,7 @@ void Director::verificar_movimientos(){
 	}
 }
 
-bool Director::sePuedeScrollearDerecha(){
+bool DirectorPractica::sePuedeScrollearDerecha(){
 	float borde_der = this->ventana->obtenerBordeLogicoDerecho(this->conversor);
 	// Si ya está al limite derecho del escenario, no se puede.
 	bool sePuede = not (this->escenario->esLimiteDerecho(borde_der));
@@ -442,7 +440,7 @@ bool Director::sePuedeScrollearDerecha(){
 	return sePuede;
 }
 
-bool Director::sePuedeScrollearIzquierda(){
+bool DirectorPractica::sePuedeScrollearIzquierda(){
 	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
 	// Si ya está al limite izquierdo del escenario, no se puede.
 	bool sePuede = not (this->escenario->esLimiteIzquierdo(borde_izq));
@@ -462,7 +460,7 @@ bool Director::sePuedeScrollearIzquierda(){
 	return sePuede;
 }
 
-void Director::scrollearDerecha(float factor_scroll){
+void DirectorPractica::scrollearDerecha(float factor_scroll){
 	if (not this->sePuedeScrollearDerecha()){
 		return;
 	}
@@ -474,7 +472,7 @@ void Director::scrollearDerecha(float factor_scroll){
 	}
 }
 
-void Director::scrollearIzquierda(float factor_scroll){
+void DirectorPractica::scrollearIzquierda(float factor_scroll){
 	if (not this->sePuedeScrollearIzquierda()) return;
 	float borde_izq = this->ventana->obtenerBordeLogicoIzquierdo(this->conversor);
 	if (this->escenario->esLimiteIzquierdo(borde_izq-factor_scroll))
@@ -482,7 +480,7 @@ void Director::scrollearIzquierda(float factor_scroll){
 	else this->conversor->seMueveVentana(- factor_scroll);
 }
 
-void Director::verificar_orientaciones(){
+void DirectorPractica::verificar_orientaciones(){
 	//~ // Cuando haya dos jugadores, se descomenta.
 	CoordenadaLogica* coord1 = jugadores[jugador1]->obtenerCoordenadaIzqSup();
 	CoordenadaLogica* coord2 = jugadores[jugador2]->obtenerCoordenadaIzqSup();
@@ -513,7 +511,7 @@ void Director::verificar_orientaciones(){
 
 /* Siempre va a pasar por acá antes del actualizar porque si no apretan
  * nada le va a mandar Nada (que sería parar). */
-void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
+void DirectorPractica::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 	switch (jugador){
 		case jugador1:
 			this->mov1 = lugar;
@@ -524,7 +522,7 @@ void Director::seMuevePersonaje(num_jugador jugador, movimiento lugar){
 	}
 }
 
-void Director::actualizar(){
+void DirectorPractica::actualizar(){
 	
 	// Haya cambiado o no de acción, yo sólo debo verificar que no se
 	// vaya del margen o debería scrollear y si no puedo decirle que se
@@ -540,6 +538,6 @@ void Director::actualizar(){
 	verificar_orientaciones();
 }
 
-bool Director::seMurio(int num_jugador){
-	return this->jugadores[num_jugador]->barra->seMurio();
+bool DirectorPractica::seMurio(int num_jugador){
+	return false;
 }
