@@ -332,6 +332,8 @@ void game_loop(){
                 Menu* menu = new Menu (renderer, ventana);
                 delete controlador;
                 ControladorMenu* controlador = new ControladorMenu(menu);
+                delete director;
+                director = NULL;
                 // Acá me parece que pierde memoria,
                 // queda el director vivo
 			} else
