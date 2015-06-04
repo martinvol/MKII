@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "Escenario/BarraDeVida.hpp"
 #include "Escenario/Capa.hpp"
@@ -56,6 +57,7 @@ int InicializarSDL() {
         printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
         return 1;
     }
+    TTF_Init();
     logger->log_debug("SDL cargada correctamente");    
     return 0;
 }

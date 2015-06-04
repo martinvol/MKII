@@ -15,6 +15,8 @@
 #include "../Escenario/BarraDeVida.hpp"
 #include "../Logger/Logger.hpp"
 
+#include "PanelBotones.hpp"
+
 #define JOYSTICK_DEAD_ZONE 10000
 
 
@@ -126,6 +128,7 @@ class Personaje {
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
 	    void _dibujar_botones();
+	    PanelBotones panel;
 };
 
 

@@ -3,6 +3,7 @@
 #include "Personaje.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 
@@ -290,7 +291,6 @@ void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 	
-	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
@@ -299,14 +299,12 @@ void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
 	
-	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseAIzqInf(CoordenadaLogica* coord){
 	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	
-	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseADerInf(CoordenadaLogica* coord){
@@ -314,7 +312,6 @@ void Personaje::moverseADerInf(CoordenadaLogica* coord){
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarX(-ancho);
 	
-	//~ calcularDatosDibujables();
 }
 
 /***********************************************************************
@@ -492,7 +489,6 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		this->accionActual->dibuje_rectangulos = false;	
 	
 	//~ calcularAnchoYAltoImagen();
-	//~ calcularDatosDibujables();
 }
 
 float Personaje::calcularAnchoYAltoImagen(){
@@ -567,7 +563,10 @@ void Personaje::Dibujarse(){
 }
 
 void Personaje::_dibujar_botones(){
+	puts("botones");
 	// acá se dibujan en pantala las cosas
+
+
 }
 /***********************************************************************
  * 
