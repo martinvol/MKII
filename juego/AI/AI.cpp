@@ -89,6 +89,14 @@ bool seAcerca(Personaje* p) {
 			(!left(p) && p->nroAccionActual == CAMINAR_DERECHA));
 }
 
+bool seAleja(Personaje* p) {
+	return ((!left(p) && p->nroAccionActual == CAMINAR_IZQUIERDA) ||
+			(!left(p) && p->nroAccionActual == SALTARDIAGONAL_IZQ) ||
+			(left(p) && p->nroAccionActual == SALTARDIAGONAL_DER) ||
+			(left(p) && p->nroAccionActual == CAMINAR_DERECHA));
+}
+
+
 /*******************************************************************
  *************************** COMBINACIONES *************************
  *******************************************************************/
@@ -153,11 +161,12 @@ void AI::reaccionar(){
 	if (ran01() > PROBA_REACCION) return;
 	
 	bool actualizarDist = this->updateWhere();
+	if (actualizarDist) cleanController(this->personajeAI); ///
 	bool actualizarHumano = this->updateH();
 	//if (!(this->updateH() && this->updateWhere())) return;
 	if (this->where == FAR) {
 		//% Tirar proyectil o acercarse
-		if (!seAcerca(this->personajeHumano)) {
+		if (seAleja(this->personajeHumano)) {
 			this->personajeAI->Izquierda = left(this->personajeAI);
 			this->personajeAI->Derecha = !left(this->personajeAI);
 		}
