@@ -165,13 +165,34 @@ void AI::reaccionar(){
 		if (actualizarHumano) {
 			if (this->accAntH == QUIETO) this->personajeAI->PatadaBaja = true;
 			else if ((this->accAntH == CAMINAR_IZQUIERDA && left(this->personajeHumano)) ||
-					  this->accAnt == CAMINAR_DERECHA && !left(this->personajeHumano)) 
+					  this->accAntH == CAMINAR_DERECHA && !left(this->personajeHumano)) 
 					traba(this->personajeAI);
 			else if ((this->accAntH == CAMINAR_IZQUIERDA && !left(this->personajeHumano)) ||
-					  this->accAnt == CAMINAR_DERECHA && left(this->personajeHumano)) 
+					  this->accAntH == CAMINAR_DERECHA && left(this->personajeHumano)) 
 					//% Proyectil
 					std::cout << "AI deberia tirar proyectil" << std::endl; ///
-			else if (this->accAntH == AGACHARSE) 
+			else if (this->accAntH == AGACHARSE) alejarsesaltando(this->personajeAI);
+			else if (this->accAntH == SALTAR) this->personajeAI->PatadaAlta = true;
+			else if ((this->accAntH == SALTARDIAGONAL_IZQ && left(this->personajeHumano)) ||
+					  this->accAntH == SALTARDIAGONAL_DER && !left(this->personajeHumano))
+					  this->personajeAI->CubrirAlto;
+			else if ((this->accAntH == SALTARDIAGONAL_DER && left(this->personajeHumano)) ||
+					  this->accAntH == SALTARDIAGONAL_IZQ && !left(this->personajeHumano))
+					  acercarse(this->personajeAI); 
+					  //% Tambien probar con tirar patada alta
+			else if (this->accAntH == PINIASALTANDOVERTICAL) this->personajeAI->PatadaAlta;
+			else if (this->accAntH == PATADASALTANDOVERTICAL) alejarse(this->personajeAI);
+			else if (this->accAntH == PATADASALTANDODIAGONAL) alejarse(this->personajeAI);
+			else if (this->accAntH == PINIAALTA) traba(this->personajeAI);
+			else if (this->accAntH == PINIABAJA) traba(this->personajeAI);
+			else if (this->accAntH == PATADAALTA) traba(this->personajeAI);
+			else if (this->accAntH == PATADABAJA) traba(this->personajeAI);
+			else if (this->accAntH == ROUNDKICK) traba(this->personajeAI);
+			else if (this->accAntH == TRABA) alejarsesaltando(this->personajeAI);
+			else if (this->accAntH == GANCHO) traba(this->personajeAI);
+			else if (this->accAntH == RECIBIRGOLPEAGACHADO) acercarsesaltando(this->personajeAI);
+			else if (this->accAntH == CAERPORGANCHO) acercarse(this->personajeAI);
+			else if (this->accAntH == CAERPORTRABA) alejarsesaltando(this->personajeAI);
 		}
 		//cleanController(this->personajeAI);
 	} else if (this->where == CLOSE) {
