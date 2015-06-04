@@ -1,4 +1,4 @@
-CFLAGS=-g -Wall -std=c++11 -pedantic -O3 
+CFLAGS= -g -Wall -std=c++11 -pedantic 
 JSONFLAGS = -ljsoncpp
 SDLFLAGS= -w -lSDL2 -lSDL2_mixer -lSDL2
 IMGFLAGS = -lSDL2_image
@@ -32,6 +32,10 @@ testTiempo: clean
 	$(CC) "pruebas/testTiempo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testTiempo
 	./testTiempo
 	make clean	
+
+Menu.o: juego/Menu/Menu.cpp juego/Menu/ControladorMenu.cpp
+	$(CC) "juego/Menu/Menu.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	$(CC) "juego/Menu/ControladorMenu.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 main.o: juego/main.cpp
 	$(CC) "juego/main.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -247,13 +251,16 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Arrojable.o LTexture.o  Rectangulo.o main.o Capa.o Escenario.o Parser.o RecibirTraba.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Traba.o PatadaAlta.o PatadaBajaAgachado.o PatadaAltaAgachado.o  PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o PiniaEnAire.o PatadaSaltoDiagonal.o PatadaSaltoVertical.o Gancho.o RoundKick.o LevantarseDelGancho.o Levantarse.o RecibirGolpeAgachado.o RecibirGolpeBajo.o RecibirGolpeAlto.o SiendoArrojado.o PiniaAgachado.o ArrojarProyectil.o AI.o
+compilar_juego: Arrojable.o LTexture.o  Rectangulo.o Menu.o main.o Capa.o Escenario.o Parser.o RecibirTraba.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Traba.o PatadaAlta.o PatadaBajaAgachado.o PatadaAltaAgachado.o  PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o PiniaEnAire.o PatadaSaltoDiagonal.o PatadaSaltoVertical.o Gancho.o RoundKick.o LevantarseDelGancho.o Levantarse.o RecibirGolpeAgachado.o RecibirGolpeBajo.o RecibirGolpeAlto.o SiendoArrojado.o PiniaAgachado.o ArrojarProyectil.o AI.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego
 	./juego_ejecutable ${jsonpath}
-	# make clean
+	make clean
 	
+juegoVolpe: juego
+	make juego jsonpath=resources/volpe.json
+
 juegoJsonTest: compilar_juego
 	./juego_ejecutable $(JSONTEST)
 	make clean
