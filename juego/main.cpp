@@ -650,7 +650,7 @@ void Controlador(SDL_Event *evento){
 			SDL_JoystickUpdate();
 			//controlar_joystick();
 			if (personajeJuego1 != NULL) personajeJuego1->ActualizarControlador(Player1, this->parser, evento);	
-            if (modo_actual != Practica){
+            if (modo_actual != Practica && modo_actual != CPU){
                 if (personajeJuego2 != NULL) personajeJuego2->ActualizarControlador(Player2 , this->parser, evento);                    
             }				
 			
