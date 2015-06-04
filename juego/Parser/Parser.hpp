@@ -21,7 +21,8 @@ class Parser {
 
         void set_values (char* file_name);
         void cargarDefault();
-        float ventana_anchopx, ventana_altopx, ventana_ancho;
+        int ventana_anchopx, ventana_altopx;
+        float ventana_ancho;
         float escenario_ancho, escenario_alto, escenario_ypiso;
         float personaje_ancho, personaje_alto, personaje_zindex;
         float personaje2_ancho, personaje2_alto, personaje2_zindex;
