@@ -36,20 +36,21 @@ class Director {
 		movimiento mov1 = Nada;
 		movimiento mov2 = Nada;
 		
-		void verificar_movimientos();
-		void verificar_movimiento(Jugador* jugador, Jugador* elOtro);
-		void verificar_orientaciones();
-		bool sePuedeScrollearDerecha();
-		bool sePuedeScrollearIzquierda();
-		void scrollearDerecha(float factor_scroll);
-		void scrollearIzquierda(float factor_scroll);
+		virtual void verificar_movimientos();
+		virtual void verificar_movimiento(Jugador* jugador, Jugador* elOtro);
+		virtual void verificar_orientaciones();
+		virtual bool sePuedeScrollearDerecha();
+		virtual bool sePuedeScrollearIzquierda();
+		virtual void scrollearDerecha(float factor_scroll);
+		virtual void scrollearIzquierda(float factor_scroll);
 		
 	public:
+		Director();
 		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer);
 		~Director();
 		
 		/* Va a recibir donde intenta moverse, qué intenta hacer. */
-		void seMuevePersonaje(num_jugador jugador, movimiento lugar);
+		virtual void seMuevePersonaje(num_jugador jugador, movimiento lugar);
 		
 		/* Si un personaje se mueve, debe validar:
 		 * que si se va de margen, scrollee la ventana.
@@ -59,9 +60,11 @@ class Director {
 		 * Debe definir para dónde deben mirar considerando el nuevo 
 		 * lugar de los personajes.
 		*/
-		void actualizar();
-		bool seMurio(int num_jugador);
+		virtual void actualizar();
+		virtual bool seMurio(int num_jugador);
 		
 };
 
+bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2);
+void presentarAnimacionRecibirGolpe(Personaje* pegando, Personaje* sufre);
 #endif //DIRECTOR_H
