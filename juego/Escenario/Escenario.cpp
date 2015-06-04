@@ -34,6 +34,7 @@ void Escenario::Temblar(unsigned int ticks) {
 }
     
 Escenario::~Escenario(){
+    puts("se borra el escenario");
 	Borrar();
 }
 

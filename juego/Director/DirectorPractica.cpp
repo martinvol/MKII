@@ -14,7 +14,7 @@
  * 
  *********************************************************************/
 
-DirectorPractica::DirectorPractica(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer):Director(){
+DirectorPractica::DirectorPractica(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer):Director(escenario, ventana, conversor, y_piso, personaje1, personaje2, barra1, barra2,timer){
 	this->escenario = escenario;
 	this->ventana = ventana;
 	this->conversor = conversor;

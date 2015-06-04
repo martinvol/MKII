@@ -47,7 +47,7 @@ class Director {
 	public:
 		Director();
 		Director(Escenario* escenario, Ventana* ventana, ConversorDeCoordenadas* conversor, float y_piso, Personaje* personaje1, Personaje* personaje2, BarraDeVida* barra1, BarraDeVida* barra2, Timer* timer);
-		virtual ~Director();
+		~Director();
 		
 		/* Va a recibir donde intenta moverse, qué intenta hacer. */
 		virtual void seMuevePersonaje(num_jugador jugador, movimiento lugar);

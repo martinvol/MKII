@@ -342,8 +342,9 @@ void game_loop(){
                 logger->log_debug("Debería pasar a: Practica"); ///
                 // Por ahora repito todo.
                 //elegir_personajes()
-                comenzar_escenario_de_practica();
+                comenzar_escenario_de_pelea();
                 crear_personajes_practica();
+
                 pelear(&evento);
                 modo_actual  = MENU;
                 modo_a_cambiar = MENU;
@@ -500,14 +501,6 @@ void crear_personajes(){
     this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
     this->timer->reset(SDL_GetTicks());
 
-}
-
-void comenzar_escenario_de_practica(){
-    this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
-    this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
-                         parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
-    cargar_capas();
-    
 }
 
 void crear_personajes_practica(){

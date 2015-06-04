@@ -19,7 +19,7 @@ class DirectorPractica: public Director {
 		
     private:
 		vector<Jugador*> jugadores;
-		Escenario* escenario;
+		Escenario* escenario=NULL;
 		Ventana* ventana;
 		Timer* timer;
 		ConversorDeCoordenadas* conversor;
