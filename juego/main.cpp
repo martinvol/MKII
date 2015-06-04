@@ -318,7 +318,6 @@ void game_loop(){
             
 			salir_pelea = false;
             modo_a_cambiar = controlador->procesarEvento(&evento);
-
             SDL_RenderClear(renderer);
             menu->Dibujarse();
             SDL_RenderPresent(renderer);
@@ -344,13 +343,14 @@ void game_loop(){
             } else
             if (modo_a_cambiar == CPU) {
                 modo_actual = CPU;
-                //USAR_AI = true;
+                USAR_AI = true;
                 logger->log_debug("Debería pasar a: CPU"); ///
                 // Por ahora repito todo.
                 //elegir_personajes()
                 comenzar_escenario_de_pelea();
                 crear_personajes();
                 pelear(&evento);
+                salir_de_modo();
             }
 		}
 }
@@ -513,6 +513,8 @@ void crear_personajes_practica(){
                                     this->conversor, parser->velocidad_arma,
                                     1, true);
 
+    this->personajeJuego1->dibujar_botones = true;
+
     /* Personaje 2 - derecha */
     // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
     // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
@@ -649,7 +651,7 @@ void Controlador(SDL_Event *evento){
 			SDL_JoystickUpdate();
 			//controlar_joystick();
 			if (personajeJuego1 != NULL) personajeJuego1->ActualizarControlador(Player1, this->parser, evento);	
-            if (modo_actual != Practica){
+            if (modo_actual != Practica && modo_actual != CPU){
                 if (personajeJuego2 != NULL) personajeJuego2->ActualizarControlador(Player2 , this->parser, evento);                    
             }				
 			
