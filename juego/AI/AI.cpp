@@ -61,10 +61,10 @@ bool AI::updateH(){
 bool AI::updateS(){
 	if (accAntS != this->personajeAI->nroAccionActual) {
 		accAntS = this->personajeAI->nroAccionActual;
-		if (this->personajeAI->nroAccionActual == CAMINAR_DERECHA || 
+		if (!(this->personajeAI->nroAccionActual == CAMINAR_DERECHA || 
 			this->personajeAI->nroAccionActual == CAMINAR_IZQUIERDA ||
 			this->personajeAI->nroAccionActual == CUBRIRALTO ||
-			this->personajeAI->nroAccionActual == CUBRIRBAJO)
+			this->personajeAI->nroAccionActual == CUBRIRBAJO))
 				cleanController(this->personajeAI);
 		return true;
 	}
@@ -169,6 +169,7 @@ void AI::reaccionar(){
 		if (seAleja(this->personajeHumano)) {
 			this->personajeAI->Izquierda = left(this->personajeAI);
 			this->personajeAI->Derecha = !left(this->personajeAI);
+			if(this->accAntH == SALTARDIAGONAL_DER || this->accAntH == SALTARDIAGONAL_IZQ) this->personajeAI->Arriba = true;
 		}
 	} else if (this->where == MID) {
 		if (actualizarHumano) {
@@ -211,8 +212,8 @@ void AI::reaccionar(){
 			}
 			else if ((this->accAntH == CAMINAR_IZQUIERDA && left(this->personajeHumano)) ||
 					  this->accAntH == CAMINAR_DERECHA && !left(this->personajeHumano)) {
-					acercarsesaltando(this->personajeAI);
-					this->personajeAI->PatadaAlta = true;
+					//acercarsesaltando(this->personajeAI);
+					this->personajeAI->PatadaBaja = true;
 				}
 			else if ((this->accAntH == CAMINAR_IZQUIERDA && !left(this->personajeHumano)) ||
 					  this->accAntH == CAMINAR_DERECHA && left(this->personajeHumano)) 
@@ -231,7 +232,7 @@ void AI::reaccionar(){
 			else if (this->accAntH == PINIAALTA) this->personajeAI->CubrirAlto = true;
 			else if (this->accAntH == PINIABAJA) this->personajeAI->CubrirAlto = true;
 			else if (this->accAntH == PATADAALTA) alejarse(this->personajeAI);
-			else if (this->accAntH == PATADABAJA) alejarse(this->personajeAI);
+			else if (this->accAntH == PATADABAJA) alejarsesaltando(this->personajeAI);
 			else if (this->accAntH == ROUNDKICK) gancho(this->personajeAI);
 			else if (this->accAntH == TRABA) alejarsesaltando(this->personajeAI);
 			else if (this->accAntH == GANCHO) traba(this->personajeAI);
@@ -245,7 +246,8 @@ void AI::reaccionar(){
 			else if (this->accAntH == CAERPORTRABA) this->personajeAI->PatadaBaja = true;
 			else if (this->accAntH == CUBRIRALTO) traba(this->personajeAI);
 			else if (this->accAntH == CUBRIRBAJO) alejarsesaltando(this->personajeAI);
+			else if (this->accAntS == AGACHARSE) this->personajeAI->PatadaAlta = !this->personajeAI->PatadaAlta;
 		//}
 	} 
-	updateH();	
+	updateS();	
 }
