@@ -344,6 +344,8 @@ void game_loop(){
 				//elegir_personajes()
 				comenzar_escenario_de_pelea();
 				crear_personajes();
+				delete menu;
+				delete controlador;
 				pelear(&evento);
 			} else
 			if (modo_a_cambiar == CPU) {
@@ -354,6 +356,8 @@ void game_loop(){
 				//elegir_personajes()
 				comenzar_escenario_de_pelea();
 				crear_personajes();
+				delete menu;
+				delete controlador;
 				pelear(&evento);
 			}
 			
