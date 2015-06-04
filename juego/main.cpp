@@ -11,6 +11,7 @@
 #include "Coordenadas/ConversorDeCoordenadas.hpp"
 #include "Escenario/Timer.hpp"
 #include "Director/Director.hpp"
+#include "Director/DirectorPractica.hpp"
 #include "AI/AI.hpp"
 #include "Menu/Menu.hpp"
 #include "Menu/ControladorMenu.hpp"
@@ -90,7 +91,7 @@ public:
     SDL_Rect r;
     double t = 5.0;
     bool pausa = false;
-    bool salir = false;
+    bool salir = false, salir_pelea = false;
     bool cambiarModo = false;
     float timerFps;
 
@@ -298,70 +299,77 @@ void game_loop(){
         SDL_DestroyTexture(splash);
 
 
-		Menu* menu = new Menu (renderer, ventana);
-		SDL_RenderClear(renderer);
-		menu->Dibujarse();
-		SDL_RenderPresent(renderer);
+        Menu* menu = new Menu (renderer, ventana);
+        SDL_RenderClear(renderer);
+        menu->Dibujarse();
+        SDL_RenderPresent(renderer);
 
 
-		ControladorMenu* controlador = new ControladorMenu(menu);
-		while (!salir){
-			SDL_FlushEvent(SDL_KEYDOWN);
-			ControladorBasico(&evento);
-			if(usandoJoystick){		
-				SDL_JoystickUpdate();
-			}
-			
-			modo modo_a_cambiar = controlador->procesarEvento(&evento);
+        ControladorMenu* controlador = new ControladorMenu(menu);
+        while (!salir){
+            SDL_FlushEvent(SDL_KEYDOWN);
+            ControladorBasico(&evento);
+            if(usandoJoystick){     
+                SDL_JoystickUpdate();
+            }
+            
+			salir_pelea = false;
+            modo modo_a_cambiar = controlador->procesarEvento(&evento);
 
-			SDL_RenderClear(renderer);
-			menu->Dibujarse();
-			SDL_RenderPresent(renderer);
-			
-			if (modo_a_cambiar == Pelea) {
-				modo_actual = Pelea;
-				logger->log_debug("Debería pasar a: Pelea"); ///
-				//elegir_personajes()
-				comenzar_escenario_de_pelea();
-				crear_personajes();
-				pelear(&evento);
+            SDL_RenderClear(renderer);
+            menu->Dibujarse();
+            SDL_RenderPresent(renderer);
+            
+            if (modo_a_cambiar == Pelea) {
+                modo_actual = Pelea;
+                logger->log_debug("Debería pasar a: Pelea"); ///
+                //elegir_personajes()
+                comenzar_escenario_de_pelea();
+                crear_personajes();
+                pelear(&evento);      
                 modo_actual  = MENU;
                 modo_a_cambiar = MENU;
-
                 delete menu;
                 Menu* menu = new Menu (renderer, ventana);
                 delete controlador;
                 ControladorMenu* controlador = new ControladorMenu(menu);
                 delete director;
                 director = NULL;
-                // Acá me parece que pierde memoria,
-                // queda el director vivo
-			} else
-			if (modo_a_cambiar == Practica) {
-				modo_actual = Practica;
-				logger->log_debug("Debería pasar a: Practica"); ///
-				// Por ahora repito todo.
-				//elegir_personajes()
-				comenzar_escenario_de_pelea();
-				crear_personajes();
-				pelear(&evento);
-			} else
-			if (modo_a_cambiar == CPU) {
-				modo_actual = CPU;
-				//USAR_AI = true;
-				logger->log_debug("Debería pasar a: CPU"); ///
-				// Por ahora repito todo.
-				//elegir_personajes()
-				comenzar_escenario_de_pelea();
-				crear_personajes();
-				pelear(&evento);
-			}
-			
+                SDL_Delay(100);
+            } else
+            if (modo_a_cambiar == Practica) {
+                modo_actual = Practica;
+                logger->log_debug("Debería pasar a: Practica"); ///
+                // Por ahora repito todo.
+                //elegir_personajes()
+                comenzar_escenario_de_practica();
+                crear_personajes_practica();
+                pelear(&evento);
+                modo_actual  = MENU;
+                modo_a_cambiar = MENU;
+                delete menu;
+                Menu* menu = new Menu (renderer, ventana);
+                delete controlador;
+                ControladorMenu* controlador = new ControladorMenu(menu);
+                delete director;
+                director = NULL;
+                SDL_Delay(100);
+            } else
+            if (modo_a_cambiar == CPU) {
+                modo_actual = CPU;
+                //USAR_AI = true;
+                logger->log_debug("Debería pasar a: CPU"); ///
+                // Por ahora repito todo.
+                //elegir_personajes()
+                comenzar_escenario_de_pelea();
+                crear_personajes();
+                pelear(&evento);
+            }
 		}
 }
 		
 void pelear(SDL_Event* evento){
-    while (!salir){					
+    while (!salir_pelea){					
 
         timerFps = SDL_GetTicks();
         Controlador(evento);       //Controlador
@@ -404,7 +412,12 @@ void ControladorBasico(SDL_Event* evento){
 	if (usandoJoystick) SDL_JoystickUpdate();
 	switch(evento->type){			
 		case SDL_QUIT:
-			salir = true;
+            if (modo_actual == MENU && !salir_pelea){
+                puts("salir en true 1");
+                salir = true;
+            } else {
+                salir_pelea = true;
+            }
 			break;
 		case SDL_KEYDOWN:
 			if (evento->key.keysym.sym == SDLK_p)  {
@@ -412,7 +425,12 @@ void ControladorBasico(SDL_Event* evento){
 				true;
 			}
 			if (evento->key.keysym.sym == SDLK_ESCAPE){
-				salir = true;
+				if (modo_actual == MENU && !salir_pelea){
+                    puts("salir en true 2");
+                    salir = true;
+                }else {
+                    salir_pelea = true;
+                }
 			}
 		case SDL_KEYUP:
 			if(evento->key.keysym.sym == SDLK_p)  {                   
@@ -435,54 +453,104 @@ void comenzar_escenario_de_pelea(){
     
 }
 
+
 void crear_personajes(){
 // En realidad recibiría nombre, personaje elegido y si es AI los del 2 serían los de defecto o azar o lo que sea.
-	/* Personaje 1 - izquierda */
+    /* Personaje 1 - izquierda */
 
-	this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-						renderer, parser->personaje_alto, parser->escenario_alto,
-						parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
-	this->personajeJuego1 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
-									"Subzero", renderer, parser->personaje_alto,
-									parser->personaje_ancho, estado1,
-									this->conversor, parser->velocidad_arma,
-									1, true);
+    this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+                        renderer, parser->personaje_alto, parser->escenario_alto,
+                        parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+    this->personajeJuego1 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
+                                    "Subzero", renderer, parser->personaje_alto,
+                                    parser->personaje_ancho, estado1,
+                                    this->conversor, parser->velocidad_arma,
+                                    1, true);
     this->barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
-	/* Personaje 2 - derecha */
-	// SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
-	// NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
-	// DEFECTO IGUAL A CERO.
+    /* Personaje 2 - derecha */
+    // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
+    // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
+    // DEFECTO IGUAL A CERO.
 
-	
-	if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
-		this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-						renderer, parser->personaje2_alto, parser->escenario_alto,
-						parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
-						parser->color_inicio, parser->color_fin, parser->color_offset);				
-	else
-		this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
-						renderer, parser->personaje2_alto, parser->escenario_alto,
-						parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
-	
-	this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
-									"Segundo", renderer, parser->personaje2_alto,
-									parser->personaje2_ancho, estado2,
-									this->conversor, parser->velocidad_arma,
-									2, false);
-	
-	barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
+    
+    if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
+        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+                        renderer, parser->personaje2_alto, parser->escenario_alto,
+                        parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
+                        parser->color_inicio, parser->color_fin, parser->color_offset);             
+    else
+        this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
+                        renderer, parser->personaje2_alto, parser->escenario_alto,
+                        parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+    
+    this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
+                                    "Segundo", renderer, parser->personaje2_alto,
+                                    parser->personaje2_ancho, estado2,
+                                    this->conversor, parser->velocidad_arma,
+                                    2, false);
+    
+    barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
-	if (USAR_AI) this->ai = new AI(this->personajeJuego2, this->personajeJuego1);
-	        
-	director = new Director(this->escenario, this->ventana, this->conversor, this->parser->escenario_ypiso, this->personajeJuego1, this->personajeJuego2, barraDeVida1, barraDeVida2, this->timer);
+    if (USAR_AI) this->ai = new AI(this->personajeJuego2, this->personajeJuego1);
+            
+    director = new Director(this->escenario, this->ventana, this->conversor, this->parser->escenario_ypiso, this->personajeJuego1, this->personajeJuego2, barraDeVida1, barraDeVida2, this->timer);
+    puts("creo un director normal");
 
-	this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
-	this->timer->reset(SDL_GetTicks());
+    this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
+    this->timer->reset(SDL_GetTicks());
 
 }
 
+void comenzar_escenario_de_practica(){
+    this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
+    this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
+                         parser->escenario_alto, parser->ventana_ancho, borde_izquierdo_logico_pantalla);
+    cargar_capas();
+    
+}
 
+void crear_personajes_practica(){
+// En realidad recibiría nombre, personaje elegido y si es AI los del 2 serían los de defecto o azar o lo que sea.
+    /* Personaje 1 - izquierda */
+    this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+                        renderer, parser->personaje_alto, parser->escenario_alto,
+                        parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+    this->personajeJuego1 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
+                                    "Subzero", renderer, parser->personaje_alto,
+                                    parser->personaje_ancho, estado1,
+                                    this->conversor, parser->velocidad_arma,
+                                    1, true);
+
+    /* Personaje 2 - derecha */
+    // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
+    // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
+    // DEFECTO IGUAL A CERO.
+
+    
+    if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
+        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+                        renderer, parser->personaje2_alto, parser->escenario_alto,
+                        parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
+                        parser->color_inicio, parser->color_fin, parser->color_offset);             
+    else
+        this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
+                        renderer, parser->personaje2_alto, parser->escenario_alto,
+                        parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+    
+    this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
+                                    "Segundo", renderer, parser->personaje2_alto,
+                                    parser->personaje2_ancho, estado2,
+                                    this->conversor, parser->velocidad_arma,
+                                    2, false);
+    this->barraDeVida1 = NULL;
+    
+    barraDeVida2 = NULL;
+    this->timer = NULL;
+            
+    director = new DirectorPractica(this->escenario, this->ventana, this->conversor, this->parser->escenario_ypiso, this->personajeJuego1, this->personajeJuego2, NULL, NULL, NULL);
+    puts("creo un director práctica");
+}
 
 
 //----------------------------------------------------------------
@@ -559,10 +627,17 @@ void DibujarTodo(){
             this->personajeJuego2->Dibujarse();
         }
 		
-        this->barraDeVida1->Dibujarse();
-        this->barraDeVida2->Dibujarse();
+        if (this->barraDeVida1){
+            this->barraDeVida1->Dibujarse();            
+        }
 
-        this->timer->Dibujarse();
+        if (this->barraDeVida2){
+            this->barraDeVida2->Dibujarse();            
+        }
+
+        if (this->timer){
+            this->timer->Dibujarse();
+        }
 		
         if (pausa){
             SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
@@ -582,15 +657,22 @@ void Controlador(SDL_Event *evento){
 		if(usandoJoystick){		
 			SDL_JoystickUpdate();
 			//controlar_joystick();
-			if (personajeJuego1 != NULL) personajeJuego1->ActualizarControlador(Player1, this->parser, evento);					
-			if (personajeJuego2 != NULL) personajeJuego2->ActualizarControlador(Player2 , this->parser, evento);					
+			if (personajeJuego1 != NULL) personajeJuego1->ActualizarControlador(Player1, this->parser, evento);	
+            if (modo_actual != Practica){
+                if (personajeJuego2 != NULL) personajeJuego2->ActualizarControlador(Player2 , this->parser, evento);                    
+            }				
+			
 		} 
 		//-----------------------------------------
 		//-----EVENTOS NO-JOYSTICK (aka DEBUG)-----
 		//--------"--------"-------------------------		
 		switch(evento->type){			
 			case SDL_QUIT:
-				salir = true;
+				if (modo_actual == MENU){
+                    salir = true;
+                } else {
+                    salir_pelea = true;
+                }
 				break;
 			case SDL_KEYDOWN:
 				//-----------------------------------------
@@ -634,7 +716,13 @@ void Controlador(SDL_Event *evento){
                 if(evento->key.keysym.sym == SDLK_e)  {
                     arrojandoPk=true;
                 }
-				if (evento->key.keysym.sym == SDLK_ESCAPE) salir = true;
+				if (evento->key.keysym.sym == SDLK_ESCAPE){
+                    if (modo_actual == MENU){
+                        salir = true;
+                    } else {
+                        salir_pelea = true;
+                    }
+                }
 				if (evento->key.keysym.sym == SDLK_r){
 					reiniciarJuego();
 				}
@@ -714,7 +802,9 @@ void ActualizarModelo(Personaje* personaje){
 	
 	if ((this->ai != NULL ) && (personaje == this->ai->personajeAI)) this->ai->reaccionar();
 	
-	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
+    if (this->timer != NULL){
+    	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
+    }
 	
 	if (personaje->nroAccionActual == PATADABAJAAGACHADO){
 		personaje->activarAccion(PATADABAJAAGACHADO);
