@@ -75,6 +75,7 @@ Menu::~Menu(){
 	for (unsigned int i = 0; i < botones.size(); i++){
 		delete botones[i];
 	}
+	botones.clear();
 }
 
 void Menu::Dibujarse(){
