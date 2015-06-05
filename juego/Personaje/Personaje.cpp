@@ -560,16 +560,26 @@ void Personaje::Dibujarse(){
 
 		this->arrojable->dibujar(this->conversor);
 	}
+
+	if (dibujar_botones){
+		_dibujar_botones();
+	}
 }
 
-
+void Personaje::_dibujar_botones(){
+	// acá se dibujan en pantala las cosas
+}
 /***********************************************************************
  * 
  * 							CONTROLADOR
  *
  **********************************************************************/  
  void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf, SDL_Event *evento){
-		
+	
+ 	for (auto i = botones_actuales.begin(); i != botones_actuales.end(); ++i)
+    	std::cout << *i << ' ';
+    puts("");
+
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);		
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
 	Uint8 i = evento->jbutton.button;
@@ -614,16 +624,21 @@ void Personaje::Dibujarse(){
 				
 			
 			if (i ==  (*conf_joys)["pinia_baja"]){
-				PiniaBaja = true;					
+				PiniaBaja = true;
+				botones_actuales.push_back((*conf_joys)["pinia_baja"]);
 			} else if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
+				botones_actuales.push_back((*conf_joys)["cubrirse"]);
 			} else if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
+				botones_actuales.push_back((*conf_joys)["patada_baja"]);
 			} else if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = true;
+				botones_actuales.push_back((*conf_joys)["pinia_alta"]);
 			} else if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
+				botones_actuales.push_back((*conf_joys)["arrojar_arma"]);
 			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();

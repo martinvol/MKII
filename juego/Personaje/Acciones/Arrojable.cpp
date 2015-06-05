@@ -61,7 +61,6 @@ bool Arrojable::salioDeLaPantalla(ConversorDeCoordenadas *conv){
 }
 
 void Arrojable::dibujar(ConversorDeCoordenadas *conv){
-	// cout << "dibujo"<< endl;
 
 	CoordenadaFisica* coord1_fis = conv->aFisica(this->coord);
 
