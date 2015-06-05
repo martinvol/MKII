@@ -45,9 +45,9 @@ SDL_Rect Boton::obtenerPosicionEnVentana(){
 
 Menu::Menu(SDL_Renderer* renderer, Ventana* ventana){
 	this->renderer = renderer;
-	fondo = IMG_LoadTexture(renderer, "resources/menu/fondo.png");
-	opcion = IMG_LoadTexture(renderer, "resources/menu/Opcion.png");
-	seleccion = IMG_LoadTexture(renderer, "resources/menu/Seleccion.png");
+	fondo = IMG_LoadTexture(renderer, "resources/menu/fondo3.png");
+	opcion = IMG_LoadTexture(renderer, "resources/menu/opcion_transparent.png");
+	seleccion = IMG_LoadTexture(renderer, "resources/menu/seleccion_transparent.png");
 	
 	ancho_fisico = ventana->ancho_fisico;
 	alto_fisico = ventana->alto_fisico;
