@@ -65,6 +65,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 }
 
 Personaje::~Personaje(){
+	delete panel;
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 	delete this->siguiente;
@@ -557,13 +558,14 @@ void Personaje::Dibujarse(){
 		this->arrojable->dibujar(this->conversor);
 	}
 
-	if (dibujar_botones){
-		_dibujar_botones();
+	if (panel){
+		panel->dibujar(this->conversor, this->renderer);
 	}
 }
 
-void Personaje::_dibujar_botones(){
+void Personaje::dibujar_botones(){
 	puts("botones");
+	panel = new PanelBotones();
 	// acá se dibujan en pantala las cosas
 
 
@@ -574,10 +576,6 @@ void Personaje::_dibujar_botones(){
  *
  **********************************************************************/  
  void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf, SDL_Event *evento){
-	
- 	for (auto i = botones_actuales.begin(); i != botones_actuales.end(); ++i)
-    	std::cout << *i << ' ';
-    puts("");
 
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);		
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
@@ -624,20 +622,20 @@ void Personaje::_dibujar_botones(){
 			
 			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = true;
-				botones_actuales.push_back((*conf_joys)["pinia_baja"]);
+				panel->AgregarBotones((*conf_joys)["pinia_baja"]);
 			} else if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
-				botones_actuales.push_back((*conf_joys)["cubrirse"]);
+				panel->AgregarBotones((*conf_joys)["cubrirse"]);
 			} else if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
-				botones_actuales.push_back((*conf_joys)["patada_baja"]);
+				panel->AgregarBotones((*conf_joys)["patada_baja"]);
 			} else if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = true;
-				botones_actuales.push_back((*conf_joys)["pinia_alta"]);
+				panel->AgregarBotones((*conf_joys)["pinia_alta"]);
 			} else if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-				botones_actuales.push_back((*conf_joys)["arrojar_arma"]);
+				panel->AgregarBotones((*conf_joys)["arrojar_arma"]);
 			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();

@@ -61,10 +61,6 @@ class Personaje {
 
 		Arrojable* arrojable = NULL;
 	    Mix_Chunk *pinia_sonido;
-
-	    std::vector<int> botones_actuales;
-	    
-	    bool dibujar_botones=false;
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -124,11 +120,11 @@ class Personaje {
 
 		void gritar();
 		
+	    void dibujar_botones();
 	private:
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
-	    void _dibujar_botones();
-	    PanelBotones panel;
+	    PanelBotones* panel=NULL;
 };
 
 
