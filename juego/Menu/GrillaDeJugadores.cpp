@@ -13,6 +13,8 @@
 #define PATH11 "Sektor"
 #define PATH12 "Smoke"
 
+#define BACKGROUND "resources/orangeportal.png"
+
 #define CANT_ANCHO 6
 
 using namespace std;
@@ -32,6 +34,8 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	this->paths.push_back(PATH10);
 	this->paths.push_back(PATH11);
 	this->paths.push_back(PATH12);
+	string pathBackground = BACKGROUND;
+	this->background = IMG_LoadTexture(this->ren, pathBackground.c_str());
 }
 
 void Grilla::Dibujarse(){ 
@@ -39,6 +43,7 @@ void Grilla::Dibujarse(){
 	SDL_Rect rect;
 	rect.w = this->anchoImagen;
 	rect.h = this->altoImagen;
+	SDL_RenderCopy(this->ren, this->background, NULL, NULL);
 	//this->texs.size();
 	for(int i = 0; i < 12; i++) {
 		rect.x = (i % CANT_ANCHO)*this->anchoImagen + 30;
@@ -61,4 +66,5 @@ Grilla::~Grilla() {
 	for(int i = 0; i < this->texs.size(); i++) {
 		SDL_DestroyTexture(this->texs[i]);
 	}
+	SDL_DestroyTexture(this->background);
 }

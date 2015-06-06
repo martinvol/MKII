@@ -15,6 +15,7 @@ class Grilla {
 		vector<SDL_Texture*> texs;
 		void cargarTexturas();
 		int anchoImagen, altoImagen;
+		SDL_Texture* background;
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);
