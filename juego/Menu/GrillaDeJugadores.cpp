@@ -13,8 +13,7 @@
 #define PATH11 "Sektor"
 #define PATH12 "Smoke"
 
-#define CANT_ANCHO 4
-#define CANT_ALTO 3
+#define CANT_ANCHO 6
 
 using namespace std;
 
@@ -40,9 +39,10 @@ void Grilla::Dibujarse(){
 	SDL_Rect rect;
 	rect.w = this->anchoImagen;
 	rect.h = this->altoImagen;
-	for(int i = 0; i < this->texs.size(); i++) {
-		rect.x = (i % CANT_ANCHO)*this->anchoImagen;
-		rect.y = (i % CANT_ALTO)*this->altoImagen;
+	//this->texs.size();
+	for(int i = 0; i < 12; i++) {
+		rect.x = (i % CANT_ANCHO)*this->anchoImagen + 30;
+		rect.y = (i / CANT_ANCHO)*this->altoImagen + 60;
 		SDL_RenderCopy(this->ren, this->texs[i], NULL, &rect);
 	}
 }
@@ -53,6 +53,8 @@ void Grilla::cargarTexturas() {
 		this->texs.push_back(IMG_LoadTexture(this->ren, pathCompleto.c_str()));
 	}
 	SDL_QueryTexture(this->texs[0], NULL, NULL, &this->anchoImagen, &this->altoImagen);
+	this->anchoImagen *= 2;
+	this->altoImagen *= 2;
 }
 
 Grilla::~Grilla() {
