@@ -2,9 +2,9 @@
 #define GRILLA_H_INCLUDED
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <vector>
 #include <string>
-#include "../Director/Director.hpp"
 
 using namespace std;
 
@@ -12,10 +12,15 @@ class Grilla {
 	private:
 		SDL_Renderer* ren;
 		vector<string> paths;
+		vector<SDL_Texture*> texs;
+		void cargarTexturas();
+		int anchoImagen, altoImagen;
 	public:
+		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);
 		void Dibujarse();
-		string obtenerPathJugadorNumero(num_jugador jugador);		
-}
+		string obtenerPathJugadorNumero(int jugador);
+		~Grilla();
+};
 
 #endif

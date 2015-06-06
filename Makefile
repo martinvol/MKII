@@ -32,6 +32,11 @@ testTiempo: clean
 	$(CC) "pruebas/testTiempo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testTiempo
 	./testTiempo
 	make clean	
+	
+testGrilla: clean GrillaDeJugadores.o
+	$(CC) "pruebas/testGrilla.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testScreen
+	./testScreen
+	make clean	
 
 Menu.o: juego/Menu/Menu.cpp juego/Menu/ControladorMenu.cpp
 	$(CC) "juego/Menu/Menu.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -171,6 +176,9 @@ Arrojable.o: juego/Personaje/Acciones/Arrojable.cpp
 
 Personaje.o: juego/Personaje/Personaje.cpp
 	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	
+GrillaDeJugadores.o: 
+	$(CC) "juego/Menu/GrillaDeJugadores.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 AI.o:
 	$(CC) "juego/AI/AI.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
