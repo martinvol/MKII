@@ -1,6 +1,3 @@
-#ifndef PANELBOTONES_H_INCLUDED
-#define PANELBOTONES_H_INCLUDED
-
 #include "PanelBotones.hpp"
 #include <iostream>
 
@@ -8,15 +5,20 @@ using namespace std;
 
 
 
-PanelBotones::PanelBotones(unordered_map <string, int>* conf_joys, SDL_Renderer *renderer){
+PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador){
 	// cargamos todas las texturas relevantes para los botones
 	// en un hash que lo llenamos la configuración
+	unordered_map <string, int>* conf_joys = conf->joysticks->at(numero_jugador);
+
 	imagenes_tomas[(*conf_joys)["pinia_baja"]] = IMG_LoadTexture(renderer, "resources/botones/c.png");
 	imagenes_tomas[(*conf_joys)["cubrirse"]] = IMG_LoadTexture(renderer, "resources/botones/ci.png");
 	imagenes_tomas[(*conf_joys)["patada_baja"]] = IMG_LoadTexture(renderer, "resources/botones/x.png");
 	imagenes_tomas[(*conf_joys)["pinia_alta"]]	 = IMG_LoadTexture(renderer, "resources/botones/t.png");
 	imagenes_tomas[(*conf_joys)["arrojar_arma"]] = IMG_LoadTexture(renderer, "resources/botones/x.png");
 	imagenes_tomas[(*conf_joys)["patada_alta"]] = IMG_LoadTexture(renderer, "resources/botones/x.png");
+
+	tiempo_max_boton = conf->tiempo_max_boton*1000;
+	maximos_botones = conf->maximos_botones;
 }
 
 PanelBotones::~PanelBotones(){
@@ -27,9 +29,8 @@ PanelBotones::~PanelBotones(){
 
 void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer){
 	int off=0;
-	int cantidad_max=5;
 
-	while (botones_actuales.size() > cantidad_max){
+	while (botones_actuales.size() > maximos_botones){
 		botones_actuales.erase(botones_actuales.begin());
 	}
 	int inicio = (conv->ancho_fisico/2) - (78*botones_actuales.size()/2);
@@ -45,7 +46,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 		SDL_RenderCopy(renderer, imagenes_tomas[botones_actuales.at(i)->numero_boton], NULL, &destino);
 		off += 78;
 		
-		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > 5000){
+		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > tiempo_max_boton){
 			botones_actuales.erase(botones_actuales.begin() + i--);
 		}
 	}
@@ -59,4 +60,6 @@ void PanelBotones::AgregarBotones(int boton){
 	botones_actuales.push_back(boton_temp);
 };
 
-#endif
+void PanelBotones::checkToma(string toma){
+
+}

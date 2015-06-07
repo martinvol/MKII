@@ -565,8 +565,7 @@ void Personaje::Dibujarse(){
 
 void Personaje::dibujar_botones(Parser* conf){
 	puts("botones");
-	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
-	panel = new PanelBotones(conf_joys, renderer);
+	panel = new PanelBotones(conf, renderer, this->numero_jugador);
 	// acá se dibujan en pantala las cosas
 
 
