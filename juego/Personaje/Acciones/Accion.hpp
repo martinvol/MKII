@@ -67,6 +67,7 @@ class Accion{
 		string ruta;
 		SDL_Renderer* renderer;
 		vector<SDL_Texture*> imagenes;
+		vector<SDL_Texture*> imagenesEspejadas;
 		int modoActual;
 		
 		Logger* logger;
@@ -85,7 +86,7 @@ class Accion{
 		void setInvertirSecuencia();
 		void setDanio(int danio);
 	
-		SDL_Texture* getImagenActual();
+		SDL_Texture* getImagenActual(bool derecha);
 		int hue_init, hue_fin, hue_offset;
 		
 		int getModoActual();

@@ -40,7 +40,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
 	this->accionActual = this->estado->	quieto;
-	this->imagenActual = this->accionActual->getImagenActual();
+	this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);
 	
 	calcularAnchoYAltoImagen();
 	this->ancho_quieto = this->_w;
@@ -210,7 +210,7 @@ void Personaje::activarAccion(accion_posible accion){
 		}
 	}
 
-	this->imagenActual = this->accionActual->getImagenActual();	
+	this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);	
 	
 	//~ calcularAnchoYAltoImagen();
 	//~ calcularDatosDibujables();
@@ -536,14 +536,9 @@ void Personaje::Dibujarse(){
 	SDL_Point point = {this->_w/2, this->_h};
 	
 	
-	// Espeja si debe mirar para la izquierda.
-	if (!this->mirarDerecha){
-		
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
-	} else {
-		
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
-	}
+	//Se dibuja comun, this->imagenActual ya esta espejada, o no. 	
+	SDL_RenderCopy(this->renderer, this->imagenActual, NULL, &destino);
+	
 
 
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {

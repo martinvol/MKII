@@ -69,20 +69,24 @@ void Accion::setImagenes (){
 	int numero;
 	
 	for (int i = 0; i<this->cantModos; i++){
-		LTexture* imagen = new LTexture(this->renderer);
+		LTexture* imagenComun = new LTexture(this->renderer);
+		LTexture* imagenEspejada = new LTexture(this->renderer);
 		numero = i+1;
 		numeroImagen = to_string(numero);
 		rutaCompleta = this->ruta+"/"+numeroImagen+".png";
-		imagen->loadFromFile(rutaCompleta, this->hue_init, this->hue_fin, this->hue_offset);
+		imagenComun->loadFromFile(rutaCompleta, this->hue_init, this->hue_fin, this->hue_offset,false);
+		imagenEspejada->loadFromFile(rutaCompleta, this->hue_init, this->hue_fin, this->hue_offset,true);
 		// Aca falta cambiar la forma de chequeo: la misma LTexture
 		// podria tener un logger para solucionar esto *Manuel*
-		if(imagen == NULL){
+		if(imagenComun == NULL ||imagenEspejada == NULL){
 			this->logger->log_debug("IMG_LoadTexture error: " + (string)(SDL_GetError()));
 			//cout<<"error en: "<<numeroImagen<<endl;
 		}
 		else{ninguna = false;}
-		this->imagenes.push_back(imagen->mTexture);
-		delete imagen;
+		this->imagenes.push_back(imagenComun->mTexture);
+		this->imagenesEspejadas.push_back(imagenEspejada->mTexture);
+		delete imagenComun;
+		delete imagenEspejada;
 	
 	}
 	if (ninguna){
@@ -117,8 +121,11 @@ void Accion::setDireccionIzquierda(){
  * que corresponde a la imagen equivalente al
  * modo actual en el que se encuentra la accion
  * */
-SDL_Texture* Accion::getImagenActual(){
-	return this->imagenes[this->modoActual];
+SDL_Texture* Accion::getImagenActual(bool derecha){
+	if (derecha)
+		return this->imagenes[this->modoActual];
+	else
+		return this->imagenesEspejadas[this->modoActual];
 } 
 //~ SDL_Texture* Accion::getImagenNro(int numeroDeSprite){
 	//~ return this->imagenes[numeroDeSprite];
@@ -174,6 +181,7 @@ Accion::~Accion(){
 	for (int i = 0; i < this->cantModos; i++){
 		
 		SDL_DestroyTexture(imagenes[i]);
+		SDL_DestroyTexture(imagenesEspejadas[i]);
 	}
 
 	while (!this->rectangulos->empty()){
