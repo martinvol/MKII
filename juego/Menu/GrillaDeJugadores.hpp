@@ -22,6 +22,7 @@ class Grilla {
 		//int xSeleccion1, ySeleccion1;
 		//int xSeleccion2, ySeleccion2;
 		SDL_Texture* background;
+		int obtenerUbicacion(int x, int y);
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);

@@ -2,6 +2,8 @@
 #include "../LTexture.hpp"
 #include <SDL2/SDL_ttf.h>
 
+#include <iostream> ///
+
 #define PATH1 "SubZero"
 #define PATH2 "Ermac"
 #define PATH3 "Rain"
@@ -18,8 +20,8 @@
 #define BACKGROUND "resources/orangeportal.png"
 #define OPCION "resources/menu/opcion_transparent.png"
 
-#define X_INIT 80
-#define Y_INIT 100
+#define X_INIT 100
+#define Y_INIT 120
 
 #define CANT_ANCHO 4
 #define TOTAL_IMAGENES 12
@@ -36,7 +38,18 @@ SDL_Texture* texAPartirDeTexto(const string &message, const string &fontFile,
 	return texture;
 }
 
-
+int Grilla::obtenerUbicacion(int x, int y) {
+	x -= X_INIT;
+	y -= Y_INIT;
+	
+	x /= this->anchoImagen;
+	y /= this->altoImagen;
+	
+	cout << x << endl; ///
+	cout << y << endl; ///
+	
+	return x + CANT_ANCHO*y;	
+}
 
 Grilla::Grilla(SDL_Renderer* renderer) {
 	this->ren = renderer;
@@ -152,4 +165,8 @@ void Grilla::moverIzquierdaOpcion(int jugador) {
 	if (this->xSeleccion[jugador] < 0) this->xSeleccion[jugador] += (CANT_ANCHO)*this->anchoImagen;
 	this->xSeleccion[jugador] += X_INIT;
 }
-//string Grilla::seleccionarOpcion(int jugador);
+
+string Grilla::seleccionarOpcion(int jugador) {
+	
+	return this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
+}

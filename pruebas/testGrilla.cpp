@@ -170,6 +170,7 @@ int main() {
             if(evento.key.keysym.sym == SDLK_LEFT)  grilla->moverIzquierdaOpcion(0);
             if(evento.key.keysym.sym == SDLK_DOWN)  grilla->bajarOpcion(0);
             if(evento.key.keysym.sym == SDLK_UP) grilla->subirOpcion(0);
+            if(evento.key.keysym.sym == SDLK_q) cout << grilla->seleccionarOpcion(0) << endl;
             if(evento.key.keysym.sym == SDLK_ESCAPE) quit = true;
             break;
 		}
