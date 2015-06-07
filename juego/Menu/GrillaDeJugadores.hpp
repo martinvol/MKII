@@ -23,14 +23,13 @@ class Grilla {
 		//int xSeleccion2, ySeleccion2;
 		SDL_Texture* background;
 		int obtenerUbicacion(int x, int y);
-		vector<bool> eligio;
 		string obtenerPath(int pj);
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);
 		void Dibujarse();
 		~Grilla();
-		
+		vector<bool> eligio;
 		/* Para el controller */
 		// int jugador: 0 o 1
 		void subirOpcion(int jugador);
