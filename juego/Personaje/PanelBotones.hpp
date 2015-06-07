@@ -15,6 +15,7 @@ class EstructuraBoton{
 	public:
 		int numero_boton;
 		Uint32 inicio;
+		bool otro_color = false;
 
 		EstructuraBoton(){};
 		~EstructuraBoton(){};

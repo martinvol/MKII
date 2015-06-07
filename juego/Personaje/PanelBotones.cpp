@@ -3,8 +3,6 @@
 
 using namespace std;
 
-
-
 PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador){
 	// cargamos todas las texturas relevantes para los botones
 	// en un hash que lo llenamos la configuración
@@ -69,7 +67,7 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 	
 	while (true){
 		if (j == botones_actuales.size()){
-			std::cout << "Hay tan pocos en la cola que no hay chance; " << ' ';
+			std::cout << "Nunca encontré el primero; " << ' ';
 			return false;
 		}
 
@@ -84,6 +82,7 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 	while (i < botones_actuales.size() && j < botones_actuales.size()){
 		if (errores > tolerancia){
 			std::cout << "No agarró toma2; " << ' ';
+			// Tengo que des marcar todos los que tengo que cambiar
 			return false;
 		}
 		if (toma[i] - '0' == botones_actuales.at(j)->numero_boton){
@@ -96,9 +95,11 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 		}
 		if (aciertos == toma.size()){
 			std::cout << "Agarró toma; " << ' ';
+			// tengo que marcar los que tengo que cambiar
 			return true;
 		}
 	}
+	// Tengo que des marcar todos los que tengo que cambiar
 	std::cout << "no Agarró toma 3; " << ' ';
 	return false;
 }
