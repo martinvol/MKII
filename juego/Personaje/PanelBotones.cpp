@@ -27,9 +27,12 @@ PanelBotones::~PanelBotones(){
 
 void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer){
 	int off=0;
-	//std::vector<int> a_borrar; // Acá tendría que usar el iterador
-								// pero tiraba segFault y me cansé
-	// for (auto i = botones_actuales.begin(); i != botones_actuales.end(); ++i){
+	int cantidad_max=5;
+
+	while (botones_actuales.size() > cantidad_max){
+		botones_actuales.erase(botones_actuales.begin());
+	}
+
 	for (unsigned int i = 0; i < botones_actuales.size(); ++i){
 	    std::cout << botones_actuales.at(i)->numero_boton << ' ';
 		SDL_Rect destino;
@@ -41,16 +44,10 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 		SDL_RenderCopy(renderer, imagenes_tomas[botones_actuales.at(i)->numero_boton], NULL, &destino);
 		off += 78;
 		
-		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > 3000){
-			//a_borrar.push_back(i);
+		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > 5000){
 			botones_actuales.erase(botones_actuales.begin() + i--);
 		}
 	}
-/*
-	for (unsigned int i = 0; i < a_borrar.size(); ++i){
-		delete botones_actuales.at(i);
-		botones_actuales.erase(botones_actuales.begin() + i);
-	}*/
 	puts("");
 }
 
