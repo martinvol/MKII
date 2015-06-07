@@ -138,12 +138,19 @@ Grilla::~Grilla() {
 	
 	SDL_DestroyTexture(this->background);
 }
+string Grilla::obtenerPath(int jugador) {
+	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
+		
+	return "resources/jugador/"+name+"/";
+}
 
 /*********************************************************************
  * ************************  CONTROLLER  *****************************
  * ******************************************************************/
 
 void Grilla::subirOpcion(int jugador) {
+	if (this->eligio[jugador]) return;
+	
 	this->ySeleccion[jugador] -= Y_INIT;
 	this->ySeleccion[jugador] -= this->altoImagen;
 	this->ySeleccion[jugador] = (this->ySeleccion[jugador] + (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) 
@@ -151,6 +158,8 @@ void Grilla::subirOpcion(int jugador) {
 	this->ySeleccion[jugador] += Y_INIT;
 }
 void Grilla::bajarOpcion(int jugador) {
+	if (this->eligio[jugador]) return;
+	
 	this->ySeleccion[jugador] -= Y_INIT;
 	this->ySeleccion[jugador] += this->altoImagen;
 	this->ySeleccion[jugador] = (this->ySeleccion[jugador] + (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) 
@@ -158,12 +167,16 @@ void Grilla::bajarOpcion(int jugador) {
 	this->ySeleccion[jugador] += Y_INIT;
 }
 void Grilla::moverDerechaOpcion(int jugador) {
+	if (this->eligio[jugador]) return;
+	
 	this->xSeleccion[jugador] -= X_INIT;
 	this->xSeleccion[jugador] += this->anchoImagen;
 	if (this->xSeleccion[jugador] >= (CANT_ANCHO)*this->anchoImagen) this->xSeleccion[jugador] -= (CANT_ANCHO)*this->anchoImagen;
 	this->xSeleccion[jugador] += X_INIT;
 }
 void Grilla::moverIzquierdaOpcion(int jugador) {
+	if (this->eligio[jugador]) return;
+	
 	this->xSeleccion[jugador] -= X_INIT;
 	this->xSeleccion[jugador] -= this->anchoImagen;
 	if (this->xSeleccion[jugador] < 0) this->xSeleccion[jugador] += (CANT_ANCHO)*this->anchoImagen;
@@ -174,7 +187,5 @@ string Grilla::seleccionarOpcion(int jugador) {
 	
 	this->eligio[jugador] = true;
 	
-	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
-	
-	return "resources/jugador/"+name+"/";
+	return this->obtenerPath(jugador);
 }
