@@ -184,6 +184,7 @@ void Grilla::moverIzquierdaOpcion(int jugador) {
 }
 
 string Grilla::seleccionarOpcion(int jugador) {
+	if(this->eligio[jugador]) return this->obtenerPath(jugador);
 	
 	this->eligio[jugador] = true;
 	
