@@ -5,6 +5,9 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 #include <string>
+#include "../Personaje/Acciones/Accion.hpp"
+#include "../Personaje/Acciones/Quieto.hpp"
+#include "../Personaje/Acciones/Ganar.hpp"
 
 using namespace std;
 
@@ -24,6 +27,8 @@ class Grilla {
 		SDL_Texture* background;
 		int obtenerUbicacion(int x, int y);
 		string obtenerPath(int pj);
+		vector<Accion*> accionesQuieto;
+		vector<Accion*> accionesGanar;
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);
