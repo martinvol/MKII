@@ -54,6 +54,8 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	this->paths.push_back(PATH11);
 	this->paths.push_back(PATH12);
 	
+	this->cargarTexturas();
+	
 	string pathBackground = BACKGROUND;
 	this->background = IMG_LoadTexture(this->ren, pathBackground.c_str());
 	
@@ -67,7 +69,7 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	
 	this->xSeleccion.push_back(X_INIT);
 	this->ySeleccion.push_back(Y_INIT);
-	this->xSeleccion.push_back((CANT_ANCHO*this->anchoImagen) + X_INIT);
+	this->xSeleccion.push_back(((CANT_ANCHO - 1)*this->anchoImagen) + X_INIT);
 	this->ySeleccion.push_back(Y_INIT);
 	
 	SDL_Color color = { 255, 255, 255, 255 };
@@ -76,7 +78,6 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 }
 
 void Grilla::Dibujarse(){ 
-	this->cargarTexturas();
 	SDL_Rect rect;
 	rect.w = this->anchoImagen;
 	rect.h = this->altoImagen;
