@@ -45,9 +45,6 @@ int Grilla::obtenerUbicacion(int x, int y) {
 	x /= this->anchoImagen;
 	y /= this->altoImagen;
 	
-	cout << x << endl; ///
-	cout << y << endl; ///
-	
 	return x + CANT_ANCHO*y;	
 }
 
