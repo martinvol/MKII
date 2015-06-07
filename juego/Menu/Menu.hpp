@@ -12,7 +12,7 @@ using namespace std;
 
 typedef enum modo {Pelea = 0, Practica, CPU, MENU} modo;
 
-class Boton{
+class BotonMenu{
 	private:
 		SDL_Texture* boton;
 		SDL_Rect destino;
@@ -20,8 +20,8 @@ class Boton{
 		
 	public:
 	
-		Boton(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Renderer* renderer);
-		~Boton();
+		BotonMenu(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Renderer* renderer);
+		~BotonMenu();
 		
 		void Dibujarse(SDL_Texture* seleccion);
 		SDL_Rect obtenerPosicionEnVentana();
@@ -32,7 +32,7 @@ class Menu {
 	private:
 		
 		modo modo_actual;
-		vector<Boton*> botones;
+		vector<BotonMenu*> botones;
 		SDL_Renderer* renderer;
 		SDL_Texture* fondo;
 		SDL_Texture* opcion, *seleccion;

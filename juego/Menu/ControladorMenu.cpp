@@ -71,6 +71,7 @@ modo ControladorMenu::procesarEvento(SDL_Event* evento){
 					}
 					if (entro) en_boton = true;
 					else en_boton = false;
+					botones.clear();
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:

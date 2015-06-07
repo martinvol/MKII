@@ -20,7 +20,7 @@ class LTexture {
 		~LTexture();
 
 		//Loads image at specified path
-		bool loadFromFile( std::string path, int hue_inicial, int hue_finale, int hue_offset);
+		bool loadFromFile( std::string path, int hue_inicial, int hue_finale, int hue_offset, bool espejar);
 
 		void setColor( Uint8 red, Uint8 green, Uint8 blue );
 
@@ -36,8 +36,7 @@ class LTexture {
 
 		//Pixel manipulators
 		void* getPixels();
-		int getPitch();
-		
+		int getPitch();			
 	private:
 	    SDL_Renderer* gRenderer;
 		int mWidth;
