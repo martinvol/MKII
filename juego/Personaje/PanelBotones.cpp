@@ -32,11 +32,12 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 	while (botones_actuales.size() > cantidad_max){
 		botones_actuales.erase(botones_actuales.begin());
 	}
+	int inicio = (conv->ancho_fisico/2) - (78*botones_actuales.size()/2);
 
 	for (unsigned int i = 0; i < botones_actuales.size(); ++i){
 	    std::cout << botones_actuales.at(i)->numero_boton << ' ';
 		SDL_Rect destino;
-		destino.x = 100 + off;
+		destino.x = inicio + off;
 		std::cout << destino.x << ' ';
 		destino.y = 100;
 		destino.h = 78;
