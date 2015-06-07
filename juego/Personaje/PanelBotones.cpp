@@ -59,9 +59,7 @@ void PanelBotones::AgregarBotones(int boton){
 	botones_actuales.push_back(boton_temp);
 };
 
-bool PanelBotones::checkToma(string toma, int tolerancia){
-
-	// Asumo que empiezan en el mismo lugar
+bool PanelBotones::checkToma(string toma, int tolerancia){	
 	int i = 0, j = 0, errores = 0, aciertos = 0;
 
 	if (!botones_actuales.size() || !toma.size()){
@@ -69,6 +67,20 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 		return false;
 	}
 	
+	while (true){
+		if (j == botones_actuales.size()){
+			std::cout << "Hay tan pocos en la cola que no hay chance; " << ' ';
+			return false;
+		}
+
+		if (toma[0] - '0' == botones_actuales.at(j)->numero_boton){
+			break;
+		} else {
+			j++; // 
+		}
+	}
+
+
 	while (i < botones_actuales.size() && j < botones_actuales.size()){
 		if (errores > tolerancia){
 			std::cout << "No agarró toma2; " << ' ';
