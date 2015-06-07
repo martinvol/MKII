@@ -15,7 +15,7 @@
 
 #define BACKGROUND "resources/orangeportal.png"
 
-#define CANT_ANCHO 6
+#define CANT_ANCHO 4
 
 using namespace std;
 
@@ -58,8 +58,8 @@ void Grilla::cargarTexturas() {
 		this->texs.push_back(IMG_LoadTexture(this->ren, pathCompleto.c_str()));
 	}
 	SDL_QueryTexture(this->texs[0], NULL, NULL, &this->anchoImagen, &this->altoImagen);
-	this->anchoImagen *= 2;
-	this->altoImagen *= 2;
+	this->anchoImagen *= 1.5;
+	this->altoImagen *= 1.5;
 }
 
 Grilla::~Grilla() {
