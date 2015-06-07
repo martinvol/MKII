@@ -15,6 +15,10 @@
 #define PATH12 "Smoke"
 
 #define BACKGROUND "resources/orangeportal.png"
+#define OPCION "resources/menu/opcion_transparent.png"
+
+#define X_INIT 30
+#define Y_INIT 60
 
 #define CANT_ANCHO 4
 
@@ -38,9 +42,9 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	string pathBackground = BACKGROUND;
 	this->background = IMG_LoadTexture(this->ren, pathBackground.c_str());
 	LTexture aux = LTexture(this->ren);
-	aux.loadFromFile("resources/menu/opcion_transparent.png", 0, 0, 0, false);
+	aux.loadFromFile(OPCION, 0, 0, 0, false);
 	this->seleccion.push_back(aux.mTexture);
-	aux.loadFromFile("resources/menu/opcion_transparent.png", 0, 60, 300, false);
+	aux.loadFromFile(OPCION, 0, 60, 300, false);
 	this->seleccion.push_back(aux.mTexture);
 }
 
@@ -52,8 +56,8 @@ void Grilla::Dibujarse(){
 	SDL_RenderCopy(this->ren, this->background, NULL, NULL);
 	//this->texs.size();
 	for(int i = 0; i < 12; i++) {
-		rect.x = (i % CANT_ANCHO)*this->anchoImagen + 30;
-		rect.y = (i / CANT_ANCHO)*this->altoImagen + 60;
+		rect.x = (i % CANT_ANCHO)*this->anchoImagen + X_INIT;
+		rect.y = (i / CANT_ANCHO)*this->altoImagen + Y_INIT;
 		SDL_RenderCopy(this->ren, this->texs[i], NULL, &rect);
 	}
 	Uint32 ticks = SDL_GetTicks();
