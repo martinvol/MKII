@@ -168,5 +168,7 @@ void Grilla::moverIzquierdaOpcion(int jugador) {
 
 string Grilla::seleccionarOpcion(int jugador) {
 	
-	return this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
+	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
+	
+	return "resources/jugador/"+name+"/";
 }
