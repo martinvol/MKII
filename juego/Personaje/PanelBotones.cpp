@@ -20,8 +20,11 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 }
 
 PanelBotones::~PanelBotones(){
-	for(auto texture: imagenes_tomas){
-		SDL_DestroyTexture(texture.second);
+	for(auto boton: botones_actuales){
+		delete boton;
+	} 
+	for(auto textura: imagenes_tomas){
+		SDL_DestroyTexture(textura.second);
 	} 
 }
 
@@ -44,6 +47,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 		off += 78;
 		
 		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > tiempo_max_boton){
+			delete botones_actuales.at(i);
 			botones_actuales.erase(botones_actuales.begin() + i--);
 		}
 	}
