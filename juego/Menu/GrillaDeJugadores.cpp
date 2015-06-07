@@ -121,6 +121,9 @@ void Grilla::cargarTexturas() {
 	for(int i=0; i < this->paths.size(); i++) {
 		string pathCompleto = "resources/jugador/"+this->paths[i]+"/"+this->paths[i]+".gif";
 		this->texs.push_back(IMG_LoadTexture(this->ren, pathCompleto.c_str()));
+		string pathJugador = "resources/jugador/"+this->paths[i]+"/";
+		this->accionesQuieto.push_back(new Quieto(pathJugador, this->ren, 0, 0, 0, 0, 0, 0));
+		//# this->accionesGanar.push_back(new Ganar(pathJugador, this->ren, 0, 0, 0, 0, 0, 0));
 	}
 	SDL_QueryTexture(this->texs[0], NULL, NULL, &this->anchoImagen, &this->altoImagen);
 	this->anchoImagen *= 1.5;
@@ -130,6 +133,8 @@ void Grilla::cargarTexturas() {
 Grilla::~Grilla() {
 	for(int i = 0; i < this->texs.size(); i++) {
 		SDL_DestroyTexture(this->texs[i]);
+		delete this->accionesQuieto[i];
+		//# delete this->accionesGanar[i];
 	}
 	for(int i = 0; i < this->seleccion.size(); i++) {
 		SDL_DestroyTexture(this->seleccion[i]);
