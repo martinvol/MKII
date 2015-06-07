@@ -85,6 +85,9 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	SDL_Color color = { 255, 255, 255, 255 };
     this->numero.push_back(texAPartirDeTexto("1", "resources/miscelaneo/Mk3.ttf", color, 32, renderer));
     this->numero.push_back(texAPartirDeTexto("2", "resources/miscelaneo/Mk3.ttf", color, 32, renderer));
+    
+    this->eligio.push_back(false);
+    this->eligio.push_back(false);
 }
 
 void Grilla::Dibujarse(){ 
@@ -102,12 +105,16 @@ void Grilla::Dibujarse(){
 	rect.x = this->xSeleccion[0];
 	rect.y = this->ySeleccion[0];
 	SDL_Rect numerito = {rect.x, rect.y, rect.w/2, rect.h/2};
-	SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
-	SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
+	if (!this->eligio[0]) {
+		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
+		SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
+	}
 	rect.x = numerito.x = this->xSeleccion[1];
 	rect.y = numerito.y = this->ySeleccion[1];
-	SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
-	SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
+	if (!this->eligio[1]) {
+		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
+		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
+	}
 }
 
 void Grilla::cargarTexturas() {
@@ -164,6 +171,8 @@ void Grilla::moverIzquierdaOpcion(int jugador) {
 }
 
 string Grilla::seleccionarOpcion(int jugador) {
+	
+	this->eligio[jugador] = true;
 	
 	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
 	
