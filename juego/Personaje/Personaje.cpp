@@ -560,6 +560,8 @@ void Personaje::Dibujarse(){
 
 	if (panel){
 		panel->dibujar(this->conversor, this->renderer);
+		string temp("123");
+		panel->checkToma(temp, 1);
 	}
 }
 

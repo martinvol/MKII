@@ -262,7 +262,7 @@ compilar_juego: Arrojable.o LTexture.o  Rectangulo.o Menu.o main.o Capa.o Escena
 
 juego: compilar_juego
 	./juego_ejecutable ${jsonpath}
-	make clean
+	# make clean
 	
 juegoVolpe: juego
 	make juego jsonpath=resources/volpe.json

@@ -28,7 +28,7 @@ class PanelBotones {
 		
 		void AgregarBotones(int boton);
 		void dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer); // recibe un vector con la lista de cosas a mostrar
-		void checkToma(string toma);
+		bool checkToma(string, int);
 
 	private:
 		std::vector<EstructuraBoton*> botones_actuales;

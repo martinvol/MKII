@@ -39,7 +39,6 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 	    std::cout << botones_actuales.at(i)->numero_boton << ' ';
 		SDL_Rect destino;
 		destino.x = inicio + off;
-		std::cout << destino.x << ' ';
 		destino.y = 100;
 		destino.h = 78;
 		destino.w = 78;
@@ -60,6 +59,34 @@ void PanelBotones::AgregarBotones(int boton){
 	botones_actuales.push_back(boton_temp);
 };
 
-void PanelBotones::checkToma(string toma){
+bool PanelBotones::checkToma(string toma, int tolerancia){
 
+	// Asumo que empiezan en el mismo lugar
+	int i = 0, j = 0, errores = 0, aciertos = 0;
+
+	if (!botones_actuales.size() || !toma.size()){
+		std::cout << "No agarró toma1; " << ' ';
+		return false;
+	}
+	
+	while (i < botones_actuales.size() && j < botones_actuales.size()){
+		if (errores > tolerancia){
+			std::cout << "No agarró toma2; " << ' ';
+			return false;
+		}
+		if (toma[i] - '0' == botones_actuales.at(j)->numero_boton){
+			i++;
+			j++;
+			aciertos++;
+		} else {
+			j++;
+			errores++;
+		}
+		if (aciertos == toma.size()){
+			std::cout << "Agarró toma; " << ' ';
+			return true;
+		}
+	}
+	std::cout << "no Agarró toma 3; " << ' ';
+	return false;
 }
