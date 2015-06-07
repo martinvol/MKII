@@ -105,9 +105,14 @@ void Grilla::Dibujarse(){
 	rect.x = this->xSeleccion[0];
 	rect.y = this->ySeleccion[0];
 	SDL_Rect numerito = {rect.x, rect.y, rect.w/2, rect.h/2};
+	int w, h;
+	SDL_Texture* imagenJugador1 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->getImagenActual(true);
+	SDL_QueryTexture(imagenJugador1, NULL, NULL, &w, &h);
+	SDL_Rect jugador1 = {0, 0, w, h};
 	if (!this->eligio[0]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
+		SDL_RenderCopy(this->ren, imagenJugador1, NULL, &jugador1);				
 	}
 	rect.x = numerito.x = this->xSeleccion[1];
 	rect.y = numerito.y = this->ySeleccion[1];
