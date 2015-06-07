@@ -16,15 +16,24 @@ class Grilla {
 		vector<SDL_Texture*> seleccion;
 		void cargarTexturas();
 		int anchoImagen, altoImagen;
-		int xSeleccion1, ySeleccion1;
-		int xSeleccion2, ySeleccion2;
+		vector<int> xSeleccion;
+		vector<int> ySeleccion;
+		//int xSeleccion1, ySeleccion1;
+		//int xSeleccion2, ySeleccion2;
 		SDL_Texture* background;
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);
 		void Dibujarse();
-		string obtenerPathJugadorNumero(int jugador);
 		~Grilla();
+		
+		/* Para el controller */
+		// int jugador: 0 o 1
+		void subirOpcion(int jugador);
+		void bajarOpcion(int jugador);
+		void moverDerechaOpcion(int jugador);
+		void moverIzquierdaOpcion(int jugador);
+		string seleccionarOpcion(int jugador);
 };
 
 #endif

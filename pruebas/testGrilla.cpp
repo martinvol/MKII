@@ -159,7 +159,7 @@ int main() {
         SDL_Rect srcrect2 = { sprite2 * 13 - 3, 0, 13, 19};
         SDL_Rect dstrect2 = { 382, 10, 13, 19};
         SDL_Rect dstrect = { 400, 10, 13, 19 };
-		SDL_PollEvent(&evento);
+		while (SDL_PollEvent(&evento)){
 		switch(evento.type){
 
 		case SDL_QUIT:
@@ -169,9 +169,10 @@ int main() {
             if(evento.key.keysym.sym == SDLK_RIGHT)	derecha+= 5;
             if(evento.key.keysym.sym == SDLK_LEFT)  derecha-= 5;
             if(evento.key.keysym.sym == SDLK_DOWN)  w -= 1;
+            if(evento.key.keysym.sym == SDLK_UP) grilla->subirOpcion(0);
             break;
 		}
-		
+	}
 
         //dibujo en pantalla
         SDL_RenderClear(renderer);

@@ -21,6 +21,7 @@
 #define Y_INIT 60
 
 #define CANT_ANCHO 4
+#define TOTAL_IMAGENES 12
 
 using namespace std;
 
@@ -46,6 +47,8 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	this->seleccion.push_back(aux.mTexture);
 	aux.loadFromFile(OPCION, 0, 60, 300, false);
 	this->seleccion.push_back(aux.mTexture);
+	this->xSeleccion.push_back(X_INIT);
+	this->ySeleccion.push_back(Y_INIT);
 }
 
 void Grilla::Dibujarse(){ 
@@ -55,12 +58,14 @@ void Grilla::Dibujarse(){
 	rect.h = this->altoImagen;
 	SDL_RenderCopy(this->ren, this->background, NULL, NULL);
 	//this->texs.size();
-	for(int i = 0; i < 12; i++) {
+	for(int i = 0; i < TOTAL_IMAGENES; i++) {
 		rect.x = (i % CANT_ANCHO)*this->anchoImagen + X_INIT;
 		rect.y = (i / CANT_ANCHO)*this->altoImagen + Y_INIT;
 		SDL_RenderCopy(this->ren, this->texs[i], NULL, &rect);
 	}
 	Uint32 ticks = SDL_GetTicks();
+	rect.x = this->xSeleccion[0];
+	rect.y = this->ySeleccion[0];
 	SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 }
 
@@ -84,3 +89,19 @@ Grilla::~Grilla() {
 	
 	SDL_DestroyTexture(this->background);
 }
+
+/*********************************************************************
+ * ************************  CONTROLLER  *****************************
+ * ******************************************************************/
+
+void Grilla::subirOpcion(int jugador) {
+	this->ySeleccion[jugador] -= Y_INIT;
+	this->ySeleccion[jugador] -= this->altoImagen;
+	this->ySeleccion[jugador] = (this->ySeleccion[jugador] + (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) 
+								% (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen;
+	this->ySeleccion[jugador] += Y_INIT;
+}
+//void Grilla::bajarOpcion(int jugador);
+//void Grilla::moverDerechaOpcion(int jugador);
+//void Grilla::moverIzquierdaOpcion(int jugador);
+//string Grilla::seleccionarOpcion(int jugador);
