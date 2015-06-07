@@ -1,5 +1,6 @@
 #include "GrillaDeJugadores.hpp"
 #include "../LTexture.hpp"
+#include <SDL2/SDL_ttf.h>
 
 #define PATH1 "SubZero"
 #define PATH2 "Ermac"
@@ -25,9 +26,21 @@
 
 using namespace std;
 
+SDL_Texture* texAPartirDeTexto(const string &message, const string &fontFile,
+	SDL_Color color, int fontSize, SDL_Renderer *renderer) {
+	TTF_Font *font = TTF_OpenFont(fontFile.c_str(), fontSize);
+	SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+	SDL_FreeSurface(surf);
+	TTF_CloseFont(font);
+	return texture;
+}
+
+
 
 Grilla::Grilla(SDL_Renderer* renderer) {
 	this->ren = renderer;
+	
 	this->paths.push_back(PATH1);
 	this->paths.push_back(PATH2);
 	this->paths.push_back(PATH3);
@@ -40,15 +53,26 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	this->paths.push_back(PATH10);
 	this->paths.push_back(PATH11);
 	this->paths.push_back(PATH12);
+	
 	string pathBackground = BACKGROUND;
 	this->background = IMG_LoadTexture(this->ren, pathBackground.c_str());
+	
 	LTexture aux = LTexture(this->ren);
+	
 	aux.loadFromFile(OPCION, 0, 0, 0, false);
 	this->seleccion.push_back(aux.mTexture);
+	
 	aux.loadFromFile(OPCION, 0, 60, 300, false);
 	this->seleccion.push_back(aux.mTexture);
+	
 	this->xSeleccion.push_back(X_INIT);
 	this->ySeleccion.push_back(Y_INIT);
+	this->xSeleccion.push_back((CANT_ANCHO*this->anchoImagen) + X_INIT);
+	this->ySeleccion.push_back(Y_INIT);
+	
+	SDL_Color color = { 255, 255, 255, 255 };
+    this->numero.push_back(texAPartirDeTexto("1", "resources/miscelaneo/Mk3.ttf", color, 32, renderer));
+    this->numero.push_back(texAPartirDeTexto("2", "resources/miscelaneo/Mk3.ttf", color, 32, renderer));
 }
 
 void Grilla::Dibujarse(){ 
@@ -66,7 +90,13 @@ void Grilla::Dibujarse(){
 	Uint32 ticks = SDL_GetTicks();
 	rect.x = this->xSeleccion[0];
 	rect.y = this->ySeleccion[0];
+	SDL_Rect numerito = {rect.x, rect.y, rect.w/2, rect.h/2};
 	SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
+	SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
+	rect.x = numerito.x = this->xSeleccion[1];
+	rect.y = numerito.y = this->ySeleccion[1];
+	SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
+	SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
 }
 
 void Grilla::cargarTexturas() {
@@ -85,6 +115,7 @@ Grilla::~Grilla() {
 	}
 	for(int i = 0; i < this->seleccion.size(); i++) {
 		SDL_DestroyTexture(this->seleccion[i]);
+		SDL_DestroyTexture(this->numero[i]);
 	}
 	
 	SDL_DestroyTexture(this->background);

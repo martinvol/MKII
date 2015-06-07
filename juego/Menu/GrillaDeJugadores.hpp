@@ -14,6 +14,7 @@ class Grilla {
 		vector<string> paths;
 		vector<SDL_Texture*> texs;
 		vector<SDL_Texture*> seleccion;
+		vector<SDL_Texture*> numero;
 		void cargarTexturas();
 		int anchoImagen, altoImagen;
 		vector<int> xSeleccion;
