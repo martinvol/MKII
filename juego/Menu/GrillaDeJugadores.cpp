@@ -17,8 +17,8 @@
 #define BACKGROUND "resources/orangeportal.png"
 #define OPCION "resources/menu/opcion_transparent.png"
 
-#define X_INIT 30
-#define Y_INIT 60
+#define X_INIT 80
+#define Y_INIT 100
 
 #define CANT_ANCHO 4
 #define TOTAL_IMAGENES 12
@@ -101,7 +101,23 @@ void Grilla::subirOpcion(int jugador) {
 								% (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen;
 	this->ySeleccion[jugador] += Y_INIT;
 }
-//void Grilla::bajarOpcion(int jugador);
-//void Grilla::moverDerechaOpcion(int jugador);
-//void Grilla::moverIzquierdaOpcion(int jugador);
+void Grilla::bajarOpcion(int jugador) {
+	this->ySeleccion[jugador] -= Y_INIT;
+	this->ySeleccion[jugador] += this->altoImagen;
+	this->ySeleccion[jugador] = (this->ySeleccion[jugador] + (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) 
+								% (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen;
+	this->ySeleccion[jugador] += Y_INIT;
+}
+void Grilla::moverDerechaOpcion(int jugador) {
+	this->xSeleccion[jugador] -= X_INIT;
+	this->xSeleccion[jugador] += this->anchoImagen;
+	if (this->xSeleccion[jugador] >= (CANT_ANCHO)*this->anchoImagen) this->xSeleccion[jugador] -= (CANT_ANCHO)*this->anchoImagen;
+	this->xSeleccion[jugador] += X_INIT;
+}
+void Grilla::moverIzquierdaOpcion(int jugador) {
+	this->xSeleccion[jugador] -= X_INIT;
+	this->xSeleccion[jugador] -= this->anchoImagen;
+	if (this->xSeleccion[jugador] < 0) this->xSeleccion[jugador] += (CANT_ANCHO)*this->anchoImagen;
+	this->xSeleccion[jugador] += X_INIT;
+}
 //string Grilla::seleccionarOpcion(int jugador);

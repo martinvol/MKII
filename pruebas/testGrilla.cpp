@@ -166,10 +166,11 @@ int main() {
 			quit = true;
             break;
         case SDL_KEYDOWN:
-            if(evento.key.keysym.sym == SDLK_RIGHT)	derecha+= 5;
-            if(evento.key.keysym.sym == SDLK_LEFT)  derecha-= 5;
-            if(evento.key.keysym.sym == SDLK_DOWN)  w -= 1;
+            if(evento.key.keysym.sym == SDLK_RIGHT)	grilla->moverDerechaOpcion(0);
+            if(evento.key.keysym.sym == SDLK_LEFT)  grilla->moverIzquierdaOpcion(0);
+            if(evento.key.keysym.sym == SDLK_DOWN)  grilla->bajarOpcion(0);
             if(evento.key.keysym.sym == SDLK_UP) grilla->subirOpcion(0);
+            if(evento.key.keysym.sym == SDLK_ESCAPE) quit = true;
             break;
 		}
 	}
