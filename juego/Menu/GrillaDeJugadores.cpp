@@ -11,7 +11,7 @@
 #define PATH5 "Scorpion"
 #define PATH6 "Reptile"
 #define PATH7 "Jade"
-#define PATH8 "Mileena"
+#define PATH8 "Cyrax"
 #define PATH9 "Kitana"
 #define PATH10 "Smoke_r"
 #define PATH11 "Sektor"
