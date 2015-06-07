@@ -238,8 +238,7 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 	SDL_UnlockSurface(loadedSurface);
 	mTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
 	SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
-	SDL_FreeSurface(loadedSurface);
-	devolverEspejado(mTexture);
+	SDL_FreeSurface(loadedSurface);	
 	return true;	
 }
 
@@ -259,40 +258,4 @@ void LTexture::setAlpha( Uint8 alpha )
 {
 	//Modulate texture alpha
 	SDL_SetTextureAlphaMod( mTexture, alpha );
-}
-
-//-------------------------------------------------------------------------
-SDL_Texture* LTexture::devolverEspejado(SDL_Texture* original){
-	return original;
-	int w,h;
-	SDL_QueryTexture(original, NULL, NULL, &w, &h);	
-	
-	void **pixels;
-	int linea;
-	SDL_LockTexture(original, NULL, pixels, &linea);
-	int pixelCount = ( linea/4 ) * h; 
-	
-	Uint32* pixelsPosta = (Uint32*) pixels;
-	
-	
-	
-	for(int i=0; i < pixelCount-linea; i+=linea){		
-		for(int j=0; j< linea/2; j++){
-			int aux = pixelsPosta[i+j];
-			pixelsPosta[i+j]= pixelsPosta[i+linea-j];
-			pixelsPosta[i+linea-j] = aux;
-		}			
-	}
-	//~ for( int i = 0; i < cantidadDePixels; i+=lineaDeCocucha ) {
-		//~ for( int j = 0; j < lineaDeCocucha; j++) {
-			//~ Uint32 temp = pixelsPosta[j];
-			//~ pixelsPosta[i] = pixelsPosta[lineaDeCocucha -i];
-			//~ pixelsPosta[lineaDeCocucha -i] = temp;			
-		//~ }
-	//~ }
-	
-	//~ cout<<lineaDeCocucha<<endl;
-	SDL_UnlockTexture(original);
-	return original;	
-	
 }

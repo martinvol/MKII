@@ -36,8 +36,7 @@ class LTexture {
 
 		//Pixel manipulators
 		void* getPixels();
-		int getPitch();
-		SDL_Texture* devolverEspejado(SDL_Texture* original);
+		int getPitch();			
 	private:
 	    SDL_Renderer* gRenderer;
 		int mWidth;
