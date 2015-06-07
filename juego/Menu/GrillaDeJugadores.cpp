@@ -1,4 +1,5 @@
 #include "GrillaDeJugadores.hpp"
+#include "../LTexture.hpp"
 
 #define PATH1 "SubZero"
 #define PATH2 "Ermac"
@@ -36,6 +37,11 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	this->paths.push_back(PATH12);
 	string pathBackground = BACKGROUND;
 	this->background = IMG_LoadTexture(this->ren, pathBackground.c_str());
+	LTexture aux = LTexture(this->ren);
+	aux.loadFromFile("resources/menu/opcion_transparent.png", 0, 0, 0, false);
+	this->seleccion.push_back(aux.mTexture);
+	aux.loadFromFile("resources/menu/opcion_transparent.png", 0, 60, 300, false);
+	this->seleccion.push_back(aux.mTexture);
 }
 
 void Grilla::Dibujarse(){ 
@@ -50,6 +56,8 @@ void Grilla::Dibujarse(){
 		rect.y = (i / CANT_ANCHO)*this->altoImagen + 60;
 		SDL_RenderCopy(this->ren, this->texs[i], NULL, &rect);
 	}
+	Uint32 ticks = SDL_GetTicks();
+	SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 }
 
 void Grilla::cargarTexturas() {
@@ -66,5 +74,9 @@ Grilla::~Grilla() {
 	for(int i = 0; i < this->texs.size(); i++) {
 		SDL_DestroyTexture(this->texs[i]);
 	}
+	for(int i = 0; i < this->seleccion.size(); i++) {
+		SDL_DestroyTexture(this->seleccion[i]);
+	}
+	
 	SDL_DestroyTexture(this->background);
 }

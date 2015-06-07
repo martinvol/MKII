@@ -33,7 +33,7 @@ testTiempo: clean
 	./testTiempo
 	make clean	
 	
-testGrilla: clean GrillaDeJugadores.o
+testGrilla: clean GrillaDeJugadores.o LTexture.o
 	$(CC) "pruebas/testGrilla.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testScreen
 	./testScreen
 	make clean	

@@ -13,6 +13,7 @@ class Grilla {
 		SDL_Renderer* ren;
 		vector<string> paths;
 		vector<SDL_Texture*> texs;
+		vector<SDL_Texture*> seleccion;
 		void cargarTexturas();
 		int anchoImagen, altoImagen;
 		SDL_Texture* background;
