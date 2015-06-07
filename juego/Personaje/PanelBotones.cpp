@@ -6,15 +6,7 @@
 
 using namespace std;
 
-class EstructuraBoton{
-	public:
-		int numero_boton;
-		Uint32 inicio;
 
-		/*PanelBotones();
-		~PanelBotones();*/
-	private:
-};
 
 PanelBotones::PanelBotones(unordered_map <string, int>* conf_joys, SDL_Renderer *renderer){
 	// cargamos todas las texturas relevantes para los botones
@@ -35,27 +27,38 @@ PanelBotones::~PanelBotones(){
 
 void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer){
 	int off=0;
-	for (auto i = botones_actuales.begin(); i != botones_actuales.end(); ++i){
-	    std::cout << *i << ' ';
-		// SDL_Texture *texturaAux = IMG_LoadTexture(renderer, "resources/botones/x.png");
+	//std::vector<int> a_borrar; // Acá tendría que usar el iterador
+								// pero tiraba segFault y me cansé
+	// for (auto i = botones_actuales.begin(); i != botones_actuales.end(); ++i){
+	for (unsigned int i = 0; i < botones_actuales.size(); ++i){
+	    std::cout << botones_actuales.at(i)->numero_boton << ' ';
 		SDL_Rect destino;
 		destino.x = 100 + off;
 		std::cout << destino.x << ' ';
 		destino.y = 100;
 		destino.h = 78;
 		destino.w = 78;
-		SDL_RenderCopy(renderer, imagenes_tomas[*i], NULL, &destino);
+		SDL_RenderCopy(renderer, imagenes_tomas[botones_actuales.at(i)->numero_boton], NULL, &destino);
 		off += 78;
-	 }
+		
+		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > 3000){
+			//a_borrar.push_back(i);
+			botones_actuales.erase(botones_actuales.begin() + i--);
+		}
+	}
+/*
+	for (unsigned int i = 0; i < a_borrar.size(); ++i){
+		delete botones_actuales.at(i);
+		botones_actuales.erase(botones_actuales.begin() + i);
+	}*/
 	puts("");
 }
 
 void PanelBotones::AgregarBotones(int boton){
-	/*EstructuraBoton* boton_temp = new PanelBotones();
-	boton->numero_boton = boton;
-	boton->inicio = SDL_GetTicks();*/
-
-	botones_actuales.push_back(boton);
+	EstructuraBoton* boton_temp = new EstructuraBoton();
+	boton_temp->numero_boton = boton;
+	boton_temp->inicio = SDL_GetTicks();
+	botones_actuales.push_back(boton_temp);
 };
 
 #endif
