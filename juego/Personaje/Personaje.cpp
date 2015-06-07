@@ -563,9 +563,10 @@ void Personaje::Dibujarse(){
 	}
 }
 
-void Personaje::dibujar_botones(){
+void Personaje::dibujar_botones(Parser* conf){
 	puts("botones");
-	panel = new PanelBotones();
+	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
+	panel = new PanelBotones(conf_joys, renderer);
 	// acá se dibujan en pantala las cosas
 
 
@@ -622,20 +623,15 @@ void Personaje::dibujar_botones(){
 			
 			if (i ==  (*conf_joys)["pinia_baja"]){
 				PiniaBaja = true;
-				panel->AgregarBotones((*conf_joys)["pinia_baja"]);
 			} else if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
-				panel->AgregarBotones((*conf_joys)["cubrirse"]);
 			} else if (i == (*conf_joys)["patada_baja"]){
 				PatadaBaja = true;
-				panel->AgregarBotones((*conf_joys)["patada_baja"]);
 			} else if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = true;
-				panel->AgregarBotones((*conf_joys)["pinia_alta"]);
 			} else if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
 				this->Arrojar();
-				panel->AgregarBotones((*conf_joys)["arrojar_arma"]);
 			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
 				this->Arrojar();
@@ -650,6 +646,10 @@ void Personaje::dibujar_botones(){
 				}
 			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = true;
+
+			}
+			if (panel){
+				panel->AgregarBotones(i);
 			}
 			break;
 		case SDL_JOYBUTTONUP:

@@ -1,14 +1,16 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <vector>
+#include <unordered_map>
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
+#include "../Parser/Parser.hpp"
 
 using namespace std;
 
 class PanelBotones {
 
 public:
-	PanelBotones(); // un conversor de coordenadas, 
+	PanelBotones(unordered_map <string, int>* conf_joys, SDL_Renderer *renderer); // un conversor de coordenadas, 
 	~PanelBotones();
 	
 	void AgregarBotones(int boton);
@@ -16,4 +18,5 @@ public:
 
 private:
 	std::vector<int> botones_actuales;
+	unordered_map <int, SDL_Texture*> imagenes_tomas;
 };

@@ -516,7 +516,7 @@ void crear_personajes_practica(){
                                     this->conversor, parser->velocidad_arma,
                                     1, true);
 
-    this->personajeJuego1->dibujar_botones();
+    this->personajeJuego1->dibujar_botones(this->parser);
 
     /* Personaje 2 - derecha */
     // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 

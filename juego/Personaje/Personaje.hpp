@@ -120,7 +120,7 @@ class Personaje {
 
 		void gritar();
 		
-	    void dibujar_botones();
+	    void dibujar_botones(Parser* conf);
 	private:
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
