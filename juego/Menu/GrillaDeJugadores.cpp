@@ -99,15 +99,20 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
     this->eligio.push_back(false);
     this->eligio.push_back(false);
     
-    this->header = texAPartirDeTexto(HEADER_MSJ, "resources/miscelaneo/Mk3.ttf", color, 32, renderer);    
+    this->header = texAPartirDeTexto(HEADER_MSJ, "resources/miscelaneo/Mk3.ttf", color, 32, renderer); 
+    int w, h;
+	SDL_QueryTexture(this->header, NULL, NULL, &w, &h);
+    this->x_header = this->anchoVentana/2 - w/2;
+	this->y_header = HEAD_Y;
+	
 }
 
 void Grilla::Dibujarse(){ 
 	SDL_Rect rect;
 	SDL_Rect head;
 	SDL_QueryTexture(this->header, NULL, NULL, &(head.w), &(head.h));
-	head.x = HEAD_X;
-	head.y = HEAD_Y;
+	head.x = this->x_header;
+	head.y = this->y_header;
 	rect.w = this->anchoImagen;
 	rect.h = this->altoImagen;
 	
