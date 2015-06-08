@@ -353,6 +353,7 @@ void game_loop(){
                 crear_personajes();
                 pelear(&evento);
                 salir_de_modo();
+                USAR_AI = false;
             }
 		}
 }
@@ -556,13 +557,17 @@ void crear_personajes_practica(){
         terminar_juego();        
 		
         cargar_configuracion();
+        comenzar_escenario_de_pelea();
+        
         if ((modo_actual == Pelea)
-			// Por ahora
-			|| (modo_actual == Practica)
-			|| (modo_actual == CPU)){
-			comenzar_escenario_de_pelea();
-			crear_personajes();
-		}
+            // Por ahora
+            || (modo_actual == CPU)){
+            crear_personajes();
+
+        } else {
+			// || (modo_actual == Practica)
+            crear_personajes_practica();
+        }
 
     };
 
