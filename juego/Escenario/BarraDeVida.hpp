@@ -3,7 +3,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
+#include "../LTexture.hpp"
+#include "../Logger/Logger.hpp"
 // Música
 #include <SDL2/SDL_mixer.h>
 
@@ -12,6 +13,8 @@ public:
     // 0 - 1000
     int vidaNumerica, staminaNumerica;
 private:
+	bool ganoRound;
+
     void ActualizarAnchos();
     void ActualizarAnchoDeVida(int anchoDeVidaEsperado);
     void ActualizarAnchoDeStamina(int anchoDeStaminaEsperado);
@@ -35,6 +38,9 @@ private:
     SDL_Rect staminaBorde;
 
     SDL_Rect staminaVerde, staminaRoja;
+    
+    LTexture* medallaVictoria;
+    SDL_Rect medallaRect;
 
 public:
     BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
@@ -44,6 +50,7 @@ public:
     void Lastimar(int porcentaje);
     void Cansar(int porcentaje);
     void Aliviar(int porcentaje);
+    void GanoRound();
 
     bool seMurio();
 

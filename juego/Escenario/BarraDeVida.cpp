@@ -7,13 +7,27 @@ using namespace std;
 
 BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
 	this->Inicializar(x_inicial, x_final, altoPantalla, rendererParam, izquierdaParam);
+	medallaVictoria = new LTexture(this->renderer);
+	medallaVictoria->loadFromFile("resources/miscelaneo/05.gif", 0, 0, 0,false);
+	Logger* logger;
+	logger =  Logger::instance();
+	if(medallaVictoria == NULL){
+			logger->log_debug("IMG_LoadTexture error: resources/1.png");			
+	}
 }
 
 BarraDeVida::~BarraDeVida(){
 	Mix_FreeChunk(pinia_sonido);
+	delete medallaVictoria;
+	
+}
+
+void BarraDeVida::GanoRound(){
+	this->ganoRound = true;
 }
 
 void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
+	this->ganoRound = false;
     this->izquierda = izquierdaParam;
     this->muerto = false;
     this->terminnoDeCansarse = true;
@@ -67,7 +81,13 @@ void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_
     staminaRoja = {x_ini, y_fin+1, 0, altoStamina};
 
     staminaBorde= {x_ini-1, y_fin, anchoStamina+2, altoStamina+2};
-
+	
+	//Rectangulo de medalla
+	this->medallaRect.x = x_ini;
+	this->medallaRect.y = staminaBorde.y + staminaBorde.h+1;
+	this->medallaRect.w = staminaVerde.h;
+    this->medallaRect.h = staminaVerde.h;
+	
 
     //La barra derecha carga el danio al reves
     if (izquierda == false){
@@ -78,10 +98,13 @@ void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_
         staminaVerde = {x_fin-anchoStamina, y_fin+1, anchoStamina, altoStamina};
         staminaRoja = {x_fin, y_fin+1, 0, altoStamina};
         staminaBorde= {x_fin-anchoStamina-1, y_fin, anchoStamina+2, altoStamina+2};
+        //tope derecho menos su ancho
+        this->medallaRect.x = x_fin - medallaRect.w;
     }
     this->anchoRectanguloStaminaInterior = this->staminaVerde.w;
 
    pinia_sonido = Mix_LoadWAV("resources/music/punch.wav");
+   
 
 }
 
@@ -95,7 +118,10 @@ void BarraDeVida::Dibujarse(){
     SDL_SetRenderDrawColor( renderer, 255, 255, 255, 200 );
     SDL_RenderDrawRect(renderer, &(this->borde));
     SDL_RenderDrawRect(renderer, &(this->staminaBorde));
-
+	
+	if (ganoRound)
+		SDL_RenderCopy(this->renderer, this->medallaVictoria->mTexture, NULL, &medallaRect);
+	
     if (muerto){
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         //Dibujo la barra de negro y salgo
