@@ -43,8 +43,8 @@ SDL_Texture* texAPartirDeTexto(const string &message, const string &fontFile,
 }
 
 int Grilla::obtenerUbicacion(int x, int y) {
-	x -= X_INIT;
-	y -= Y_INIT;
+	x -= this->x_init;
+	y -= this->y_init;
 	
 	x /= this->anchoImagen;
 	y /= this->altoImagen;
@@ -76,6 +76,9 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	this->anchoVentana = anchoVentana;
 	this->altoVentana = altoVentana;
 	
+	this->x_init = X_INIT;
+	this->y_init = Y_INIT;
+	
 	LTexture aux = LTexture(this->ren);
 	
 	aux.loadFromFile(OPCION, 0, 0, 0, false);
@@ -84,10 +87,10 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	aux.loadFromFile(OPCION, 0, 60, 300, false);
 	this->seleccion.push_back(aux.mTexture);
 	
-	this->xSeleccion.push_back(X_INIT);
-	this->ySeleccion.push_back(Y_INIT);
-	this->xSeleccion.push_back(((CANT_ANCHO - 1)*this->anchoImagen) + X_INIT);
-	this->ySeleccion.push_back(Y_INIT);
+	this->xSeleccion.push_back(this->x_init);
+	this->ySeleccion.push_back(this->y_init);
+	this->xSeleccion.push_back(((CANT_ANCHO - 1)*this->anchoImagen) + this->x_init);
+	this->ySeleccion.push_back(this->y_init);
 	
 	SDL_Color color = { 255, 255, 255, 255 };
     this->numero.push_back(texAPartirDeTexto("1", "resources/miscelaneo/Mk3.ttf", color, 32, renderer));
@@ -112,8 +115,8 @@ void Grilla::Dibujarse(){
 	SDL_RenderCopy(this->ren, this->header, NULL, &head);
 
 	for(int i = 0; i < TOTAL_IMAGENES; i++) {
-		rect.x = (i % CANT_ANCHO)*this->anchoImagen + X_INIT;
-		rect.y = (i / CANT_ANCHO)*this->altoImagen + Y_INIT;
+		rect.x = (i % CANT_ANCHO)*this->anchoImagen + this->x_init;
+		rect.y = (i / CANT_ANCHO)*this->altoImagen + this->y_init;
 		SDL_RenderCopy(this->ren, this->texs[i], NULL, &rect);
 	}
 	Uint32 ticks = SDL_GetTicks();
@@ -183,36 +186,36 @@ string Grilla::obtenerPath(int jugador) {
 void Grilla::subirOpcion(int jugador) {
 	if (this->eligio[jugador]) return;
 	
-	this->ySeleccion[jugador] -= Y_INIT;
+	this->ySeleccion[jugador] -= this->y_init;
 	this->ySeleccion[jugador] -= this->altoImagen;
 	this->ySeleccion[jugador] = (this->ySeleccion[jugador] + (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) 
 								% (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen;
-	this->ySeleccion[jugador] += Y_INIT;
+	this->ySeleccion[jugador] += this->y_init;
 }
 void Grilla::bajarOpcion(int jugador) {
 	if (this->eligio[jugador]) return;
 	
-	this->ySeleccion[jugador] -= Y_INIT;
+	this->ySeleccion[jugador] -= this->y_init;
 	this->ySeleccion[jugador] += this->altoImagen;
 	this->ySeleccion[jugador] = (this->ySeleccion[jugador] + (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) 
 								% (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen;
-	this->ySeleccion[jugador] += Y_INIT;
+	this->ySeleccion[jugador] += this->y_init;
 }
 void Grilla::moverDerechaOpcion(int jugador) {
 	if (this->eligio[jugador]) return;
 	
-	this->xSeleccion[jugador] -= X_INIT;
+	this->xSeleccion[jugador] -= this->x_init;
 	this->xSeleccion[jugador] += this->anchoImagen;
 	if (this->xSeleccion[jugador] >= (CANT_ANCHO)*this->anchoImagen) this->xSeleccion[jugador] -= (CANT_ANCHO)*this->anchoImagen;
-	this->xSeleccion[jugador] += X_INIT;
+	this->xSeleccion[jugador] += this->x_init;
 }
 void Grilla::moverIzquierdaOpcion(int jugador) {
 	if (this->eligio[jugador]) return;
 	
-	this->xSeleccion[jugador] -= X_INIT;
+	this->xSeleccion[jugador] -= this->x_init;
 	this->xSeleccion[jugador] -= this->anchoImagen;
 	if (this->xSeleccion[jugador] < 0) this->xSeleccion[jugador] += (CANT_ANCHO)*this->anchoImagen;
-	this->xSeleccion[jugador] += X_INIT;
+	this->xSeleccion[jugador] += this->x_init;
 }
 
 string Grilla::seleccionarOpcion(int jugador) {

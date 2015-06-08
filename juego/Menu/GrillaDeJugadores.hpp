@@ -33,6 +33,7 @@ class Grilla {
 		SDL_Texture* header;
 		
 		int anchoVentana, altoVentana;
+		int x_init, y_init;
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana);
