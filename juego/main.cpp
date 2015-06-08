@@ -396,12 +396,14 @@ void pelear(SDL_Event* evento){
 
 		if (director->seMurio(0)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+            director->GanoRound(0);
             // this->reiniciarJuego();
-            return;
+            //~ return;
         } else if (director->seMurio(1)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+            director->GanoRound(1);
              //this->reiniciarJuego();
-            return;
+            //~ return;
         }
     }
 
