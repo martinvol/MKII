@@ -47,20 +47,28 @@ ControladorGrilla(Grilla* menu){
 	enter = false;
 	this->menu = menu;
 	en_boton = false;
+	cout << menu->eligio[0] << endl; ///
 }
 
 void procesarEvento(SDL_Event* evento){
+	//if ((evento->type == SDL_JOYAXISMOTION))	
+	//cout << "Procesar evento" << endl ; ///
+	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
+	//cout << "nume: " << numeroJoystick << endl ; ///
 	int jugador = 0;
 	while(SDL_PollEvent(evento)) {
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
+				cout << "Procesar evento JOys" << endl ; ///
+
 			    /* If Up-Down movement */
 				if( evento->jaxis.axis == 1){
 					int y_Joystick = evento->jaxis.value;
 					if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
 						if (arriba == false) menu->subirOpcion(jugador);
 						arriba = true;
+						cout << "abajo" << endl; ///
 					}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
 						if (abajo == false) menu->bajarOpcion(jugador);
 						abajo = true;
@@ -68,6 +76,10 @@ void procesarEvento(SDL_Event* evento){
 						arriba = false;
 						abajo = false;
 					}
+				} else if (evento->jaxis.axis == 0) {
+					int x_Joystick = evento->jaxis.value;
+					if (x_Joystick < -JOYSTICK_DEAD_ZONE) menu->moverIzquierdaOpcion(jugador);
+					else if(x_Joystick > JOYSTICK_DEAD_ZONE) menu->moverDerechaOpcion(jugador);
 				}
 				break;
 			case SDL_KEYDOWN:
@@ -337,13 +349,14 @@ void Grilla::open(Uint32 idVentana) {
 	
 	this->idVentana = idVentana;
 	SDL_Event evento;
+	this->Dibujarse();
 	ControladorGrilla* controlador = new ControladorGrilla(this);
 	//while (!(this->eligio[0] && this->eligio[1])) {
 	while (!(this->eligio[0])) {
-		
-		controlador->procesarEvento(&evento);
-		this->Dibujarse();
-		SDL_Delay(5);		
+			controlador->procesarEvento(&evento);
+			this->Dibujarse();
+			SDL_Delay(5);
+				
 	}
 	delete controlador;
 }

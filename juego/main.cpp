@@ -307,9 +307,9 @@ void game_loop(){
 
 
         menu = new Menu (renderer, ventana);
-        SDL_RenderClear(renderer);
+        //SDL_RenderClear(renderer);
         menu->Dibujarse();
-        SDL_RenderPresent(renderer);
+        //SDL_RenderPresent(renderer);
 
 
         controlador = new ControladorMenu(menu);

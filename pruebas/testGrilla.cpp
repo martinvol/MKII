@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <cstdlib>
+#include <stdio.h>
 #include "../juego/Menu/GrillaDeJugadores.hpp"
 
 using namespace std;
@@ -94,6 +95,11 @@ int setUP() {
 	    SDL_Quit();
 	    return 1;
     }
+    if (SDL_InitSubSystem ( SDL_INIT_JOYSTICK ) < 0){
+		cout << "No se pudo inizializar SDL_Joystick" << endl;
+		return 1;
+	}
+    
 	return 0;
 }	
 
@@ -151,7 +157,23 @@ int main() {
 	bool quit = false;
 	int w, h;
     SDL_QueryTexture(lifeBar,NULL, NULL, &w, &h);
-	while (!quit){
+   SDL_Joystick *joy;
+// Check for joystick
+if(SDL_NumJoysticks()>0) {
+  // Open joystick
+  joy=SDL_JoystickOpen(0);
+  
+  if(joy)
+  {
+    printf("Opened Joystick 0\n");
+    printf("Name: %s\n", SDL_JoystickName(0));
+    printf("Number of Axes: %d\n", SDL_JoystickNumAxes(joy));
+    printf("Number of Buttons: %d\n", SDL_JoystickNumButtons(joy));
+    printf("Number of Balls: %d\n", SDL_JoystickNumBalls(joy));
+  }
+  else
+    printf("Couldn't open Joystick 0\n");
+	/*while (!quit){
 	    int ticks = SDL_GetTicks();
         int sprite = (ticks / 1000) % 10;
         int sprite2 = (ticks / 10000) % 10;
@@ -177,7 +199,7 @@ int main() {
 	}
 
         //dibujo en pantalla
-        SDL_RenderClear(renderer);
+        //SDL_RenderClear(renderer);
         renderTexture(under, renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         renderTexture(background, renderer, 1, 46*1.6 + 1, 400*1.6, 208*1.6);
         renderTexture(floor, renderer, derecha, SCREEN_HEIGHT - 46*1.6, 1216*1.6, 46*1.6);
@@ -187,10 +209,11 @@ int main() {
         SDL_RenderCopy(renderer, timer, &srcrect, &dstrect);
         SDL_RenderCopy(renderer, timer, &srcrect2, &dstrect2);
         grilla->Dibujarse();
-        SDL_RenderPresent(renderer);
+        //SDL_RenderPresent(renderer);
         SDL_Delay(5);	
-    }
-    
+    }*/
+} else cout << "No detecta el joystick" << endl;
+    grilla->open(SDL_GetWindowID(win));
 	SDL_DestroyTexture(floor);
     SDL_DestroyTexture(background);
     SDL_DestroyTexture(under);
@@ -200,6 +223,8 @@ int main() {
     SDL_DestroyTexture(timer);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(win);
+    if (joy) SDL_JoystickClose(joy);
+    SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
     delete grilla;
     IMG_Quit();
     SDL_Quit();
