@@ -76,8 +76,8 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	this->anchoVentana = anchoVentana;
 	this->altoVentana = altoVentana;
 	
-	this->x_init = X_INIT;
-	this->y_init = Y_INIT;
+	this->x_init = this->anchoVentana/2 - (CANT_ANCHO*this->anchoImagen)/2;
+	this->y_init = this->altoVentana/2 - ((TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen)/2;
 	
 	LTexture aux = LTexture(this->ren);
 	
