@@ -29,6 +29,9 @@ class Grilla {
 		string obtenerPath(int pj);
 		vector<Accion*> accionesQuieto;
 		vector<Accion*> accionesGanar;
+		
+		SDL_Texture* header;
+		SDL_Texture* header2;
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer);

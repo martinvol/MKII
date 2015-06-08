@@ -23,6 +23,10 @@
 #define X_INIT 100
 #define Y_INIT 120
 
+#define HEADER_MSJ "ELIGE TU JUGADOR"
+#define HEAD_X 100
+#define HEAD_Y 0
+
 #define CANT_ANCHO 4
 #define TOTAL_IMAGENES 12
 
@@ -88,14 +92,22 @@ Grilla::Grilla(SDL_Renderer* renderer) {
     
     this->eligio.push_back(false);
     this->eligio.push_back(false);
+    
+    this->header = texAPartirDeTexto(HEADER_MSJ, "resources/miscelaneo/Mk3.ttf", color, 32, renderer);    
 }
 
 void Grilla::Dibujarse(){ 
 	SDL_Rect rect;
+	SDL_Rect head;
+	SDL_QueryTexture(this->header, NULL, NULL, &(head.w), &(head.h));
+	head.x = HEAD_X;
+	head.y = HEAD_Y;
 	rect.w = this->anchoImagen;
 	rect.h = this->altoImagen;
+	
 	SDL_RenderCopy(this->ren, this->background, NULL, NULL);
-	//this->texs.size();
+	SDL_RenderCopy(this->ren, this->header, NULL, &head);
+
 	for(int i = 0; i < TOTAL_IMAGENES; i++) {
 		rect.x = (i % CANT_ANCHO)*this->anchoImagen + X_INIT;
 		rect.y = (i / CANT_ANCHO)*this->altoImagen + Y_INIT;
@@ -153,6 +165,7 @@ Grilla::~Grilla() {
 	}
 	
 	SDL_DestroyTexture(this->background);
+	SDL_DestroyTexture(this->header);
 }
 string Grilla::obtenerPath(int jugador) {
 	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
