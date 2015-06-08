@@ -15,6 +15,8 @@
 #include "../Escenario/BarraDeVida.hpp"
 #include "../Logger/Logger.hpp"
 
+#include "PanelBotones.hpp"
+
 #define JOYSTICK_DEAD_ZONE 10000
 
 
@@ -59,10 +61,6 @@ class Personaje {
 
 		Arrojable* arrojable = NULL;
 	    Mix_Chunk *pinia_sonido;
-
-	    std::vector<int> botones_actuales;
-	    
-	    bool dibujar_botones=false;
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -122,10 +120,11 @@ class Personaje {
 
 		void gritar();
 		
+	    void dibujar_botones(Parser* conf);
 	private:
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
-	    void _dibujar_botones();
+	    PanelBotones* panel=NULL;
 };
 
 
