@@ -1,5 +1,8 @@
 #include "PanelBotones.hpp"
 #include <iostream>
+#include <SDL2/SDL_ttf.h>
+
+#define DURACION_TEXTO 5*1000
 
 using namespace std;
 
@@ -67,6 +70,30 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 	}
 	int inicio = (conv->ancho_fisico/2) - (78*botones_actuales.size()/2);
 
+	if (ejecutando_toma){
+		if (SDL_GetTicks() - tiempo_toma < DURACION_TEXTO){
+			// dibujamos el nombre de la toma
+            TTF_Font* Sans = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 24);
+			SDL_Color White = {255, 255, 255};
+			SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "Nombre de toma", White);
+			SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+			SDL_Rect Message_rect;
+			Message_rect.x = (conv->ancho_fisico/2) - surfaceMessage->w/2;
+			Message_rect.y = 200;
+			Message_rect.w = surfaceMessage->w;
+			Message_rect.h = surfaceMessage->h;
+
+			SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+
+			SDL_FreeSurface(surfaceMessage);
+            SDL_DestroyTexture(Message);
+        } else {
+        	puts("ejecutando_toma en false");
+        	ejecutando_toma = false;
+        }
+	}
+
 	for (unsigned int i = 0; i < botones_actuales.size(); ++i){
 	    /// std::cout << botones_actuales.at(i)->numero_boton << ' ';
 		SDL_Rect destino;
@@ -81,69 +108,79 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 		}
 		
 		off += 78;
-		
-		if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > tiempo_max_boton){
-			delete botones_actuales.at(i);
-			botones_actuales.erase(botones_actuales.begin() + i--);
+
+		if (!ejecutando_toma){
+			if ((SDL_GetTicks() - botones_actuales.at(i)->inicio) > tiempo_max_boton){
+				delete botones_actuales.at(i);
+				botones_actuales.erase(botones_actuales.begin() + i--);
+			}
 		}
 	}
+
 	/// puts("");
 }
 
 void PanelBotones::AgregarBotones(int boton){
-	EstructuraBoton* boton_temp = new EstructuraBoton();
-	boton_temp->numero_boton = boton;
-	boton_temp->inicio = SDL_GetTicks();
-	botones_actuales.push_back(boton_temp);
+	if (!ejecutando_toma){
+		EstructuraBoton* boton_temp = new EstructuraBoton();
+		boton_temp->numero_boton = boton;
+		boton_temp->inicio = SDL_GetTicks();
+		botones_actuales.push_back(boton_temp);
+	}
 };
 
-bool PanelBotones::checkToma(string toma, int tolerancia){	
-	int i = 0, j = 0, errores = 0, aciertos = 0;
+bool PanelBotones::checkToma(string toma, int tolerancia){
+	if (!ejecutando_toma){
+		int i = 0, j = 0, errores = 0, aciertos = 0;
 
-	if (!botones_actuales.size() || !toma.size()){
-		/// std::cout << "No agarró toma1; " << ' ';
+		if (!botones_actuales.size() || !toma.size()){
+			/// std::cout << "No agarró toma1; " << ' ';
+			return false;
+		}
+		
+		while (true){
+			if (j == botones_actuales.size()){
+				/// std::cout << "Nunca encontré el primero; " << ' ';
+				return false;
+			}
+
+			if (toma[0] - '0' == botones_actuales.at(j)->numero_boton){
+				break;
+			} else {
+				j++; // 
+			}
+		}
+
+
+		while (i < botones_actuales.size() && j < botones_actuales.size()){
+			if (errores > tolerancia){
+				/// std::cout << "No agarró toma2; " << ' ';
+				// Tengo que des marcar todos los que tengo que cambiar
+				limpiar_botones();
+				return false;
+			}
+			if (toma[i] - '0' == botones_actuales.at(j)->numero_boton){
+				botones_actuales.at(j)->otro_color = true;
+				i++;
+				j++;
+				aciertos++;
+			} else {
+				j++;
+				errores++;
+			}
+			if (aciertos == toma.size()){
+				/// std::cout << "Agarró toma; " << ' ';
+				// tengo que marcar los que tengo que cambiar
+				tiempo_toma = SDL_GetTicks();
+				ejecutando_toma = true;
+				return true;
+			}
+		}
+		// Tengo que des marcar todos los que tengo que cambiar
+		limpiar_botones();
+		/// std::cout << "no Agarró toma 3; " << ' ';
 		return false;
 	}
-	
-	while (true){
-		if (j == botones_actuales.size()){
-			/// std::cout << "Nunca encontré el primero; " << ' ';
-			return false;
-		}
-
-		if (toma[0] - '0' == botones_actuales.at(j)->numero_boton){
-			break;
-		} else {
-			j++; // 
-		}
-	}
-
-
-	while (i < botones_actuales.size() && j < botones_actuales.size()){
-		if (errores > tolerancia){
-			/// std::cout << "No agarró toma2; " << ' ';
-			// Tengo que des marcar todos los que tengo que cambiar
-			limpiar_botones();
-			return false;
-		}
-		if (toma[i] - '0' == botones_actuales.at(j)->numero_boton){
-			botones_actuales.at(j)->otro_color = true;
-			i++;
-			j++;
-			aciertos++;
-		} else {
-			j++;
-			errores++;
-		}
-		if (aciertos == toma.size()){
-			/// std::cout << "Agarró toma; " << ' ';
-			// tengo que marcar los que tengo que cambiar
-			return true;
-		}
-	}
-	// Tengo que des marcar todos los que tengo que cambiar
-	limpiar_botones();
-	/// std::cout << "no Agarró toma 3; " << ' ';
 	return false;
 }
 
