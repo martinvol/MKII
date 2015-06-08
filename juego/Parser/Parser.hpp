@@ -1,6 +1,7 @@
 #ifndef PARSER_H_INCLUDED
 #define PARSER_H_INCLUDED
 
+
 #include <unordered_map>
 #include "jsoncpp/json/json.h"
 
@@ -27,6 +28,7 @@ class Parser {
         float personaje_ancho, personaje_alto, personaje_zindex;
         float personaje2_ancho, personaje2_alto, personaje2_zindex;
         float velocidad_arma;
+        float tiempo_max_boton, maximos_botones;
         float color_inicio, color_fin, color_offset;
         float margen;
         std::vector<Capa*> capas_vector;
