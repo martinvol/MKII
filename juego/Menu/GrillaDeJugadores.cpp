@@ -52,7 +52,7 @@ int Grilla::obtenerUbicacion(int x, int y) {
 	return x + CANT_ANCHO*y;	
 }
 
-Grilla::Grilla(SDL_Renderer* renderer) {
+Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	this->ren = renderer;
 	
 	this->paths.push_back(PATH1);
@@ -72,6 +72,9 @@ Grilla::Grilla(SDL_Renderer* renderer) {
 	
 	string pathBackground = BACKGROUND;
 	this->background = IMG_LoadTexture(this->ren, pathBackground.c_str());
+	
+	this->anchoVentana = anchoVentana;
+	this->altoVentana = altoVentana;
 	
 	LTexture aux = LTexture(this->ren);
 	

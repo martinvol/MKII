@@ -137,7 +137,7 @@ int main() {
     SDL_Texture *timer = loadTexture("resources/miscelaneo/06.gif", renderer);
     //renderTexture(under, renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
-    Grilla* grilla = new Grilla(renderer);
+    Grilla* grilla = new Grilla(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     if (background == NULL || floor == NULL || under == NULL){
         SDL_DestroyRenderer(renderer); 

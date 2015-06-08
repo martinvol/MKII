@@ -31,10 +31,11 @@ class Grilla {
 		vector<Accion*> accionesGanar;
 		
 		SDL_Texture* header;
-		SDL_Texture* header2;
+		
+		int anchoVentana, altoVentana;
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
-		Grilla(SDL_Renderer* renderer);
+		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana);
 		void Dibujarse();
 		~Grilla();
 		vector<bool> eligio;
