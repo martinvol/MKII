@@ -107,7 +107,7 @@ void Grilla::Dibujarse(){
 	SDL_Rect numerito = {rect.x, rect.y, rect.w/2, rect.h/2};
 	int w, h;
 	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->cambiarModo();
-	SDL_Texture* imagenJugador1 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->getImagenActual(false);
+	SDL_Texture* imagenJugador1 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->getImagenActual(true);
 	SDL_QueryTexture(imagenJugador1, NULL, NULL, &w, &h);
 	SDL_Rect jugador1 = {0, 0, w, h};
 	if (!this->eligio[0]) {
@@ -117,9 +117,14 @@ void Grilla::Dibujarse(){
 	}
 	rect.x = numerito.x = this->xSeleccion[1];
 	rect.y = numerito.y = this->ySeleccion[1];
+	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->cambiarModo();
+	SDL_Texture* imagenJugador2 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->getImagenActual(false);
+	SDL_QueryTexture(imagenJugador2, NULL, NULL, &w, &h);
+	SDL_Rect jugador2 = {200, 0, w, h};
 	if (!this->eligio[1]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
+		SDL_RenderCopy(this->ren, imagenJugador2, NULL, &jugador2);	
 	}
 }
 
