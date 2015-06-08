@@ -68,7 +68,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 	int inicio = (conv->ancho_fisico/2) - (78*botones_actuales.size()/2);
 
 	for (unsigned int i = 0; i < botones_actuales.size(); ++i){
-	    std::cout << botones_actuales.at(i)->numero_boton << ' ';
+	    /// std::cout << botones_actuales.at(i)->numero_boton << ' ';
 		SDL_Rect destino;
 		destino.x = inicio + off;
 		destino.y = 100;
@@ -87,7 +87,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 			botones_actuales.erase(botones_actuales.begin() + i--);
 		}
 	}
-	puts("");
+	/// puts("");
 }
 
 void PanelBotones::AgregarBotones(int boton){
@@ -101,13 +101,13 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 	int i = 0, j = 0, errores = 0, aciertos = 0;
 
 	if (!botones_actuales.size() || !toma.size()){
-		std::cout << "No agarró toma1; " << ' ';
+		/// std::cout << "No agarró toma1; " << ' ';
 		return false;
 	}
 	
 	while (true){
 		if (j == botones_actuales.size()){
-			std::cout << "Nunca encontré el primero; " << ' ';
+			/// std::cout << "Nunca encontré el primero; " << ' ';
 			return false;
 		}
 
@@ -121,7 +121,7 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 
 	while (i < botones_actuales.size() && j < botones_actuales.size()){
 		if (errores > tolerancia){
-			std::cout << "No agarró toma2; " << ' ';
+			/// std::cout << "No agarró toma2; " << ' ';
 			// Tengo que des marcar todos los que tengo que cambiar
 			limpiar_botones();
 			return false;
@@ -136,14 +136,14 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 			errores++;
 		}
 		if (aciertos == toma.size()){
-			std::cout << "Agarró toma; " << ' ';
+			/// std::cout << "Agarró toma; " << ' ';
 			// tengo que marcar los que tengo que cambiar
 			return true;
 		}
 	}
 	// Tengo que des marcar todos los que tengo que cambiar
 	limpiar_botones();
-	std::cout << "no Agarró toma 3; " << ' ';
+	/// std::cout << "no Agarró toma 3; " << ' ';
 	return false;
 }
 
