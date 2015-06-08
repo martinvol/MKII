@@ -32,6 +32,105 @@
 
 using namespace std;
 
+#define JOYSTICK_DEAD_ZONE 10000
+
+class ControladorGrilla{
+	private:
+	
+	public:
+		bool arriba, abajo, enter, en_boton;
+		Grilla* menu;
+
+ControladorGrilla(Grilla* menu){
+	abajo = false;
+	arriba = false;
+	enter = false;
+	this->menu = menu;
+	en_boton = false;
+}
+
+void procesarEvento(SDL_Event* evento){
+	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
+	int jugador = 0;
+	while(SDL_PollEvent(evento)) {
+		switch (evento->type){
+			case SDL_JOYAXISMOTION:
+			    /* If Up-Down movement */
+				if( evento->jaxis.axis == 1){
+					int y_Joystick = evento->jaxis.value;
+					if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
+						if (arriba == false) menu->subirOpcion(jugador);
+						arriba = true;
+					}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
+						if (abajo == false) menu->bajarOpcion(jugador);
+						abajo = true;
+					}else{ //yDir = 0;
+						arriba = false;
+						abajo = false;
+					}
+				}
+				break;
+			case SDL_KEYDOWN:
+				if (evento->key.keysym.sym == SDLK_UP){
+					if (arriba == false) menu->subirOpcion(jugador);
+					arriba = true;
+				} else
+				if (evento->key.keysym.sym == SDLK_DOWN){
+					if (abajo == false) menu->bajarOpcion(jugador);
+					abajo = true;
+				}
+				if (evento->key.keysym.sym == SDLK_RETURN){
+					enter = true;
+				}
+				break;
+			case SDL_KEYUP:
+				if (evento->key.keysym.sym == SDLK_UP){
+					arriba = false;
+				} else
+				if (evento->key.keysym.sym == SDLK_DOWN){
+					abajo = false;
+				}
+				break;
+			case SDL_JOYBUTTONDOWN:
+				if (evento->jbutton.button == 0){
+					enter = true;
+				}
+				break;
+			/*case SDL_MOUSEMOTION:
+				if (evento->motion.windowID == menu->obtenerIDventana()){
+					bool entro = false;
+					vector<SDL_Rect> botones = menu->obtenerPosicionesBotones();
+					for(int i=0;i<botones.size();i++){
+						if ( (evento->motion.x >= (Sint32) botones[i].x) &&
+							 (evento->motion.x <= (Sint32) (botones[i].x + botones[i].w)) &&
+							 (evento->motion.y >= (Sint32) botones[i].y) &&
+							 (evento->motion.y <= (Sint32) (botones[i].y + botones[i].h))
+						){
+							menu->apuntarAOpcion((modo) i);
+							entro = true;
+						}
+					}
+					if (entro) en_boton = true;
+					else en_boton = false;
+					botones.clear();
+				}
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (evento->button.windowID == menu->obtenerIDventana()){
+					if (en_boton) enter = true;
+				}
+				break;*/
+			default:
+				;
+		}
+	}
+	if (enter == true){
+		menu->seleccionarOpcion(jugador);
+	}
+	return;
+}
+};
+
 SDL_Texture* texAPartirDeTexto(const string &message, const string &fontFile,
 	SDL_Color color, int fontSize, SDL_Renderer *renderer) {
 	TTF_Font *font = TTF_OpenFont(fontFile.c_str(), fontSize);
@@ -108,6 +207,8 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 }
 
 void Grilla::Dibujarse(){ 
+	SDL_RenderClear(this->ren);	
+	
 	SDL_Rect rect;
 	SDL_Rect head;
 	SDL_QueryTexture(this->header, NULL, NULL, &(head.w), &(head.h));
@@ -149,6 +250,7 @@ void Grilla::Dibujarse(){
 		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
 		SDL_RenderCopy(this->ren, imagenJugador2, NULL, &jugador2);	
 	}
+	SDL_RenderPresent(this->ren);
 }
 
 void Grilla::cargarTexturas() {
@@ -230,3 +332,19 @@ string Grilla::seleccionarOpcion(int jugador) {
 	
 	return this->obtenerPath(jugador);
 }
+
+void Grilla::open(Uint32 idVentana) {
+	
+	this->idVentana = idVentana;
+	SDL_Event evento;
+	ControladorGrilla* controlador = new ControladorGrilla(this);
+	//while (!(this->eligio[0] && this->eligio[1])) {
+	while (!(this->eligio[0])) {
+		
+		controlador->procesarEvento(&evento);
+		this->Dibujarse();
+		SDL_Delay(5);		
+	}
+	delete controlador;
+}
+

@@ -16,6 +16,7 @@
 #include "AI/AI.hpp"
 #include "Menu/Menu.hpp"
 #include "Menu/ControladorMenu.hpp"
+#include "Menu/GrillaDeJugadores.hpp"
 
 // Música
 #include <SDL2/SDL_mixer.h>
@@ -122,9 +123,10 @@ public:
     Timer* timer = NULL;
 
     ConversorDeCoordenadas* conversor;
-
+	Grilla* grilla = NULL;
 	Estado* estado1 = NULL, *estado2 = NULL;
     Personaje* personajeJuego1 = NULL, *personajeJuego2 = NULL;
+    string pathPersonaje1, pathPersonaje2;
     bool USAR_AI = false;
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
@@ -177,7 +179,7 @@ public:
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
         
         this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
-        
+		this->grilla = new Grilla(this->renderer, parser->ventana_anchopx, parser->ventana_altopx);
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
         
         // Separacion entre personajes de un tercio de la ventana.
@@ -327,7 +329,7 @@ void game_loop(){
             if (modo_a_cambiar == Pelea) {
                 modo_actual = Pelea;
                 logger->log_debug("Debería pasar a: Pelea"); ///
-                //elegir_personajes()
+                elegir_personajes(Pelea);
                 comenzar_escenario_de_pelea();
                 crear_personajes();
                 pelear(&evento);      
@@ -337,7 +339,7 @@ void game_loop(){
                 modo_actual = Practica;
                 logger->log_debug("Debería pasar a: Practica"); ///
                 // Por ahora repito todo.
-                //elegir_personajes()
+                elegir_personajes(Practica);
                 comenzar_escenario_de_pelea();
                 crear_personajes_practica();
                 pelear(&evento);
@@ -348,7 +350,7 @@ void game_loop(){
                 USAR_AI = true;
                 logger->log_debug("Debería pasar a: CPU"); ///
                 // Por ahora repito todo.
-                //elegir_personajes()
+                elegir_personajes(CPU);
                 comenzar_escenario_de_pelea();
                 crear_personajes();
                 pelear(&evento);
@@ -447,6 +449,14 @@ void ControladorBasico(SDL_Event* evento){
 //--------------------------------------------
 //-------------COMENZAR UNA PELEA-------------
 //--------------------------------------------
+void elegir_personajes(modo seleccionMenu){
+	if (seleccionMenu == CPU) return;
+	this->grilla->open(this->menu->obtenerIDventana());
+	this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
+	this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
+}
+
+
 void comenzar_escenario_de_pelea(){
 	this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
 	this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
@@ -582,7 +592,7 @@ void crear_personajes_practica(){
 		delete this->ventana;
         if (this->ai != NULL) delete this->ai;
         Mix_FreeMusic(musica_fondo);
-
+		delete this->grilla;
         SDL_DestroyRenderer(renderer);
         logger->log_debug("Borramos todos los objetos");
     };

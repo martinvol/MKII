@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <vector>
 #include <string>
+#include <cstdlib>
 #include "../Personaje/Acciones/Accion.hpp"
 #include "../Personaje/Acciones/Quieto.hpp"
 #include "../Personaje/Acciones/Ganar.hpp"
@@ -34,6 +35,7 @@ class Grilla {
 		
 		int anchoVentana, altoVentana;
 		int x_init, y_init, x_header, y_header;
+
 	public:
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana);
@@ -47,6 +49,10 @@ class Grilla {
 		void moverDerechaOpcion(int jugador);
 		void moverIzquierdaOpcion(int jugador);
 		string seleccionarOpcion(int jugador);
+		
+		Uint32 idVentana;
+		
+		void open(Uint32 idVentana);
 };
 
 #endif
