@@ -55,6 +55,9 @@ class Grilla {
 		Uint32 idVentana;
 		
 		void open(Uint32 idVentana);
+		
+		/*Eleccion para AI*/
+		string randomChoicePlayer2();
 };
 
 #endif

@@ -20,6 +20,8 @@
 #define BACKGROUND "resources/orangeportal.png"
 #define OPCION "resources/menu/opcion_transparent.png"
 
+#define ALWAYS_SUBZERO true
+
 #define X_INIT 100
 #define Y_INIT 120
 
@@ -354,3 +356,16 @@ bool Grilla::entraEnGrilla(int x, int y) {
 	return ((this->x_init <= x) && (x <= CANT_ANCHO*this->anchoImagen + this->x_init)
 			&& (this->y_init <= y) && (y <= (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
 }
+
+string Grilla::randomChoicePlayer2() {
+	this->seleccionarOpcion(1);
+	if (ALWAYS_SUBZERO) { 
+		this->xSeleccion[1] = this->x_init;
+		this->ySeleccion[1] = this->y_init;
+	}
+	else {
+		//% Dar random de posicion x e y; hacer la misma conversion que 
+		//% para el mouse.
+	}
+	return this->seleccionarOpcion(1);
+} 
