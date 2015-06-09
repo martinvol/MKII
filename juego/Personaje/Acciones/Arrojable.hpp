@@ -17,7 +17,7 @@ using namespace std;
 class Arrojable{
 	public:
 
-		Arrojable(bool derecha, SDL_Renderer* ren);
+		Arrojable(bool derecha, SDL_Renderer* ren, bool congelar);
 
 		// desde donde
 		// ESTO se encarga de liberar la memoria de la coordenada que le pasan
@@ -39,12 +39,12 @@ class Arrojable{
 
 	private:
 		SDL_Texture* imagen;
-		SDL_Texture* imagen_congelar;
 		SDL_Renderer* ren;
 		int alto, ancho, alto_original;
 		CoordenadaLogica *coord;
 		float vel_horizontal, vel_vertical;
 		bool espejado;
+		bool congelar;
 };
 
 

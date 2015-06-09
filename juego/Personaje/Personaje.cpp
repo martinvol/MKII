@@ -73,10 +73,10 @@ Personaje::~Personaje(){
 	Mix_FreeChunk(this->pinia_sonido);
 }
 
-void Personaje::Arrojar(){
+void Personaje::Arrojar(bool congelar){
 	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 	if (this->arrojable == NULL){
-		this->arrojable = new Arrojable(!this->mirarDerecha, this->renderer);
+		this->arrojable = new Arrojable(!this->mirarDerecha, this->renderer, congelar);
 	
 	
 		CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
@@ -582,7 +582,14 @@ void Personaje::Dibujarse(){
 			if (panel->checkToma(tomas->at(1)->convinacion, tomas->at(1)->nombre)){
 				// acá se activan las tomas
 				puts("tiro");
-				this->Arrojar();
+				this->Arrojar(false);
+			}
+		}
+		if (tomas->at(2)){
+			if (panel->checkToma(tomas->at(2)->convinacion, tomas->at(2)->nombre)){
+				// acá se activan las tomas
+				puts("tiro congelando");
+				this->Arrojar(true);
 			}
 		}
 	}
@@ -655,16 +662,16 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 				PiniaAlta = true;
 			} else if (i == (*conf_joys)["arrojar_arma"]){
 				//ArrojarArma = true;
-				this->Arrojar();
+				this->Arrojar(false);
 			} else if (i == (*conf_joys)["arrojar_arma_baja"]){
 				//ArrojarArma = true;
-				this->Arrojar();
+				this->Arrojar(false);
 				if (this->arrojable != NULL){
 					this->arrojable->tirarDiagonal(TIRAR_ARRIBA);
 				}
 			} else if (i == (*conf_joys)["arrojar_arma_alta"]){
 				//ArrojarArma = true;
-				this->Arrojar();
+				this->Arrojar(false);
 				if (this->arrojable != NULL){
 					this->arrojable->tirarDiagonal(TIRAR_ABAJO);
 				}
@@ -696,7 +703,7 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 			} else if (i == (*conf_joys)["pinia_alta"]){
 				PiniaAlta = false;
 			} else if (i == (*conf_joys)["arrojar_arma"]){				
-				this->Arrojar();
+				this->Arrojar(false);
 			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = false;
 			}
