@@ -543,6 +543,11 @@ bool Director::seMurio(int num_jugador){
 	return this->jugadores[num_jugador]->barra->seMurio();
 }
 
+int Director::ObtenerVida(int num_jugador){
+	return this->jugadores[num_jugador]->barra->VidaActual();
+}
+
+
 void Director::GanoRound(int num_jugador){
 	this->jugadores[num_jugador]->barra->GanoRound();
 }
