@@ -49,20 +49,16 @@ ControladorGrilla(Grilla* menu){
 	enter = false;
 	this->menu = menu;
 	en_boton = false;
-	cout << menu->eligio[0] << endl; ///
 }
 
 void procesarEvento(SDL_Event* evento){
 	//if ((evento->type == SDL_JOYAXISMOTION))	
-	//cout << "Procesar evento" << endl ; ///
 	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
-	//cout << "nume: " << numeroJoystick << endl ; ///
 	int jugador = int(numeroJoystick) % 2;
 	while(SDL_PollEvent(evento)) {
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
-				cout << "Procesar evento JOys" << endl ; ///
 
 			    /* If Up-Down movement */
 				if( evento->jaxis.axis == 1){
@@ -70,7 +66,6 @@ void procesarEvento(SDL_Event* evento){
 					if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
 						if (arriba == false) menu->subirOpcion(jugador);
 						arriba = true;
-						cout << "abajo" << endl; ///
 					}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
 						if (abajo == false) menu->bajarOpcion(jugador);
 						abajo = true;
