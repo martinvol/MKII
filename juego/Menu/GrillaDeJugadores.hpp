@@ -66,4 +66,4 @@ class Grilla {
 		string randomChoicePlayer2();
 };
 
-#endif
+#endif	//GRILLA_H_INCLUDED

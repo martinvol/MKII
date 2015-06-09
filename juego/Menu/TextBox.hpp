@@ -11,14 +11,18 @@ class TextBox {
 		string texto;
 		string texto_mostrado;
 		TTF_Font* font;
-		int x, y, ancho, alto, cant_max_chars;
+		int cant_max_chars;
 		SDL_Renderer* renderer;
-		SDL_Texture* textura;
+		SDL_Texture* textura, *fondo, *seleccion;
 		SDL_Surface* superficie;
-	
+		bool seleccionado;
+		
 		void borrarTexturas();
+		void sacarCaracterMostrado();
 	
 	public:
+		int x, y, ancho, alto;
+	
 		TextBox(int x, int y, int ancho, int alto, const string& path, SDL_Renderer* renderer);
 		~TextBox();
 		
@@ -28,6 +32,8 @@ class TextBox {
 		string obtenerTexto();
 		size_t obtenerLargoTexto();
 		
+		void fueSeleccionado();
+		void fueDeseleccionado();
 		void Dibujarse();
 
 };

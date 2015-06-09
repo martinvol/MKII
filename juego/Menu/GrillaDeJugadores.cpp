@@ -19,6 +19,7 @@
 
 #define BACKGROUND "resources/orangeportal.png"
 #define OPCION "resources/menu/opcion_transparent.png"
+#define PATH_FONT_TEXTBOX "resources/miscelaneo/nk57-monospace-cd-lt.ttf"
 
 #define ALWAYS_SUBZERO true
 
@@ -64,6 +65,8 @@ bool procesarEvento(SDL_Event* evento){
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
 	int jugador = int(numeroJoystick) % 2;
 	while(SDL_PollEvent(evento)) {
+		this->menu->cont_textbox1->procesarEvento(evento);
+		this->menu->cont_textbox2->procesarEvento(evento);
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
 
@@ -124,13 +127,13 @@ bool procesarEvento(SDL_Event* evento){
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				if (evento->button.windowID == menu->idVentana){
+				if (evento->button.windowID == menu->idVentana && (menu->entraEnGrilla(evento->motion.x, evento->motion.y))){
 					menu->seleccionarOpcion(1);
 				}
 				break;
 			case SDL_QUIT:
 				return true;
-				break; // Creo que es al pedo
+				break;
 			default:
 				;
 		}
@@ -216,11 +219,17 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	this->y_header = HEAD_Y;
 	this->lastTick1 = this->lastTick2 = SDL_GetTicks();
 	
-	//~ textbox1 = new TextBox();
-	//~ textbox2 = new TextBox();
-	//~ 
-	//~ cont_textbox1 = new ControladorTextBox(textbox1);
-	//~ cont_textbox2 = new ControladorTextBox(textbox2);
+	int ancho_textbox = x_init / 2;
+	int alto_textbox = h;
+	int x1 = ancho_textbox / 2;
+	int y1 = h;	
+	this->textbox1 = new TextBox(x1, y1, ancho_textbox, alto_textbox, PATH_FONT_TEXTBOX, ren);
+	int x2 = x_init + CANT_ANCHO*this->anchoImagen + x1;
+	int y2 = h;
+	this->textbox2 = new TextBox(x2, y2, ancho_textbox, alto_textbox, PATH_FONT_TEXTBOX, ren);
+	
+	this->cont_textbox1 = NULL;
+	this->cont_textbox2 = NULL;
 }
 
 void Grilla::Dibujarse(){ 
@@ -257,7 +266,9 @@ void Grilla::Dibujarse(){
 	if (!this->eligio[0]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
-		SDL_RenderCopy(this->ren, imagenJugador1, NULL, &jugador1);				
+		SDL_RenderCopy(this->ren, imagenJugador1, NULL, &jugador1);
+		//Textbox
+		textbox1->Dibujarse();			
 	}
 	rect.x = numerito.x = this->xSeleccion[1];
 	rect.y = numerito.y = this->ySeleccion[1];
@@ -272,7 +283,9 @@ void Grilla::Dibujarse(){
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		numerito.x = numerito.x + this->anchoImagen - numerito.w;
 		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
-		SDL_RenderCopy(this->ren, imagenJugador2, NULL, &jugador2);	
+		SDL_RenderCopy(this->ren, imagenJugador2, NULL, &jugador2);
+		//Textbox
+		textbox2->Dibujarse();	
 	}
 	SDL_RenderPresent(this->ren);
 }
@@ -303,6 +316,10 @@ Grilla::~Grilla() {
 	
 	SDL_DestroyTexture(this->background);
 	SDL_DestroyTexture(this->header);
+	delete textbox1;
+	delete textbox2;
+	if (cont_textbox1 != NULL) delete cont_textbox1;
+	if (cont_textbox2 != NULL) delete cont_textbox2;
 }
 string Grilla::obtenerPath(int jugador) {
 	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
@@ -363,6 +380,8 @@ void Grilla::open(Uint32 idVentana) {
 	SDL_Event evento;
 	this->Dibujarse();
 	ControladorGrilla* controlador = new ControladorGrilla(this);
+	this->cont_textbox1 = new ControladorTextBox(textbox1, idVentana);
+	this->cont_textbox2 = new ControladorTextBox(textbox2, idVentana);
 	while (!(this->eligio[0] && this->eligio[1])) {
 	//while (!(this->eligio[0])) {
 			if(controlador->procesarEvento(&evento)) break;
@@ -371,6 +390,10 @@ void Grilla::open(Uint32 idVentana) {
 				
 	}
 	delete controlador;
+	delete cont_textbox1;
+	cont_textbox1 = NULL;
+	delete cont_textbox2;
+	cont_textbox2 = NULL;
 }
 
 bool Grilla::entraEnGrilla(int x, int y) {

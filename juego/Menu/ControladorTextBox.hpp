@@ -7,9 +7,11 @@ class ControladorTextBox {
 	
 	private:
 		TextBox* textbox;
+		bool en_textbox;
+		Uint32 idVentana;
 		
 	public:
-		ControladorTextBox(TextBox* textbox);
+		ControladorTextBox(TextBox* textbox, Uint32 idVentana);
 		~ControladorTextBox();
 		void procesarEvento(SDL_Event* event);
 
