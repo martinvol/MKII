@@ -40,7 +40,8 @@ class Grilla {
 		
 		int anchoVentana, altoVentana;
 		int x_init, y_init, x_header, y_header;
-		Uint32 lastTick;
+		Uint32 lastTick1;
+		Uint32 lastTick2;
 	
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana);
@@ -58,6 +59,9 @@ class Grilla {
 		Uint32 idVentana;
 		
 		void open(Uint32 idVentana);
+		
+		/*Eleccion para AI*/
+		string randomChoicePlayer2();
 };
 
 #endif

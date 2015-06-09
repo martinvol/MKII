@@ -539,7 +539,10 @@ void Director::actualizar(){
 	//~ // VER BIEN SOBRE SPRITE DE CAMBIO DE ORIENTACIÓN !
 	verificar_orientaciones();
 }
-
 bool Director::seMurio(int num_jugador){
 	return this->jugadores[num_jugador]->barra->seMurio();
+}
+
+void Director::GanoRound(int num_jugador){
+	this->jugadores[num_jugador]->barra->GanoRound();
 }

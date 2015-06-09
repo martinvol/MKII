@@ -20,6 +20,13 @@
 #define BACKGROUND "resources/orangeportal.png"
 #define OPCION "resources/menu/opcion_transparent.png"
 
+#define ALWAYS_SUBZERO true
+
+#define DIBUJAR_PLAYER1X this->anchoVentana/16
+#define DIBUJAR_PLAYER2X CANT_ANCHO*this->anchoImagen + this->x_init + this->anchoVentana/16
+#define DIBUJAR_PLAYER1Y this->altoVentana/2
+#define DIBUJAR_PLAYER2Y this->altoVentana/2
+
 #define X_INIT 100
 #define Y_INIT 120
 
@@ -29,6 +36,8 @@
 
 #define CANT_ANCHO 4
 #define TOTAL_IMAGENES 12
+
+#define LOOP 60
 
 using namespace std;
 
@@ -47,20 +56,16 @@ ControladorGrilla(Grilla* menu){
 	enter = false;
 	this->menu = menu;
 	en_boton = false;
-	cout << menu->eligio[0] << endl; ///
 }
 
 void procesarEvento(SDL_Event* evento){
 	//if ((evento->type == SDL_JOYAXISMOTION))	
-	//cout << "Procesar evento" << endl ; ///
 	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
-	//cout << "nume: " << numeroJoystick << endl ; ///
 	int jugador = int(numeroJoystick) % 2;
 	while(SDL_PollEvent(evento)) {
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
-				cout << "Procesar evento JOys" << endl ; ///
 
 			    /* If Up-Down movement */
 				if( evento->jaxis.axis == 1){
@@ -68,7 +73,6 @@ void procesarEvento(SDL_Event* evento){
 					if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
 						if (arriba == false) menu->subirOpcion(jugador);
 						arriba = true;
-						cout << "abajo" << endl; ///
 					}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
 						if (abajo == false) menu->bajarOpcion(jugador);
 						abajo = true;
@@ -204,7 +208,7 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	SDL_QueryTexture(this->header, NULL, NULL, &w, &h);
     this->x_header = this->anchoVentana/2 - w/2;
 	this->y_header = HEAD_Y;
-	
+	this->lastTick1 = this->lastTick2 = SDL_GetTicks();
 }
 
 void Grilla::Dibujarse(){ 
@@ -231,10 +235,13 @@ void Grilla::Dibujarse(){
 	rect.y = this->ySeleccion[0];
 	SDL_Rect numerito = {rect.x, rect.y, rect.w/2, rect.h/2};
 	int w, h;
-	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->cambiarModo();
+	if (ticks - this->lastTick1 > LOOP){
+		this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->cambiarModo();
+		this->lastTick1 = ticks;
+	}
 	SDL_Texture* imagenJugador1 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->getImagenActual(true);
 	SDL_QueryTexture(imagenJugador1, NULL, NULL, &w, &h);
-	SDL_Rect jugador1 = {0, 0, w, h};
+	SDL_Rect jugador1 = {DIBUJAR_PLAYER1X, DIBUJAR_PLAYER1Y, w*2, h*2};
 	if (!this->eligio[0]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
@@ -242,10 +249,13 @@ void Grilla::Dibujarse(){
 	}
 	rect.x = numerito.x = this->xSeleccion[1];
 	rect.y = numerito.y = this->ySeleccion[1];
-	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->cambiarModo();
+	if (ticks - this->lastTick2 > LOOP) {
+		this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->cambiarModo();
+		this->lastTick2 = ticks;
+	}
 	SDL_Texture* imagenJugador2 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->getImagenActual(false);
 	SDL_QueryTexture(imagenJugador2, NULL, NULL, &w, &h);
-	SDL_Rect jugador2 = {200, 0, w, h};
+	SDL_Rect jugador2 = {DIBUJAR_PLAYER2X, DIBUJAR_PLAYER2Y, w*2, h*2};
 	if (!this->eligio[1]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
@@ -340,8 +350,8 @@ void Grilla::open(Uint32 idVentana) {
 	SDL_Event evento;
 	this->Dibujarse();
 	ControladorGrilla* controlador = new ControladorGrilla(this);
-	//while (!(this->eligio[0] && this->eligio[1])) {
-	while (!(this->eligio[0])) {
+	while (!(this->eligio[0] && this->eligio[1])) {
+	//while (!(this->eligio[0])) {
 			controlador->procesarEvento(&evento);
 			this->Dibujarse();
 			//SDL_Delay(5);
@@ -354,3 +364,16 @@ bool Grilla::entraEnGrilla(int x, int y) {
 	return ((this->x_init <= x) && (x <= CANT_ANCHO*this->anchoImagen + this->x_init)
 			&& (this->y_init <= y) && (y <= (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
 }
+
+string Grilla::randomChoicePlayer2() {
+	this->seleccionarOpcion(1);
+	if (ALWAYS_SUBZERO) { 
+		this->xSeleccion[1] = this->x_init;
+		this->ySeleccion[1] = this->y_init;
+	}
+	else {
+		//% Dar random de posicion x e y; hacer la misma conversion que 
+		//% para el mouse.
+	}
+	return this->seleccionarOpcion(1);
+} 
