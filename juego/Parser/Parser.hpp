@@ -28,7 +28,10 @@ class Parser {
         float personaje_ancho, personaje_alto, personaje_zindex;
         float personaje2_ancho, personaje2_alto, personaje2_zindex;
         float velocidad_arma;
+        
         float tiempo_max_boton, maximos_botones;
+        int errores_maximo;
+
         float color_inicio, color_fin, color_offset;
         float margen;
         std::vector<Capa*> capas_vector;

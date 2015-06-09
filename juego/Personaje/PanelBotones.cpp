@@ -48,6 +48,7 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 
 	tiempo_max_boton = conf->tiempo_max_boton*1000;
 	maximos_botones = conf->maximos_botones;
+	errores_maximo = conf->errores_maximo;
 }
 
 PanelBotones::~PanelBotones(){
@@ -129,7 +130,8 @@ void PanelBotones::AgregarBotones(int boton){
 	}
 };
 
-bool PanelBotones::checkToma(string toma, int tolerancia){
+bool PanelBotones::checkToma(string toma){
+	int tolerancia = this->errores_maximo;
 	if (!ejecutando_toma){
 		int i = 0, j = 0, errores = 0, aciertos = 0;
 

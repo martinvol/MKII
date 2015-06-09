@@ -48,6 +48,7 @@
       "offset": 200,
       "tiempo_max_boton": 5, // en segundos
       "maximos_botones": 9,
+      "errores_maximo": 1,
       "tomas": {
          "toma1": "334"
       }

@@ -315,7 +315,10 @@ void Parser::set_values (char* my_file) {
             }
 
             tiempo_max_boton = cargarValidar(personaje, 3, "tiempo_max_boton", "Usando el tiempo máximo por default de 3 seg");
-            maximos_botones = cargarValidar(personaje, 4, "maximos_botones", "Usando la cantidad máxima de botones por default de 4");
+            maximos_botones = (int) cargarValidar(personaje, 4, "maximos_botones", "Usando la cantidad máxima de botones por default de 4");
+
+            errores_maximo = (int) cargarValidar(personaje, 1, "errores_maximo", "Usando la cantidad máxima de errores por default de 1");
+
 
         } else {
             logger->log_error("Error de sytaxis en el archivo");
