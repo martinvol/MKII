@@ -553,7 +553,10 @@ void Personaje::Dibujarse(){
 
 		this->arrojable->dibujar(this->conversor);
 	}
-
+	
+	/*puts(tomas->at(0)->nombre.c_str());
+	puts(tomas->at(1)->nombre.c_str());*/
+	
 	if (panel){
 		panel->dibujar(this->conversor, this->renderer);
 		if (tomas->at(0)){
@@ -572,9 +575,9 @@ void Personaje::Dibujarse(){
 	}
 }
 
-void Personaje::dibujar_botones(Parser* conf){
+void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 	puts("botones");
-	panel = new PanelBotones(conf, renderer, this->numero_jugador);
+	panel = new PanelBotones(conf, renderer, this->numero_jugador, debo_dibujar);
 	// acá se dibujan en pantala las cosas
 
 

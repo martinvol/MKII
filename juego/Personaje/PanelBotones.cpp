@@ -6,7 +6,7 @@
 
 using namespace std;
 
-PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador){
+PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador, bool debo_dibujar){
 	// cargamos todas las texturas relevantes para los botones
 	// en un hash que lo llenamos la configuración
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(numero_jugador);
@@ -46,9 +46,10 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 	imagenes_tomas_cambiadas[(*conf_joys)["patada_alta"]] = imagen->mTexture;
 	delete imagen;
 
-	tiempo_max_boton = conf->tiempo_max_boton*1000;
-	maximos_botones = conf->maximos_botones;
-	errores_maximo = conf->errores_maximo;
+	this->tiempo_max_boton = conf->tiempo_max_boton*1000;
+	this->maximos_botones = conf->maximos_botones;
+	this->errores_maximo = conf->errores_maximo;
+	this->debo_dibujar = debo_dibujar;
 }
 
 PanelBotones::~PanelBotones(){
@@ -85,7 +86,9 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 			Message_rect.w = surfaceMessage->w;
 			Message_rect.h = surfaceMessage->h;
 
-			SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+			if (debo_dibujar){
+				SDL_RenderCopy(renderer, Message, NULL, &Message_rect);				
+			}
 
 			SDL_FreeSurface(surfaceMessage);
             SDL_DestroyTexture(Message);
@@ -102,12 +105,13 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 		destino.y = 100;
 		destino.h = 78;
 		destino.w = 78;
-		if (botones_actuales.at(i)->otro_color){
-			SDL_RenderCopy(renderer, imagenes_tomas_cambiadas[botones_actuales.at(i)->numero_boton], NULL, &destino);
-		} else {
-			SDL_RenderCopy(renderer, imagenes_tomas[botones_actuales.at(i)->numero_boton], NULL, &destino);
+		if (debo_dibujar){
+			if (botones_actuales.at(i)->otro_color){
+				SDL_RenderCopy(renderer, imagenes_tomas_cambiadas[botones_actuales.at(i)->numero_boton], NULL, &destino);
+			} else {
+				SDL_RenderCopy(renderer, imagenes_tomas[botones_actuales.at(i)->numero_boton], NULL, &destino);
+			}
 		}
-		
 		off += 78;
 
 		if (!ejecutando_toma){
@@ -132,7 +136,6 @@ void PanelBotones::AgregarBotones(int boton){
 
 bool PanelBotones::checkToma(string toma, string nombre_toma){
 	int tolerancia = this->errores_maximo;
-	this->nombre_toma = nombre_toma;
 	if (!ejecutando_toma){
 		int i = 0, j = 0, errores = 0, aciertos = 0;
 
@@ -173,6 +176,7 @@ bool PanelBotones::checkToma(string toma, string nombre_toma){
 						// tengo que marcar los que tengo que cambiar
 						tiempo_toma = SDL_GetTicks();
 						ejecutando_toma = true;
+						this->nombre_toma = nombre_toma;
 						return true;
 					}
 				}
