@@ -17,6 +17,7 @@
 #include "Menu/Menu.hpp"
 #include "Menu/ControladorMenu.hpp"
 #include "Menu/GrillaDeJugadores.hpp"
+#include "Menu/TextBox.hpp"
 
 // Música
 #include <SDL2/SDL_mixer.h>
@@ -138,6 +139,7 @@ public:
 	Estado* estado1 = NULL, *estado2 = NULL;
     Personaje* personajeJuego1 = NULL, *personajeJuego2 = NULL;
     string pathPersonaje1, pathPersonaje2;
+    string nombrePersonaje1, nombrePersonaje2;
     bool USAR_AI = false;
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
@@ -343,6 +345,10 @@ void game_loop(){
                 logger->log_debug("Debería pasar a: Pelea"); ///
                 elegir_personajes(Pelea);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
+					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
+					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
@@ -583,7 +589,9 @@ void elegir_personajes(modo seleccionMenu){
 	this->grilla->eligio[0] = this->grilla->eligio[1] = false;
 	if (seleccionMenu != Pelea) this->pathPersonaje2 = this->grilla->randomChoicePlayer2();
 	this->grilla->open(this->menu->obtenerIDventana());
-	if (this->grilla->eligio[0]) this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
+	if (this->grilla->eligio[0]){
+		this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
+	}
 	if (this->grilla->eligio[1]) this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
 	cout << this->pathPersonaje1 << endl ; ///
 	cout << this->pathPersonaje2 << endl; ///
@@ -623,7 +631,6 @@ void crear_personajes(){
     // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
     // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
     // DEFECTO IGUAL A CERO.
-
     
     if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
 		this->pathPersonaje1 == this->pathPersonaje2) {
