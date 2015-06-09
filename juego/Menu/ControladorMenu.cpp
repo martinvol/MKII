@@ -88,3 +88,8 @@ modo ControladorMenu::procesarEvento(SDL_Event* evento){
 	}
 	return MENU;
 }
+
+ControladorMenu::~ControladorMenu(){
+	true;
+	//No elimina el menu
+}

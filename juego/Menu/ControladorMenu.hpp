@@ -13,6 +13,7 @@ class ControladorMenu{
 		Menu* menu;
 		
 		ControladorMenu(Menu* menu);
+		~ControladorMenu();
 		modo procesarEvento(SDL_Event* evento);
 	
 };
