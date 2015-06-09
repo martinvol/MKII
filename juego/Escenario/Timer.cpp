@@ -56,13 +56,13 @@ bool Timer::Dibujarse() {
 void Timer::avanzarTimer(unsigned int ticks) {
     if (!this->terminoElTiempo() && !this->freezed) {
         //this->actualU = 8 - ((ticks / this->divisor)) % 10;
-        if (ticks - this->ticks > this->divisor) {
+        //~ if (ticks - this->ticks > this->divisor) {
             this->actualU--;
             if (this->actualU > 8) this->actualU = 9;
             this->ticks = ticks;
             if (this->actualU == 8) this->actualD--;
             if (this->actualD > 8) this->actualD = 9;
-        }        
+        //~ }        
         
         //this->actualD = 8 - ((ticks / (this->divisor*10))) % 10;
         
