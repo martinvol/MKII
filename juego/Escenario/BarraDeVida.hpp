@@ -53,6 +53,7 @@ public:
     void GanoRound();
 	void Resetear();
     bool seMurio();
+    int VidaActual();
 
 };
 

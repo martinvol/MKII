@@ -245,7 +245,7 @@ public:
 
     }
     //~ tiempoTotal = this->parser->tiempoTotal; //float
-    tiempoTotal = 20;
+    tiempoTotal = 10;
     tiempoUnidad = tiempoTotal * 10;
 }
 
@@ -452,9 +452,60 @@ void pelear(SDL_Event* evento){
         
         //Si no se murio ninguno, pero se acabo el tiempo, gana el que pego mas.
         //falta...
-        if (tiempo_agotado){
+        if (tiempo_agotado){	
+			logger->log_debug("Tiempo de round agotado");
+			if (director->ObtenerVida(0) > director->ObtenerVida(1)){
+			//Repito la logica para quien gana.
+				logger->log_debug(string("Ganó (por tener mayor cantidad de vida) el jugador: ") + parser->personaje1_nombre + string("!!!"));
+				director->GanoRound(0);
+				modo_actual = Pelea;     
+            
+				//Si ya tenia ganado un round, ahora gano el segundo
+				if (Personaje_2_GanoRound){
+					Personaje_2_Gano_2_Round = true;
+					logger->log_debug(string("Ganó LA PARTIDA el jugador: ") + parser->personaje1_nombre + string("!!!"));
+					salir_pelea = true;
+				}else{
+					Personaje_2_GanoRound = true;	
+				}            
+				
+			}else if (director->ObtenerVida(0) < director->ObtenerVida(1)){
+			//Repito la logica para quien gana.
+				logger->log_debug(string("Ganó (por tener mayor cantidad de vida) el jugador: ") + parser->personaje2_nombre + string("!!!"));
+				director->GanoRound(1); 
+				modo_actual = Pelea;
+            
+				//Si ya tenia ganado un round, ahora gano el segundo
+				if (Personaje_1_GanoRound){
+					Personaje_1_Gano_2_Round = true;
+					logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
+					salir_pelea = true;
+				}else{
+					Personaje_1_GanoRound = true;	
+				}	
+				
+			//Si ninguno se pego:
+			//*	Como el truco, gana el que hizo primera.
+			//*	Si los dos ganaron un round, va de nuevo (al desempate)
+			//* Si ninguno gano un round, va de nuevo, como si nada.
+			}else {
+				if (Personaje_1_GanoRound && !Personaje_2_GanoRound){
+					logger->log_debug(string("Ganó la PARTIDA (1 round + empate) el jugador: ") + parser->personaje2_nombre + string("!!!"));
+					salir_pelea = true;
+				}else if (Personaje_2_GanoRound && !Personaje_1_GanoRound){
+					logger->log_debug(string("Ganó LA PARTIDA (1 round + empate) el jugador: ") + parser->personaje1_nombre + string("!!!"));
+					salir_pelea = true;
+				}else{
+					logger->log_debug("Empate sin datos suficientes para declarar ganador. Se repite el round");
+					ArmarRound();   
+				}
+				
+			}
+			//Reestablezco timer
 			tiempo_agotado = false;
-			
+			tiempoActual = SDL_GetTicks();
+			timer->reset(tiempoActual);
+			ArmarRound();   						
 		}
         
     }    
@@ -926,8 +977,7 @@ void ActualizarModelo(Personaje* personaje){
     if (this->timer != NULL && avanzarTimer){
     	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
     }
-    if (this->timer->terminoElTiempo()){
-			logger->log_debug("Se acabo el tiempo");
+    if (this->timer->terminoElTiempo()){			
 			tiempo_agotado = true;
 	}
 	

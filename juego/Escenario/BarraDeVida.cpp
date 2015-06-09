@@ -298,3 +298,7 @@ void BarraDeVida::Resetear(){
         this->danio.w = 0;        
 	}
 }
+
+int BarraDeVida::VidaActual(){
+		return this->vidaNumerica;
+}
