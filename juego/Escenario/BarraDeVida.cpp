@@ -3,6 +3,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#define PATH_FONT_BARRA "resources/miscelaneo/nk57-monospace-ex-bd.ttf"
+#define FONT_SIZE_BARRA 20
+
 using namespace std;
 
 BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
@@ -14,16 +17,37 @@ BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Rende
 	if(medallaVictoria == NULL){
 			logger->log_debug("IMG_LoadTexture error: resources/1.png");			
 	}
+	this->nombre=" ";
+	TTF_Init();
+	this->fuente_nombre = TTF_OpenFont(PATH_FONT_BARRA, FONT_SIZE_BARRA);
+	this->color = { 0, 0, 0, 0xFF };
+	this->superficie_nombre = NULL;
+	this->textura_nombre = NULL;
 }
 
 BarraDeVida::~BarraDeVida(){
 	Mix_FreeChunk(pinia_sonido);
 	delete medallaVictoria;
-	
+	if (superficie_nombre) destruirTexturasNombre();
+	TTF_CloseFont(fuente_nombre);
 }
 
 void BarraDeVida::GanoRound(){
 	this->ganoRound = true;
+}
+
+void BarraDeVida::setNombre(string nombre){
+	this->nombre = nombre;
+	if (superficie_nombre) destruirTexturasNombre();
+	superficie_nombre = TTF_RenderText_Solid(fuente_nombre, nombre.c_str(), color);
+	textura_nombre = SDL_CreateTextureFromSurface(renderer, superficie_nombre);
+}
+
+void BarraDeVida::destruirTexturasNombre(){
+	SDL_FreeSurface(superficie_nombre);
+	SDL_DestroyTexture(textura_nombre);
+	superficie_nombre = NULL;
+	textura_nombre = NULL;
 }
 
 void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
@@ -127,6 +151,8 @@ void BarraDeVida::Dibujarse(){
         //Dibujo la barra de negro y salgo
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 200 );
         SDL_RenderFillRect(renderer, &(this->vacio));
+
+        SDL_RenderCopy(renderer, textura_nombre, NULL, &(this->vacio));
         return;
     }
         //Barra de vida (Azul)
@@ -144,7 +170,10 @@ void BarraDeVida::Dibujarse(){
         //Barra de stamina (rojo)
         SDL_SetRenderDrawColor( renderer, 255, 0, 0, 230 );
         SDL_RenderFillRect( renderer, &(this->staminaRoja) );
-
+        
+        SDL_Rect destino = {this->vida.x, this->vida.y, this->vida.w + this->danio.w, this->vida.h};
+        SDL_RenderCopy(renderer, textura_nombre, NULL, &destino);
+        
 }
 
 //-----------------------------------------------------------

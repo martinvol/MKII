@@ -138,8 +138,8 @@ public:
 	Grilla* grilla = NULL;
 	Estado* estado1 = NULL, *estado2 = NULL;
     Personaje* personajeJuego1 = NULL, *personajeJuego2 = NULL;
-    string pathPersonaje1, pathPersonaje2;
-    string nombrePersonaje1, nombrePersonaje2;
+    string pathPersonaje1 = "", pathPersonaje2 = "";
+    string nombrePersonaje1 = "", nombrePersonaje2 = "";
     bool USAR_AI = false;
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
@@ -320,13 +320,12 @@ void game_loop(){
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(splash);
 
-
-        menu = new Menu (renderer, ventana);
-        //SDL_RenderClear(renderer);
-        menu->Dibujarse();
-        //SDL_RenderPresent(renderer);
 		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
-
+		
+        menu = new Menu (renderer, ventana);
+        SDL_RenderClear(renderer);
+        menu->Dibujarse();
+        SDL_RenderPresent(renderer);
         controlador = new ControladorMenu(menu);
         while (!salir){
             SDL_FlushEvent(SDL_KEYDOWN);
@@ -345,10 +344,6 @@ void game_loop(){
                 logger->log_debug("Debería pasar a: Pelea"); ///
                 elegir_personajes(Pelea);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
-					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
-					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
-					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
-					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
@@ -363,10 +358,6 @@ void game_loop(){
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
-					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
-					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
-					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
-					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 					comenzar_escenario_de_pelea();
 					crear_personajes_practica();
 					pelear(&evento);
@@ -380,10 +371,6 @@ void game_loop(){
                 // Por ahora repito todo.
                 elegir_personajes(CPU);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
-					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
-					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
-					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
-					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
@@ -394,6 +381,17 @@ void game_loop(){
                 USAR_AI = false;
             }
 		}
+}
+
+void setearNombres(){
+	nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
+	nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
+	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
+    if (barraDeVida1 && barraDeVida2){
+        barraDeVida1->setNombre(nombrePersonaje1);
+        barraDeVida2->setNombre(nombrePersonaje2);
+    }
 }
 
 void salir_de_modo(){
@@ -676,6 +674,8 @@ void crear_personajes(){
 
     this->timer = new Timer(100, IMG_DEFAULT, conversor, renderer);
     this->timer->reset(SDL_GetTicks());
+    
+    setearNombres();
 
 }
 
@@ -721,6 +721,11 @@ void crear_personajes_practica(){
             
     director = new DirectorPractica(this->escenario, this->ventana, this->conversor, this->parser->escenario_ypiso, this->personajeJuego1, this->personajeJuego2, NULL, NULL, NULL);
     puts("creo un director práctica");
+
+	nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
+	nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
+	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 }
 
 
@@ -809,11 +814,11 @@ void DibujarTodo(){
         }
 		
         if (this->barraDeVida1){
-            this->barraDeVida1->Dibujarse();            
+            this->barraDeVida1->Dibujarse();           
         }
 
         if (this->barraDeVida2){
-            this->barraDeVida2->Dibujarse();            
+            this->barraDeVida2->Dibujarse();
         }
 
         if (this->timer){

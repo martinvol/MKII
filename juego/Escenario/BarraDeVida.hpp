@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "../LTexture.hpp"
 #include "../Logger/Logger.hpp"
 // Música
@@ -23,6 +24,10 @@ private:
     bool izquierda;
     bool terminnoDeCansarse;
     SDL_Renderer *renderer;
+    TTF_Font* fuente_nombre;
+    SDL_Color color;
+    SDL_Surface* superficie_nombre;
+    SDL_Texture* textura_nombre;
 
     Mix_Chunk *pinia_sonido;
 
@@ -36,16 +41,20 @@ private:
     SDL_Rect danio;
     SDL_Rect vacio;
     SDL_Rect staminaBorde;
-
     SDL_Rect staminaVerde, staminaRoja;
+    
+    string nombre;
     
     LTexture* medallaVictoria;
     SDL_Rect medallaRect;
+
+	void destruirTexturasNombre();
 
 public:
     BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
     ~BarraDeVida();
     void Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
+	void setNombre(string nombre);
     void Dibujarse();
     void Lastimar(int porcentaje);
     void Cansar(int porcentaje);

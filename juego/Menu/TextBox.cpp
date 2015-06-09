@@ -31,7 +31,7 @@ TextBox::TextBox(int x, int y, int ancho, int alto, const string& font_path, SDL
 }
 
 TextBox::~TextBox(){
-	borrarTexturas();
+	if (textura != NULL) borrarTexturas();
 	SDL_DestroyTexture(fondo);
 	SDL_DestroyTexture(seleccion);
 	TTF_CloseFont(font);
@@ -89,6 +89,7 @@ void TextBox::borrarTexturas(){
 
 void TextBox::Dibujarse(){
 	if (textura != NULL) borrarTexturas();
+	// En NEGRO
 	SDL_Color color = { 0, 0, 0, 0xFF };
 	if( texto_mostrado.length() > 0 ) {
 		superficie = TTF_RenderText_Solid(font, texto_mostrado.c_str(), color);

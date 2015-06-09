@@ -10,6 +10,7 @@
 #include "../Parser/Parser.hpp"
 #include "TomaData.hpp"
 #include <string>
+#include <SDL2/SDL_ttf.h>
 
 using namespace std;
 
@@ -43,6 +44,7 @@ class PanelBotones {
 		bool ejecutando_toma = false;
 		void limpiar_botones();
 		bool debo_dibujar;
+		TTF_Font* Sans;
 };
 
 #endif
