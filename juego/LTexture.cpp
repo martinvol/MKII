@@ -216,8 +216,6 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 	
 	if (espejar){
 		int linea = loadedSurface->pitch/4;
-		int columna = pixelCount/linea;
-		
 		//INVERTE PERFECTO
 		//~ for(int i=0; i < pixelCount/2; i++){			
 				//~ int x = pixels[pixelCount-1 -i];			
