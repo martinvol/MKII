@@ -191,11 +191,17 @@ void Personaje::activarAccion(accion_posible accion){
 			case TRABA:
 			case ROUNDKICK:
 			case LEVANTARSEDELGANCHO:
-			case LEVANTARSEDELATRABA:								
+			case LEVANTARSEDELATRABA:				
 				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
+			case GANAR:
+				cout<<"ganaaaaaar"<<endl;
+				//~ if (this->accionActual->ciclos == 1){
+					//~ cambiarAccionA(QUIETO);
+				//~ }
+				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
 					cambiarAccionA(QUIETO);	
@@ -478,6 +484,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case LEVANTARSEDELATRABA:
 			this->accionActual = this->estado->levantarseDelGancho;
+			break;
+		case GANAR:
+			this->accionActual = this->estado->ganar;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
