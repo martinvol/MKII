@@ -334,9 +334,11 @@ void game_loop(){
                 modo_actual = Pelea;
                 logger->log_debug("Debería pasar a: Pelea"); ///
                 elegir_personajes(Pelea);
-                comenzar_escenario_de_pelea();
-                crear_personajes();
-                pelear(&evento);      
+                if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+					comenzar_escenario_de_pelea();
+					crear_personajes();
+					pelear(&evento); 
+				}     
                 salir_de_modo();
             } else
             if (modo_a_cambiar == Practica) {
@@ -344,9 +346,11 @@ void game_loop(){
                 logger->log_debug("Debería pasar a: Practica"); ///
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
-                comenzar_escenario_de_pelea();
-                crear_personajes_practica();
-                pelear(&evento);
+                if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+					comenzar_escenario_de_pelea();
+					crear_personajes_practica();
+					pelear(&evento);
+				}
                 salir_de_modo();
             } else
             if (modo_a_cambiar == CPU) {
@@ -355,9 +359,11 @@ void game_loop(){
                 logger->log_debug("Debería pasar a: CPU"); ///
                 // Por ahora repito todo.
                 elegir_personajes(CPU);
-                comenzar_escenario_de_pelea();
-                crear_personajes();
-                pelear(&evento);
+                if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+					comenzar_escenario_de_pelea();
+					crear_personajes();
+					pelear(&evento);
+				}
                 salir_de_modo();
                 USAR_AI = false;
             }
@@ -477,8 +483,8 @@ void elegir_personajes(modo seleccionMenu){
 	this->grilla->eligio[0] = this->grilla->eligio[1] = false;
 	if (seleccionMenu != Pelea) this->pathPersonaje2 = this->grilla->randomChoicePlayer2();
 	this->grilla->open(this->menu->obtenerIDventana());
-	this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
-	this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
+	if (this->grilla->eligio[0]) this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
+	if (this->grilla->eligio[1]) this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
 	cout << this->pathPersonaje1 << endl ; ///
 	cout << this->pathPersonaje2 << endl; ///
 	

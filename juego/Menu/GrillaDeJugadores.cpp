@@ -58,7 +58,7 @@ ControladorGrilla(Grilla* menu){
 	en_boton = false;
 }
 
-void procesarEvento(SDL_Event* evento){
+bool procesarEvento(SDL_Event* evento){
 	//if ((evento->type == SDL_JOYAXISMOTION))	
 	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
@@ -106,6 +106,9 @@ void procesarEvento(SDL_Event* evento){
 				if (evento->key.keysym.sym == SDLK_DOWN){
 					abajo = false;
 				}
+				if (evento->key.keysym.sym == SDLK_ESCAPE){
+					return true;
+				}
 				break;
 			case SDL_JOYBUTTONDOWN:
 				if (evento->jbutton.button == 0){
@@ -125,6 +128,9 @@ void procesarEvento(SDL_Event* evento){
 					menu->seleccionarOpcion(1);
 				}
 				break;
+			case SDL_QUIT:
+				return true;
+				break; // Creo que es al pedo
 			default:
 				;
 		}
@@ -132,7 +138,7 @@ void procesarEvento(SDL_Event* evento){
 	if (enter == true){
 		menu->seleccionarOpcion(jugador);
 	}
-	return;
+	return false;
 }
 };
 
@@ -352,7 +358,7 @@ void Grilla::open(Uint32 idVentana) {
 	ControladorGrilla* controlador = new ControladorGrilla(this);
 	while (!(this->eligio[0] && this->eligio[1])) {
 	//while (!(this->eligio[0])) {
-			controlador->procesarEvento(&evento);
+			if(controlador->procesarEvento(&evento)) break;
 			this->Dibujarse();
 			//SDL_Delay(5);
 				
