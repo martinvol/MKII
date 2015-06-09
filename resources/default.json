@@ -47,7 +47,7 @@
       "fin": 200,
       "offset": 200,
       "tiempo_max_boton": 5, // en segundos
-      "maximos_botones": 5,
+      "maximos_botones": 9,
       "tomas": {
          "toma1": "334"
       }

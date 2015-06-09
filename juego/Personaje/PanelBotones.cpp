@@ -141,41 +141,47 @@ bool PanelBotones::checkToma(string toma, int tolerancia){
 		while (true){
 			if (j == botones_actuales.size()){
 				/// std::cout << "Nunca encontré el primero; " << ' ';
+				limpiar_botones();
 				return false;
 			}
 
 			if (toma[0] - '0' == botones_actuales.at(j)->numero_boton){
-				break;
-			} else {
-				j++; // 
+				int h = j;
+				i = 0;
+				while (i < botones_actuales.size() && h < botones_actuales.size()){
+					if (errores > tolerancia){
+						/// std::cout << "No agarró toma2; " << ' ';
+						// Tengo que des marcar todos los que tengo que cambiar
+						limpiar_botones();
+						//return false;
+						break;
+					}
+					if (toma[i] - '0' == botones_actuales.at(h)->numero_boton){
+						botones_actuales.at(h)->otro_color = true;
+						i++;
+						h++;
+						aciertos++;
+					} else {
+						h++;
+						errores++;
+					}
+					if (aciertos == toma.size()){
+						/// std::cout << "Agarró toma; " << ' ';
+						// tengo que marcar los que tengo que cambiar
+						tiempo_toma = SDL_GetTicks();
+						ejecutando_toma = true;
+						return true;
+					}
+				}
 			}
+			// busco el primero en la siguiente posición del vector
+			// y reinicio todos los indicadores
+			j++;
+			errores = 0;
+			aciertos = 0;
+			// break;
 		}
 
-
-		while (i < botones_actuales.size() && j < botones_actuales.size()){
-			if (errores > tolerancia){
-				/// std::cout << "No agarró toma2; " << ' ';
-				// Tengo que des marcar todos los que tengo que cambiar
-				limpiar_botones();
-				return false;
-			}
-			if (toma[i] - '0' == botones_actuales.at(j)->numero_boton){
-				botones_actuales.at(j)->otro_color = true;
-				i++;
-				j++;
-				aciertos++;
-			} else {
-				j++;
-				errores++;
-			}
-			if (aciertos == toma.size()){
-				/// std::cout << "Agarró toma; " << ' ';
-				// tengo que marcar los que tengo que cambiar
-				tiempo_toma = SDL_GetTicks();
-				ejecutando_toma = true;
-				return true;
-			}
-		}
 		// Tengo que des marcar todos los que tengo que cambiar
 		limpiar_botones();
 		/// std::cout << "no Agarró toma 3; " << ' ';
