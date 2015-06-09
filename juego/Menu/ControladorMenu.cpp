@@ -3,11 +3,16 @@
 #include <vector>
 
 ControladorMenu::ControladorMenu(Menu* menu){
+	this->menu = menu;
+	reiniciar();
+}
+
+void ControladorMenu::reiniciar(){
 	abajo = false;
 	arriba = false;
 	enter = false;
-	this->menu = menu;
-	en_boton = false;
+	en_boton = false;	
+	menu->reiniciar();
 }
 
 modo ControladorMenu::procesarEvento(SDL_Event* evento){
