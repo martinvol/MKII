@@ -281,3 +281,20 @@ void BarraDeVida::ActualizarAnchos(){
 bool BarraDeVida::seMurio(){
     return muerto;
 }
+
+void BarraDeVida::Resetear(){
+	this->muerto = false;
+	this->vidaNumerica = 1000;
+	
+	this->vida.x = x_ini;    
+    this->vida.w = (x_fin - x_ini);
+    
+    this->danio.x = x_ini;    
+    this->danio.w = 0;
+	
+	
+	if (izquierda == false){
+        this->danio.x = x_fin;        
+        this->danio.w = 0;        
+	}
+}

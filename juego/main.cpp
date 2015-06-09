@@ -408,9 +408,9 @@ void pelear(SDL_Event* evento){
 
 		if (director->seMurio(0)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
-            director->GanoRound(1);           
+            director->GanoRound(1); 
+            modo_actual = Pelea;
             
-            modo_actual == Pelea;
             //Si ya tenia ganado un round, ahora gano el segundo
             if (Personaje_1_GanoRound){
 				Personaje_1_Gano_2_Round = true;
@@ -418,12 +418,16 @@ void pelear(SDL_Event* evento){
 				salir_pelea = true;
 			}else{
 				Personaje_1_GanoRound = true;	
-			}
-            this->reiniciarJuego();            
+			}			
+			ArmarRound();
+            
             
         } if (director->seMurio(1)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
             director->GanoRound(0);
+            modo_actual = Pelea;     
+            
+            //Si ya tenia ganado un round, ahora gano el segundo
             if (Personaje_2_GanoRound){
 				Personaje_2_Gano_2_Round = true;
 				logger->log_debug(string("Ganó LA PARTIDA el jugador: ") + parser->personaje1_nombre + string("!!!"));
@@ -431,13 +435,32 @@ void pelear(SDL_Event* evento){
 			}else{
 				Personaje_2_GanoRound = true;	
 			}            
-            modo_actual == Pelea;
-            this->reiniciarJuego();
+			ArmarRound();   
         }
         
-    }
+    }    
     Personaje_1_GanoRound = Personaje_2_GanoRound = false;
 	Personaje_1_Gano_2_Round = Personaje_2_Gano_2_Round = false;
+}
+
+//--------------------------------------------
+void ArmarRound(){	
+	delete this->personajeJuego1->coordenada;
+	delete this->personajeJuego1->siguiente;
+	this->personajeJuego1->y_inicial = parser->escenario_ypiso;
+	this->personajeJuego1->coordenada = new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso);
+	this->personajeJuego1->siguiente = new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso);
+	
+	
+	delete this->personajeJuego2->coordenada;
+	delete this->personajeJuego2->siguiente;	
+	this->personajeJuego2->y_inicial = parser->escenario_ypiso;
+	this->personajeJuego2->coordenada = new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso);
+	this->personajeJuego2->siguiente = new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso);
+	
+	this->barraDeVida1->Resetear();
+	this->barraDeVida2->Resetear();
+	
 }
 //-------------------------------------------    
 //------CONTROLADOR DE PAUSA Y SALIR---------

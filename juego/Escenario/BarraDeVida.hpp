@@ -51,7 +51,7 @@ public:
     void Cansar(int porcentaje);
     void Aliviar(int porcentaje);
     void GanoRound();
-
+	void Resetear();
     bool seMurio();
 
 };
