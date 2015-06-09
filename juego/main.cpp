@@ -475,7 +475,7 @@ void ControladorBasico(SDL_Event* evento){
 //--------------------------------------------
 void elegir_personajes(modo seleccionMenu){
 	this->grilla->eligio[0] = this->grilla->eligio[1] = false;
-	if (seleccionMenu == CPU) this->pathPersonaje2 = this->grilla->randomChoicePlayer2();
+	if (seleccionMenu != Pelea) this->pathPersonaje2 = this->grilla->randomChoicePlayer2();
 	this->grilla->open(this->menu->obtenerIDventana());
 	this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
 	this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
