@@ -58,7 +58,8 @@
                   "convinacion":"000",
                   "nombre": "Tirar Proyectil"
                  }
-      ]
+      ],
+      "tiempoTotal": 100
    },
    "personaje2":{
       "nombre": "Battán",

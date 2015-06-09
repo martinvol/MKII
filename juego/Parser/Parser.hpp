@@ -30,6 +30,8 @@ class Parser {
         float personaje2_ancho, personaje2_alto, personaje2_zindex;
         float velocidad_arma;
         
+        float tiempoTotal;
+
         float tiempo_max_boton, maximos_botones;
         int errores_maximo;
 

@@ -246,8 +246,9 @@ public:
         printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
     }
-    //~ tiempoTotal = this->parser->tiempoTotal; //float
-    tiempoTotal = 10;
+
+    tiempoTotal = this->parser->tiempoTotal; 
+    cout <<tiempoTotal<<endl;
     tiempoUnidad = tiempoTotal * 10;
 }
 
@@ -984,7 +985,7 @@ void ActualizarModelo(Personaje* personaje){
     if (this->timer != NULL && avanzarTimer){
     	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
     }
-    if (this->timer->terminoElTiempo()){			
+    if (this->timer != NULL && this->timer->terminoElTiempo()){			
 			tiempo_agotado = true;
 	}
 	
