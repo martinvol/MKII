@@ -2,6 +2,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+
+#define PATH_FONT_BARRA "resources/miscelaneo/nk57-monospace-ex-bd.ttf"
+#define FONT_SIZE_BARRA 20
 
 using namespace std;
 
@@ -14,6 +18,7 @@ BarraDeVida::BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Rende
 	if(medallaVictoria == NULL){
 			logger->log_debug("IMG_LoadTexture error: resources/1.png");			
 	}
+	this->nombre=" ";
 }
 
 BarraDeVida::~BarraDeVida(){
@@ -24,6 +29,10 @@ BarraDeVida::~BarraDeVida(){
 
 void BarraDeVida::GanoRound(){
 	this->ganoRound = true;
+}
+
+void BarraDeVida::setNombre(string nombre){
+	this->nombre = nombre;
 }
 
 void BarraDeVida::Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam){
@@ -127,6 +136,8 @@ void BarraDeVida::Dibujarse(){
         //Dibujo la barra de negro y salgo
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 200 );
         SDL_RenderFillRect(renderer, &(this->vacio));
+
+        dibujarNombre(this->nombre, &(this->vacio));
         return;
     }
         //Barra de vida (Azul)
@@ -144,7 +155,21 @@ void BarraDeVida::Dibujarse(){
         //Barra de stamina (rojo)
         SDL_SetRenderDrawColor( renderer, 255, 0, 0, 230 );
         SDL_RenderFillRect( renderer, &(this->staminaRoja) );
+        
+        SDL_Rect destino = {this->vida.x, this->vida.y, this->vida.w + this->danio.w, this->vida.h};
+        dibujarNombre(this->nombre, &destino);
+        
+}
 
+void BarraDeVida::dibujarNombre(string nombre, SDL_Rect* destino){
+	TTF_Init();
+	//NEGRO
+	SDL_Color color = { 0, 0, 0, 0xFF };
+	TTF_Font* font = TTF_OpenFont(PATH_FONT_BARRA, FONT_SIZE_BARRA);
+	SDL_Surface* superficie;
+	superficie = TTF_RenderText_Solid(font, nombre.c_str(), color);
+	SDL_Texture* textura = SDL_CreateTextureFromSurface(renderer, superficie);
+	SDL_RenderCopy(renderer, textura, NULL, destino);
 }
 
 //-----------------------------------------------------------

@@ -345,10 +345,7 @@ void game_loop(){
                 logger->log_debug("Debería pasar a: Pelea"); ///
                 elegir_personajes(Pelea);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
-					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
-					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
-					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
-					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
+					setearNombres();
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
@@ -363,10 +360,7 @@ void game_loop(){
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
-					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
-					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
-					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
-					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
+					setearNombres();
 					comenzar_escenario_de_pelea();
 					crear_personajes_practica();
 					pelear(&evento);
@@ -380,10 +374,7 @@ void game_loop(){
                 // Por ahora repito todo.
                 elegir_personajes(CPU);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
-					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
-					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
-					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
-					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
+					setearNombres();
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
@@ -394,6 +385,15 @@ void game_loop(){
                 USAR_AI = false;
             }
 		}
+}
+
+void setearNombres(){
+	nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
+	nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
+	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
+	barraDeVida1->setNombre(nombrePersonaje1);
+	barraDeVida2->setNombre(nombrePersonaje2);
 }
 
 void salir_de_modo(){
@@ -809,11 +809,11 @@ void DibujarTodo(){
         }
 		
         if (this->barraDeVida1){
-            this->barraDeVida1->Dibujarse();            
+            this->barraDeVida1->Dibujarse();           
         }
 
         if (this->barraDeVida2){
-            this->barraDeVida2->Dibujarse();            
+            this->barraDeVida2->Dibujarse();
         }
 
         if (this->timer){

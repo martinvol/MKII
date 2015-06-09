@@ -36,16 +36,20 @@ private:
     SDL_Rect danio;
     SDL_Rect vacio;
     SDL_Rect staminaBorde;
-
     SDL_Rect staminaVerde, staminaRoja;
+    
+    string nombre;
     
     LTexture* medallaVictoria;
     SDL_Rect medallaRect;
+
+	void dibujarNombre(string nombre, SDL_Rect* destino);
 
 public:
     BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
     ~BarraDeVida();
     void Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
+	void setNombre(string nombre);
     void Dibujarse();
     void Lastimar(int porcentaje);
     void Cansar(int porcentaje);

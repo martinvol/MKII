@@ -8,7 +8,7 @@
 
 Jugador::Jugador(Personaje* personaje, BarraDeVida* barra){
 	this->personaje = personaje;
-	this->barra = barra;	
+	this->barra = barra;
 }
 
 Jugador::~Jugador(){
