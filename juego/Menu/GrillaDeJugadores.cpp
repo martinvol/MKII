@@ -22,6 +22,11 @@
 
 #define ALWAYS_SUBZERO true
 
+#define DIBUJAR_PLAYER1X this->anchoVentana/16
+#define DIBUJAR_PLAYER2X CANT_ANCHO*this->anchoImagen + this->x_init + this->anchoVentana/16
+#define DIBUJAR_PLAYER1Y this->altoVentana/2
+#define DIBUJAR_PLAYER2Y this->altoVentana/2
+
 #define X_INIT 100
 #define Y_INIT 120
 
@@ -231,7 +236,7 @@ void Grilla::Dibujarse(){
 	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->cambiarModo();
 	SDL_Texture* imagenJugador1 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->getImagenActual(true);
 	SDL_QueryTexture(imagenJugador1, NULL, NULL, &w, &h);
-	SDL_Rect jugador1 = {0, 0, w, h};
+	SDL_Rect jugador1 = {DIBUJAR_PLAYER1X, DIBUJAR_PLAYER1Y, w*2, h*2};
 	if (!this->eligio[0]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[0], NULL, &numerito);
@@ -242,7 +247,7 @@ void Grilla::Dibujarse(){
 	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->cambiarModo();
 	SDL_Texture* imagenJugador2 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->getImagenActual(false);
 	SDL_QueryTexture(imagenJugador2, NULL, NULL, &w, &h);
-	SDL_Rect jugador2 = {200, 0, w, h};
+	SDL_Rect jugador2 = {DIBUJAR_PLAYER2X, DIBUJAR_PLAYER2Y, w*2, h*2};
 	if (!this->eligio[1]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
 		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
