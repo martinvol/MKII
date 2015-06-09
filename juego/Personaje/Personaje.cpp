@@ -75,7 +75,7 @@ Personaje::~Personaje(){
 
 void Personaje::Arrojar(){
 	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
-	if (this->arrojable == NULL && this->nroAccionActual == QUIETO){
+	if (this->arrojable == NULL){
 		this->arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
 	
 	
@@ -104,7 +104,7 @@ void Personaje::Arrojar(){
 		delete coord2;
 		delete coord2_fis;
 		
-		if (this->nroAccionActual == QUIETO) this->cambiarAccionA(ARROJARARMA);
+		this->cambiarAccionA(ARROJARARMA);
 	}
 }
 /***********************************************************************
@@ -559,6 +559,14 @@ void Personaje::Dibujarse(){
 		if (tomas->at(0)){
 			if (panel->checkToma(tomas->at(0)->convinacion, tomas->at(0)->nombre)){
 				// acá se activan las tomas
+			}
+		}
+
+		if (tomas->at(1)){
+			if (panel->checkToma(tomas->at(1)->convinacion, tomas->at(1)->nombre)){
+				// acá se activan las tomas
+				puts("tiro");
+				this->Arrojar();
 			}
 		}
 	}
