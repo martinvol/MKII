@@ -244,8 +244,9 @@ public:
         printf("Mix_PlayMusic: %s\n", Mix_GetError());
 
     }
-    //~ tiempoTotal = this->parser->tiempoTotal; //float
-    tiempoTotal = 10;
+
+    tiempoTotal = this->parser->tiempoTotal; 
+    cout <<tiempoTotal<<endl;
     tiempoUnidad = tiempoTotal * 10;
 }
 
