@@ -56,7 +56,7 @@ void procesarEvento(SDL_Event* evento){
 	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
 	//cout << "nume: " << numeroJoystick << endl ; ///
-	int jugador = 0;
+	int jugador = int(numeroJoystick) % 2;
 	while(SDL_PollEvent(evento)) {
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
@@ -108,30 +108,19 @@ void procesarEvento(SDL_Event* evento){
 					enter = true;
 				}
 				break;
-			/*case SDL_MOUSEMOTION:
-				if (evento->motion.windowID == menu->obtenerIDventana()){
-					bool entro = false;
-					vector<SDL_Rect> botones = menu->obtenerPosicionesBotones();
-					for(int i=0;i<botones.size();i++){
-						if ( (evento->motion.x >= (Sint32) botones[i].x) &&
-							 (evento->motion.x <= (Sint32) (botones[i].x + botones[i].w)) &&
-							 (evento->motion.y >= (Sint32) botones[i].y) &&
-							 (evento->motion.y <= (Sint32) (botones[i].y + botones[i].h))
-						){
-							menu->apuntarAOpcion((modo) i);
-							entro = true;
-						}
-					}
-					if (entro) en_boton = true;
-					else en_boton = false;
-					botones.clear();
+			case SDL_MOUSEMOTION:
+				if ((evento->motion.windowID == menu->idVentana) && (menu->entraEnGrilla(evento->motion.x, evento->motion.y))){
+					//evento->motion.x
+					int pos = menu->obtenerUbicacion(evento->motion.x, evento->motion.y);
+					menu->xSeleccion[1] = (pos % (CANT_ANCHO))*menu->anchoImagen + menu->x_init;
+					menu->ySeleccion[1] = (pos / (CANT_ANCHO))*menu->altoImagen + menu->y_init;	
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				if (evento->button.windowID == menu->obtenerIDventana()){
-					if (en_boton) enter = true;
+				if (evento->button.windowID == menu->idVentana){
+					menu->seleccionarOpcion(1);
 				}
-				break;*/
+				break;
 			default:
 				;
 		}
@@ -355,9 +344,13 @@ void Grilla::open(Uint32 idVentana) {
 	while (!(this->eligio[0])) {
 			controlador->procesarEvento(&evento);
 			this->Dibujarse();
-			SDL_Delay(5);
+			//SDL_Delay(5);
 				
 	}
 	delete controlador;
 }
 
+bool Grilla::entraEnGrilla(int x, int y) {
+	return ((this->x_init <= x) && (x <= CANT_ANCHO*this->anchoImagen + this->x_init)
+			&& (this->y_init <= y) && (y <= (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
+}

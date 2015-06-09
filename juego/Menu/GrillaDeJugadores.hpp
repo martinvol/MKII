@@ -13,7 +13,7 @@
 using namespace std;
 
 class Grilla {
-	private:
+	public:
 		SDL_Renderer* ren;
 		vector<string> paths;
 		vector<SDL_Texture*> texs;
@@ -33,10 +33,12 @@ class Grilla {
 		
 		SDL_Texture* header;
 		
+		bool entraEnGrilla(int x, int y);
+		
 		int anchoVentana, altoVentana;
 		int x_init, y_init, x_header, y_header;
-
-	public:
+		Uint32 lastTick;
+	
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
 		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana);
 		void Dibujarse();
