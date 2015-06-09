@@ -246,7 +246,6 @@ public:
     }
 
     tiempoTotal = this->parser->tiempoTotal; 
-    cout <<tiempoTotal<<endl;
     tiempoUnidad = tiempoTotal * 10;
 }
 
@@ -968,12 +967,16 @@ void Controlador(SDL_Event *evento){
 void ActualizarModelo(Personaje* personaje){
 	
 	if ((this->ai != NULL ) && (personaje == this->ai->personajeAI)) this->ai->reaccionar();
-	float tiempoAuxiliar = SDL_GetTicks();	
+	
+
+    float tiempoAuxiliar = SDL_GetTicks();	
 	bool avanzarTimer = false;
-	if (tiempoAuxiliar > (tiempoActual + tiempoUnidad)){
-		tiempoActual = tiempoAuxiliar;
-		avanzarTimer = true;
-	}
+    if (this->timer){
+    	if (tiempoAuxiliar > (tiempoActual + tiempoUnidad)){
+    		tiempoActual = tiempoAuxiliar;
+    		avanzarTimer = true;
+    	}
+    }
 	
     if (this->timer != NULL && avanzarTimer){
     	this->timer->avanzarTimer(SDL_GetTicks()); // El Timer no iria en el director ? *Manu*
