@@ -397,7 +397,7 @@ void pelear(SDL_Event* evento){
         }
 
 		if (director->seMurio(0)){
-            logger->log_debug(string("NO_Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+            logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
             director->GanoRound(1);           
             
             modo_actual == Pelea;
@@ -406,7 +406,7 @@ void pelear(SDL_Event* evento){
             //~ ArmarRound();
             
         } if (director->seMurio(1)){
-            logger->log_debug(string("SI_Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
+            logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
             director->GanoRound(0);
             
             Personaje_2_GanoRound = true;
