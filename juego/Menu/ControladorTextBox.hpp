@@ -14,7 +14,7 @@ class ControladorTextBox {
 		ControladorTextBox(TextBox* textbox, Uint32 idVentana);
 		~ControladorTextBox();
 		void procesarEvento(SDL_Event* event);
-
+		void resetear();
 };
 
 #endif //CONT_TEXTBOX_H_INCLUDED

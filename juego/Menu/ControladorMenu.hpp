@@ -15,6 +15,7 @@ class ControladorMenu{
 		ControladorMenu(Menu* menu);
 		~ControladorMenu();
 		modo procesarEvento(SDL_Event* evento);
+		void resetear();
 	
 };
 #endif //CONT_MENU_H

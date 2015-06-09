@@ -369,7 +369,7 @@ string Grilla::seleccionarOpcion(int jugador) {
 	return this->obtenerPath(jugador);
 }
 
-void Grilla::open(Uint32 idVentana) {
+bool Grilla::open(Uint32 idVentana) {
 	
 	this->idVentana = idVentana;
 	SDL_Event evento;
@@ -379,7 +379,7 @@ void Grilla::open(Uint32 idVentana) {
 	ControladorTextBox* cont_textbox2 = new ControladorTextBox(textbox2, idVentana);
 	while (!(this->eligio[0] && this->eligio[1])) {
 	//while (!(this->eligio[0])) {
-			if(controlador->procesarEvento(&evento, cont_textbox1, cont_textbox2)) break;
+			if(controlador->procesarEvento(&evento, cont_textbox1, cont_textbox2)) return true;
 			this->Dibujarse();
 			//SDL_Delay(5);
 				
@@ -387,6 +387,7 @@ void Grilla::open(Uint32 idVentana) {
 	delete controlador;
 	delete cont_textbox1;
 	delete cont_textbox2;
+	return false;
 }
 
 bool Grilla::entraEnGrilla(int x, int y) {

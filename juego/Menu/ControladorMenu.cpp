@@ -3,11 +3,21 @@
 #include <vector>
 
 ControladorMenu::ControladorMenu(Menu* menu){
+	this->menu = menu;
+	resetear();
+}
+
+void ControladorMenu::resetear(){
 	abajo = false;
 	arriba = false;
 	enter = false;
-	this->menu = menu;
 	en_boton = false;
+}
+
+
+ControladorMenu::~ControladorMenu(){
+	true;
+	//No elimina el menu
 }
 
 modo ControladorMenu::procesarEvento(SDL_Event* evento){
@@ -87,9 +97,4 @@ modo ControladorMenu::procesarEvento(SDL_Event* evento){
 		return menu->seleccionarOpcion();
 	}
 	return MENU;
-}
-
-ControladorMenu::~ControladorMenu(){
-	true;
-	//No elimina el menu
 }
