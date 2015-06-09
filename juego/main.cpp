@@ -16,6 +16,7 @@
 #include "AI/AI.hpp"
 #include "Menu/Menu.hpp"
 #include "Menu/ControladorMenu.hpp"
+#include "Menu/GrillaDeJugadores.hpp"
 
 // Música
 #include <SDL2/SDL_mixer.h>
@@ -32,6 +33,8 @@ using namespace std;
 
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
+
+#define USING_PATH_JSON true
 
 Logger *logger = Logger::instance();
 
@@ -126,9 +129,10 @@ public:
     Timer* timer = NULL;
 
     ConversorDeCoordenadas* conversor;
-
+	Grilla* grilla = NULL;
 	Estado* estado1 = NULL, *estado2 = NULL;
     Personaje* personajeJuego1 = NULL, *personajeJuego2 = NULL;
+    string pathPersonaje1, pathPersonaje2;
     bool USAR_AI = false;
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
@@ -181,7 +185,6 @@ public:
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
         
         this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
-        
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
         
         // Separacion entre personajes de un tercio de la ventana.
@@ -309,10 +312,10 @@ void game_loop(){
 
 
         menu = new Menu (renderer, ventana);
-        SDL_RenderClear(renderer);
+        //SDL_RenderClear(renderer);
         menu->Dibujarse();
-        SDL_RenderPresent(renderer);
-
+        //SDL_RenderPresent(renderer);
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
 
         controlador = new ControladorMenu(menu);
         while (!salir){
@@ -327,11 +330,10 @@ void game_loop(){
             SDL_RenderClear(renderer);
             menu->Dibujarse();
             SDL_RenderPresent(renderer);
-            
             if (modo_a_cambiar == Pelea) {
                 modo_actual = Pelea;
                 logger->log_debug("Debería pasar a: Pelea"); ///
-                //elegir_personajes()
+                elegir_personajes(Pelea);
                 comenzar_escenario_de_pelea();
                 crear_personajes();
                 pelear(&evento);      
@@ -341,7 +343,7 @@ void game_loop(){
                 modo_actual = Practica;
                 logger->log_debug("Debería pasar a: Practica"); ///
                 // Por ahora repito todo.
-                //elegir_personajes()
+                elegir_personajes(Practica);
                 comenzar_escenario_de_pelea();
                 crear_personajes_practica();
                 pelear(&evento);
@@ -352,7 +354,7 @@ void game_loop(){
                 USAR_AI = true;
                 logger->log_debug("Debería pasar a: CPU"); ///
                 // Por ahora repito todo.
-                //elegir_personajes()
+                elegir_personajes(CPU);
                 comenzar_escenario_de_pelea();
                 crear_personajes();
                 pelear(&evento);
@@ -471,6 +473,18 @@ void ControladorBasico(SDL_Event* evento){
 //--------------------------------------------
 //-------------COMENZAR UNA PELEA-------------
 //--------------------------------------------
+void elegir_personajes(modo seleccionMenu){
+	this->grilla->eligio[0] = this->grilla->eligio[1] = false;
+	if (seleccionMenu == CPU) this->pathPersonaje2 = this->grilla->randomChoicePlayer2();
+	this->grilla->open(this->menu->obtenerIDventana());
+	this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
+	this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
+	cout << this->pathPersonaje1 << endl ; ///
+	cout << this->pathPersonaje2 << endl; ///
+	
+}
+
+
 void comenzar_escenario_de_pelea(){
 	this->escenario = new Escenario(parser->escenario_ancho, parser->escenario_alto);
 	this->conversor = new ConversorDeCoordenadas(parser->ventana_altopx, parser->ventana_anchopx,
@@ -483,10 +497,14 @@ void comenzar_escenario_de_pelea(){
 void crear_personajes(){
 // En realidad recibiría nombre, personaje elegido y si es AI los del 2 serían los de defecto o azar o lo que sea.
     /* Personaje 1 - izquierda */
-
-    this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
-                        renderer, parser->personaje_alto, parser->escenario_alto,
-                        parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+	if (USING_PATH_JSON) {
+		this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+							renderer, parser->personaje_alto, parser->escenario_alto,
+							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+		}
+	else this->estado1 = new Estado(this->pathPersonaje1,
+							renderer, parser->personaje_alto, parser->escenario_alto,
+							parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
     this->personajeJuego1 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
                                     "Subzero", renderer, parser->personaje_alto,
                                     parser->personaje_ancho, estado1,
@@ -500,15 +518,26 @@ void crear_personajes(){
     // DEFECTO IGUAL A CERO.
 
     
-    if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
-        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+    if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
+		this->pathPersonaje1 == this->pathPersonaje2) {
+		
+        if (USING_PATH_JSON) 
+			this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                         renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
+                        parser->color_inicio, parser->color_fin, parser->color_offset);
+            else this->estado2 = new Estado(this->pathPersonaje2, renderer, parser->personaje2_alto, parser->escenario_alto,
+                        parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                         parser->color_inicio, parser->color_fin, parser->color_offset);             
-    else
+    }else {
+        if (USING_PATH_JSON)
         this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
                         renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+        else this->estado2 = new Estado(this->pathPersonaje2, renderer, parser->personaje2_alto, parser->escenario_alto,
+                        parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
+        
+	}
     
     this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                     "Segundo", renderer, parser->personaje2_alto,
@@ -610,7 +639,7 @@ void crear_personajes_practica(){
 		delete this->ventana;
         if (this->ai != NULL) delete this->ai;
         Mix_FreeMusic(musica_fondo);
-
+		delete this->grilla;
         SDL_DestroyRenderer(renderer);
         logger->log_debug("Borramos todos los objetos");
     };

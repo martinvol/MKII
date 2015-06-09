@@ -92,7 +92,7 @@ bool loadMedia()
 	bool success = true;
 
 	//Load foo' texture
-	if( !gFooTexture->loadFromFile("resources/jugador/SubZero/4/3.png", 10 , 200 , 300 ) )
+	if( !gFooTexture->loadFromFile("resources/menu/opcion_transparent.png", 0 , 60 , 300, false ) )
 	{
 		printf( "Failed to load corner texture!\n" );
 		success = false;
