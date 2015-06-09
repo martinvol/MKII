@@ -171,7 +171,6 @@ void BarraDeVida::Dibujarse(){
         SDL_SetRenderDrawColor( renderer, 255, 0, 0, 230 );
         SDL_RenderFillRect( renderer, &(this->staminaRoja) );
         
-        SDL_Rect destino = {this->vida.x, this->vida.y, this->vida.w + this->danio.w, this->vida.h};
         SDL_RenderCopy(renderer, textura_nombre, NULL, &vacio);
         
 }
