@@ -31,7 +31,8 @@ typedef enum accion_posible {QUIETO, CAMINAR_DERECHA, CAMINAR_IZQUIERDA, 	//List
 							TROPEZAR, // Al recibir una patada voladora. FALTA Y NO ESTA
 							CAERPORGANCHO, LEVANTARSEDELGANCHO, //FALTA
 							CAERPORTRABA, LEVANTARSEDELATRABA,
-							RECIBIRGOLPEALTO, RECIBIRGOLPEBAJO, RECIBIRGOLPEAGACHADO } accion_posible; //FALTA
+							RECIBIRGOLPEALTO, RECIBIRGOLPEBAJO, RECIBIRGOLPEAGACHADO,
+							GANAR } accion_posible; //FALTA
 							/* PINIASALTANDOVERTICAL y PINIASALTANDODIAGONAL tienen los mismos sprites
 							 * pero PINIASALTANDODIAGONAL conserva la 'inercia', o sea sigue 
 							 * la parabola.
@@ -66,6 +67,7 @@ class Accion{
 		string ruta;
 		SDL_Renderer* renderer;
 		vector<SDL_Texture*> imagenes;
+		vector<SDL_Texture*> imagenesEspejadas;
 		int modoActual;
 		
 		Logger* logger;
@@ -84,7 +86,7 @@ class Accion{
 		void setInvertirSecuencia();
 		void setDanio(int danio);
 	
-		SDL_Texture* getImagenActual();
+		SDL_Texture* getImagenActual(bool derecha);
 		int hue_init, hue_fin, hue_offset;
 		
 		int getModoActual();

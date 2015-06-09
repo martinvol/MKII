@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "Escenario/BarraDeVida.hpp"
 #include "Escenario/Capa.hpp"
@@ -56,6 +57,7 @@ int InicializarSDL() {
         printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
         return 1;
     }
+    TTF_Init();
     logger->log_debug("SDL cargada correctamente");    
     return 0;
 }
@@ -80,6 +82,10 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 
 class Juego{
 public:
+	bool Personaje_1_GanoRound = false;
+	bool Personaje_2_GanoRound = false;
+	bool Personaje_1_Gano_2_Round = false;
+	bool Personaje_2_Gano_2_Round = false;
     bool golpeandoPJ = false;
     bool golpeandoPJalta = false;
     bool golpeandoPJbaja = false;
@@ -338,7 +344,6 @@ void game_loop(){
                 //elegir_personajes()
                 comenzar_escenario_de_pelea();
                 crear_personajes_practica();
-
                 pelear(&evento);
                 salir_de_modo();
             } else
@@ -352,6 +357,7 @@ void game_loop(){
                 crear_personajes();
                 pelear(&evento);
                 salir_de_modo();
+                USAR_AI = false;
             }
 		}
 }
@@ -394,17 +400,37 @@ void pelear(SDL_Event* evento){
 
 		if (director->seMurio(0)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
-            // this->reiniciarJuego();
-            return;
-        } else if (director->seMurio(1)){
+            director->GanoRound(1);           
+            
+            modo_actual == Pelea;
+            //Si ya tenia ganado un round, ahora gano el segundo
+            if (Personaje_1_GanoRound){
+				Personaje_1_Gano_2_Round = true;
+				logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
+				salir_pelea = true;
+			}else{
+				Personaje_1_GanoRound = true;	
+			}
+            this->reiniciarJuego();            
+            
+        } if (director->seMurio(1)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
-             //this->reiniciarJuego();
-            return;
+            director->GanoRound(0);
+            if (Personaje_2_GanoRound){
+				Personaje_2_Gano_2_Round = true;
+				logger->log_debug(string("Ganó LA PARTIDA el jugador: ") + parser->personaje1_nombre + string("!!!"));
+				salir_pelea = true;
+			}else{
+				Personaje_2_GanoRound = true;	
+			}            
+            modo_actual == Pelea;
+            this->reiniciarJuego();
         }
+        
     }
-
+    Personaje_1_GanoRound = Personaje_2_GanoRound = false;
+	Personaje_1_Gano_2_Round = Personaje_2_Gano_2_Round = false;
 }
-
 //-------------------------------------------    
 //------CONTROLADOR DE PAUSA Y SALIR---------
 //-------------------------------------------    
@@ -514,6 +540,8 @@ void crear_personajes_practica(){
                                     this->conversor, parser->velocidad_arma,
                                     1, true);
 
+    this->personajeJuego1->dibujar_botones(this->parser);
+
     /* Personaje 2 - derecha */
     // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
     // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
@@ -553,14 +581,22 @@ void crear_personajes_practica(){
         terminar_juego();        
 		
         cargar_configuracion();
+        comenzar_escenario_de_pelea();
+        
         if ((modo_actual == Pelea)
-			// Por ahora
-			|| (modo_actual == Practica)
-			|| (modo_actual == CPU)){
-			comenzar_escenario_de_pelea();
-			crear_personajes();
-		}
+            // Por ahora
+            || (modo_actual == CPU)){
+            crear_personajes();
 
+        } else {
+			// || (modo_actual == Practica)
+            crear_personajes_practica();
+        }
+	if(Personaje_1_GanoRound)
+		director->GanoRound(1); 
+	
+	if(Personaje_2_GanoRound)
+		director->GanoRound(0); 
     };
 
     void terminar_juego(){

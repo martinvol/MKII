@@ -45,7 +45,12 @@
       "velocidad_arma": 10,
       "inicio": 100,
       "fin": 200,
-      "offset": 200
+      "offset": 200,
+      "tiempo_max_boton": 5, // en segundos
+      "maximos_botones": 5,
+      "tomas": {
+         "toma1": "334"
+      }
    },
    "personaje2":{
       "nombre": "Battán",

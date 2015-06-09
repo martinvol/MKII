@@ -3,7 +3,7 @@
 /************************************************************
 *	 						BOTON							*
 ************************************************************/
-Boton::Boton(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Renderer* renderer){
+BotonMenu::BotonMenu(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Renderer* renderer){
 	this->renderer = renderer;
 	if (mode == Pelea){
 		boton = IMG_LoadTexture(renderer, "resources/menu/Pelea.png");
@@ -22,18 +22,18 @@ Boton::Boton(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Ren
 	this->destino.h = alto_fisico;
 }
 
-Boton::~Boton(){
+BotonMenu::~BotonMenu(){
 	SDL_DestroyTexture(boton);
 }
 
-void Boton::Dibujarse(SDL_Texture* seleccion){
+void BotonMenu::Dibujarse(SDL_Texture* seleccion){
 	SDL_RenderCopy(renderer, boton, NULL, &destino);
 	if (seleccion != NULL){
 		SDL_RenderCopy(renderer, seleccion, NULL, &destino);
 	}
 }
 
-SDL_Rect Boton::obtenerPosicionEnVentana(){
+SDL_Rect BotonMenu::obtenerPosicionEnVentana(){
 	return destino;
 }
 
@@ -45,9 +45,9 @@ SDL_Rect Boton::obtenerPosicionEnVentana(){
 
 Menu::Menu(SDL_Renderer* renderer, Ventana* ventana){
 	this->renderer = renderer;
-	fondo = IMG_LoadTexture(renderer, "resources/menu/fondo.png");
-	opcion = IMG_LoadTexture(renderer, "resources/menu/Opcion.png");
-	seleccion = IMG_LoadTexture(renderer, "resources/menu/Seleccion.png");
+	fondo = IMG_LoadTexture(renderer, "resources/menu/fondo3.png");
+	opcion = IMG_LoadTexture(renderer, "resources/menu/opcion_transparent.png");
+	seleccion = IMG_LoadTexture(renderer, "resources/menu/seleccion_transparent.png");
 	
 	ancho_fisico = ventana->ancho_fisico;
 	alto_fisico = ventana->alto_fisico;
@@ -61,11 +61,11 @@ Menu::Menu(SDL_Renderer* renderer, Ventana* ventana){
 	int offset_entre_botones = alto_fisico_botones / 3.0;
 	int x = (ancho_fisico / 2.0) - (ancho_fisico_botones / 2.0);
 	int y = alto_fisico - 2*alto_fisico_botones;
-	botones.push_back(new Boton(Pelea, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
+	botones.push_back(new BotonMenu(Pelea, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 	y = y - offset_entre_botones - alto_fisico_botones;
-	botones.push_back(new Boton(Practica, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
+	botones.push_back(new BotonMenu(Practica, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 	y = y - offset_entre_botones - alto_fisico_botones;
-	botones.push_back(new Boton(CPU, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
+	botones.push_back(new BotonMenu(CPU, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 }
 
 Menu::~Menu(){
@@ -75,6 +75,7 @@ Menu::~Menu(){
 	for (unsigned int i = 0; i < botones.size(); i++){
 		delete botones[i];
 	}
+	botones.clear();
 }
 
 void Menu::Dibujarse(){

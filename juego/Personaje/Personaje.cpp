@@ -3,6 +3,7 @@
 #include "Personaje.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 
@@ -40,7 +41,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->estado = estado;
 	this->nroAccionActual = QUIETO;
 	this->accionActual = this->estado->	quieto;
-	this->imagenActual = this->accionActual->getImagenActual();
+	this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);
 	
 	calcularAnchoYAltoImagen();
 	this->ancho_quieto = this->_w;
@@ -64,6 +65,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 }
 
 Personaje::~Personaje(){
+	delete panel;
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 	delete this->siguiente;
@@ -210,7 +212,7 @@ void Personaje::activarAccion(accion_posible accion){
 		}
 	}
 
-	this->imagenActual = this->accionActual->getImagenActual();	
+	this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);	
 	
 	//~ calcularAnchoYAltoImagen();
 	//~ calcularDatosDibujables();
@@ -290,7 +292,6 @@ void Personaje::moverseAIzqSup(CoordenadaLogica* coord){
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarY(-alto);
 	
-	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseADerSup(CoordenadaLogica* coord){
@@ -299,14 +300,12 @@ void Personaje::moverseADerSup(CoordenadaLogica* coord){
 	coordenada->desplazarY(-alto);
 	coordenada->desplazarX(-ancho);
 	
-	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseAIzqInf(CoordenadaLogica* coord){
 	delete coordenada;
 	coordenada = new CoordenadaLogica(coord);
 	
-	//~ calcularDatosDibujables();
 }
 
 void Personaje::moverseADerInf(CoordenadaLogica* coord){
@@ -314,7 +313,6 @@ void Personaje::moverseADerInf(CoordenadaLogica* coord){
 	coordenada = new CoordenadaLogica(coord);
 	coordenada->desplazarX(-ancho);
 	
-	//~ calcularDatosDibujables();
 }
 
 /***********************************************************************
@@ -492,7 +490,6 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 		this->accionActual->dibuje_rectangulos = false;	
 	
 	//~ calcularAnchoYAltoImagen();
-	//~ calcularDatosDibujables();
 }
 
 float Personaje::calcularAnchoYAltoImagen(){
@@ -536,14 +533,9 @@ void Personaje::Dibujarse(){
 	SDL_Point point = {this->_w/2, this->_h};
 	
 	
-	// Espeja si debe mirar para la izquierda.
-	if (!this->mirarDerecha){
-		
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_HORIZONTAL);
-	} else {
-		
-		SDL_RenderCopyEx(this->renderer, this->imagenActual, NULL, &destino,0,NULL,SDL_FLIP_NONE);
-	}
+	//Se dibuja comun, this->imagenActual ya esta espejada, o no. 	
+	SDL_RenderCopy(this->renderer, this->imagenActual, NULL, &destino);
+	
 
 
 	for(int i = 0; i < this->accionActual->rectangulos->size(); i++) {
@@ -560,16 +552,28 @@ void Personaje::Dibujarse(){
 
 		this->arrojable->dibujar(this->conversor);
 	}
+
+	if (panel){
+		panel->dibujar(this->conversor, this->renderer);
+		string temp("123");
+		panel->checkToma(temp, 1);
+	}
 }
 
+void Personaje::dibujar_botones(Parser* conf){
+	puts("botones");
+	panel = new PanelBotones(conf, renderer, this->numero_jugador);
+	// acá se dibujan en pantala las cosas
 
+
+}
 /***********************************************************************
  * 
  * 							CONTROLADOR
  *
  **********************************************************************/  
  void Personaje::ActualizarControlador(SDL_Joystick *joystick, Parser* conf, SDL_Event *evento){
-		
+
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);		
 	unordered_map <string, int>* conf_joys = conf->joysticks->at(this->numero_jugador);
 	Uint8 i = evento->jbutton.button;
@@ -614,7 +618,7 @@ void Personaje::Dibujarse(){
 				
 			
 			if (i ==  (*conf_joys)["pinia_baja"]){
-				PiniaBaja = true;					
+				PiniaBaja = true;
 			} else if (i == (*conf_joys)["cubrirse"]){
 				CubrirAlto = true;
 			} else if (i == (*conf_joys)["patada_baja"]){
@@ -638,6 +642,10 @@ void Personaje::Dibujarse(){
 				}
 			} else if (i == (*conf_joys)["patada_alta"]){
 				PatadaAlta = true;
+
+			}
+			if (panel){
+				panel->AgregarBotones(i);
 			}
 			break;
 		case SDL_JOYBUTTONUP:

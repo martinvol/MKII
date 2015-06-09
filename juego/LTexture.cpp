@@ -9,6 +9,7 @@ and may not be redistributed without written permission.*/
 
 #include "../juego/LTexture.hpp"
 #include <string>
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <cstdlib>
@@ -175,7 +176,7 @@ bool LTexture::loadFromRenderedText( string textureText, SDL_Color textColor )
 }
 #endif
 
-bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int hue_offset){
+bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int hue_offset, bool espejar){
 
     hue_offset = (( hue_offset % 360 ) + 360 ) % 360;
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
@@ -213,10 +214,31 @@ bool LTexture::loadFromFile(std::string path, int hue_init, int hue_final, int h
 		}
 	}
 	
+	if (espejar){
+		int linea = loadedSurface->pitch/4;
+		int columna = pixelCount/linea;
+		
+		//INVERTE PERFECTO
+		//~ for(int i=0; i < pixelCount/2; i++){			
+				//~ int x = pixels[pixelCount-1 -i];			
+				//~ pixels[pixelCount-1 -i] =pixels[i];
+				//~ pixels[i] = x;
+		//~ }
+
+		for(int i=0; i < pixelCount-linea; i+=linea){		
+				for(int j=0; j< (linea/2); j++){
+					int aux = pixels[i+j];
+					pixels[i+j]= pixels[i+linea-j];
+					pixels[i+linea-j] = aux;
+				}			
+		}
+	}
+	
+	
 	SDL_UnlockSurface(loadedSurface);
 	mTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
 	SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
-	SDL_FreeSurface(loadedSurface);
+	SDL_FreeSurface(loadedSurface);	
 	return true;	
 }
 
