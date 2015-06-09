@@ -62,6 +62,7 @@ class Director {
 		*/
 		virtual void actualizar();
 		virtual bool seMurio(int num_jugador);
+		virtual void GanoRound(int num_jugador);
 		
 };
 

@@ -85,6 +85,10 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 
 class Juego{
 public:
+	bool Personaje_1_GanoRound = false;
+	bool Personaje_2_GanoRound = false;
+	bool Personaje_1_Gano_2_Round = false;
+	bool Personaje_2_Gano_2_Round = false;
     bool golpeandoPJ = false;
     bool golpeandoPJalta = false;
     bool golpeandoPJbaja = false;
@@ -398,17 +402,37 @@ void pelear(SDL_Event* evento){
 
 		if (director->seMurio(0)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
-            // this->reiniciarJuego();
-            return;
-        } else if (director->seMurio(1)){
+            director->GanoRound(1);           
+            
+            modo_actual == Pelea;
+            //Si ya tenia ganado un round, ahora gano el segundo
+            if (Personaje_1_GanoRound){
+				Personaje_1_Gano_2_Round = true;
+				logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
+				salir_pelea = true;
+			}else{
+				Personaje_1_GanoRound = true;	
+			}
+            this->reiniciarJuego();            
+            
+        } if (director->seMurio(1)){
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
-             //this->reiniciarJuego();
-            return;
+            director->GanoRound(0);
+            if (Personaje_2_GanoRound){
+				Personaje_2_Gano_2_Round = true;
+				logger->log_debug(string("Ganó LA PARTIDA el jugador: ") + parser->personaje1_nombre + string("!!!"));
+				salir_pelea = true;
+			}else{
+				Personaje_2_GanoRound = true;	
+			}            
+            modo_actual == Pelea;
+            this->reiniciarJuego();
         }
+        
     }
-
+    Personaje_1_GanoRound = Personaje_2_GanoRound = false;
+	Personaje_1_Gano_2_Round = Personaje_2_Gano_2_Round = false;
 }
-
 //-------------------------------------------    
 //------CONTROLADOR DE PAUSA Y SALIR---------
 //-------------------------------------------    
@@ -597,7 +621,11 @@ void crear_personajes_practica(){
 			// || (modo_actual == Practica)
             crear_personajes_practica();
         }
-
+	if(Personaje_1_GanoRound)
+		director->GanoRound(1); 
+	
+	if(Personaje_2_GanoRound)
+		director->GanoRound(0); 
     };
 
     void terminar_juego(){
