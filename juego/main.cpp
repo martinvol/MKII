@@ -392,8 +392,10 @@ void setearNombres(){
 	nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
 	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
 	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
-	barraDeVida1->setNombre(nombrePersonaje1);
-	barraDeVida2->setNombre(nombrePersonaje2);
+    if (barraDeVida1 && barraDeVida2){
+        barraDeVida1->setNombre(nombrePersonaje1);
+        barraDeVida2->setNombre(nombrePersonaje2);
+    }
 }
 
 void salir_de_modo(){
