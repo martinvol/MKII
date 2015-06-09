@@ -50,6 +50,7 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 	this->maximos_botones = conf->maximos_botones;
 	this->errores_maximo = conf->errores_maximo;
 	this->debo_dibujar = debo_dibujar;
+	Sans = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 24);
 }
 
 PanelBotones::~PanelBotones(){
@@ -61,7 +62,8 @@ PanelBotones::~PanelBotones(){
 	}
 	for(auto textura: imagenes_tomas_cambiadas){
 		SDL_DestroyTexture(textura.second);
-	} 
+	}
+	TTF_CloseFont(Sans);
 }
 
 void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer){
@@ -75,7 +77,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 	if (ejecutando_toma){
 		if (SDL_GetTicks() - tiempo_toma < DURACION_TEXTO){
 			// dibujamos el nombre de la toma
-            TTF_Font* Sans = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 24);
+            /// TTF_Font* Sans = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 24);
 			SDL_Color White = {255, 255, 255};
 			SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, nombre_toma.c_str(), White);
 			SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
