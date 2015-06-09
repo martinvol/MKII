@@ -196,11 +196,7 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
-			case GANAR:
-				cout<<"ganaaaaaar"<<endl;
-				//~ if (this->accionActual->ciclos == 1){
-					//~ cambiarAccionA(QUIETO);
-				//~ }
+			case GANAR:				
 				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
