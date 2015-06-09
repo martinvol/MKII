@@ -26,7 +26,7 @@ class EstructuraBoton{
 
 class PanelBotones {
 	public:
-		PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador); // un conversor de coordenadas, 
+		PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador, bool debo_dibujar); // un conversor de coordenadas, 
 		~PanelBotones();
 		
 		void AgregarBotones(int boton);
@@ -42,6 +42,7 @@ class PanelBotones {
 		int maximos_botones, errores_maximo;
 		bool ejecutando_toma = false;
 		void limpiar_botones();
+		bool debo_dibujar;
 };
 
 #endif

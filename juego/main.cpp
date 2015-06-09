@@ -494,6 +494,7 @@ void crear_personajes(){
                                     1, true, parser->tomas);
     this->barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
+    this->personajeJuego1->dibujar_botones(this->parser, false);
     /* Personaje 2 - derecha */
     // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
     // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
@@ -540,7 +541,7 @@ void crear_personajes_practica(){
                                     this->conversor, parser->velocidad_arma,
                                     1, true, parser->tomas);
 
-    this->personajeJuego1->dibujar_botones(this->parser);
+    this->personajeJuego1->dibujar_botones(this->parser, true);
 
     /* Personaje 2 - derecha */
     // SI SON IGUALES, A UN ESTADO LE PASO LAS CONSTANTES. 
