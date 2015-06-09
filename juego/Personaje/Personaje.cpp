@@ -191,11 +191,16 @@ void Personaje::activarAccion(accion_posible accion){
 			case TRABA:
 			case ROUNDKICK:
 			case LEVANTARSEDELGANCHO:
-			case LEVANTARSEDELATRABA:								
+			case LEVANTARSEDELATRABA:				
 				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
 				}
 			break;			
+			case GANAR:
+			case MORIR:
+			case DIZZY:
+			case DESAPARECER:				
+				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
 					cambiarAccionA(QUIETO);	
@@ -478,6 +483,18 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case LEVANTARSEDELATRABA:
 			this->accionActual = this->estado->levantarseDelGancho;
+			break;
+		case GANAR:
+			this->accionActual = this->estado->ganar;
+			break;
+		case MORIR:
+			this->accionActual = this->estado->morir;
+			break;
+		case DIZZY:
+			this->accionActual = this->estado->dizzy;
+			break;
+		case DESAPARECER:
+			this->accionActual = this->estado->desaparecer;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

@@ -150,9 +150,9 @@ void BarraDeVida::Dibujarse(){
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         //Dibujo la barra de negro y salgo
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 200 );
-        SDL_RenderFillRect(renderer, &(this->vacio));
+        SDL_RenderFillRect(renderer, &(this->borde));
 
-        SDL_RenderCopy(renderer, textura_nombre, NULL, &(this->vacio));
+        SDL_RenderCopy(renderer, textura_nombre, NULL, &(this->borde));
         return;
     }
         //Barra de vida (Azul)
@@ -171,8 +171,7 @@ void BarraDeVida::Dibujarse(){
         SDL_SetRenderDrawColor( renderer, 255, 0, 0, 230 );
         SDL_RenderFillRect( renderer, &(this->staminaRoja) );
         
-        SDL_Rect destino = {this->vida.x, this->vida.y, this->vida.w + this->danio.w, this->vida.h};
-        SDL_RenderCopy(renderer, textura_nombre, NULL, &destino);
+        SDL_RenderCopy(renderer, textura_nombre, NULL, &vacio);
         
 }
 

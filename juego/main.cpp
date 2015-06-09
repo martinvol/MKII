@@ -397,11 +397,8 @@ void setearNombres(){
 void salir_de_modo(){
     modo_actual  = MENU;
     modo_a_cambiar = MENU;
-    delete menu;
-    Menu* menu = new Menu (renderer, ventana);
-    delete controlador;
-    ControladorMenu* controlador = new ControladorMenu(menu);
     delete director;
+    controlador->reiniciar();
     director = NULL;
     SDL_Delay(100);
 }
@@ -567,7 +564,8 @@ void ControladorBasico(SDL_Event* evento){
 			break;
 		case SDL_KEYDOWN:
 			if (evento->key.keysym.sym == SDLK_p)  {
-				//~ pausa = !pausa;
+				if (modo_actual==Pelea || modo_actual == CPU || modo_actual ==Practica )
+					pausa = !pausa;
 				true;
 			}
 			if (evento->key.keysym.sym == SDLK_ESCAPE){
@@ -580,7 +578,8 @@ void ControladorBasico(SDL_Event* evento){
 			}
 		case SDL_KEYUP:
 			if(evento->key.keysym.sym == SDLK_p)  {                   
-                this->timer->pausarTimer(SDL_GetTicks());
+				if (this->timer != NULL)
+					this->timer->pausarTimer(SDL_GetTicks());
             }
         default:
 			;
@@ -826,9 +825,9 @@ void DibujarTodo(){
         }
 		
         if (pausa){
-            SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
-            SDL_SetRenderDrawColor( renderer, 0, 0, 0, 150 );
-            SDL_RenderFillRect( renderer, &pantalla );
+            //~ SDL_Rect pantalla = {0,0,parser->ventana_anchopx,parser->ventana_altopx};
+            //~ SDL_SetRenderDrawColor( renderer, 0, 0, 0, 200 );
+            //~ SDL_RenderFillRect( renderer, &pantalla );
         }
         SDL_RenderPresent(renderer);
 };
@@ -880,6 +879,10 @@ void Controlador(SDL_Event *evento){
 				//-----------------------------------------
 				if (evento->key.keysym.sym == SDLK_p)  {
 					pausa = !pausa;
+					if (pausa)
+						logger->log_debug("Pausa activada");
+					else
+						logger->log_debug("Pausa desactivada");
 				}
 				if(evento->key.keysym.sym == SDLK_c)  {
 					if (cansandoPJ == false){
@@ -944,8 +947,9 @@ void Controlador(SDL_Event *evento){
                 }
                 //-----------------------------------------
                 //-----------------------------------------
-                if(evento->key.keysym.sym == SDLK_p)  {                   
-                    this->timer->pausarTimer(SDL_GetTicks());
+                if(evento->key.keysym.sym == SDLK_p)  {   
+					if (timer != NULL)                
+						this->timer->pausarTimer(SDL_GetTicks());
                 }
                 if((evento->key.keysym.sym == SDLK_d))  {
                     golpeandoPJ = false;
