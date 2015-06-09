@@ -215,6 +215,12 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
     this->x_header = this->anchoVentana/2 - w/2;
 	this->y_header = HEAD_Y;
 	this->lastTick1 = this->lastTick2 = SDL_GetTicks();
+	
+	//~ textbox1 = new TextBox();
+	//~ textbox2 = new TextBox();
+	//~ 
+	//~ cont_textbox1 = new ControladorTextBox(textbox1);
+	//~ cont_textbox2 = new ControladorTextBox(textbox2);
 }
 
 void Grilla::Dibujarse(){ 
@@ -264,6 +270,7 @@ void Grilla::Dibujarse(){
 	SDL_Rect jugador2 = {DIBUJAR_PLAYER2X, DIBUJAR_PLAYER2Y, w*2, h*2};
 	if (!this->eligio[1]) {
 		SDL_RenderCopy(this->ren, this->seleccion[(ticks/100) % 2], NULL, &rect);
+		numerito.x = numerito.x + this->anchoImagen - numerito.w;
 		SDL_RenderCopy(this->ren, this->numero[1], NULL, &numerito);
 		SDL_RenderCopy(this->ren, imagenJugador2, NULL, &jugador2);	
 	}

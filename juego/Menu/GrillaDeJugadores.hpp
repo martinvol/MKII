@@ -10,6 +10,7 @@
 #include "../Personaje/Acciones/Quieto.hpp"
 #include "../Personaje/Acciones/Ganar.hpp"
 #include "TextBox.hpp"
+#include "ControladorTextBox.hpp"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ class Grilla {
 		vector<Accion*> accionesGanar;
 		
 		TextBox* textbox1, *textbox2;
+		ControladorTextBox* cont_textbox1, *cont_textbox2;
 		
 		SDL_Texture* header;
 		
