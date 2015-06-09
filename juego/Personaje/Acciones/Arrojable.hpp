@@ -17,7 +17,7 @@ using namespace std;
 class Arrojable{
 	public:
 
-		Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren);
+		Arrojable(bool derecha, SDL_Renderer* ren);
 
 		// desde donde
 		// ESTO se encarga de liberar la memoria de la coordenada que le pasan
@@ -36,8 +36,10 @@ class Arrojable{
 
 		Rectangulo * rectangulo;
 		bool pego=false;
+
 	private:
 		SDL_Texture* imagen;
+		SDL_Texture* imagen_congelar;
 		SDL_Renderer* ren;
 		int alto, ancho, alto_original;
 		CoordenadaLogica *coord;

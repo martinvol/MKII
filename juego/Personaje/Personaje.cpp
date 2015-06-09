@@ -61,7 +61,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
-	this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
+	// this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
 	pinia_sonido = Mix_LoadWAV("resources/music/male_scream_short.wav");
 }
 
@@ -76,7 +76,7 @@ Personaje::~Personaje(){
 void Personaje::Arrojar(){
 	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 	if (this->arrojable == NULL){
-		this->arrojable = new Arrojable(this->imagenArrojable, !this->mirarDerecha, this->renderer);
+		this->arrojable = new Arrojable(!this->mirarDerecha, this->renderer);
 	
 	
 		CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();

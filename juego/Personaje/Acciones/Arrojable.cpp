@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Arrojable::Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren){
+Arrojable::Arrojable(bool derecha, SDL_Renderer* ren){
 	this->ren = ren;
 	this->imagen = imagen;
 	this->espejado = derecha;
@@ -15,6 +15,9 @@ Arrojable::Arrojable(SDL_Texture *imagen, bool derecha, SDL_Renderer* ren){
 	this->alto = 0;
 	this->ancho = 0;
 	this->rectangulo = NULL;
+	//this->imagen = IMG_LoadTexture(this->ren, "resources/arma.png");
+	this->imagen = IMG_LoadTexture(this->ren, "resources/riquelme.png");
+	this->imagen_congelar = IMG_LoadTexture(this->ren, "resources/riquelme.png");
 }
 
 
@@ -111,4 +114,6 @@ void Arrojable::dibujar(ConversorDeCoordenadas *conv){
 Arrojable::~Arrojable(){
 	delete this->coord;
 	delete this->rectangulo;
+	SDL_DestroyTexture(this->imagen);
+	SDL_DestroyTexture(this->imagen_congelar);
 }

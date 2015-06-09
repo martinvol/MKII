@@ -122,7 +122,6 @@ class Personaje {
 		
 	    void dibujar_botones(Parser* conf, bool debo_dibujar);
 	private:
-		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
 	    PanelBotones* panel=NULL;
 	    std::vector<TomaData*>* tomas;
