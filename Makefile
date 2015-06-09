@@ -32,6 +32,11 @@ testTiempo: clean
 	$(CC) "pruebas/testTiempo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testTiempo
 	./testTiempo
 	make clean	
+	
+testGrilla: clean GrillaDeJugadores.o LTexture.o Accion.o Quieto.o coordenadas.o Rectangulo.o Logger.o
+	$(CC) "pruebas/testGrilla.cpp" *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(FONTFLAGS) -o testScreen
+	./testScreen
+	make clean	
 
 Menu.o: juego/Menu/Menu.cpp juego/Menu/ControladorMenu.cpp
 	$(CC) "juego/Menu/Menu.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
@@ -171,6 +176,13 @@ Arrojable.o: juego/Personaje/Acciones/Arrojable.cpp
 
 Personaje.o: juego/Personaje/Personaje.cpp
 	$(CC) "juego/Personaje/Personaje.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) $(FONTFLAGS) -c
+	
+GrillaDeJugadores.o: 
+	$(CC) "juego/Menu/GrillaDeJugadores.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+
+TextBoxes.o:
+	$(CC) "juego/Menu/TextBox.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
+	$(CC) "juego/Menu/ControladorTextBox.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
 PanelBotones.o: juego/Personaje/PanelBotones.cpp juego/Personaje/PanelBotones.hpp
 	$(CC) "juego/Personaje/PanelBotones.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) $(FONTFLAGS) -c
@@ -260,7 +272,7 @@ Ventana.o: juego/Escenario/Ventana.cpp
 Rectangulo.o: juego/Personaje/Acciones/Rectangulo.cpp
 	$(CC) "juego/Personaje/Acciones/Rectangulo.cpp" $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) -c
 
-compilar_juego: Arrojable.o LTexture.o  Rectangulo.o Menu.o main.o Capa.o Escenario.o Parser.o RecibirTraba.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Traba.o PatadaAlta.o PatadaBajaAgachado.o PatadaAltaAgachado.o  PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o PiniaEnAire.o PatadaSaltoDiagonal.o PatadaSaltoVertical.o Gancho.o RoundKick.o LevantarseDelGancho.o Levantarse.o RecibirGolpeAgachado.o RecibirGolpeBajo.o RecibirGolpeAlto.o SiendoArrojado.o PiniaAgachado.o ArrojarProyectil.o AI.o DirectorPractica.o PanelBotones.o Ganar.o
+compilar_juego: Arrojable.o LTexture.o GrillaDeJugadores.o TextBoxes.o Rectangulo.o Menu.o main.o Capa.o Escenario.o Parser.o RecibirTraba.o BarraDeVida.o Logger.o Accion.o Personaje.o coordenadas.o Estado.o Quieto.o Caminar.o SaltarVertical.o SaltarDiagonal.o Agacharse.o PiniaAlta.o PiniaBaja.o Traba.o PatadaAlta.o PatadaBajaAgachado.o PatadaAltaAgachado.o  PatadaBaja.o Girar.o CubrirAlto.o CubrirBajo.o Director.o Jugador.o Ventana.o Timer.o PiniaEnAire.o PatadaSaltoDiagonal.o PatadaSaltoVertical.o Gancho.o RoundKick.o LevantarseDelGancho.o Levantarse.o RecibirGolpeAgachado.o RecibirGolpeBajo.o RecibirGolpeAlto.o SiendoArrojado.o PiniaAgachado.o ArrojarProyectil.o AI.o DirectorPractica.o PanelBotones.o Ganar.o
 	$(CC) *.o $(CFLAGS) $(SDLFLAGS) $(IMGFLAGS) $(JSONFLAGS) $(FONTFLAGS) -lm -o juego_ejecutable
 
 juego: compilar_juego
