@@ -1,6 +1,5 @@
 #include <locale>
 #include "ControladorTextBox.hpp"
-#include <iostream>
 
 ControladorTextBox::ControladorTextBox(TextBox* textbox, Uint32 idVentana){
 	this->textbox = textbox;

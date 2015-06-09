@@ -1,7 +1,6 @@
 #include "TextBox.hpp"
 
 #include <SDL2/SDL_image.h>
-#include <iostream>
 
 #define FONT_SIZE 20
 #define PATH_FONDO_TEXTBOX "resources/menu/blanco.png"

@@ -59,14 +59,13 @@ ControladorGrilla(Grilla* menu){
 	en_boton = false;
 }
 
-bool procesarEvento(SDL_Event* evento){
-	//if ((evento->type == SDL_JOYAXISMOTION))	
+bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTextBox* cont2){
 	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
 	int jugador = int(numeroJoystick) % 2;
 	while(SDL_PollEvent(evento)) {
-		this->menu->cont_textbox1->procesarEvento(evento);
-		this->menu->cont_textbox2->procesarEvento(evento);
+		if (cont1 != NULL) cont1->procesarEvento(evento);
+		if (cont2 != NULL) cont2->procesarEvento(evento);
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
 
@@ -228,8 +227,6 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	int y2 = h;
 	this->textbox2 = new TextBox(x2, y2, ancho_textbox, alto_textbox, PATH_FONT_TEXTBOX, ren);
 	
-	this->cont_textbox1 = NULL;
-	this->cont_textbox2 = NULL;
 }
 
 void Grilla::Dibujarse(){ 
@@ -318,8 +315,6 @@ Grilla::~Grilla() {
 	SDL_DestroyTexture(this->header);
 	delete textbox1;
 	delete textbox2;
-	if (cont_textbox1 != NULL) delete cont_textbox1;
-	if (cont_textbox2 != NULL) delete cont_textbox2;
 }
 string Grilla::obtenerPath(int jugador) {
 	string name = this->paths[this->obtenerUbicacion(this->xSeleccion[jugador], this->ySeleccion[jugador])];
@@ -380,20 +375,18 @@ void Grilla::open(Uint32 idVentana) {
 	SDL_Event evento;
 	this->Dibujarse();
 	ControladorGrilla* controlador = new ControladorGrilla(this);
-	this->cont_textbox1 = new ControladorTextBox(textbox1, idVentana);
-	this->cont_textbox2 = new ControladorTextBox(textbox2, idVentana);
+	ControladorTextBox* cont_textbox1 = new ControladorTextBox(textbox1, idVentana);
+	ControladorTextBox* cont_textbox2 = new ControladorTextBox(textbox2, idVentana);
 	while (!(this->eligio[0] && this->eligio[1])) {
 	//while (!(this->eligio[0])) {
-			if(controlador->procesarEvento(&evento)) break;
+			if(controlador->procesarEvento(&evento, cont_textbox1, cont_textbox2)) break;
 			this->Dibujarse();
 			//SDL_Delay(5);
 				
 	}
 	delete controlador;
 	delete cont_textbox1;
-	cont_textbox1 = NULL;
 	delete cont_textbox2;
-	cont_textbox2 = NULL;
 }
 
 bool Grilla::entraEnGrilla(int x, int y) {
