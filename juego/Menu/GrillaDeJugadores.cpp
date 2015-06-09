@@ -37,6 +37,8 @@
 #define CANT_ANCHO 4
 #define TOTAL_IMAGENES 12
 
+#define LOOP 60
+
 using namespace std;
 
 #define JOYSTICK_DEAD_ZONE 10000
@@ -206,7 +208,7 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	SDL_QueryTexture(this->header, NULL, NULL, &w, &h);
     this->x_header = this->anchoVentana/2 - w/2;
 	this->y_header = HEAD_Y;
-	
+	this->lastTick1 = this->lastTick2 = SDL_GetTicks();
 }
 
 void Grilla::Dibujarse(){ 
@@ -233,7 +235,10 @@ void Grilla::Dibujarse(){
 	rect.y = this->ySeleccion[0];
 	SDL_Rect numerito = {rect.x, rect.y, rect.w/2, rect.h/2};
 	int w, h;
-	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->cambiarModo();
+	if (ticks - this->lastTick1 > LOOP){
+		this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->cambiarModo();
+		this->lastTick1 = ticks;
+	}
 	SDL_Texture* imagenJugador1 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[0], this->ySeleccion[0])]->getImagenActual(true);
 	SDL_QueryTexture(imagenJugador1, NULL, NULL, &w, &h);
 	SDL_Rect jugador1 = {DIBUJAR_PLAYER1X, DIBUJAR_PLAYER1Y, w*2, h*2};
@@ -244,7 +249,10 @@ void Grilla::Dibujarse(){
 	}
 	rect.x = numerito.x = this->xSeleccion[1];
 	rect.y = numerito.y = this->ySeleccion[1];
-	if ((ticks) % 7 == 0) this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->cambiarModo();
+	if (ticks - this->lastTick2 > LOOP) {
+		this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->cambiarModo();
+		this->lastTick2 = ticks;
+	}
 	SDL_Texture* imagenJugador2 = this->accionesQuieto[this->obtenerUbicacion(this->xSeleccion[1], this->ySeleccion[1])]->getImagenActual(false);
 	SDL_QueryTexture(imagenJugador2, NULL, NULL, &w, &h);
 	SDL_Rect jugador2 = {DIBUJAR_PLAYER2X, DIBUJAR_PLAYER2Y, w*2, h*2};
