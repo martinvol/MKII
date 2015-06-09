@@ -364,6 +364,10 @@ void game_loop(){
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
+					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
+					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 					comenzar_escenario_de_pelea();
 					crear_personajes_practica();
 					pelear(&evento);
@@ -377,6 +381,10 @@ void game_loop(){
                 // Por ahora repito todo.
                 elegir_personajes(CPU);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+					nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
+					nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+					cout << "Nombre1: " << nombrePersonaje1 << endl; ///
+					cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
