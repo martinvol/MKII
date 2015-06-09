@@ -402,7 +402,7 @@ void Director::verificar_movimientos(){
 					&interseccion
 				);
 				
-				if (coli){
+				if (coli && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos){
 					Logger::instance()->log_debug("Le pego el arrojable!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
 					float danio = 100;
