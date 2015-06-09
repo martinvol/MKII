@@ -179,7 +179,6 @@ public:
         borde_izquierdo_logico_pantalla = (parser->escenario_ancho/2.) - (parser->ventana_ancho/2.);
         
         this->ventana = new Ventana("Mortal Kombat 3 Ultimate", parser->ventana_anchopx, parser->ventana_altopx, parser->margen);
-		this->grilla = new Grilla(this->renderer, parser->ventana_anchopx, parser->ventana_altopx);
         renderer = SDL_CreateRenderer(ventana->window, -1, SDL_RENDERER_SOFTWARE);
         
         // Separacion entre personajes de un tercio de la ventana.
@@ -310,7 +309,7 @@ void game_loop(){
         //SDL_RenderClear(renderer);
         menu->Dibujarse();
         //SDL_RenderPresent(renderer);
-
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
 
         controlador = new ControladorMenu(menu);
         while (!salir){
@@ -325,7 +324,6 @@ void game_loop(){
             SDL_RenderClear(renderer);
             menu->Dibujarse();
             SDL_RenderPresent(renderer);
-            
             if (modo_a_cambiar == Pelea) {
                 modo_actual = Pelea;
                 logger->log_debug("Debería pasar a: Pelea"); ///
