@@ -615,6 +615,8 @@ void crear_personajes_practica(){
         logger->log_debug("Vuelve a empezar el juego, cambiando las configuraciones");
         terminar_juego();        
 		
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
+		
         cargar_configuracion();
         comenzar_escenario_de_pelea();
         
