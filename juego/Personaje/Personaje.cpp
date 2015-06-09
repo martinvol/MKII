@@ -197,10 +197,8 @@ void Personaje::activarAccion(accion_posible accion){
 				}
 			break;			
 			case GANAR:
-				cout<<"ganaaaaaar"<<endl;
-				//~ if (this->accionActual->ciclos == 1){
-					//~ cambiarAccionA(QUIETO);
-				//~ }
+			case MORIR:
+			case DIZZY:				
 				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
@@ -487,6 +485,12 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case GANAR:
 			this->accionActual = this->estado->ganar;
+			break;
+		case MORIR:
+			this->accionActual = this->estado->morir;
+			break;
+		case DIZZY:
+			this->accionActual = this->estado->dizzy;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

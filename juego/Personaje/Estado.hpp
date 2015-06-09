@@ -39,6 +39,9 @@
 #include "../Personaje/Acciones/LevantarseDelGancho.hpp"
 #include "../Personaje/Acciones/ArrojarProyectil.hpp"
 #include "../Personaje/Acciones/Ganar.hpp"
+#include "../Personaje/Acciones/Dizzy.hpp"
+#include "../Personaje/Acciones/Morir.hpp"
+#include "../Personaje/Acciones/Desaparecer.hpp"
 
 using namespace std;
 
@@ -94,7 +97,9 @@ class Estado{
 		
 
 		Ganar* ganar;
-	
+		Morir* morir;
+		Dizzy* dizzy;
+		Desaparecer* desaparecer;
 		
 		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
 		~Estado();
