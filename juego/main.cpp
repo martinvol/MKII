@@ -82,6 +82,8 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 
 class Juego{
 public:
+	bool Personaje_1_GanoRound = false;
+	bool Personaje_2_GanoRound = false;
     bool golpeandoPJ = false;
     bool golpeandoPJalta = false;
     bool golpeandoPJbaja = false;
@@ -395,20 +397,28 @@ void pelear(SDL_Event* evento){
         }
 
 		if (director->seMurio(0)){
-            logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+            logger->log_debug(string("NO_Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
+            director->GanoRound(1);           
+            
+            modo_actual == Pelea;
+            Personaje_1_GanoRound = true;
+            this->reiniciarJuego();
+            //~ ArmarRound();
+            
+        } if (director->seMurio(1)){
+            logger->log_debug(string("SI_Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
             director->GanoRound(0);
-            // this->reiniciarJuego();
-            //~ return;
-        } else if (director->seMurio(1)){
-            logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
-            director->GanoRound(1);
-             //this->reiniciarJuego();
-            //~ return;
+            
+            Personaje_2_GanoRound = true;
+            modo_actual == Pelea;
+            this->reiniciarJuego();
+            //~ ArmarRound();
+            
         }
+        
     }
 
 }
-
 //-------------------------------------------    
 //------CONTROLADOR DE PAUSA Y SALIR---------
 //-------------------------------------------    
@@ -570,7 +580,11 @@ void crear_personajes_practica(){
 			// || (modo_actual == Practica)
             crear_personajes_practica();
         }
-
+	if(Personaje_1_GanoRound)
+		director->GanoRound(1); 
+	
+	if(Personaje_2_GanoRound)
+		director->GanoRound(0); 
     };
 
     void terminar_juego(){
