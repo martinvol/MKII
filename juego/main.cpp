@@ -448,10 +448,13 @@ void ControladorBasico(SDL_Event* evento){
 //-------------COMENZAR UNA PELEA-------------
 //--------------------------------------------
 void elegir_personajes(modo seleccionMenu){
+	this->grilla->eligio[0] = this->grilla->eligio[1] = false;
 	if (seleccionMenu == CPU) return;
 	this->grilla->open(this->menu->obtenerIDventana());
 	this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
 	this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
+	cout << this->pathPersonaje1 << this->pathPersonaje2 << endl; ///
+	
 }
 
 

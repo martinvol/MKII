@@ -340,8 +340,8 @@ void Grilla::open(Uint32 idVentana) {
 	SDL_Event evento;
 	this->Dibujarse();
 	ControladorGrilla* controlador = new ControladorGrilla(this);
-	//while (!(this->eligio[0] && this->eligio[1])) {
-	while (!(this->eligio[0])) {
+	while (!(this->eligio[0] && this->eligio[1])) {
+	//while (!(this->eligio[0])) {
 			controlador->procesarEvento(&evento);
 			this->Dibujarse();
 			//SDL_Delay(5);
