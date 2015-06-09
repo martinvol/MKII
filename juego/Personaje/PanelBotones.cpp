@@ -48,6 +48,7 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 
 	tiempo_max_boton = conf->tiempo_max_boton*1000;
 	maximos_botones = conf->maximos_botones;
+	errores_maximo = conf->errores_maximo;
 }
 
 PanelBotones::~PanelBotones(){
@@ -75,7 +76,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 			// dibujamos el nombre de la toma
             TTF_Font* Sans = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 24);
 			SDL_Color White = {255, 255, 255};
-			SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "Nombre de toma", White);
+			SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, nombre_toma.c_str(), White);
 			SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
 			SDL_Rect Message_rect;
@@ -129,7 +130,9 @@ void PanelBotones::AgregarBotones(int boton){
 	}
 };
 
-bool PanelBotones::checkToma(string toma, int tolerancia){
+bool PanelBotones::checkToma(string toma, string nombre_toma){
+	int tolerancia = this->errores_maximo;
+	this->nombre_toma = nombre_toma;
 	if (!ejecutando_toma){
 		int i = 0, j = 0, errores = 0, aciertos = 0;
 

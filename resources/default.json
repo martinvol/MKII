@@ -48,9 +48,17 @@
       "offset": 200,
       "tiempo_max_boton": 5, // en segundos
       "maximos_botones": 9,
-      "tomas": {
-         "toma1": "334"
-      }
+      "errores_maximo": 1,
+      "tomas": [
+                 {
+                  "convinacion":"123",
+                  "nombre": "La toma"
+                 },
+                 {
+                  "convinacion":"000",
+                  "nombre": "Tirar Proyectil"
+                 }
+      ]
    },
    "personaje2":{
       "nombre": "Battán",

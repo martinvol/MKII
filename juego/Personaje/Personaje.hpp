@@ -65,7 +65,7 @@ class Personaje {
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
 		//Harcodeo para donde mira.
-		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha);
+		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha, std::vector<TomaData*>* tomas);
 		int numero_jugador;
 		//~ Después debería ser
 		//~ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado){
@@ -125,6 +125,7 @@ class Personaje {
 		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
 	    PanelBotones* panel=NULL;
+	    std::vector<TomaData*>* tomas;
 };
 
 

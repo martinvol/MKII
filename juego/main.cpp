@@ -515,7 +515,7 @@ void crear_personajes(){
                                     "Subzero", renderer, parser->personaje_alto,
                                     parser->personaje_ancho, estado1,
                                     this->conversor, parser->velocidad_arma,
-                                    1, true);
+                                    1, true, parser->tomas);
     this->barraDeVida1 = new BarraDeVida(0, parser->ventana_anchopx/2, parser->ventana_altopx, renderer, true);
 
     /* Personaje 2 - derecha */
@@ -549,7 +549,7 @@ void crear_personajes(){
                                     "Segundo", renderer, parser->personaje2_alto,
                                     parser->personaje2_ancho, estado2,
                                     this->conversor, parser->velocidad_arma,
-                                    2, false);
+                                    2, false, parser->tomas);
     
     barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
@@ -573,7 +573,7 @@ void crear_personajes_practica(){
                                     "Subzero", renderer, parser->personaje_alto,
                                     parser->personaje_ancho, estado1,
                                     this->conversor, parser->velocidad_arma,
-                                    1, true);
+                                    1, true, parser->tomas);
 
     this->personajeJuego1->dibujar_botones(this->parser);
 
@@ -597,7 +597,7 @@ void crear_personajes_practica(){
                                     "Segundo", renderer, parser->personaje2_alto,
                                     parser->personaje2_ancho, estado2,
                                     this->conversor, parser->velocidad_arma,
-                                    2, false);
+                                    2, false, parser->tomas);
     this->barraDeVida1 = NULL;
     
     barraDeVida2 = NULL;
