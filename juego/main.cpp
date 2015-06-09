@@ -397,11 +397,12 @@ void setearNombres(){
 void salir_de_modo(){
     modo_actual  = MENU;
     modo_a_cambiar = MENU;
-    delete menu;
+    /*delete menu;
     Menu* menu = new Menu (renderer, ventana);
     delete controlador;
     ControladorMenu* controlador = new ControladorMenu(menu);
-    delete director;
+    delete director;*/
+    controlador->reiniciar();
     director = NULL;
     SDL_Delay(100);
 }

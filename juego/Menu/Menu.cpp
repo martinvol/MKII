@@ -130,3 +130,9 @@ Uint32 Menu::obtenerIDventana(){
 void Menu::apuntarAOpcion(modo mode){
 	modo_actual = mode;
 }
+
+
+void Menu::reiniciar(){
+	// modo_actual = CPU;
+	seleccionado = false;
+}
