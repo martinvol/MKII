@@ -17,7 +17,8 @@ using namespace std;
  *
  **********************************************************************/  
 
-Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha){
+Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha, std::vector<TomaData*>* tomas){
+	this->tomas = tomas;
 
 	this->numero_jugador = numeroJugador - 1;
 	this->velocidad_arma = velocidad_arma;
@@ -555,8 +556,11 @@ void Personaje::Dibujarse(){
 
 	if (panel){
 		panel->dibujar(this->conversor, this->renderer);
-		string temp("123");
-		panel->checkToma(temp);
+		if (tomas->at(0)){
+			if (panel->checkToma(tomas->at(0)->convinacion, tomas->at(0)->nombre)){
+				// acá se activan las tomas
+			}
+		}
 	}
 }
 

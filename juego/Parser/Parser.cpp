@@ -32,6 +32,12 @@ Parser::~Parser(){
         delete joysticks->at(i);
     }
     delete joysticks;
+
+    for (unsigned int i = 0; i < this->tomas->size(); i++){
+        delete tomas->at(i);
+    }
+
+    delete tomas;
 }
 
 
@@ -319,6 +325,14 @@ void Parser::set_values (char* my_file) {
 
             errores_maximo = (int) cargarValidar(personaje, 1, "errores_maximo", "Usando la cantidad máxima de errores por default de 1");
 
+            tomas = new std::vector<TomaData*>();
+            const Json::Value tomasj = personaje["tomas"];
+            for (int index = 0; index < tomasj.size(); index++){
+                TomaData* toma_temp =  new TomaData();
+                toma_temp->nombre = tomasj[index].get("nombre", "toma sin nombre").asString(); // este default hay que ponerlo bien
+                toma_temp->convinacion = tomasj[index].get("convinacion", "123").asString(); // este default hay que ponerlo bien
+                tomas->push_back(toma_temp);
+            }
 
         } else {
             logger->log_error("Error de sytaxis en el archivo");

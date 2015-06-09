@@ -7,6 +7,7 @@
 
 #include "../Escenario/Capa.hpp"
 #include "../Logger/Logger.hpp"
+#include "../Personaje/TomaData.hpp"
 
 class Parser {
 	private:
@@ -35,6 +36,7 @@ class Parser {
         float color_inicio, color_fin, color_offset;
         float margen;
         std::vector<Capa*> capas_vector;
+        std::vector<TomaData*>* tomas;
         unordered_map <string, string> sprites_map, sprites_map2;
         bool valido = false; // Si este valor es falso el archivo se cargó mal
 

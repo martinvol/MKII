@@ -8,6 +8,7 @@
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../LTexture.hpp"
 #include "../Parser/Parser.hpp"
+#include "TomaData.hpp"
 #include <string>
 
 using namespace std;
@@ -30,12 +31,13 @@ class PanelBotones {
 		
 		void AgregarBotones(int boton);
 		void dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer); // recibe un vector con la lista de cosas a mostrar
-		bool checkToma(string);
+		bool checkToma(string, string);
 
 	private:
 		std::vector<EstructuraBoton*> botones_actuales;
 		unordered_map <int, SDL_Texture*> imagenes_tomas;
 		unordered_map <int, SDL_Texture*> imagenes_tomas_cambiadas;
+		string nombre_toma;
 		float tiempo_max_boton, tiempo_toma = 0;
 		int maximos_botones, errores_maximo;
 		bool ejecutando_toma = false;
