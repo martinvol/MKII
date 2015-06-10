@@ -15,7 +15,7 @@ class Fatality {
 		Perform* acido;
 		Perform* desenmascararse;
 		SDL_Texture* texAcidoActual;
-		void execute();
+		bool execute();
 		Fatality(Personaje* victimario, Personaje* victima);
 		~Fatality();
 };
