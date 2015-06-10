@@ -44,9 +44,9 @@
 
       /*Estas configuraciones son para los dos personajes*/
       "velocidad_arma": 10,
-      "inicio": 100,
-      "fin": 200,
-      "offset": 200,
+      "inicio": 0,
+      "fin": 359,
+      "offset": 40,
       "tiempo_max_boton": 5, // en segundos
       "maximos_botones": 9,
       "errores_maximo": 1,

@@ -746,9 +746,9 @@ void crear_personajes(){
     // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
     // DEFECTO IGUAL A CERO.
     
-    if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
-        this->pathPersonaje1 == this->pathPersonaje2) {
-        
+    //if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
+    //    this->pathPersonaje1 == this->pathPersonaje2) {
+    if (this->pathPersonaje1 == this->pathPersonaje2) {    
         if (USING_PATH_JSON) 
             this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                         renderer, parser->personaje2_alto, parser->escenario_alto,
