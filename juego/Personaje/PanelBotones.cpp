@@ -13,37 +13,37 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 
 	// Acá van loops, pero no estoy en estado como para hacerlos
 
-	imagenes_tomas[(*conf_joys)["pinia_baja"]] = IMG_LoadTexture(renderer, "resources/botones/c.png");
-	imagenes_tomas[(*conf_joys)["cubrirse"]] = IMG_LoadTexture(renderer, "resources/botones/ci.png");
-	imagenes_tomas[(*conf_joys)["patada_baja"]] = IMG_LoadTexture(renderer, "resources/botones/x.png");
-	imagenes_tomas[(*conf_joys)["pinia_alta"]]	 = IMG_LoadTexture(renderer, "resources/botones/t.png");
-	imagenes_tomas[(*conf_joys)["arrojar_arma"]] = IMG_LoadTexture(renderer, "resources/botones/x.png");
-	imagenes_tomas[(*conf_joys)["patada_alta"]] = IMG_LoadTexture(renderer, "resources/botones/x.png");
+	imagenes_tomas[(*conf_joys)["pinia_baja"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/c.png");
+	imagenes_tomas[(*conf_joys)["cubrirse"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/ci.png");
+	imagenes_tomas[(*conf_joys)["patada_baja"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/x.png");
+	imagenes_tomas[(*conf_joys)["pinia_alta"]+'0']	 = IMG_LoadTexture(renderer, "resources/botones/t.png");
+	imagenes_tomas[(*conf_joys)["arrojar_arma"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/x.png");
+	imagenes_tomas[(*conf_joys)["patada_alta"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/x.png");
 
 	LTexture* imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/c.png", 0, 359, 180, false);
-	imagenes_tomas_cambiadas[(*conf_joys)["pinia_baja"]] = imagen->mTexture;
+	imagenes_tomas_cambiadas[(*conf_joys)["pinia_baja"]+'0'] = imagen->mTexture;
 	delete imagen;
 
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/ci.png", 0, 359, 180, false);
-	imagenes_tomas_cambiadas[(*conf_joys)["cubrirse"]] = imagen->mTexture;
+	imagenes_tomas_cambiadas[(*conf_joys)["cubrirse"]+'0'] = imagen->mTexture;
 	delete imagen;
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/x.png", 0, 359, 180, false);
-	imagenes_tomas_cambiadas[(*conf_joys)["patada_baja"]] = imagen->mTexture;
+	imagenes_tomas_cambiadas[(*conf_joys)["patada_baja"]+'0'] = imagen->mTexture;
 	delete imagen;
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/t.png", 0, 359, 180, false);
-	imagenes_tomas_cambiadas[(*conf_joys)["pinia_alta"]] = imagen->mTexture;
+	imagenes_tomas_cambiadas[(*conf_joys)["pinia_alta"]+'0'] = imagen->mTexture;
 	delete imagen;
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/x.png", 0, 359, 180, false);
-	imagenes_tomas_cambiadas[(*conf_joys)["arrojar_arma"]] = imagen->mTexture;
+	imagenes_tomas_cambiadas[(*conf_joys)["arrojar_arma"]+'0'] = imagen->mTexture;
 	delete imagen;
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/x.png", 0, 359, 180, false);
-	imagenes_tomas_cambiadas[(*conf_joys)["patada_alta"]] = imagen->mTexture;
+	imagenes_tomas_cambiadas[(*conf_joys)["patada_alta"]+'0'] = imagen->mTexture;
 	delete imagen;
 
 	this->tiempo_max_boton = conf->tiempo_max_boton*1000;
@@ -127,7 +127,7 @@ void PanelBotones::dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer)
 	/// puts("");
 }
 
-void PanelBotones::AgregarBotones(int boton){
+void PanelBotones::AgregarBotones(char boton){
 	if (!ejecutando_toma){
 		EstructuraBoton* boton_temp = new EstructuraBoton();
 		boton_temp->numero_boton = boton;
@@ -153,7 +153,7 @@ bool PanelBotones::checkToma(string toma, string nombre_toma){
 				return false;
 			}
 
-			if (toma[0] - '0' == botones_actuales.at(j)->numero_boton){
+			if (toma[0] == botones_actuales.at(j)->numero_boton){
 				int h = j;
 				i = 0;
 				while (i < botones_actuales.size() && h < botones_actuales.size()){
@@ -164,7 +164,7 @@ bool PanelBotones::checkToma(string toma, string nombre_toma){
 						//return false;
 						break;
 					}
-					if (toma[i] - '0' == botones_actuales.at(h)->numero_boton){
+					if (toma[i] == botones_actuales.at(h)->numero_boton){
 						botones_actuales.at(h)->otro_color = true;
 						i++;
 						h++;
