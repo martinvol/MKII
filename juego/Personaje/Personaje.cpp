@@ -695,7 +695,7 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 
 			}
 			if (panel){
-				panel->AgregarBotones(i);
+				panel->AgregarBotones(i + '0');
 			}
 			break;
 		case SDL_JOYBUTTONUP:
