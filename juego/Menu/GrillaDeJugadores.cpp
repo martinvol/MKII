@@ -413,8 +413,16 @@ string Grilla::randomChoicePlayer2() {
 	else {
 		//% Dar random de posicion x e y; hacer la misma conversion que 
 		//% para el mouse.
-		int pos = this->obtenerUbicacion(rand()%(CANT_ANCHO*this->anchoImagen)+this->x_init, 
-										 rand()%((TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) + this->y_init);
+		int x = 0;
+		int y = 0;
+		
+		while (!this->entraEnGrilla(x,y)) {
+			x = rand()%(CANT_ANCHO*this->anchoImagen)+this->x_init;
+			y = rand()%((TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) + this->y_init;
+		}
+		
+		int pos = this->obtenerUbicacion(x,y); 
+										 
 		this->xSeleccion[1] = (pos % (CANT_ANCHO))*this->anchoImagen + this->x_init;
 		this->ySeleccion[1] = (pos / (CANT_ANCHO))*this->altoImagen + this->y_init;					
 	}
