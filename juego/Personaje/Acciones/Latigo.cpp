@@ -56,12 +56,11 @@ void Latigo::dibujar(ConversorDeCoordenadas *conv){
 		
 		if (this->espejado){
 			// mirar derecha
-			puts("mirar derecha");
 			destino.x += ancho_original;
 			this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w + this->vel_horizontal, destino.h, this->ren, false);
 			SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
 		} else {
-			puts("mirar izquierda");
+			// mirar izquierda
 			destino.x -= ancho_original;
 			destino.x -= destino.w;
 			this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w + this->vel_horizontal, destino.h, this->ren, false);
@@ -85,7 +84,6 @@ void Latigo::dibujar(ConversorDeCoordenadas *conv){
 	    	}
 	    }
 	    
-	    cout << nuevo_ancho<< endl;
 	}
 
 }

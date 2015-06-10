@@ -449,9 +449,17 @@ void DirectorPractica::verificar_movimientos(){
 					Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 					/// jugadores[(i+1)%2]->barra->Lastimar(danio);
 					CoordenadaLogica* punta = jugadores[i]->obtenerPersonaje()->latigo->obtenerPunta(this->conversor);
-					CoordenadaLogica* mover =  jugadores[(i+1)%2]->obtenerPersonaje()->obtenerCoordenadaIzqInf();
-					mover->x = punta->x;
-					jugadores[(i+1)%2]->moverseAIzqInf(mover);
+					CoordenadaLogica* mover;
+					if (jugadores[(i+1)%2]->obtenerPersonaje()->mirarDerecha){
+						mover =  jugadores[(i+1)%2]->obtenerPersonaje()->obtenerCoordenadaDerInf();
+						mover->x = punta->x;
+						jugadores[(i+1)%2]->moverseADerInf(mover);
+					} else{
+						mover =  jugadores[(i+1)%2]->obtenerPersonaje()->obtenerCoordenadaIzqInf();
+						mover->x = punta->x;
+						jugadores[(i+1)%2]->moverseAIzqInf(mover);
+						
+					}
 					delete mover;
 					delete punta;
 				}
