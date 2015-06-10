@@ -22,6 +22,8 @@
 // Música
 #include <SDL2/SDL_mixer.h>
 
+// Joystick ESCAPE: parser->"arrojar_arma"
+// Joystick RESET: parser->"arrojar_arma_alta"
 
 using namespace std;
 
@@ -659,6 +661,9 @@ void ControladorBasico(SDL_Event* evento){
                     salir_pelea = true;
                 }
 			}
+			if (evento->key.keysym.sym == SDLK_r){
+				reiniciarJuego();
+			}
 		case SDL_KEYUP:
 			if(evento->key.keysym.sym == SDLK_p)  {                   
 				if (this->timer != NULL)
@@ -672,6 +677,9 @@ void ControladorBasico(SDL_Event* evento){
 				}else {
 					salir_pelea = true;
 				}
+			}
+			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma_alta"))){
+				reiniciarJuego();
 			}
 			break;
         default:
@@ -839,6 +847,15 @@ void crear_personajes_practica(){
         
 		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx, (parser->joysticks->at(0))->at("arrojar_arma"));
         
+        if (modo_actual == MENU){
+			game_loop();
+			return;
+		}
+		//else
+        
+        menu = new Menu (renderer, ventana);
+        controlador = new ControladorMenu(menu);
+        
         comenzar_escenario_de_pelea();
         
         if ((modo_actual == Pelea)
@@ -961,13 +978,16 @@ void Controlador(SDL_Event *evento){
                 }
 				break;
 			case SDL_JOYBUTTONDOWN:
-			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
 					if (modo_actual == MENU && !salir_pelea){
 						puts("salir en true 3: joystick"); ///
 						salir = true;
 					}else {
 						salir_pelea = true;
 					}
+				}
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma_alta"))){
+					reiniciarJuego();
 				}
 				break;
 			case SDL_KEYDOWN:
