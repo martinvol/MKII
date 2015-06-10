@@ -631,33 +631,36 @@ void Personaje::Dibujarse(){
 	
 	if (panel){
 		panel->dibujar(this->conversor, this->renderer);
-		if (tomas->at(0)){
+		if (tomas->at(0) && nroAccionActual != SALTAR && nroAccionActual != SALTARDIAGONAL_IZQ && nroAccionActual != SALTARDIAGONAL_DER && nroAccionActual != PATADASALTANDOVERTICAL && nroAccionActual != PINIASALTANDOVERTICAL && nroAccionActual != PINIASALTANDODIAGONAL && nroAccionActual != PATADASALTANDODIAGONAL){
 			if (panel->checkToma(tomas->at(0)->convinacion, tomas->at(0)->nombre)){
 				// acá se activan las tomas
 			}
 		}
 
-		if (tomas->at(1)){
+		if (tomas->at(1) && nroAccionActual != SALTAR && nroAccionActual != SALTARDIAGONAL_IZQ && nroAccionActual != SALTARDIAGONAL_DER && nroAccionActual != PATADASALTANDOVERTICAL && nroAccionActual != PINIASALTANDOVERTICAL && nroAccionActual != PINIASALTANDODIAGONAL && nroAccionActual != PATADASALTANDODIAGONAL){
 			if (panel->checkToma(tomas->at(1)->convinacion, tomas->at(1)->nombre)){
 				// acá se activan las tomas
 				puts("tiro");
 				this->Arrojar(false);
 			}
 		}
-		if (tomas->at(2)){
+
+		// nroAccionActual
+		/// && nroAccionActual != SALTAR && nroAccionActual != SALTARDIAGONAL_IZQ && nroAccionActual != SALTARDIAGONAL_DER && nroAccionActual != PATADASALTANDOVERTICAL && nroAccionActual != PINIASALTANDOVERTICAL && nroAccionActual != PINIASALTANDODIAGONAL)
+		if (tomas->at(2) && nroAccionActual != SALTAR && nroAccionActual != SALTARDIAGONAL_IZQ && nroAccionActual != SALTARDIAGONAL_DER && nroAccionActual != PATADASALTANDOVERTICAL && nroAccionActual != PINIASALTANDOVERTICAL && nroAccionActual != PINIASALTANDODIAGONAL && nroAccionActual != PATADASALTANDODIAGONAL){
 			if (panel->checkToma(tomas->at(2)->convinacion, tomas->at(2)->nombre)){
 				// acá se activan las tomas
 				puts("tiro congelando");
 				this->Arrojar(true);
 			}
 		}
-		if (tomas->at(3)){
+		if (tomas->at(3) && nroAccionActual != SALTAR && nroAccionActual != SALTARDIAGONAL_IZQ && nroAccionActual != SALTARDIAGONAL_DER && nroAccionActual != PATADASALTANDOVERTICAL && nroAccionActual != PINIASALTANDOVERTICAL && nroAccionActual != PINIASALTANDODIAGONAL && nroAccionActual != PATADASALTANDODIAGONAL){
 			if (panel->checkToma(tomas->at(3)->convinacion, tomas->at(3)->nombre)){
 				this->activarAccion(TRABA);
 				this->PatadaBaja = false;
 			}
 		}
-		if (tomas->at(4)){
+		if (tomas->at(4) && nroAccionActual != SALTAR && nroAccionActual != SALTARDIAGONAL_IZQ && nroAccionActual != SALTARDIAGONAL_DER && nroAccionActual != PATADASALTANDOVERTICAL && nroAccionActual != PINIASALTANDOVERTICAL && nroAccionActual != PINIASALTANDODIAGONAL && nroAccionActual != PATADASALTANDODIAGONAL){
 			if (panel->checkToma(tomas->at(4)->convinacion, tomas->at(4)->nombre)){
 				//this->activarAccion(TRABA);
 				tirarLatigo();
