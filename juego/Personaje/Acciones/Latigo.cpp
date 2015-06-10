@@ -97,12 +97,12 @@ CoordenadaLogica* Latigo::obtenerPunta(ConversorDeCoordenadas *conv){
 	if (this->espejado){
 		// mirar derecha
 		// destino.x += ancho_original;
-		x = coord1_fis->x_fisico +ancho_original + nuevo_ancho;
+		x = coord1_fis->x_fisico + ancho_original + nuevo_ancho;
 	} else {
 		// mirar izquierda
 		/*destino.x -= ancho_original;
 		destino.x -= destino.w;*/
-		x = ancho_original - ancho_original - nuevo_ancho;
+		x = coord1_fis->x_fisico - ancho_original - nuevo_ancho;
 	}
 	CoordenadaFisica* temp = new CoordenadaFisica(x ,0);
 
