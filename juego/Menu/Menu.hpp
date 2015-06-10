@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Escenario/Ventana.hpp"
@@ -14,7 +15,9 @@ typedef enum modo {Pelea = 0, Practica, CPU, MENU} modo;
 
 class BotonMenu{
 	private:
-		SDL_Texture* boton;
+		SDL_Texture* fondo, *texto;
+		TTF_Font* fuente;
+		SDL_Color color;
 		SDL_Rect destino;
 		SDL_Renderer* renderer;
 		
