@@ -457,11 +457,13 @@ void pelear(SDL_Event* evento){
 				tiempoDeGracia= true;
 				tiempoDeGraciaActual = SDL_GetTicks();				
 				logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
-				salir_pelea = true;
+				//~ salir_pelea = true;
 			}else{
 				Personaje_1_GanoRound = true;	
-			}			
-			ArmarRound();
+			}
+			
+			if (!HabilitarFatality)			
+				ArmarRound();
             
             
         } if (director->seMurio(1)){			
@@ -489,11 +491,12 @@ void pelear(SDL_Event* evento){
 				tiempoDeGraciaActual = SDL_GetTicks();
 				
 				logger->log_debug(string("Ganó LA PARTIDA el jugador: ") + parser->personaje1_nombre + string("!!!"));
-				salir_pelea = true;
+				//~ salir_pelea = true;
 			}else{
 				Personaje_2_GanoRound = true;	
-			}            
-			ArmarRound();   
+			}  
+			if (!HabilitarFatality)          
+				ArmarRound();   
         }
         
         //Si no se murio ninguno, pero se acabo el tiempo, gana el que pego mas.
@@ -561,26 +564,31 @@ void pelear(SDL_Event* evento){
 		//si pasan 3 segundos, corto.
 		if (tiempoDeGraciaAuxiliar > (tiempoDeGraciaActual +3000)){
 			tiempoDeGracia = false;
-			pasoEltiempoDeGracia = true;			
+			pasoEltiempoDeGracia = true;
+			
+			//Si pasa el tiempo y paso el ultimo round. salgo de la pelea
+			if (HabilitarFatality){
+				salir_pelea = true;
+			}
 		}
-		if (!HabilitarFatality){
+		if (!HabilitarFatality){			
 			//Si no se puede hacer fatality---> GANAR + MORIR
-			if (GanoEl_1){
+			if (GanoEl_1){				
 				personajeJuego1->activarAccion(GANAR);
 				personajeJuego2->activarAccion(MORIR);
-			}else{
-	
+			}else{				
 				personajeJuego2->activarAccion(GANAR);
 				personajeJuego1->activarAccion(MORIR);
 			}
 		}else{ //Si se puede hacer fatality----> dizzy + libre
 			if (GanoEl_1)
-				personajeJuego2->activarAccion(DIZZY);
-			
+				personajeJuego1->activarAccion(DIZZY);
+			else
+				personajeJuego2->activarAccion(DIZZY);			
 		}
 	}
         
-    }    
+    }//loop    
         
     Personaje_1_GanoRound = Personaje_2_GanoRound = false;
 	Personaje_1_Gano_2_Round = Personaje_2_Gano_2_Round = false;
