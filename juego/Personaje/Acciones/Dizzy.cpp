@@ -14,7 +14,13 @@ Dizzy::Dizzy(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float
 	rectangulos->push_back(new Rectangulo(14, 0, 21, 80, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(35, 0, 15, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+	
+	iniciarSonido();
 };
+
+void Dizzy::iniciarSonido(){
+	sonido = Mix_LoadWAV("resources/music/mareado.wav");
+}
 
 CoordenadaLogica* Dizzy::execute(CoordenadaLogica* coord_personaje){
 	Accion::cambiarModo();

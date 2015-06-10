@@ -13,7 +13,13 @@ RecibirGolpeAgachado::RecibirGolpeAgachado(string ruta, SDL_Renderer* ren, float
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+	iniciarSonido();
 }
+
+void RecibirGolpeAgachado::iniciarSonido(){
+	sonido = Mix_LoadWAV("resources/music/punch.wav");
+}
+
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void RecibirGolpeAgachado::cambiarModo(){
 	if(esUltimoModo()){}
