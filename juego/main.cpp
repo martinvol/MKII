@@ -1143,7 +1143,7 @@ void ActualizarModelo(Personaje* personaje){
 		cout<<"ArrojarArma"<<endl; ///			
 		//Una vez que la ejecuto, la desactivo, sino loopea.
 		personaje->ArrojarArma = false;
-		personaje->Arrojar();
+		personaje->Arrojar(false);
 	//PATADA BAJA
 	}else if (personaje->PatadaBaja){
 		//+IZQUIERDA = TRABA
@@ -1167,7 +1167,7 @@ void ActualizarModelo(Personaje* personaje){
     else if (arrojandoPk){        
 		cout<<"ArrojarArma"<<endl; ///					
 		personaje->ArrojarArma = false;
-		personaje->Arrojar();
+		personaje->Arrojar(false);
     }
 	//MILE
 	else if (golpeandoPJalta){		
