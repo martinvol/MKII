@@ -22,5 +22,5 @@ CoordenadaLogica* Dizzy::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool Dizzy::permiteAccion(accion_posible nuevaAccion){
-	return true;
+	return false;
 }
