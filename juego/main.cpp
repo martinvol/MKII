@@ -38,7 +38,7 @@ using namespace std;
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
-#define USING_PATH_JSON true
+#define USING_PATH_JSON false
 
 Logger *logger = Logger::instance();
 
