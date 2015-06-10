@@ -801,7 +801,10 @@ void crear_personajes(){
 void crear_personajes_practica(){
 // En realidad recibiría nombre, personaje elegido y si es AI los del 2 serían los de defecto o azar o lo que sea.
     /* Personaje 1 - izquierda */
-    this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+    //~ this->estado1 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+                        //~ renderer, parser->personaje_alto, parser->escenario_alto,
+                        //~ parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
+    this->estado1 = new Estado(this->pathPersonaje1,
                         renderer, parser->personaje_alto, parser->escenario_alto,
                         parser->personaje_ancho, parser->escenario_ancho, parser->ventana_ancho);
     this->personajeJuego1 = new Personaje(new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso),
@@ -818,13 +821,14 @@ void crear_personajes_practica(){
     // DEFECTO IGUAL A CERO.
 
     
-    if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
-        this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+    //~ if (this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"])
+    if (this->pathPersonaje1 == this->pathPersonaje2)
+        this->estado2 = new Estado(this->pathPersonaje2,
                         renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                         parser->color_inicio, parser->color_fin, parser->color_offset);             
     else
-        this->estado2 = new Estado((string)(this->parser->sprites_map2["personaje2"]),
+        this->estado2 = new Estado(this->pathPersonaje2,
                         renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
     
