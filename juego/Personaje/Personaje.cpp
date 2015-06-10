@@ -48,6 +48,8 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->ancho_quieto = this->_w;
 	this->altura_quieto = this->_h;
 
+	latigo = new Latigo(ren, alto/10, ancho/4);
+
 	CoordenadaLogica* coord1 = this->coordenada;
 	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
 	CoordenadaLogica* coord2 = new CoordenadaLogica(coordenada->x + ancho, coordenada->y + alto);
@@ -124,6 +126,37 @@ void Personaje::Arrojar(bool congelar){
 		this->cambiarAccionA(ARROJARARMA);
 	}
 }
+
+
+void Personaje::tirarLatigo(){
+	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
+
+	CoordenadaLogica* coord1 = this->obtenerCoordenadaIzqInf();
+	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
+	
+	CoordenadaLogica* coord2 = this->obtenerCoordenadaDerSup();
+	CoordenadaFisica* coord2_fis = this->conversor->aFisica(coord2);
+	
+	int ancho_fisico = abs(coord1_fis->x_fisico - coord2_fis->x_fisico);		// Función de std
+	int alto_fisico = abs(coord1_fis->y_fisico - coord2_fis->y_fisico);
+	CoordenadaLogica* desde;
+	if (mirarDerecha){
+		desde = this->obtenerCoordenadaIzqSup();
+	} else {
+		desde = this->obtenerCoordenadaDerSup();
+	}
+	
+	latigo->tirar(desde, this->velocidad_arma);
+
+	// desde la borra el personaje desde adentro
+	delete coord1;
+	delete coord1_fis;
+	delete coord2;
+	delete coord2_fis;
+	
+	this->cambiarAccionA(ARROJARARMA);
+}
+
 /***********************************************************************
  * 
  * 					FUNCIONES PARA EL DIRECTOR
@@ -592,6 +625,7 @@ void Personaje::Dibujarse(){
 		this->arrojable->dibujar(this->conversor);
 	}
 	
+	this->latigo->dibujar(this->conversor);
 	/*puts(tomas->at(0)->nombre.c_str());
 	puts(tomas->at(1)->nombre.c_str());*/
 	
@@ -623,11 +657,16 @@ void Personaje::Dibujarse(){
 				this->PatadaBaja = false;
 			}
 		}
+		if (tomas->at(4)){
+			if (panel->checkToma(tomas->at(4)->convinacion, tomas->at(4)->nombre)){
+				//this->activarAccion(TRABA);
+				tirarLatigo();
+			}
+		}
 	}
 }
 
 void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
-	puts("botones");
 	panel = new PanelBotones(conf, renderer, this->numero_jugador, debo_dibujar);
 	// acá se dibujan en pantala las cosas
 

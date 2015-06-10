@@ -1,5 +1,5 @@
-#ifndef ARROBAJE_H_INCLUDED
-#define ARROBAJE_H_INCLUDED
+#ifndef LATIGO_H_INCLUDED
+#define LATIGO_H_INCLUDED
 
 #define TIRAR_ARRIBA true
 #define TIRAR_ABAJO false
@@ -17,18 +17,18 @@ using namespace std;
 class Latigo{
 	public:
 
-		Latigo(bool derecha, SDL_Renderer* ren, int alto, int ancho);
+		Latigo(SDL_Renderer* ren, int alto, int ancho);
 
 		// desde donde
 		// ESTO se encarga de liberar la memoria de la coordenada que le pasan
 		// ANCHO y ALTO fisicos
-		void setCoordenadas(CoordenadaLogica *coord, int alto, int ancho);
 		
-		void tirar(float velocidad_arma);
-		
+		void tirar(CoordenadaLogica *coord, float velocidad_arma);
 		void dibujar(ConversorDeCoordenadas* conv);
+		/*void tirar(float velocidad_arma);
+		
 
-		bool termino(ConversorDeCoordenadas *conv);
+		bool termino(ConversorDeCoordenadas *conv);*/
 
 		~Latigo();
 
@@ -38,7 +38,7 @@ class Latigo{
 		SDL_Texture* imagen;
 		SDL_Renderer* ren;
 		int alto, ancho, alto_original;
-		CoordenadaLogica *coord;
+		CoordenadaLogica *coord=NULL;
 		float vel_horizontal, vel_vertical;
 		bool espejado;
 };

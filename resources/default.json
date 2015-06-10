@@ -65,7 +65,11 @@
                  },
                  {
                   "convinacion":"rl2",
-                  "nombre": "traba"
+                  "nombre": "Traba"
+                 },
+                 {
+                  "convinacion":"321",
+                  "nombre": "Latigo"
                  }
       ],
       "tiempoTotal": 100
