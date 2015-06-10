@@ -20,6 +20,7 @@ class Fatality {
 		~Fatality();
 		int anchoVictima, altoVictima;
 		int x, y;
+		int anchoPrimerAcido, altoPrimerAcido;
 };
 
 #endif

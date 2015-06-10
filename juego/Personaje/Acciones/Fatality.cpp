@@ -11,6 +11,7 @@ Fatality::Fatality(Personaje* activo, Personaje* pasivo, string ruta) {
 	this->altoVictima = 0;
 	this->x = -1;
 	this->y = -1;
+	this->anchoPrimerAcido = this->altoPrimerAcido = 0;
 }
 
 Fatality::~Fatality() {
@@ -22,13 +23,6 @@ bool Fatality::execute() {
 	//this->victimario->accionActual = this->desenmascararse; ///
 	this->victimario->activarAccion(HACER_FATALITY);
 	
-	if (this->x == -1) {
-		this->anchoVictima = this->victima->ancho;
-		this->altoVictima = this->victima->alto;
-		this->x = this->victima->x;
-		this->y = this->victima->y;		
-	}
-	
 	if(this->victima->nroAccionActual != DESAPARECER) this->victima->cambiarAccionA(DIZZY);
 	if (!this->victimario->accionActual->esUltimoModo()) {
 		this->victimario->coordenada = this->victimario->accionActual->execute(this->victimario->coordenada);
@@ -38,11 +32,26 @@ bool Fatality::execute() {
 	this->texAcidoActual = this->acido->getImagenActual(this->victimario->mirarDerecha);
 	int w, h;
 	SDL_QueryTexture(this->texAcidoActual, NULL, NULL, &w, &h);
-	SDL_Rect rect = {this->x, this->y, w*this->victima->conversor->factor_ancho, h*this->victima->conversor->factor_alto};
+	
+	if (this->x == -1) {
+		this->anchoVictima = this->victima->ancho;
+		this->altoVictima = this->victima->alto;
+		this->x = this->victima->x;
+		this->y = this->victima->y;	
+	}
+	if (this->acido->getModoActual() <= 15) {
+		this->anchoPrimerAcido = w;
+		this->altoPrimerAcido = h;	
+	}
+	if (this->acido->getModoActual() == 11) this->victima->cambiarAccionA(DESAPARECER);
+	SDL_Rect rect = {this->x - w/(2*this->victima->conversor->factor_ancho), // + (this->anchoVictima - w)*this->victima->conversor->factor_ancho, 
+					this->y + (this->altoPrimerAcido - h)*this->victima->conversor->factor_alto, 
+					w*this->victima->conversor->factor_ancho, h*this->victima->conversor->factor_alto};
+					
 	SDL_RenderCopy(this->victimario->renderer, this->texAcidoActual, NULL, &rect);
 	//SDL_RenderClear(this->victimario->renderer);
 	SDL_RenderPresent(this->victimario->renderer);
-	if (this->acido->getModoActual() == 15) this->victima->cambiarAccionA(DESAPARECER);
+	
 	
 	return (!(this->acido->esUltimoModo()));
 }
