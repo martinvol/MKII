@@ -3,6 +3,9 @@
 
 #include "../Personaje.hpp"
 #include "Perform.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 
 class Fatality {
 	
@@ -11,7 +14,10 @@ class Fatality {
 		Personaje* victimario;
 		Perform* acido;
 		Perform* desenmascararse;
+		SDL_Texture* texAcidoActual;
 		void execute();
+		Fatality(Personaje* victimario, Personaje* victima);
+		~Fatality();
 };
 
 #endif
