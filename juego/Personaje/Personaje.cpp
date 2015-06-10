@@ -63,6 +63,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
+	this->ejecutar_fatality = false;
 	// this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
 
 	sonido_congelamiento = Mix_LoadWAV("resources/music/descongelarse.wav");

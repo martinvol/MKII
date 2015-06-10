@@ -132,6 +132,8 @@ class Personaje {
 		
 	    void dibujar_botones(Parser* conf, bool debo_dibujar);
 	    
+	    bool ejecutar_fatality;
+	    
 	    Personaje* otro_personaje;
 	private:
 		float velocidad_arma;
