@@ -218,7 +218,8 @@ void Personaje::activarAccion(accion_posible accion){
 			case GANAR:
 			case MORIR:
 			case DIZZY:
-			case DESAPARECER:				
+			case DESAPARECER:
+			case HACER_FATALITY:				
 				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
@@ -515,6 +516,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case DESAPARECER:
 			this->accionActual = this->estado->desaparecer;
+			break;
+		case HACER_FATALITY:
+			this->accionActual = this->estado->desenmascararse;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;

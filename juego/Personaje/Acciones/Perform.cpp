@@ -18,7 +18,7 @@ Perform::Perform(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, f
 
 CoordenadaLogica* Perform::execute(CoordenadaLogica* coord_personaje) {
 	if (!(this->esUltimoModo())) Accion::cambiarModo();
-	return NULL;
+	return (new CoordenadaLogica(coord_personaje));
 }
 
 bool Perform::permiteAccion(accion_posible nuevaAccion){
