@@ -3,13 +3,14 @@
 
 ControladorTextBox::ControladorTextBox(TextBox* textbox, Uint32 idVentana){
 	this->textbox = textbox;
-	resetear();
+	reiniciar();
 	this->idVentana = idVentana;
 	SDL_StartTextInput();
 }
 
-void ControladorTextBox::resetear(){
+void ControladorTextBox::reiniciar(){
 	this->en_textbox = false;
+	//this->textbox->reiniciar();
 }
 
 ControladorTextBox::~ControladorTextBox(){

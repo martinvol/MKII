@@ -12,10 +12,10 @@ class ControladorMenu{
 		bool arriba, abajo, enter, en_boton;
 		Menu* menu;
 		
+		void reiniciar();
 		ControladorMenu(Menu* menu);
 		~ControladorMenu();
 		modo procesarEvento(SDL_Event* evento);
-		void resetear();
 	
 };
 #endif //CONT_MENU_H

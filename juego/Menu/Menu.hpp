@@ -47,9 +47,9 @@ class Menu {
 		void Dibujarse();
 		void subirOpcion();
 		void bajarOpcion();
-		modo seleccionarOpcion();
-		void resetear();	
-		
+		modo seleccionarOpcion();	
+		void reiniciar();
+
 		/* Para el Controlador */
 		vector<SDL_Rect> obtenerPosicionesBotones();
 		SDL_Renderer* obtenerRenderer();

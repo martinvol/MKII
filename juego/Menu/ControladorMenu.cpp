@@ -4,14 +4,15 @@
 
 ControladorMenu::ControladorMenu(Menu* menu){
 	this->menu = menu;
-	resetear();
+	reiniciar();
 }
 
-void ControladorMenu::resetear(){
+void ControladorMenu::reiniciar(){
 	abajo = false;
 	arriba = false;
 	enter = false;
-	en_boton = false;
+	en_boton = false;	
+	menu->reiniciar();
 }
 
 
