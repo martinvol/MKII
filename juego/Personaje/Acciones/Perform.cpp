@@ -17,8 +17,15 @@ Perform::Perform(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, f
 };
 
 CoordenadaLogica* Perform::execute(CoordenadaLogica* coord_personaje) {
-	if (!(Accion::esUltimoModo())) Accion::cambiarModo();
-	return (new CoordenadaLogica(coord_personaje));
+	if (Accion::esUltimoModo()){
+		if (coord_personaje == NULL) return NULL;
+		return new CoordenadaLogica(coord_personaje);		
+	}
+	else{
+		Accion::cambiarModo();	
+		if (coord_personaje == NULL) return NULL;	
+		return new CoordenadaLogica(coord_personaje);
+	}	
 }
 
 bool Perform::permiteAccion(accion_posible nuevaAccion){

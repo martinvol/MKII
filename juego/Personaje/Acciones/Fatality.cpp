@@ -16,7 +16,13 @@ Fatality::~Fatality() {
 
 bool Fatality::execute() {
 	//this->victimario->accionActual = this->desenmascararse; ///
-	if (this->victimario->accionActual->esUltimoModo()) this->victimario->cambiarAccionA(HACER_FATALITY);
+	this->victimario->activarAccion(HACER_FATALITY);
+	
+	if (this->victimario->accionActual->esUltimoModo()) {
+		this->victimario->coordenada = this->victimario->accionActual->execute(this->victimario->coordenada);
+		return true;
+	}
+	this->acido->execute(NULL);
 	this->victimario->accionActual->cambiarModo();
 	this->texAcidoActual = this->acido->getImagenActual(this->victimario->mirarDerecha);
 	int w, h;
@@ -25,7 +31,7 @@ bool Fatality::execute() {
 	SDL_RenderCopy(this->victimario->renderer, this->texAcidoActual, NULL, &rect);
 	//SDL_RenderClear(this->victimario->renderer);
 	SDL_RenderPresent(this->victimario->renderer);
-	if (this->acido->getModoActual() == 15) this->victima->cambiarAccionA(DESAPARECER);
-	this->acido->execute(this->victima->coordenada);
+	if (this->acido->getModoActual() == 15) this->victima->activarAccion(DESAPARECER);
+	
 	return (!(this->acido->esUltimoModo()));
 }

@@ -198,7 +198,7 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(LEVANTARSEDELATRABA);
 				}
 			break;
-			case RECIBIRGOLPEALTO: ///		
+			case RECIBIRGOLPEALTO:		
 			case RECIBIRGOLPEBAJO:
 			case RECIBIRGOLPEAGACHADO:
 			case PATADAALTA:
