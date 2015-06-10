@@ -48,7 +48,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->ancho_quieto = this->_w;
 	this->altura_quieto = this->_h;
 
-	latigo = new Latigo(ren, alto/10, ancho/4);
+	latigo = new Latigo(ren, conversor->alto_fisico/10, conversor->ancho_fisico/3);
 
 	CoordenadaLogica* coord1 = this->coordenada;
 	CoordenadaFisica* coord1_fis = this->conversor->aFisica(coord1);
@@ -146,7 +146,7 @@ void Personaje::tirarLatigo(){
 		desde = this->obtenerCoordenadaDerSup();
 	}
 	
-	latigo->tirar(desde, this->velocidad_arma);
+	latigo->tirar(desde, this->velocidad_arma, alto_fisico, ancho_fisico);
 
 	// desde la borra el personaje desde adentro
 	delete coord1;

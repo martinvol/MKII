@@ -23,7 +23,7 @@ class Latigo{
 		// ESTO se encarga de liberar la memoria de la coordenada que le pasan
 		// ANCHO y ALTO fisicos
 		
-		void tirar(CoordenadaLogica *coord, float velocidad_arma);
+		void tirar(CoordenadaLogica *coord, float velocidad_arma, float alto_personaje, float ancho_personaje);
 		void dibujar(ConversorDeCoordenadas* conv);
 		/*void tirar(float velocidad_arma);
 		
@@ -37,9 +37,11 @@ class Latigo{
 	private:
 		SDL_Texture* imagen;
 		SDL_Renderer* ren;
-		int alto, ancho, alto_original;
+		int alto, ancho, alto_original, ancho_original;
+		int nuevo_ancho;
+		bool volver = false;
 		CoordenadaLogica *coord=NULL;
-		float vel_horizontal, vel_vertical;
+		float vel_horizontal;
 		bool espejado;
 };
 
