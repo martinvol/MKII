@@ -396,8 +396,8 @@ bool Grilla::open(Uint32 idVentana) {
 }
 
 bool Grilla::entraEnGrilla(int x, int y) {
-	return ((this->x_init <= x) && (x <= CANT_ANCHO*this->anchoImagen + this->x_init)
-			&& (this->y_init <= y) && (y <= (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
+	return ((this->x_init < x) && (x < CANT_ANCHO*this->anchoImagen + this->x_init)
+			&& (this->y_init < y) && (y < (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
 }
 
 string Grilla::randomChoicePlayer2() {
