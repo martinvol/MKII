@@ -955,7 +955,8 @@ void DibujarTodo(){
 			CoordenadaFisica* y_piso_px = this->conversor->aFisica(coord);
 			int y = (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h) + (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/4;
 			int h = (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/2;
-			SDL_Rect destino = {parser->ventana_anchopx/4, y, parser->ventana_anchopx/2, h};
+			SDL_Rect destino = {(parser->ventana_anchopx/2), y/2.5, parser->ventana_anchopx/4.5, h/2.5};
+			destino.x -= destino.w/2;
 			delete coord;
 			delete y_piso_px;
 			
