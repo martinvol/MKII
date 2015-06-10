@@ -402,19 +402,24 @@ void Director::verificar_movimientos(){
 					&interseccion
 				);
 				
-				if (coli){
+				if (coli && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos){
 					Logger::instance()->log_debug("Le pego el arrojable!!!");
 					jugadores[i]->obtenerPersonaje()->arrojable->pego = true;
-					float danio = 100;
-					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
-						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
-						danio = danio/4;
+
+					if (!jugadores[i]->obtenerPersonaje()->arrojable->congelar){
+						float danio = 100;
+						if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
+							Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
+							danio = danio/4;
+						}
+						// Esta linea fea hace la conversion numero -> string
+						string result;ostringstream convert;convert << danio;result = convert.str(); 
+						Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
+						jugadores[(i+1)%2]->barra->Lastimar(danio);
+						this->escenario->Temblar(SDL_GetTicks());
+					} else {
+						jugadores[(i+1)%2]->obtenerPersonaje()->congelarse();
 					}
-					// Esta linea fea hace la conversion numero -> string
-					string result;ostringstream convert;convert << danio;result = convert.str(); 
-					Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
-					jugadores[(i+1)%2]->barra->Lastimar(danio);
-					this->escenario->Temblar(SDL_GetTicks());
 				}
 			}
 			
