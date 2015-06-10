@@ -77,6 +77,7 @@ void Personaje::congelarse(){
 	estoyCongelado  = true;
 	tiempoCongelado = SDL_GetTicks();
 	puts("Estoy congelado");
+	// #sonido estoy congelado
 }
 
 void Personaje::Arrojar(bool congelar){
@@ -231,6 +232,7 @@ void Personaje::activarAccion(accion_posible accion){
 	} else {
 		if (SDL_GetTicks() - tiempoCongelado > 3000){
 			estoyCongelado = false;
+			// #sonido no estoy mas congelado
 			puts("No estoy mas congelado");
 		}
 	}
