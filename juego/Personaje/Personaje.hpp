@@ -74,7 +74,7 @@ class Personaje {
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
 		void Arrojar();
-
+		void Resetear();
 		// Funciones internas
 		void cambiarAccionA(accion_posible nroAccion);
 

@@ -73,6 +73,12 @@ Personaje::~Personaje(){
 	Mix_FreeChunk(this->pinia_sonido);
 }
 
+void Personaje::Resetear(){
+	
+	this->nroAccionActual = QUIETO;
+	this->accionActual = this->estado->	quieto;
+}
+
 void Personaje::Arrojar(){
 	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 	if (this->arrojable == NULL){
@@ -195,8 +201,10 @@ void Personaje::activarAccion(accion_posible accion){
 				if (this->accionActual->ciclos == 1){
 					cambiarAccionA(QUIETO);
 				}
-			break;			
-			case GANAR:				
+			break;		
+			case MORIR:								
+				break;	
+			case GANAR:			
 				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
@@ -483,6 +491,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case GANAR:
 			this->accionActual = this->estado->ganar;
+			break;
+		case MORIR:
+			this->accionActual = this->estado->morir;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
