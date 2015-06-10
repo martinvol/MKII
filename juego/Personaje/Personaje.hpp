@@ -61,6 +61,7 @@ class Personaje {
 
 		Arrojable* arrojable = NULL;
 	    Mix_Chunk *pinia_sonido;
+	    void congelarse();
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -74,6 +75,8 @@ class Personaje {
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
 		void Arrojar(bool congelar);
+		bool estoyCongelado = false;
+		Uint32 tiempoCongelado;
 
 		// Funciones internas
 		void cambiarAccionA(accion_posible nroAccion);

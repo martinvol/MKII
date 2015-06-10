@@ -73,6 +73,12 @@ Personaje::~Personaje(){
 	Mix_FreeChunk(this->pinia_sonido);
 }
 
+void Personaje::congelarse(){
+	estoyCongelado  = true;
+	tiempoCongelado = SDL_GetTicks();
+	puts("Estoy congelado");
+}
+
 void Personaje::Arrojar(bool congelar){
 	/// cout << "el personaje sabe que tiene que arrojar el arma" << endl; 
 	if (this->arrojable == NULL){
@@ -121,107 +127,113 @@ void Personaje::mirarParaIzquierda(){
 	mirarDerecha = false;
 }
 
-void Personaje::activarAccion(accion_posible accion){	
-	if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
-		cambiarAccionA(accion);
-	} else {
-		delete siguiente;
-		siguiente = this->accionActual->execute(this->coordenada);				
-		switch (nroAccionActual){			
-			case SALTAR:
-				if (accion == PATADASALTANDOVERTICAL || accion == PATADAALTA || accion == PATADABAJA){
-					cambiarAccionA(PATADASALTANDOVERTICAL);
-				}
-				else if (accion == PINIASALTANDOVERTICAL || accion == PINIABAJA || accion == PINIAALTA){	
-					cambiarAccionA(PINIASALTANDOVERTICAL);	
-				}
-			case SALTARDIAGONAL_DER:
-			case SALTARDIAGONAL_IZQ:
-				if(accion == PATADASALTANDODIAGONAL || accion == PATADAALTA || accion == PATADABAJA){
-					cambiarAccionA(PATADASALTANDODIAGONAL);
-				}else if (accion == PINIASALTANDODIAGONAL || accion == PINIABAJA || accion == PINIAALTA){
-					cambiarAccionA(PINIASALTANDODIAGONAL);
-				}
-			case CAERPORGANCHO:
-			case PINIASALTANDODIAGONAL:
-				if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
-			case PINIASALTANDOVERTICAL:
-			case PATADASALTANDODIAGONAL:
-				if (siguiente->y < y_inicial) this->estado->patadaDiag->alcanzo_max = false;
-			case PATADASALTANDOVERTICAL:
-				if (siguiente->y < y_inicial){
-					this->estado->saltardiagonal->alcanzo_max = false;
-					this->estado->saltarvertical->alcanzo_max = false;
-					this->estado->patadaVert->alcanzo_max = false;
-					this->estado->piniaAireVertical->alcanzo_max = false;
-					if (nroAccionActual == CAERPORGANCHO ){
-						cambiarAccionA(LEVANTARSEDELGANCHO);
-					}else{
+void Personaje::activarAccion(accion_posible accion){
+	if (!estoyCongelado){	
+		if (this->nroAccionActual != accion && (this->accionActual->permiteAccion(accion))){
+			cambiarAccionA(accion);
+		} else {
+			delete siguiente;
+			siguiente = this->accionActual->execute(this->coordenada);				
+			switch (nroAccionActual){			
+				case SALTAR:
+					if (accion == PATADASALTANDOVERTICAL || accion == PATADAALTA || accion == PATADABAJA){
+						cambiarAccionA(PATADASALTANDOVERTICAL);
+					}
+					else if (accion == PINIASALTANDOVERTICAL || accion == PINIABAJA || accion == PINIAALTA){	
+						cambiarAccionA(PINIASALTANDOVERTICAL);	
+					}
+				case SALTARDIAGONAL_DER:
+				case SALTARDIAGONAL_IZQ:
+					if(accion == PATADASALTANDODIAGONAL || accion == PATADAALTA || accion == PATADABAJA){
+						cambiarAccionA(PATADASALTANDODIAGONAL);
+					}else if (accion == PINIASALTANDODIAGONAL || accion == PINIABAJA || accion == PINIAALTA){
+						cambiarAccionA(PINIASALTANDODIAGONAL);
+					}
+				case CAERPORGANCHO:
+				case PINIASALTANDODIAGONAL:
+					if (siguiente->y < y_inicial) this->estado->piniaAire->alcanzo_max = false;
+				case PINIASALTANDOVERTICAL:
+				case PATADASALTANDODIAGONAL:
+					if (siguiente->y < y_inicial) this->estado->patadaDiag->alcanzo_max = false;
+				case PATADASALTANDOVERTICAL:
+					if (siguiente->y < y_inicial){
+						this->estado->saltardiagonal->alcanzo_max = false;
+						this->estado->saltarvertical->alcanzo_max = false;
+						this->estado->patadaVert->alcanzo_max = false;
+						this->estado->piniaAireVertical->alcanzo_max = false;
+						if (nroAccionActual == CAERPORGANCHO ){
+							cambiarAccionA(LEVANTARSEDELGANCHO);
+						}else{
+							cambiarAccionA(QUIETO);
+						}
+						CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
+						delete siguiente;
+						siguiente = coord;
+					}
+					break;			
+				
+				case GANCHO:
+				case PATADAALTAAGACHADO:
+				case PATADABAJAAGACHADO:	
+				case PINIAAGACHADO:			
+					if (this->accionActual->ciclos == 1){		
+						cambiarAccionA(AGACHARSE);	
+						this->accionActual->setModoActual(this->accionActual->cantModos-1);
+					}				
+					break;
+				case CAERPORTRABA:
+					if (this->accionActual->ciclos == 1){
+						cambiarAccionA(LEVANTARSEDELATRABA);
+					}
+				break;
+				case RECIBIRGOLPEALTO: ///		
+				case RECIBIRGOLPEBAJO:
+				case RECIBIRGOLPEAGACHADO:
+				case PATADAALTA:
+				case PATADABAJA:
+				case ARROJARARMA:
+				case PINIABAJA:
+				//~ case PINIAAGACHADO:
+				case PINIAALTA:			
+				case TRABA:
+				case ROUNDKICK:
+				case LEVANTARSEDELGANCHO:
+				case LEVANTARSEDELATRABA:				
+					if (this->accionActual->ciclos == 1){
 						cambiarAccionA(QUIETO);
 					}
-					CoordenadaLogica* coord = new CoordenadaLogica(siguiente->x, y_inicial);
-					delete siguiente;
-					siguiente = coord;
-				}
 				break;			
-			
-			case GANCHO:
-			case PATADAALTAAGACHADO:
-			case PATADABAJAAGACHADO:	
-			case PINIAAGACHADO:			
-				if (this->accionActual->ciclos == 1){		
-					cambiarAccionA(AGACHARSE);	
-					this->accionActual->setModoActual(this->accionActual->cantModos-1);
-				}				
+				case GANAR:
+				case MORIR:
+				case DIZZY:				
+					break;
+				case PARARSE:				
+					if(this->accionActual->modoActual == 0){
+						cambiarAccionA(QUIETO);	
+					}
 				break;
-			case CAERPORTRABA:
-				if (this->accionActual->ciclos == 1){
-					cambiarAccionA(LEVANTARSEDELATRABA);
-				}
-			break;
-			case RECIBIRGOLPEALTO: ///		
-			case RECIBIRGOLPEBAJO:
-			case RECIBIRGOLPEAGACHADO:
-			case PATADAALTA:
-			case PATADABAJA:
-			case ARROJARARMA:
-			case PINIABAJA:
-			//~ case PINIAAGACHADO:
-			case PINIAALTA:			
-			case TRABA:
-			case ROUNDKICK:
-			case LEVANTARSEDELGANCHO:
-			case LEVANTARSEDELATRABA:				
-				if (this->accionActual->ciclos == 1){
-					cambiarAccionA(QUIETO);
-				}
-			break;			
-			case GANAR:
-			case MORIR:
-			case DIZZY:				
-				break;
-			case PARARSE:				
-				if(this->accionActual->modoActual == 0){
-					cambiarAccionA(QUIETO);	
-				}
-			break;
-			case AGACHARSE:	
-				if(accion == PINIAAGACHADO){
-					cambiarAccionA(PINIAAGACHADO);
-				}
-															
-			case CUBRIRBAJO:
-				break;	
-			default:
-				break;
+				case AGACHARSE:	
+					if(accion == PINIAAGACHADO){
+						cambiarAccionA(PINIAAGACHADO);
+					}
+																
+				case CUBRIRBAJO:
+					break;	
+				default:
+					break;
+			}
+		}
+
+		this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);	
+		
+		//~ calcularAnchoYAltoImagen();
+		//~ calcularDatosDibujables();
+	} else {
+		if (SDL_GetTicks() - tiempoCongelado > 3000){
+			estoyCongelado = false;
+			puts("No estoy mas congelado");
 		}
 	}
-
-	this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);	
-	
-	//~ calcularAnchoYAltoImagen();
-	//~ calcularDatosDibujables();
-	
 }
 
 CoordenadaLogica* Personaje::obtenerCoordenadaIzqSup(){

@@ -36,6 +36,7 @@ class Arrojable{
 
 		Rectangulo * rectangulo;
 		bool pego=false;
+		bool congelar;
 
 	private:
 		SDL_Texture* imagen;
@@ -44,7 +45,6 @@ class Arrojable{
 		CoordenadaLogica *coord;
 		float vel_horizontal, vel_vertical;
 		bool espejado;
-		bool congelar;
 };
 
 
