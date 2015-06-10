@@ -115,9 +115,9 @@ public:
     double t = 5.0;
     bool pausa = false;
     bool salir = false, salir_pelea = false;
-    Menu* menu;
-    ControladorMenu* controlador;
-    modo modo_a_cambiar;
+    Menu* menu = NULL;
+    ControladorMenu* controlador = NULL;
+    modo modo_a_cambiar = MENU;
     bool cambiarModo = false;
     float timerFps;
 
@@ -349,9 +349,8 @@ void game_loop(){
             SDL_RenderPresent(renderer);
             if (modo_a_cambiar == Pelea) {
                 modo_actual = Pelea;
-                logger->log_debug("Debería pasar a: Pelea"); ///
-                elegir_personajes(Pelea);
-                if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
+                if (elegir_personajes(Pelea) &&
+				(this->grilla->eligio[0] && this->grilla->eligio[1])) {
 					comenzar_escenario_de_pelea();
 					crear_personajes();
 					//Inicio el countdown.
@@ -362,7 +361,6 @@ void game_loop(){
             } else
             if (modo_a_cambiar == Practica) {
                 modo_actual = Practica;
-                logger->log_debug("Debería pasar a: Practica"); ///
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
@@ -375,7 +373,6 @@ void game_loop(){
             if (modo_a_cambiar == CPU) {
                 modo_actual = CPU;
                 USAR_AI = true;
-                logger->log_debug("Debería pasar a: CPU"); ///
                 // Por ahora repito todo.
                 elegir_personajes(CPU);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
@@ -406,7 +403,7 @@ void salir_de_modo(){
     modo_actual  = MENU;
     modo_a_cambiar = MENU;
     delete director;
-    controlador->reiniciar();
+    controlador->reiniciar(); //También reinicia el menu
     director = NULL;
     SDL_Delay(100);
 }
@@ -663,17 +660,17 @@ void ControladorBasico(SDL_Event* evento){
 //--------------------------------------------
 //-------------COMENZAR UNA PELEA-------------
 //--------------------------------------------
-void elegir_personajes(modo seleccionMenu){
+bool elegir_personajes(modo seleccionMenu){
 	this->grilla->eligio[0] = this->grilla->eligio[1] = false;
 	if (seleccionMenu != Pelea) this->pathPersonaje2 = this->grilla->randomChoicePlayer2();
-	this->grilla->open(this->menu->obtenerIDventana());
+	bool esc = this->grilla->open(this->menu->obtenerIDventana());
 	if (this->grilla->eligio[0]){
 		this->pathPersonaje1 = this->grilla->seleccionarOpcion(0);
 	}
 	if (this->grilla->eligio[1]) this->pathPersonaje2 = this->grilla->seleccionarOpcion(1);
 	cout << this->pathPersonaje1 << endl ; ///
 	cout << this->pathPersonaje2 << endl; ///
-	
+	return !esc;
 }
 
 
