@@ -126,6 +126,8 @@ class Personaje {
 		void moverseADerInf(CoordenadaLogica* coord);
 		
 	    void dibujar_botones(Parser* conf, bool debo_dibujar);
+	    
+	    Personaje* otro_personaje;
 	private:
 		float velocidad_arma;
 	    PanelBotones* panel=NULL;
