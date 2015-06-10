@@ -16,7 +16,7 @@ class Fatality {
 		Perform* desenmascararse;
 		SDL_Texture* texAcidoActual;
 		bool execute();
-		Fatality(Personaje* victimario, Personaje* victima);
+		Fatality(Personaje* victimario, Personaje* victima, string path);
 		~Fatality();
 };
 

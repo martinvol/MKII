@@ -767,8 +767,8 @@ void crear_personajes(){
     
     setearNombres();
     
-    if (this->pathPersonaje1 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2);
-    if (this->pathPersonaje2 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego2, this->personajeJuego1);
+    if (this->pathPersonaje1 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
+    if (this->pathPersonaje2 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
 
 }
 

@@ -1,9 +1,10 @@
 #include "Fatality.hpp"
 
-Fatality::Fatality(Personaje* activo, Personaje* pasivo) {
+Fatality::Fatality(Personaje* activo, Personaje* pasivo, string ruta) {
 	
 	this->victima = pasivo;
 	this->victimario = activo;
+	SDL_Renderer* ren = this->victimario->renderer;
 	this->desenmascararse = new Perform(ruta, ren, 0, 0, 0, this->victimario->accionActual->hue_init, this->victimario->accionActual->hue_fin, this->victimario->accionActual->hue_offset, 98);
 	this->acido = new Perform(ruta, ren, 0, 0, 0, this->victimario->accionActual->hue_init, this->victimario->accionActual->hue_fin, this->victimario->accionActual->hue_offset, 99);
 }
@@ -21,6 +22,6 @@ bool Fatality::execute() {
 	SDL_Rect rect = {this->victima->x, this->victima->y, w, h};
 	SDL_RenderCopy(this->victimario->renderer, this->texAcidoActual, NULL, &rect);
 	if (this->acido->getModoActual() == 15) this->victima->cambiarAccionA(DESAPARECER);
-	this->acido->cambiarModo();
+	this->acido->execute(NULL);
 	return (!(this->acido->esUltimoModo()));
 }

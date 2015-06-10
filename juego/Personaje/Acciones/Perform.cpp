@@ -16,9 +16,9 @@ Perform::Perform(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, f
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
 };
 
-void Perform::execute(CoordenadaLogica* coord_personaje) {
-	if (!(this->esUltimoModo)) Accion::cambiarModo();
-	return;
+CoordenadaLogica* Perform::execute(CoordenadaLogica* coord_personaje) {
+	if (!(this->esUltimoModo())) Accion::cambiarModo();
+	return NULL;
 }
 
 bool Perform::permiteAccion(accion_posible nuevaAccion){
