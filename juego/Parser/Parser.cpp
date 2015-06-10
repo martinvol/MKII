@@ -330,7 +330,7 @@ void Parser::set_values (char* my_file) {
             for (int index = 0; index < tomasj.size(); index++){
                 TomaData* toma_temp =  new TomaData();
                 toma_temp->nombre = tomasj[index].get("nombre", "toma sin nombre").asString(); // este default hay que ponerlo bien
-                toma_temp->convinacion = tomasj[index].get("convinacion", "123").asString(); // este default hay que ponerlo bien
+                toma_temp->convinacion = tomasj[index].get("combinacion", "123").asString(); // este default hay que ponerlo bien
                 tomas->push_back(toma_temp);
             }
 

@@ -52,23 +52,23 @@
       "errores_maximo": 1,
       "tomas": [
                  {
-                  "convinacion":"123",
+                  "combinacion":"123",
                   "nombre": "La toma"
                  },
                  {
-                  "convinacion":"000",
+                  "combinacion":"000",
                   "nombre": "Tirar Proyectil"
                  },
                  {
-                  "convinacion":"002",
+                  "combinacion":"002",
                   "nombre": "Congelar"
                  },
                  {
-                  "convinacion":"rl2",
+                  "combinacion":"rl2",
                   "nombre": "Traba"
                  },
                  {
-                  "convinacion":"321",
+                  "combinacion":"321",
                   "nombre": "Latigo"
                  }
       ],
