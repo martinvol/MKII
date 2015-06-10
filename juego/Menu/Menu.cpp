@@ -53,8 +53,7 @@ Menu::Menu(SDL_Renderer* renderer, Ventana* ventana){
 	alto_fisico = ventana->alto_fisico;
 	idVentana = SDL_GetWindowID(ventana->window);
 	
-	modo_actual = CPU;
-	seleccionado = false;
+	reiniciar();
 	
 	int ancho_fisico_botones = ancho_fisico / 2.0;
 	int alto_fisico_botones = alto_fisico / 6.0;
@@ -66,6 +65,11 @@ Menu::Menu(SDL_Renderer* renderer, Ventana* ventana){
 	botones.push_back(new BotonMenu(Practica, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
 	y = y - offset_entre_botones - alto_fisico_botones;
 	botones.push_back(new BotonMenu(CPU, ancho_fisico_botones, alto_fisico_botones, x, y, renderer));
+}
+
+void Menu::reiniciar(){
+	modo_actual = CPU;
+	seleccionado = false;
 }
 
 Menu::~Menu(){
@@ -129,10 +133,4 @@ Uint32 Menu::obtenerIDventana(){
 
 void Menu::apuntarAOpcion(modo mode){
 	modo_actual = mode;
-}
-
-
-void Menu::reiniciar(){
-	// modo_actual = CPU;
-	seleccionado = false;
 }

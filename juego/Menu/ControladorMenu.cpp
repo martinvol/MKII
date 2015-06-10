@@ -15,6 +15,12 @@ void ControladorMenu::reiniciar(){
 	menu->reiniciar();
 }
 
+
+ControladorMenu::~ControladorMenu(){
+	true;
+	//No elimina el menu
+}
+
 modo ControladorMenu::procesarEvento(SDL_Event* evento){
 	while(SDL_PollEvent(evento)) {
 		switch (evento->type){
@@ -92,9 +98,4 @@ modo ControladorMenu::procesarEvento(SDL_Event* evento){
 		return menu->seleccionarOpcion();
 	}
 	return MENU;
-}
-
-ControladorMenu::~ControladorMenu(){
-	true;
-	//No elimina el menu
 }
