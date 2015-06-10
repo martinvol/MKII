@@ -637,8 +637,10 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 				/* Left-right movement code goes here */
 				int x_Joystick = evento->jaxis.value;
 				if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
+					panel->AgregarBotones('l');
 					Izquierda = true;		
 				}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
+					panel->AgregarBotones('r');
 					Derecha = true;			
 				}else{	//  x = 0;				
 					Izquierda = false;
@@ -649,9 +651,11 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 			if( evento->jaxis.axis == 1){
 				int y_Joystick = evento->jaxis.value;
             /* Up-Down movement code goes here */
-				if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
+				if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;
+					panel->AgregarBotones('u');
 					Arriba = true;		
-				}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
+				}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;
+					panel->AgregarBotones('d');
 					Abajo = true;		
 				}else{ //yDir = 0;		
 					Arriba = false;

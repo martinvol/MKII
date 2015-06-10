@@ -19,6 +19,10 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 	imagenes_tomas[(*conf_joys)["pinia_alta"]+'0']	 = IMG_LoadTexture(renderer, "resources/botones/t.png");
 	imagenes_tomas[(*conf_joys)["arrojar_arma"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/x.png");
 	imagenes_tomas[(*conf_joys)["patada_alta"]+'0'] = IMG_LoadTexture(renderer, "resources/botones/x.png");
+	imagenes_tomas['l'] = IMG_LoadTexture(renderer, "resources/botones/l.png");
+	imagenes_tomas['r'] = IMG_LoadTexture(renderer, "resources/botones/r.png");
+	imagenes_tomas['u'] = IMG_LoadTexture(renderer, "resources/botones/u.png");
+	imagenes_tomas['d'] = IMG_LoadTexture(renderer, "resources/botones/d.png");
 
 	LTexture* imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/c.png", 0, 359, 180, false);
@@ -44,6 +48,26 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/x.png", 0, 359, 180, false);
 	imagenes_tomas_cambiadas[(*conf_joys)["patada_alta"]+'0'] = imagen->mTexture;
+	delete imagen;
+
+	imagen = new LTexture(renderer);
+	imagen->loadFromFile("resources/botones/l.png", 0, 359, 180, false);
+	imagenes_tomas['l'] = imagen->mTexture;;
+	delete imagen;
+
+	imagen = new LTexture(renderer);
+	imagen->loadFromFile("resources/botones/r.png", 0, 359, 180, false);
+	imagenes_tomas['r'] = imagen->mTexture;;
+	delete imagen;
+
+	imagen = new LTexture(renderer);
+	imagen->loadFromFile("resources/botones/u.png", 0, 359, 180, false);
+	imagenes_tomas['u'] = imagen->mTexture;;
+	delete imagen;
+
+	imagen = new LTexture(renderer);
+	imagen->loadFromFile("resources/botones/d.png", 0, 359, 180, false);
+	imagenes_tomas['d'] = imagen->mTexture;;
 	delete imagen;
 
 	this->tiempo_max_boton = conf->tiempo_max_boton*1000;
