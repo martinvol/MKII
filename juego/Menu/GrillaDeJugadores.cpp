@@ -3,6 +3,8 @@
 #include <SDL2/SDL_ttf.h>
 
 #include <iostream> ///
+#include <random>
+#include <ctime>
 
 #define PATH1 "SubZero"
 #define PATH2 "Ermac"
@@ -21,7 +23,7 @@
 #define OPCION "resources/menu/opcion_transparent.png"
 #define PATH_FONT_TEXTBOX "resources/miscelaneo/nk57-monospace-cd-lt.ttf"
 
-#define ALWAYS_SUBZERO true
+#define ALWAYS_SUBZERO false
 
 #define DIBUJAR_PLAYER1X this->anchoVentana/16
 #define DIBUJAR_PLAYER2X CANT_ANCHO*this->anchoImagen + this->x_init + this->anchoVentana/16
@@ -125,13 +127,13 @@ bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTex
 				if ((evento->motion.windowID == menu->idVentana) && (menu->entraEnGrilla(evento->motion.x, evento->motion.y))){
 					//evento->motion.x
 					int pos = menu->obtenerUbicacion(evento->motion.x, evento->motion.y);
-					menu->xSeleccion[1] = (pos % (CANT_ANCHO))*menu->anchoImagen + menu->x_init;
-					menu->ySeleccion[1] = (pos / (CANT_ANCHO))*menu->altoImagen + menu->y_init;	
+					menu->xSeleccion[menu->eligio[1]?0:1] = (pos % (CANT_ANCHO))*menu->anchoImagen + menu->x_init;
+					menu->ySeleccion[menu->eligio[1]?0:1] = (pos / (CANT_ANCHO))*menu->altoImagen + menu->y_init;	
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (evento->button.windowID == menu->idVentana && (menu->entraEnGrilla(evento->motion.x, evento->motion.y))){
-					menu->seleccionarOpcion(1);
+					menu->seleccionarOpcion(menu->eligio[1]?0:1);
 				}
 				break;
 			case SDL_QUIT:
@@ -396,12 +398,14 @@ bool Grilla::open(Uint32 idVentana) {
 }
 
 bool Grilla::entraEnGrilla(int x, int y) {
-	return ((this->x_init <= x) && (x <= CANT_ANCHO*this->anchoImagen + this->x_init)
-			&& (this->y_init <= y) && (y <= (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
+	return ((this->x_init < x) && (x < CANT_ANCHO*this->anchoImagen + this->x_init)
+			&& (this->y_init < y) && (y < (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
 }
 
 string Grilla::randomChoicePlayer2() {
 	this->seleccionarOpcion(1);
+	srand(time(NULL));
+
 	if (ALWAYS_SUBZERO) { 
 		this->xSeleccion[1] = this->x_init;
 		this->ySeleccion[1] = this->y_init;
@@ -409,6 +413,18 @@ string Grilla::randomChoicePlayer2() {
 	else {
 		//% Dar random de posicion x e y; hacer la misma conversion que 
 		//% para el mouse.
+		int x = 0;
+		int y = 0;
+		
+		while (!this->entraEnGrilla(x,y)) {
+			x = rand()%(CANT_ANCHO*this->anchoImagen)+this->x_init;
+			y = rand()%((TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) + this->y_init;
+		}
+		
+		int pos = this->obtenerUbicacion(x,y); 
+										 
+		this->xSeleccion[1] = (pos % (CANT_ANCHO))*this->anchoImagen + this->x_init;
+		this->ySeleccion[1] = (pos / (CANT_ANCHO))*this->altoImagen + this->y_init;					
 	}
 	return this->seleccionarOpcion(1);
 } 

@@ -18,10 +18,13 @@
 #include "Menu/ControladorMenu.hpp"
 #include "Menu/GrillaDeJugadores.hpp"
 #include "Menu/TextBox.hpp"
+#include "Personaje/Acciones/Fatality.hpp"
 
 // Música
 #include <SDL2/SDL_mixer.h>
 
+// Joystick ESCAPE: parser->"arrojar_arma"
+// Joystick RESET: parser->"arrojar_arma_alta"
 
 using namespace std;
 
@@ -35,7 +38,7 @@ using namespace std;
 #define FRAMERATE 40
 #define JOYSTICK_DEAD_ZONE 8000
 
-#define USING_PATH_JSON true
+#define USING_PATH_JSON false
 
 Logger *logger = Logger::instance();
 
@@ -123,6 +126,8 @@ public:
     modo modo_a_cambiar = MENU;
     bool cambiarModo = false;
     float timerFps;
+    
+    SDL_Texture* round = NULL;
 
     int argc;
     char** argv;
@@ -155,6 +160,9 @@ public:
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
 
+	Fatality* fatality1 = NULL;
+	Fatality* fatality2 = NULL;
+	
 	Director* director = NULL;
 
     Mix_Music *musica_fondo;
@@ -584,6 +592,8 @@ void pelear(SDL_Event* evento){
 				personajeJuego1->activarAccion(MORIR);
 			}
 		}else{ //Si se puede hacer fatality----> dizzy + libre
+			if (this->fatality1 != NULL && this->personajeJuego1->ejecutar_fatality) HaciendoFatality = this->fatality1->execute();
+			if (this->fatality2 != NULL && this->personajeJuego2->ejecutar_fatality) HaciendoFatality = this->fatality2->execute();
 			if (!HaciendoFatality){
 				if (GanoEl_1)
 					personajeJuego1->activarAccion(DIZZY);
@@ -659,6 +669,9 @@ void ControladorBasico(SDL_Event* evento){
                     salir_pelea = true;
                 }
 			}
+			if (evento->key.keysym.sym == SDLK_r){
+				reiniciarJuego();
+			}
 		case SDL_KEYUP:
 			if(evento->key.keysym.sym == SDLK_p)  {                   
 				if (this->timer != NULL)
@@ -672,6 +685,9 @@ void ControladorBasico(SDL_Event* evento){
 				}else {
 					salir_pelea = true;
 				}
+			}
+			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma_alta"))){
+				reiniciarJuego();
 			}
 			break;
         default:
@@ -730,9 +746,9 @@ void crear_personajes(){
     // NOTAR QUE HAY DOS CONSTRUCTORES; UNO TOMA ESTOS VALORES POR
     // DEFECTO IGUAL A CERO.
     
-    if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
-        this->pathPersonaje1 == this->pathPersonaje2) {
-        
+    //if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
+    //    this->pathPersonaje1 == this->pathPersonaje2) {
+    if (this->pathPersonaje1 == this->pathPersonaje2) {    
         if (USING_PATH_JSON) 
             this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                         renderer, parser->personaje2_alto, parser->escenario_alto,
@@ -769,6 +785,14 @@ void crear_personajes(){
     this->timer->reset(SDL_GetTicks());
     
     setearNombres();
+    
+    cout << this->pathPersonaje1 << endl; ///
+    
+    this->personajeJuego1->otro_personaje = this->personajeJuego2;
+	this->personajeJuego2->otro_personaje = this->personajeJuego1;
+    
+    if (this->pathPersonaje1 == "resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
+    if (this->pathPersonaje2 == "resources/jugador/SubZero/") this->fatality2 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
 
 }
 
@@ -821,6 +845,9 @@ void crear_personajes_practica(){
 	this->personajeJuego1->otro_personaje = this->personajeJuego2;
 	this->personajeJuego2->otro_personaje = this->personajeJuego1;
 	
+	if (this->pathPersonaje1 == "resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
+    if (this->pathPersonaje2 == "resources/jugador/SubZero/") this->fatality2 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
+	
 	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
 	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 }
@@ -838,6 +865,15 @@ void crear_personajes_practica(){
         
         
 		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx, (parser->joysticks->at(0))->at("arrojar_arma"));
+        
+        if (modo_actual == MENU){
+			game_loop();
+			return;
+		}
+		//else
+        
+        menu = new Menu (renderer, ventana);
+        controlador = new ControladorMenu(menu);
         
         comenzar_escenario_de_pelea();
         
@@ -871,6 +907,10 @@ void crear_personajes_practica(){
 		delete this->grilla;
         SDL_DestroyRenderer(renderer);
         logger->log_debug("Borramos todos los objetos");
+        if (this->fatality1 != NULL) delete this->fatality1;
+        if (this->fatality2 != NULL) delete this->fatality2;
+        this->fatality1 = this->fatality2 = NULL;
+        if (round != NULL) SDL_DestroyTexture(round);
     };
 
     void terminar_sdl(){
@@ -905,6 +945,29 @@ void DibujarTodo(){
 				this->personajeJuego2->Dibujarse();
             }
         }
+        
+        if (modo_actual == Pelea || modo_actual == CPU){
+			//Imprimir ROUND
+			TTF_Font* fuente = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 35);
+			SDL_Color color =  {245, 208, 51, 10};
+			
+			CoordenadaLogica* coord = new CoordenadaLogica(0, parser->escenario_ypiso);
+			CoordenadaFisica* y_piso_px = this->conversor->aFisica(coord);
+			int y = (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h) + (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/4;
+			int h = (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/2;
+			SDL_Rect destino = {(parser->ventana_anchopx/2), y/2.5, parser->ventana_anchopx/4.5, h/2.5};
+			destino.x -= destino.w/2;
+			delete coord;
+			delete y_piso_px;
+			
+			SDL_Surface* superficie = TTF_RenderText_Solid(fuente, director->obtenerRound().c_str(), color);
+			if (round != NULL) SDL_DestroyTexture(round);
+			round = SDL_CreateTextureFromSurface(renderer, superficie);	
+			SDL_FreeSurface(superficie);
+			SDL_RenderCopy(renderer, round, NULL, &destino);
+			
+		}
+        
 		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
 			this->personajeJuego1->Dibujarse();
@@ -961,13 +1024,16 @@ void Controlador(SDL_Event *evento){
                 }
 				break;
 			case SDL_JOYBUTTONDOWN:
-			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
 					if (modo_actual == MENU && !salir_pelea){
 						puts("salir en true 3: joystick"); ///
 						salir = true;
 					}else {
 						salir_pelea = true;
 					}
+				}
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma_alta"))){
+					reiniciarJuego();
 				}
 				break;
 			case SDL_KEYDOWN:

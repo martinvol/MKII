@@ -22,5 +22,5 @@ CoordenadaLogica* Desaparecer::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool Desaparecer::permiteAccion(accion_posible nuevaAccion){
-	return true;
+	return false;
 }

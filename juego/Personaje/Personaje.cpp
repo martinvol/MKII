@@ -63,6 +63,7 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->nombrePersonaje = nombre;
 	this->renderer = ren;
 
+	this->ejecutar_fatality = false;
 	// this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
 
 	sonido_congelamiento = Mix_LoadWAV("resources/music/descongelarse.wav");
@@ -231,7 +232,7 @@ void Personaje::activarAccion(accion_posible accion){
 					cambiarAccionA(LEVANTARSEDELATRABA);
 				}
 			break;
-			case RECIBIRGOLPEALTO: ///		
+			case RECIBIRGOLPEALTO:		
 			case RECIBIRGOLPEBAJO:
 			case RECIBIRGOLPEAGACHADO:
 			case PATADAALTA:
@@ -251,7 +252,8 @@ void Personaje::activarAccion(accion_posible accion){
 			case GANAR:
 			case MORIR:
 			case DIZZY:
-			case DESAPARECER:				
+			case DESAPARECER:
+			case HACER_FATALITY:				
 				break;
 			case PARARSE:				
 				if(this->accionActual->modoActual == 0){
@@ -548,6 +550,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case DESAPARECER:
 			this->accionActual = this->estado->desaparecer;
+			break;
+		case HACER_FATALITY:
+			this->accionActual = this->estado->desenmascararse;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
