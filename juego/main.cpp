@@ -462,7 +462,7 @@ void pelear(SDL_Event* evento){
 				GanoEl_1 = true;
 				HabilitarFatality = true;
 				// % Por ahora dejar que la haga siempre
-				if (this->fatality1 != NULL) HabilitarFatality = this->fatality1->execute();
+				if (this->fatality1 != NULL) HaciendoFatality = this->fatality1->execute();
 				tiempoDeGracia= true;
 				tiempoDeGraciaActual = SDL_GetTicks();				
 				logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
@@ -497,7 +497,7 @@ void pelear(SDL_Event* evento){
 				GanoEl_1 = false;
 				HabilitarFatality = true;
 				// % Por ahora dejar que la haga siempre
-				if (this->fatality2 != NULL) HabilitarFatality = this->fatality2->execute();
+				if (this->fatality2 != NULL) HaciendoFatality = this->fatality2->execute();
 				tiempoDeGracia= true;
 				tiempoDeGraciaActual = SDL_GetTicks();
 				
@@ -592,6 +592,8 @@ void pelear(SDL_Event* evento){
 				personajeJuego1->activarAccion(MORIR);
 			}
 		}else{ //Si se puede hacer fatality----> dizzy + libre
+			cout << "Existe fatality1: " << (this->fatality1 != NULL) << endl;	
+			if (this->fatality1 != NULL) HaciendoFatality = this->fatality1->execute();
 			if (!HaciendoFatality){
 				if (GanoEl_1)
 					personajeJuego1->activarAccion(DIZZY);
@@ -768,8 +770,10 @@ void crear_personajes(){
     
     setearNombres();
     
-    if (this->pathPersonaje1 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
-    if (this->pathPersonaje2 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
+    cout << this->pathPersonaje1 << endl; ///
+    
+    if (this->pathPersonaje1 == "resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
+    if (this->pathPersonaje2 == "resources/jugador/SubZero/") this->fatality2 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
 
 }
 
