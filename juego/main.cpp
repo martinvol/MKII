@@ -807,6 +807,10 @@ void crear_personajes_practica(){
 
 	nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
 	nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+	
+	this->personajeJuego1->otro_personaje = this->personajeJuego2;
+	this->personajeJuego2->otro_personaje = this->personajeJuego1;
+	
 	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
 	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 }
