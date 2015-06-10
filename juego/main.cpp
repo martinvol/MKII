@@ -404,17 +404,17 @@ void pelear(SDL_Event* evento){
     while (!salir_pelea){					
 
         timerFps = SDL_GetTicks();
-        Controlador(evento);       //Controlador
+        Controlador(evento);       					//Controlador
         if (!pausa){
             
             // t1 = SDL_GetTicks();
-            ActualizarModelo(personajeJuego1);     //Modelo 
+            ActualizarModelo(personajeJuego1);      //Modelo 
             ActualizarModelo(personajeJuego2);
             this->director->actualizar();                
 
 
         }
-        DibujarTodo();              //Vista
+        DibujarTodo();              				//Vista
         SDL_FlushEvent(SDL_KEYDOWN);
 
         //SDL_Delay(150);

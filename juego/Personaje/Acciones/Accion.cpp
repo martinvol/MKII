@@ -172,6 +172,12 @@ Accion::Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, flo
 	
 	this->rectangulos = new vector<Rectangulo*>();
 	//cout <<" "<< this->rectangulos->size() << " " << nroAccion << '\n';
+	
+	iniciarSonido();
+}
+
+void Accion::iniciarSonido(){
+	sonido = NULL;
 }
 
 /**Se destruye el vector, liberando la memoria 
@@ -193,7 +199,7 @@ Accion::~Accion(){
 	/*for (int i = 0; i<this->rectangulos->size(); i++){
 		delete this->rectangulos->at(i);
 	}*/
-	delete this->rectangulos;
+	if (this->sonido != NULL) Mix_FreeChunk(this->sonido);
 }
 
 /***********************************************************************
@@ -239,4 +245,8 @@ void Accion::cambiarModo(){
 
 void Accion::setDanio(int danio){
 	this->porcentajeDeDanio = danio;
+}
+
+void Accion::gritar(){
+	if (sonido != NULL) Mix_PlayChannel(-1, sonido, 0);
 }

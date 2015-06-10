@@ -62,7 +62,9 @@ Personaje::Personaje(CoordenadaLogica* coord, string nombre,SDL_Renderer* ren, f
 	this->renderer = ren;
 
 	// this->imagenArrojable = IMG_LoadTexture(this->renderer, this->estado->ruta_arrojable.c_str());;
-	pinia_sonido = Mix_LoadWAV("resources/music/male_scream_short.wav");
+
+	sonido_congelamiento = Mix_LoadWAV("resources/music/descongelarse.wav");
+	
 }
 
 Personaje::~Personaje(){
@@ -70,14 +72,14 @@ Personaje::~Personaje(){
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 	delete this->siguiente;
-	Mix_FreeChunk(this->pinia_sonido);
+	Mix_FreeChunk(this->sonido_congelamiento);
 }
 
 void Personaje::congelarse(){
 	estoyCongelado  = true;
 	tiempoCongelado = SDL_GetTicks();
 	puts("Estoy congelado");
-	// #sonido estoy congelado
+	Mix_PlayChannel(-1, sonido_congelamiento, 0);
 }
 
 void Personaje::Arrojar(bool congelar){
@@ -230,8 +232,8 @@ void Personaje::activarAccion(accion_posible accion){
 	} else {
 		if (SDL_GetTicks() - tiempoCongelado > 3000){
 			estoyCongelado = false;
-			// #sonido no estoy mas congelado
 			puts("No estoy mas congelado");
+			Mix_PlayChannel(-1, sonido_congelamiento, 0);
 		}
 	}
 }
@@ -388,13 +390,11 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 				this->accionActual->setInvertirSecuencia();
 			}
 			this->accionActual->setDireccionDerecha();
-			break;	
+			break;
 		case PINIAALTA:
-			gritar();
 			this->accionActual = this->estado->piniaAlta;
 			break;
 		case PINIABAJA:
-			gritar();
 			this->accionActual = this->estado->piniaBaja;
 			break;
 		case PINIAAGACHADO:
@@ -515,6 +515,7 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			this->accionActual->setDireccionIzquierda();
 			break;
 	}
+	this->accionActual->gritar();
 		this->accionActual->saque_vida = false;
 		this->accionActual->dibuje_rectangulos = false;	
 	
@@ -730,8 +731,4 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 	
 	}
 	 
-}
-
-void Personaje::gritar(){
-	Mix_PlayChannel(-1, pinia_sonido, 0);
 }

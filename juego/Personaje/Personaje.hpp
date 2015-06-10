@@ -60,12 +60,13 @@ class Personaje {
 		SDL_Renderer* renderer;
 
 		Arrojable* arrojable = NULL;
-	    Mix_Chunk *pinia_sonido;
+
+		Mix_Chunk* sonido_congelamiento = NULL;
+
 	    void congelarse();
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
-		//Harcodeo para donde mira.
 		Personaje(CoordenadaLogica* coord, string nombre, SDL_Renderer* ren, float ancho, float alto, Estado* estado, ConversorDeCoordenadas* conversor, float velocidad_arma, int numeroJugador, bool miraADerecha, std::vector<TomaData*>* tomas);
 		int numero_jugador;
 		//~ Después debería ser
@@ -120,8 +121,6 @@ class Personaje {
 		void moverseADerSup(CoordenadaLogica* coord);
 		void moverseAIzqInf(CoordenadaLogica* coord);
 		void moverseADerInf(CoordenadaLogica* coord);
-
-		void gritar();
 		
 	    void dibujar_botones(Parser* conf, bool debo_dibujar);
 	private:
