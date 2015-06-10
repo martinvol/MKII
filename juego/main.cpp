@@ -90,8 +90,11 @@ public:
 	//Para ver acciones Morir y Ganar entre rounds
 	bool GanoEl_1 = false;
 
+	//Solo en el fin del segundo round y con las condiciones dadas.
 	bool HabilitarFatality = false;
 	
+	//Para que no corte en medio de la animacion.
+	bool HaciendoFatality = false;
 	
 	bool tiempoDeGracia = false;
 	bool pasoEltiempoDeGracia = false;
@@ -562,7 +565,7 @@ void pelear(SDL_Event* evento){
 	}else{// si Estoy en tiempo de gracia.
 		float tiempoDeGraciaAuxiliar = SDL_GetTicks();
 		//si pasan 3 segundos, corto.
-		if (tiempoDeGraciaAuxiliar > (tiempoDeGraciaActual +3000)){
+		if (tiempoDeGraciaAuxiliar > (tiempoDeGraciaActual +3000) && !HaciendoFatality){
 			tiempoDeGracia = false;
 			pasoEltiempoDeGracia = true;
 			
@@ -581,10 +584,12 @@ void pelear(SDL_Event* evento){
 				personajeJuego1->activarAccion(MORIR);
 			}
 		}else{ //Si se puede hacer fatality----> dizzy + libre
-			if (GanoEl_1)
-				personajeJuego1->activarAccion(DIZZY);
-			else
-				personajeJuego2->activarAccion(DIZZY);			
+			if (!HaciendoFatality){
+				if (GanoEl_1)
+					personajeJuego1->activarAccion(DIZZY);
+				else
+					personajeJuego2->activarAccion(DIZZY);			
+			}
 		}
 	}
         
@@ -1199,6 +1204,7 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->PiniaBaja = false;
 		}else{			
 			personaje->activarAccion(AGACHARSE);			
+			HaciendoFatality = true;			
 		}
 		
 	}
@@ -1237,7 +1243,7 @@ void ActualizarModelo(Personaje* personaje){
 	//PATADA ALTA
 	}else if (personaje->PatadaAlta){		
 	personaje->activarAccion(PATADAALTA);
-	personaje->PatadaAlta = false;			
+	personaje->PatadaAlta = false;	
 	///MAXI QUE ES ESTO?
 	/// MAGIA.	
 	}	
