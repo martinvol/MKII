@@ -7,7 +7,7 @@ using namespace std;
  * 
  **********************************************************************/  
 
-Perform::Perform(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset):Accion(99,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
+Perform::Perform(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset, int nroCarpeta):Accion(nroCarpeta,ruta,ren, despl_x, despl_y, h_max, hue_init, hue_fin, hue_offset){
 	// (float empieza_alto, float empieza_ancho, float porcentaje_alto, float porcentaje_ancho, bool ataque, bool bloqueo)
 	
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
@@ -15,6 +15,11 @@ Perform::Perform(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, f
 	rectangulos->push_back(new Rectangulo(35, 0, 15, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
 };
+
+void Perform::execute(CoordenadaLogica* coord_personaje) {
+	if (!(this->esUltimoModo)) Accion::cambiarModo();
+	return;
+}
 
 bool Perform::permiteAccion(accion_posible nuevaAccion){
 	return false;

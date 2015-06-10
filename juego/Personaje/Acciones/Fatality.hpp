@@ -5,10 +5,12 @@
 #include "Perform.hpp"
 
 class Fatality {
-	Personaje* victima;
-	Personaje* victimario;
-	Perform* perform;
+	
 	public:
+		Personaje* victima;
+		Personaje* victimario;
+		Perform* acido;
+		Perform* desenmascararse;
 		void execute();
 };
 
