@@ -674,6 +674,12 @@ void Personaje::Dibujarse(){
 				tirarLatigo();
 			}
 		}
+		if (tomas->at(5) ){
+			if (panel->checkToma(tomas->at(5)->convinacion, tomas->at(5)->nombre)){
+				this->ejecutar_fatality = true;
+				// Acá se activa la fatality
+			}
+		}
 	}
 }
 

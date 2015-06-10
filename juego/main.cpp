@@ -374,6 +374,7 @@ void game_loop(){
             } else
             if (modo_a_cambiar == Practica) {
                 modo_actual = Practica;
+                HabilitarFatality = true;
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
@@ -413,6 +414,7 @@ void setearNombres(){
 }
 
 void salir_de_modo(){
+    HabilitarFatality = false;
     modo_actual  = MENU;
     modo_a_cambiar = MENU;
     delete director;

@@ -70,6 +70,10 @@
                  {
                   "combinacion":"321",
                   "nombre": "Latigo"
+                 },
+                 {
+                  "combinacion":"220",
+                  "nombre": "Fatality"
                  }
       ],
       "tiempoTotal": 100
