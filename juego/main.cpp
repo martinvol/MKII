@@ -125,6 +125,8 @@ public:
     modo modo_a_cambiar = MENU;
     bool cambiarModo = false;
     float timerFps;
+    
+    SDL_Texture* round = NULL;
 
     int argc;
     char** argv;
@@ -888,6 +890,7 @@ void crear_personajes_practica(){
 		delete this->grilla;
         SDL_DestroyRenderer(renderer);
         logger->log_debug("Borramos todos los objetos");
+        if (round != NULL) SDL_DestroyTexture(round);
     };
 
     void terminar_sdl(){
@@ -922,6 +925,28 @@ void DibujarTodo(){
 				this->personajeJuego2->Dibujarse();
             }
         }
+        
+        if (modo_actual == Pelea || modo_actual == CPU){
+			//Imprimir ROUND
+			TTF_Font* fuente = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 35);
+			SDL_Color color =  {245, 208, 51, 10};
+			
+			CoordenadaLogica* coord = new CoordenadaLogica(0, parser->escenario_ypiso);
+			CoordenadaFisica* y_piso_px = this->conversor->aFisica(coord);
+			int y = (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h) + (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/4;
+			int h = (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/2;
+			SDL_Rect destino = {parser->ventana_anchopx/4, y, parser->ventana_anchopx/2, h};
+			delete coord;
+			delete y_piso_px;
+			
+			SDL_Surface* superficie = TTF_RenderText_Solid(fuente, director->obtenerRound().c_str(), color);
+			if (round != NULL) SDL_DestroyTexture(round);
+			round = SDL_CreateTextureFromSurface(renderer, superficie);	
+			SDL_FreeSurface(superficie);
+			SDL_RenderCopy(renderer, round, NULL, &destino);
+			
+		}
+        
 		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
 			this->personajeJuego1->Dibujarse();

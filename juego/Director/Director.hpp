@@ -65,6 +65,8 @@ class Director {
 		virtual void GanoRound(int num_jugador);
 		virtual int ObtenerVida(int num_jugador);
 		
+		string obtenerRound();
+		
 };
 
 bool IntersectRect(const SDL_Rect * r1, const SDL_Rect * r2);

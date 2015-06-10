@@ -556,3 +556,11 @@ int Director::ObtenerVida(int num_jugador){
 void Director::GanoRound(int num_jugador){
 	this->jugadores[num_jugador]->barra->GanoRound();
 }
+
+string Director::obtenerRound(){
+	if (this->jugadores[0]->barra->ganoRound || this->jugadores[1]->barra->ganoRound){
+		return "Round 2";
+	} else {
+		return "Round 1";
+	}
+}
