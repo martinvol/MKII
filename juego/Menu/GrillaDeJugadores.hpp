@@ -32,7 +32,7 @@ class Grilla {
 		string obtenerPath(int pj);
 		vector<Accion*> accionesQuieto;
 		vector<Accion*> accionesGanar;
-		
+		int joystickEsc;
 		TextBox* textbox1, *textbox2;
 		
 		SDL_Texture* header;
@@ -45,7 +45,7 @@ class Grilla {
 		Uint32 lastTick2;
 	
 		//Grilla(SDL_Renderer* renderer, Ventana* ventana);
-		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana);
+		Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana, int joystickEsc);
 		void Dibujarse();
 		~Grilla();
 		vector<bool> eligio;

@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#define ENTER_JOYSTICK 0
+
 ControladorMenu::ControladorMenu(Menu* menu){
 	this->menu = menu;
 	reiniciar();
@@ -62,7 +64,7 @@ modo ControladorMenu::procesarEvento(SDL_Event* evento){
 				}
 				break;
 			case SDL_JOYBUTTONDOWN:
-				if (evento->jbutton.button == 0){
+				if (evento->jbutton.button == ENTER_JOYSTICK){
 					enter = true;
 				}
 				break;

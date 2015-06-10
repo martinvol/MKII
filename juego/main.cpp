@@ -331,7 +331,7 @@ void game_loop(){
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(splash);
 
-		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx, (parser->joysticks->at(0))->at("arrojar_arma"));
 		
         menu = new Menu (renderer, ventana);
         SDL_RenderClear(renderer);
@@ -639,7 +639,7 @@ void ControladorBasico(SDL_Event* evento){
 	switch(evento->type){			
 		case SDL_QUIT:
             if (modo_actual == MENU && !salir_pelea){
-                puts("salir en true 1");
+                puts("salir en true 1"); ///
                 salir = true;
             } else {
                 salir_pelea = true;
@@ -647,13 +647,13 @@ void ControladorBasico(SDL_Event* evento){
 			break;
 		case SDL_KEYDOWN:
 			if (evento->key.keysym.sym == SDLK_p)  {
-				if (modo_actual==Pelea || modo_actual == CPU || modo_actual ==Practica )
+				if (modo_actual==Pelea || modo_actual == CPU || modo_actual == Practica)
 					pausa = !pausa;
 				true;
 			}
 			if (evento->key.keysym.sym == SDLK_ESCAPE){
 				if (modo_actual == MENU && !salir_pelea){
-                    puts("salir en true 2");
+                    puts("salir en true 2"); ///
                     salir = true;
                 }else {
                     salir_pelea = true;
@@ -664,6 +664,16 @@ void ControladorBasico(SDL_Event* evento){
 				if (this->timer != NULL)
 					this->timer->pausarTimer(SDL_GetTicks());
             }
+        case SDL_JOYBUTTONDOWN:
+			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
+				if (modo_actual == MENU && !salir_pelea){
+					puts("salir en true 3: joystick"); ///
+					salir = true;
+				}else {
+					salir_pelea = true;
+				}
+			}
+			break;
         default:
 			;
 	}
@@ -823,9 +833,12 @@ void crear_personajes_practica(){
         logger->log_debug("Vuelve a empezar el juego, cambiando las configuraciones");
         terminar_juego();        
 		
-		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
 		
         cargar_configuracion();
+        
+        
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx, (parser->joysticks->at(0))->at("arrojar_arma"));
+        
         comenzar_escenario_de_pelea();
         
         if ((modo_actual == Pelea)
@@ -946,6 +959,16 @@ void Controlador(SDL_Event *evento){
                 } else {
                     salir_pelea = true;
                 }
+				break;
+			case SDL_JOYBUTTONDOWN:
+			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
+					if (modo_actual == MENU && !salir_pelea){
+						puts("salir en true 3: joystick"); ///
+						salir = true;
+					}else {
+						salir_pelea = true;
+					}
+				}
 				break;
 			case SDL_KEYDOWN:
 				//-----------------------------------------
