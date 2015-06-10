@@ -150,6 +150,8 @@ public:
 	Ventana* ventana = NULL;
     Timer* timer = NULL;
 
+    TTF_Font* fuente;
+
     ConversorDeCoordenadas* conversor;
 	Grilla* grilla = NULL;
 	Estado* estado1 = NULL, *estado2 = NULL;
@@ -177,10 +179,10 @@ public:
 //----------------------------------------------------------------
     int jugar(){
 
-
         if (InicializarSDL() != 0) return 1;
         renderer = SDL_CreateRenderer(NULL, -1, 0);
 
+        fuente = TTF_OpenFont("resources/miscelaneo/Mk32.ttf", 35);
         cargar_configuracion();
         
         game_loop();
@@ -948,7 +950,6 @@ void DibujarTodo(){
         
         if (modo_actual == Pelea || modo_actual == CPU){
 			//Imprimir ROUND
-			TTF_Font* fuente = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 35);
 			SDL_Color color =  {245, 208, 51, 10};
 			
 			CoordenadaLogica* coord = new CoordenadaLogica(0, parser->escenario_ypiso);

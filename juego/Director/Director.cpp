@@ -425,6 +425,48 @@ void Director::verificar_movimientos(){
 			
 		}
 	}
+
+	// Si se cambia esto, se tiene que cambiar en los dos directores.
+	for (unsigned int i = 0; i<jugadores.size(); i++){
+		if (jugadores[i]->obtenerPersonaje()->latigo->coord){
+			for (unsigned int j = 0; j < jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->size(); j++){
+				// verifico las colisiones
+				SDL_Rect interseccion; // no lo usamos
+				SDL_bool coli = SDL_IntersectRect(
+					jugadores[i]->obtenerPersonaje()->latigo->rectangulo->sdl_rec,
+					jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->sdl_rec, 
+					&interseccion
+				);
+				
+				if (coli && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos && jugadores[jugador1]->obtenerPersonaje()->accionActual->dibuje_rectangulos){
+					Logger::instance()->log_debug("Le pego el lático!!!");
+					jugadores[i]->obtenerPersonaje()->latigo->volver = true;
+					jugadores[i]->obtenerPersonaje()->latigo->pego = true;
+					float danio = 100;
+					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
+						danio = danio/4;
+					}
+					// Esta linea fea hace la conversion numero -> string
+					string result;ostringstream convert;convert << danio;result = convert.str(); 
+					/// jugadores[(i+1)%2]->barra->Lastimar(danio);
+					CoordenadaLogica* punta = jugadores[i]->obtenerPersonaje()->latigo->obtenerPunta(this->conversor);
+					CoordenadaLogica* mover;
+					if (jugadores[(i+1)%2]->obtenerPersonaje()->mirarDerecha){
+						mover =  jugadores[(i+1)%2]->obtenerPersonaje()->obtenerCoordenadaDerInf();
+						mover->x = punta->x;
+						jugadores[(i+1)%2]->moverseADerInf(mover);
+					} else{
+						mover =  jugadores[(i+1)%2]->obtenerPersonaje()->obtenerCoordenadaIzqInf();
+						mover->x = punta->x;
+						jugadores[(i+1)%2]->moverseAIzqInf(mover);
+						
+					}
+					delete mover;
+					delete punta;
+				}
+			}
+		}
+	}
 }
 
 bool Director::sePuedeScrollearDerecha(){

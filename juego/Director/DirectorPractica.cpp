@@ -424,6 +424,7 @@ void DirectorPractica::verificar_movimientos(){
 		}
 	}
 
+	// Si se cambia esto, se tiene que cambiar en los dos directores.
 	for (unsigned int i = 0; i<jugadores.size(); i++){
 		if (jugadores[i]->obtenerPersonaje()->latigo->coord){
 			for (unsigned int j = 0; j < jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->size(); j++){
@@ -441,12 +442,10 @@ void DirectorPractica::verificar_movimientos(){
 					jugadores[i]->obtenerPersonaje()->latigo->pego = true;
 					float danio = 100;
 					if (jugadores[(i+1)%2]->obtenerPersonaje()->accionActual->rectangulos->at(j)->bloqueo){
-						Logger::instance()->log_debug("Le tengo que sacar menos vida porque se está defendiendo");
 						danio = danio/4;
 					}
 					// Esta linea fea hace la conversion numero -> string
 					string result;ostringstream convert;convert << danio;result = convert.str(); 
-					Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 					/// jugadores[(i+1)%2]->barra->Lastimar(danio);
 					CoordenadaLogica* punta = jugadores[i]->obtenerPersonaje()->latigo->obtenerPunta(this->conversor);
 					CoordenadaLogica* mover;
