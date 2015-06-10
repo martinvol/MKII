@@ -721,10 +721,10 @@ void crear_personajes(){
     // DEFECTO IGUAL A CERO.
     
     if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
-		this->pathPersonaje1 == this->pathPersonaje2) {
-		
+        this->pathPersonaje1 == this->pathPersonaje2) {
+        
         if (USING_PATH_JSON) 
-			this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+            this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                         renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                         parser->color_inicio, parser->color_fin, parser->color_offset);
@@ -739,7 +739,7 @@ void crear_personajes(){
         else this->estado2 = new Estado(this->pathPersonaje2, renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         
-	}
+    }
     
     this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                     "Segundo", renderer, parser->personaje2_alto,
@@ -747,6 +747,7 @@ void crear_personajes(){
                                     this->conversor, parser->velocidad_arma,
                                     2, false, parser->tomas);
     
+    this->personajeJuego2->dibujar_botones(this->parser, false);
     barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
     if (USAR_AI) this->ai = new AI(this->personajeJuego2, this->personajeJuego1);
