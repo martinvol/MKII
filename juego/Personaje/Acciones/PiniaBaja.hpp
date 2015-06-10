@@ -12,6 +12,7 @@ class PiniaBaja: public Accion{
 		bool permiteAccion(accion_posible nuevaAccion);		
 		void cambiarModo();
 		void cambiarModoInversamente();
+		void iniciarSonido();
 };
 
 #endif

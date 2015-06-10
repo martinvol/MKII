@@ -14,7 +14,12 @@ PiniaAlta::PiniaAlta(string ruta, SDL_Renderer* ren, float despl_x, float despl_
 	rectangulos->push_back(new Rectangulo(0, 73, 15, 30, true, false)); // piña
 	rectangulos->push_back(new Rectangulo(20, 20, 80, 50, false, false)); // piernas
 	
+	iniciarSonido();
 };
+
+void PiniaAlta::iniciarSonido(){
+	sonido = Mix_LoadWAV("resources/music/male_scream_short.wav");
+}
 
 void PiniaAlta::cambiarModoInversamente(){
 	if (this->modoActual==0){

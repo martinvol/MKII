@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <string>
 #include <vector>
 #include "../../LTexture.hpp"
@@ -50,10 +51,11 @@ class Accion{
 	private: 
 		int cuentaArchivos(string ruta);
 	public:
-		
-		/* Constantes de desplazamiento. */
+	
 		bool dibuje_rectangulos=false;
 		bool saque_vida = false;
+		
+		/* Constantes de desplazamiento. */
 		float despl_x;
 		float despl_y;
 		float h_max;
@@ -72,6 +74,8 @@ class Accion{
 		
 		Logger* logger;
 		bool secuenciaInversa;
+
+		Mix_Chunk* sonido = NULL;
 
 		Accion(int nroAccion, string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float h_max, int hue_init, int hue_fin, int hue_offset); //constructor
 
@@ -106,7 +110,9 @@ class Accion{
 		~Accion();
 		virtual void resetear();
 		void cambiarModoInversamente();
-		float porcentajeDeDanio =0;
+		float porcentajeDeDanio = 0;
+		void gritar();
+		void iniciarSonido();
 };
 
 #endif
