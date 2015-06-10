@@ -17,7 +17,7 @@ Fatality::~Fatality() {
 bool Fatality::execute() {
 	//this->victimario->accionActual = this->desenmascararse; ///
 	this->victimario->activarAccion(HACER_FATALITY);
-	
+	if(this->victima->nroAccionActual != DESAPARECER) this->victima->cambiarAccionA(DIZZY);
 	if (!this->victimario->accionActual->esUltimoModo()) {
 		this->victimario->coordenada = this->victimario->accionActual->execute(this->victimario->coordenada);
 		return true;
@@ -30,7 +30,7 @@ bool Fatality::execute() {
 	SDL_RenderCopy(this->victimario->renderer, this->texAcidoActual, NULL, &rect);
 	//SDL_RenderClear(this->victimario->renderer);
 	SDL_RenderPresent(this->victimario->renderer);
-	if (this->acido->getModoActual() == 15) this->victima->activarAccion(DESAPARECER);
+	if (this->acido->getModoActual() == 15) this->victima->cambiarAccionA(DESAPARECER);
 	
 	return (!(this->acido->esUltimoModo()));
 }
