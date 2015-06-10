@@ -3,6 +3,8 @@
 #include <SDL2/SDL_ttf.h>
 
 #include <iostream> ///
+#include <random>
+#include <ctime>
 
 #define PATH1 "SubZero"
 #define PATH2 "Ermac"
@@ -21,7 +23,7 @@
 #define OPCION "resources/menu/opcion_transparent.png"
 #define PATH_FONT_TEXTBOX "resources/miscelaneo/nk57-monospace-cd-lt.ttf"
 
-#define ALWAYS_SUBZERO true
+#define ALWAYS_SUBZERO false
 
 #define DIBUJAR_PLAYER1X this->anchoVentana/16
 #define DIBUJAR_PLAYER2X CANT_ANCHO*this->anchoImagen + this->x_init + this->anchoVentana/16
@@ -402,6 +404,8 @@ bool Grilla::entraEnGrilla(int x, int y) {
 
 string Grilla::randomChoicePlayer2() {
 	this->seleccionarOpcion(1);
+	srand(time(NULL));
+
 	if (ALWAYS_SUBZERO) { 
 		this->xSeleccion[1] = this->x_init;
 		this->ySeleccion[1] = this->y_init;
@@ -409,6 +413,10 @@ string Grilla::randomChoicePlayer2() {
 	else {
 		//% Dar random de posicion x e y; hacer la misma conversion que 
 		//% para el mouse.
+		int pos = this->obtenerUbicacion(rand()%(CANT_ANCHO*this->anchoImagen)+this->x_init, 
+										 rand()%((TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen) + this->y_init);
+		this->xSeleccion[1] = (pos % (CANT_ANCHO))*this->anchoImagen + this->x_init;
+		this->ySeleccion[1] = (pos / (CANT_ANCHO))*this->altoImagen + this->y_init;					
 	}
 	return this->seleccionarOpcion(1);
 } 
