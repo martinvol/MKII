@@ -7,7 +7,6 @@ using namespace std;
 
 Arrojable::Arrojable(bool derecha, SDL_Renderer* ren, bool congelar){
 	this->ren = ren;
-	this->imagen = imagen;
 	this->espejado = derecha;
 	this->vel_horizontal = 0;
 	this->vel_vertical = 0;
@@ -16,8 +15,7 @@ Arrojable::Arrojable(bool derecha, SDL_Renderer* ren, bool congelar){
 	this->ancho = 0;
 	this->rectangulo = NULL;
 	this->congelar = congelar;
-	cout<<"me congelo?" <<congelar<<endl;
-	// this->imagen = IMG_LoadTexture(this->ren, "resources/arma.png");
+
 	if (congelar){
 		this->imagen = IMG_LoadTexture(this->ren, "resources/riquelme.png");
 	}else{

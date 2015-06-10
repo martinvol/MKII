@@ -29,6 +29,7 @@
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
+         // "imagen_fondo":"resources/background/rp.jpg",
          "anchoLogico":1216
       }
    ],
