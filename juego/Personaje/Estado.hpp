@@ -42,6 +42,7 @@
 #include "../Personaje/Acciones/Dizzy.hpp"
 #include "../Personaje/Acciones/Morir.hpp"
 #include "../Personaje/Acciones/Desaparecer.hpp"
+#include "../Personaje/Acciones/Perform.hpp"
 
 using namespace std;
 
@@ -74,6 +75,7 @@ class Estado{
 		PiniaAgachado* piniaAgachado;
 		PiniaAire* piniaAire;
 		PiniaAire* piniaAireVertical;	//Vengo a flotar: Pregunta... son de la misma clase? what? Entonces para que existen dos?
+		// Response: Una tiene una imagen menos, y no tiene velocidad en x.
 		
 		///Patadas
 		PatadaAlta* patadaAlta;
@@ -100,6 +102,8 @@ class Estado{
 		Morir* morir;
 		Dizzy* dizzy;
 		Desaparecer* desaparecer;
+		
+		Perform* desenmascararse;
 		
 		Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_escenario, float ancho_personaje, float ancho_escenario, float ventana_ancho, int hue_init = 0, int hue_fin = 0, int hue_offset = 0);
 		~Estado();

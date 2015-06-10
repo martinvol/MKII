@@ -18,6 +18,7 @@
 #include "Menu/ControladorMenu.hpp"
 #include "Menu/GrillaDeJugadores.hpp"
 #include "Menu/TextBox.hpp"
+#include "Personaje/Acciones/Fatality.hpp"
 
 // Música
 #include <SDL2/SDL_mixer.h>
@@ -159,6 +160,9 @@ public:
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
 
+	Fatality* fatality1 = NULL;
+	Fatality* fatality2 = NULL;
+	
 	Director* director = NULL;
 
     Mix_Music *musica_fondo;
@@ -588,6 +592,7 @@ void pelear(SDL_Event* evento){
 				personajeJuego1->activarAccion(MORIR);
 			}
 		}else{ //Si se puede hacer fatality----> dizzy + libre
+			if (this->fatality1 != NULL) HaciendoFatality = this->fatality1->execute();
 			if (!HaciendoFatality){
 				if (GanoEl_1)
 					personajeJuego1->activarAccion(DIZZY);
@@ -779,6 +784,11 @@ void crear_personajes(){
     this->timer->reset(SDL_GetTicks());
     
     setearNombres();
+    
+    cout << this->pathPersonaje1 << endl; ///
+    
+    if (this->pathPersonaje1 == "resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
+    if (this->pathPersonaje2 == "resources/jugador/SubZero/") this->fatality2 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
 
 }
 
@@ -890,6 +900,9 @@ void crear_personajes_practica(){
 		delete this->grilla;
         SDL_DestroyRenderer(renderer);
         logger->log_debug("Borramos todos los objetos");
+        if (this->fatality1 != NULL) delete this->fatality1;
+        if (this->fatality2 != NULL) delete this->fatality2;
+        this->fatality1 = this->fatality2 = NULL;
         if (round != NULL) SDL_DestroyTexture(round);
     };
 

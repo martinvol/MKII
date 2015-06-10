@@ -125,13 +125,13 @@ bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTex
 				if ((evento->motion.windowID == menu->idVentana) && (menu->entraEnGrilla(evento->motion.x, evento->motion.y))){
 					//evento->motion.x
 					int pos = menu->obtenerUbicacion(evento->motion.x, evento->motion.y);
-					menu->xSeleccion[1] = (pos % (CANT_ANCHO))*menu->anchoImagen + menu->x_init;
-					menu->ySeleccion[1] = (pos / (CANT_ANCHO))*menu->altoImagen + menu->y_init;	
+					menu->xSeleccion[menu->eligio[1]?0:1] = (pos % (CANT_ANCHO))*menu->anchoImagen + menu->x_init;
+					menu->ySeleccion[menu->eligio[1]?0:1] = (pos / (CANT_ANCHO))*menu->altoImagen + menu->y_init;	
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (evento->button.windowID == menu->idVentana && (menu->entraEnGrilla(evento->motion.x, evento->motion.y))){
-					menu->seleccionarOpcion(1);
+					menu->seleccionarOpcion(menu->eligio[1]?0:1);
 				}
 				break;
 			case SDL_QUIT:
@@ -396,8 +396,8 @@ bool Grilla::open(Uint32 idVentana) {
 }
 
 bool Grilla::entraEnGrilla(int x, int y) {
-	return ((this->x_init <= x) && (x <= CANT_ANCHO*this->anchoImagen + this->x_init)
-			&& (this->y_init <= y) && (y <= (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
+	return ((this->x_init < x) && (x < CANT_ANCHO*this->anchoImagen + this->x_init)
+			&& (this->y_init < y) && (y < (TOTAL_IMAGENES/CANT_ANCHO)*this->altoImagen + this->y_init));
 }
 
 string Grilla::randomChoicePlayer2() {
