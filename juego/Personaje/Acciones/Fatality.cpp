@@ -18,12 +18,11 @@ bool Fatality::execute() {
 	//this->victimario->accionActual = this->desenmascararse; ///
 	this->victimario->activarAccion(HACER_FATALITY);
 	
-	if (this->victimario->accionActual->esUltimoModo()) {
+	if (!this->victimario->accionActual->esUltimoModo()) {
 		this->victimario->coordenada = this->victimario->accionActual->execute(this->victimario->coordenada);
 		return true;
 	}
 	this->acido->execute(NULL);
-	this->victimario->accionActual->cambiarModo();
 	this->texAcidoActual = this->acido->getImagenActual(this->victimario->mirarDerecha);
 	int w, h;
 	SDL_QueryTexture(this->texAcidoActual, NULL, NULL, &w, &h);
