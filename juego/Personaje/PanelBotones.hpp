@@ -16,7 +16,7 @@ using namespace std;
 
 class EstructuraBoton{
 	public:
-		int numero_boton;
+		char numero_boton;
 		Uint32 inicio;
 		bool otro_color = false;
 
@@ -30,7 +30,7 @@ class PanelBotones {
 		PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_jugador, bool debo_dibujar); // un conversor de coordenadas, 
 		~PanelBotones();
 		
-		void AgregarBotones(int boton);
+		void AgregarBotones(char boton);
 		void dibujar(ConversorDeCoordenadas* conv, SDL_Renderer *renderer); // recibe un vector con la lista de cosas a mostrar
 		bool checkToma(string, string);
 

@@ -405,11 +405,7 @@ void setearNombres(){
 void salir_de_modo(){
     modo_actual  = MENU;
     modo_a_cambiar = MENU;
-    /*delete menu;
-    Menu* menu = new Menu (renderer, ventana);
-    delete controlador;
-    ControladorMenu* controlador = new ControladorMenu(menu);
-    delete director;*/
+    delete director;
     controlador->reiniciar();
     director = NULL;
     SDL_Delay(100);
@@ -1220,7 +1216,7 @@ void ActualizarModelo(Personaje* personaje){
 		cout<<"ArrojarArma"<<endl; ///			
 		//Una vez que la ejecuto, la desactivo, sino loopea.
 		personaje->ArrojarArma = false;
-		personaje->Arrojar();
+		personaje->Arrojar(false);
 	//PATADA BAJA
 	}else if (personaje->PatadaBaja){
 		//+IZQUIERDA = TRABA
@@ -1244,7 +1240,7 @@ void ActualizarModelo(Personaje* personaje){
     else if (arrojandoPk){        
 		cout<<"ArrojarArma"<<endl; ///					
 		personaje->ArrojarArma = false;
-		personaje->Arrojar();
+		personaje->Arrojar(false);
     }
 	//MILE
 	else if (golpeandoPJalta){		

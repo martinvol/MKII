@@ -61,6 +61,7 @@ class Personaje {
 
 		Arrojable* arrojable = NULL;
 	    Mix_Chunk *pinia_sonido;
+	    void congelarse();
 		
 	//~ public:
 		/* Recibe la coordenada de su extremo INFERIOR IZQUIERDO. */
@@ -73,8 +74,13 @@ class Personaje {
 		BarraDeVida* barraDeVida;
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
-		void Arrojar();
+		//~ void Arrojar();	
+
+		void Arrojar(bool congelar);
 		void Resetear();
+		bool estoyCongelado = false;
+		Uint32 tiempoCongelado;
+		
 		// Funciones internas
 		void cambiarAccionA(accion_posible nroAccion);
 
@@ -122,7 +128,6 @@ class Personaje {
 		
 	    void dibujar_botones(Parser* conf, bool debo_dibujar);
 	private:
-		SDL_Texture* imagenArrojable;
 		float velocidad_arma;
 	    PanelBotones* panel=NULL;
 	    std::vector<TomaData*>* tomas;

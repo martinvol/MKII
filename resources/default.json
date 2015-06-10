@@ -57,6 +57,10 @@
                  {
                   "convinacion":"000",
                   "nombre": "Tirar Proyectil"
+                 },
+                 {
+                  "convinacion":"002",
+                  "nombre": "Congelar"
                  }
       ],
       "tiempoTotal": 100
