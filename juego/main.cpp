@@ -374,7 +374,6 @@ void game_loop(){
             } else
             if (modo_a_cambiar == Practica) {
                 modo_actual = Practica;
-                HabilitarFatality = true;
                 // Por ahora repito todo.
                 elegir_personajes(Practica);
                 if (this->grilla->eligio[0] && this->grilla->eligio[1]) {
@@ -447,24 +446,30 @@ void pelear(SDL_Event* evento){
             SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
         }
 
-	
-	if(!tiempoDeGracia){
-		if (director->seMurio(0)){			
+    
+    if (modo_a_cambiar == Practica){
+        HabilitarFatality = true;
+        if (this->fatality1 != NULL && this->personajeJuego1->ejecutar_fatality) HaciendoFatality = this->fatality1->execute();
+        if (this->fatality2 != NULL && this->personajeJuego2->ejecutar_fatality) HaciendoFatality = this->fatality2->execute();
+    }
+    if(!tiempoDeGracia){
+        if (director->seMurio(0)){          
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
             director->GanoRound(1); 
             //tiempo para accion Ganar
             // + inicio el contador
             if (!tiempoDeGracia && !pasoEltiempoDeGracia && !Personaje_1_GanoRound){
-					GanoEl_1 = false;					
-					personajeJuego2->activarAccion(GANAR);
-					personajeJuego1->activarAccion(MORIR);					
-					tiempoDeGracia= true;	
-					tiempoDeGraciaActual = SDL_GetTicks();				
-					continue;
-			}
+                    GanoEl_1 = false;                   
+                    personajeJuego2->activarAccion(GANAR);
+                    personajeJuego1->activarAccion(MORIR);                  
+                    tiempoDeGracia= true;   
+                    tiempoDeGraciaActual = SDL_GetTicks();              
+                    continue;
+            }
             modo_actual = Pelea;
             
             //Si ya tenia ganado un round, ahora gano el segundo
+
             if (Personaje_1_GanoRound){
 				Personaje_1_Gano_2_Round = true;
 				GanoEl_1 = true;
