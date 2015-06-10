@@ -52,22 +52,22 @@ PanelBotones::PanelBotones(Parser* conf, SDL_Renderer *renderer, int numero_juga
 
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/l.png", 0, 359, 180, false);
-	imagenes_tomas['l'] = imagen->mTexture;;
+	imagenes_tomas_cambiadas['l'] = imagen->mTexture;;
 	delete imagen;
 
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/r.png", 0, 359, 180, false);
-	imagenes_tomas['r'] = imagen->mTexture;;
+	imagenes_tomas_cambiadas['r'] = imagen->mTexture;;
 	delete imagen;
 
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/u.png", 0, 359, 180, false);
-	imagenes_tomas['u'] = imagen->mTexture;;
+	imagenes_tomas_cambiadas['u'] = imagen->mTexture;;
 	delete imagen;
 
 	imagen = new LTexture(renderer);
 	imagen->loadFromFile("resources/botones/d.png", 0, 359, 180, false);
-	imagenes_tomas['d'] = imagen->mTexture;;
+	imagenes_tomas_cambiadas['d'] = imagen->mTexture;;
 	delete imagen;
 
 	this->tiempo_max_boton = conf->tiempo_max_boton*1000;

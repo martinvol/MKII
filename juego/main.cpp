@@ -419,17 +419,17 @@ void pelear(SDL_Event* evento){
     while (!salir_pelea){					
 
         timerFps = SDL_GetTicks();
-        Controlador(evento);       //Controlador
+        Controlador(evento);       					//Controlador
         if (!pausa){
             
             // t1 = SDL_GetTicks();
-            ActualizarModelo(personajeJuego1);     //Modelo 
+            ActualizarModelo(personajeJuego1);      //Modelo 
             ActualizarModelo(personajeJuego2);
             this->director->actualizar();                
 
 
         }
-        DibujarTodo();              //Vista
+        DibujarTodo();              				//Vista
         SDL_FlushEvent(SDL_KEYDOWN);
 
         //SDL_Delay(150);
@@ -729,10 +729,10 @@ void crear_personajes(){
     // DEFECTO IGUAL A CERO.
     
     if ((this->parser->sprites_map["personaje1"] == this->parser->sprites_map2["personaje2"]) ||
-		this->pathPersonaje1 == this->pathPersonaje2) {
-		
+        this->pathPersonaje1 == this->pathPersonaje2) {
+        
         if (USING_PATH_JSON) 
-			this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
+            this->estado2 = new Estado((string)(this->parser->sprites_map["personaje1"]),
                         renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho, 
                         parser->color_inicio, parser->color_fin, parser->color_offset);
@@ -747,7 +747,7 @@ void crear_personajes(){
         else this->estado2 = new Estado(this->pathPersonaje2, renderer, parser->personaje2_alto, parser->escenario_alto,
                         parser->personaje2_ancho, parser->escenario_ancho, parser->ventana_ancho);
         
-	}
+    }
     
     this->personajeJuego2 = new Personaje(new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso),
                                     "Segundo", renderer, parser->personaje2_alto,
@@ -755,6 +755,7 @@ void crear_personajes(){
                                     this->conversor, parser->velocidad_arma,
                                     2, false, parser->tomas);
     
+    this->personajeJuego2->dibujar_botones(this->parser, false);
     barraDeVida2 = new BarraDeVida(parser->ventana_anchopx/2, parser->ventana_anchopx, parser->ventana_altopx, renderer, false);
 
     if (USAR_AI) this->ai = new AI(this->personajeJuego2, this->personajeJuego1);
@@ -817,6 +818,10 @@ void crear_personajes_practica(){
 
 	nombrePersonaje1 = this->grilla->textbox1->obtenerTexto();
 	nombrePersonaje2 = this->grilla->textbox2->obtenerTexto();
+	
+	this->personajeJuego1->otro_personaje = this->personajeJuego2;
+	this->personajeJuego2->otro_personaje = this->personajeJuego1;
+	
 	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
 	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
 }
