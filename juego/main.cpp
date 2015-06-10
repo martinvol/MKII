@@ -18,6 +18,7 @@
 #include "Menu/ControladorMenu.hpp"
 #include "Menu/GrillaDeJugadores.hpp"
 #include "Menu/TextBox.hpp"
+#include "Personaje/Acciones/Fatality.hpp"
 
 // Música
 #include <SDL2/SDL_mixer.h>
@@ -155,6 +156,9 @@ public:
     AI* ai = NULL;
     BarraDeVida* barraDeVida1 = NULL, *barraDeVida2 = NULL;
 
+	Fatality* fatality1 = NULL;
+	Fatality* fatality2 = NULL;
+	
 	Director* director = NULL;
 
     Mix_Music *musica_fondo;
@@ -457,6 +461,8 @@ void pelear(SDL_Event* evento){
 				Personaje_1_Gano_2_Round = true;
 				GanoEl_1 = true;
 				HabilitarFatality = true;
+				// % Por ahora dejar que la haga siempre
+				if (this->fatality1 != NULL) HabilitarFatality = this->fatality1->execute();
 				tiempoDeGracia= true;
 				tiempoDeGraciaActual = SDL_GetTicks();				
 				logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
@@ -490,6 +496,8 @@ void pelear(SDL_Event* evento){
 				Personaje_2_Gano_2_Round = true;
 				GanoEl_1 = false;
 				HabilitarFatality = true;
+				// % Por ahora dejar que la haga siempre
+				if (this->fatality2 != NULL) HabilitarFatality = this->fatality2->execute();
 				tiempoDeGracia= true;
 				tiempoDeGraciaActual = SDL_GetTicks();
 				
@@ -758,6 +766,9 @@ void crear_personajes(){
     this->timer->reset(SDL_GetTicks());
     
     setearNombres();
+    
+    if (this->pathPersonaje1 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2);
+    if (this->pathPersonaje2 == "/resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego2, this->personajeJuego1);
 
 }
 
@@ -853,6 +864,9 @@ void crear_personajes_practica(){
 		delete this->grilla;
         SDL_DestroyRenderer(renderer);
         logger->log_debug("Borramos todos los objetos");
+        if (this->fatality1 != NULL) delete this->fatality1;
+        if (this->fatality2 != NULL) delete this->fatality2;
+        this->fatality1 = this->fatality2 = NULL;
     };
 
     void terminar_sdl(){
