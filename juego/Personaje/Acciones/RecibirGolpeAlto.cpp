@@ -13,7 +13,13 @@ RecibirGolpeAlto::RecibirGolpeAlto(string ruta, SDL_Renderer* ren, float despl_x
 	rectangulos->push_back(new Rectangulo(0, 20, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+	iniciarSonido();
 }
+
+void RecibirGolpeAlto::iniciarSonido(){
+	sonido = Mix_LoadWAV("resources/music/punch.wav");
+}
+
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void RecibirGolpeAlto::cambiarModo(){
 	if(esUltimoModo()){}

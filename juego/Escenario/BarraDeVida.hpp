@@ -14,7 +14,6 @@ public:
     // 0 - 1000
     int vidaNumerica, staminaNumerica;
 private:
-	bool ganoRound;
 
     void ActualizarAnchos();
     void ActualizarAnchoDeVida(int anchoDeVidaEsperado);
@@ -31,7 +30,6 @@ private:
 
     Mix_Chunk *pinia_sonido;
 
-    int x_ini, x_fin, y_ini, y_fin;
     int anchoRectanguloInterior;
     int anchoRectanguloStaminaInterior;
     int crecimientoDeBarra;
@@ -46,11 +44,14 @@ private:
     string nombre;
     
     LTexture* medallaVictoria;
-    SDL_Rect medallaRect;
 
 	void destruirTexturasNombre();
 
 public:
+	bool ganoRound;
+	int x_ini, x_fin, y_ini, y_fin;
+	SDL_Rect medallaRect;
+
     BarraDeVida(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);
     ~BarraDeVida();
     void Inicializar(int x_inicial, int x_final, int altoPantalla, SDL_Renderer *rendererParam, bool izquierdaParam);

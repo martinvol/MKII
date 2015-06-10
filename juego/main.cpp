@@ -23,6 +23,8 @@
 // Música
 #include <SDL2/SDL_mixer.h>
 
+// Joystick ESCAPE: parser->"arrojar_arma"
+// Joystick RESET: parser->"arrojar_arma_alta"
 
 using namespace std;
 
@@ -124,6 +126,8 @@ public:
     modo modo_a_cambiar = MENU;
     bool cambiarModo = false;
     float timerFps;
+    
+    SDL_Texture* round = NULL;
 
     int argc;
     char** argv;
@@ -335,7 +339,7 @@ void game_loop(){
         SDL_RenderClear(renderer);
         SDL_DestroyTexture(splash);
 
-		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx, (parser->joysticks->at(0))->at("arrojar_arma"));
 		
         menu = new Menu (renderer, ventana);
         SDL_RenderClear(renderer);
@@ -644,7 +648,7 @@ void ControladorBasico(SDL_Event* evento){
 	switch(evento->type){			
 		case SDL_QUIT:
             if (modo_actual == MENU && !salir_pelea){
-                puts("salir en true 1");
+                puts("salir en true 1"); ///
                 salir = true;
             } else {
                 salir_pelea = true;
@@ -652,23 +656,39 @@ void ControladorBasico(SDL_Event* evento){
 			break;
 		case SDL_KEYDOWN:
 			if (evento->key.keysym.sym == SDLK_p)  {
-				if (modo_actual==Pelea || modo_actual == CPU || modo_actual ==Practica )
+				if (modo_actual==Pelea || modo_actual == CPU || modo_actual == Practica)
 					pausa = !pausa;
 				true;
 			}
 			if (evento->key.keysym.sym == SDLK_ESCAPE){
 				if (modo_actual == MENU && !salir_pelea){
-                    puts("salir en true 2");
+                    puts("salir en true 2"); ///
                     salir = true;
                 }else {
                     salir_pelea = true;
                 }
+			}
+			if (evento->key.keysym.sym == SDLK_r){
+				reiniciarJuego();
 			}
 		case SDL_KEYUP:
 			if(evento->key.keysym.sym == SDLK_p)  {                   
 				if (this->timer != NULL)
 					this->timer->pausarTimer(SDL_GetTicks());
             }
+        case SDL_JOYBUTTONDOWN:
+			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
+				if (modo_actual == MENU && !salir_pelea){
+					puts("salir en true 3: joystick"); ///
+					salir = true;
+				}else {
+					salir_pelea = true;
+				}
+			}
+			if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma_alta"))){
+				reiniciarJuego();
+			}
+			break;
         default:
 			;
 	}
@@ -833,9 +853,21 @@ void crear_personajes_practica(){
         logger->log_debug("Vuelve a empezar el juego, cambiando las configuraciones");
         terminar_juego();        
 		
-		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx);
 		
         cargar_configuracion();
+        
+        
+		this->grilla = new Grilla(renderer, parser->ventana_anchopx, parser->ventana_altopx, (parser->joysticks->at(0))->at("arrojar_arma"));
+        
+        if (modo_actual == MENU){
+			game_loop();
+			return;
+		}
+		//else
+        
+        menu = new Menu (renderer, ventana);
+        controlador = new ControladorMenu(menu);
+        
         comenzar_escenario_de_pelea();
         
         if ((modo_actual == Pelea)
@@ -871,6 +903,7 @@ void crear_personajes_practica(){
         if (this->fatality1 != NULL) delete this->fatality1;
         if (this->fatality2 != NULL) delete this->fatality2;
         this->fatality1 = this->fatality2 = NULL;
+        if (round != NULL) SDL_DestroyTexture(round);
     };
 
     void terminar_sdl(){
@@ -905,6 +938,28 @@ void DibujarTodo(){
 				this->personajeJuego2->Dibujarse();
             }
         }
+        
+        if (modo_actual == Pelea || modo_actual == CPU){
+			//Imprimir ROUND
+			TTF_Font* fuente = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 35);
+			SDL_Color color =  {245, 208, 51, 10};
+			
+			CoordenadaLogica* coord = new CoordenadaLogica(0, parser->escenario_ypiso);
+			CoordenadaFisica* y_piso_px = this->conversor->aFisica(coord);
+			int y = (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h) + (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/4;
+			int h = (y_piso_px->y_fisico - (this->barraDeVida1->medallaRect.y + this->barraDeVida1->medallaRect.h))/2;
+			SDL_Rect destino = {parser->ventana_anchopx/4, y, parser->ventana_anchopx/2, h};
+			delete coord;
+			delete y_piso_px;
+			
+			SDL_Surface* superficie = TTF_RenderText_Solid(fuente, director->obtenerRound().c_str(), color);
+			if (round != NULL) SDL_DestroyTexture(round);
+			round = SDL_CreateTextureFromSurface(renderer, superficie);	
+			SDL_FreeSurface(superficie);
+			SDL_RenderCopy(renderer, round, NULL, &destino);
+			
+		}
+        
 		// Si no hay capaz o el z_index del personaje supera al indice de la ultima capa, lo debo imprimir ahora:
         if (escenario->capas.size()==0 || parser->personaje_zindex >= (escenario->capas.size())){
 			this->personajeJuego1->Dibujarse();
@@ -959,6 +1014,19 @@ void Controlador(SDL_Event *evento){
                 } else {
                     salir_pelea = true;
                 }
+				break;
+			case SDL_JOYBUTTONDOWN:
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma"))){
+					if (modo_actual == MENU && !salir_pelea){
+						puts("salir en true 3: joystick"); ///
+						salir = true;
+					}else {
+						salir_pelea = true;
+					}
+				}
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == (parser->joysticks->at(0))->at("arrojar_arma_alta"))){
+					reiniciarJuego();
+				}
 				break;
 			case SDL_KEYDOWN:
 				//-----------------------------------------

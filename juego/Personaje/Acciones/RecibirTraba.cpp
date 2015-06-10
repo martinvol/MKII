@@ -13,6 +13,7 @@ RecibirTraba::RecibirTraba(string ruta, SDL_Renderer* ren, float despl_x, float 
 	rectangulos->push_back(new Rectangulo(0, 50, 14, 22, false, false)); // Cabeza
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 100, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 20, 50, 70, false, false)); // piernas
+	iniciarSonido();
 }
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void RecibirTraba::cambiarModo(){
@@ -20,6 +21,10 @@ void RecibirTraba::cambiarModo(){
 	else{
 		Accion::cambiarModo();
 	}
+}
+
+void RecibirTraba::iniciarSonido(){
+	sonido = Mix_LoadWAV("resources/music/punch.wav");
 }
 
 CoordenadaLogica* RecibirTraba::execute(CoordenadaLogica* coord_personaje){

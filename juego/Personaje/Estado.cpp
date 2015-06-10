@@ -55,7 +55,6 @@ Estado::Estado(string ruta, SDL_Renderer* ren, float alto_personaje, float alto_
 	this->piniaBaja->setDanio(50);
 	this->patadaDiag->setDanio(50);
 	this->piniaAlta->setDanio(70);
-	this->piniaAlta->setDanio(10000); ///	
 	this->patadaBaja->setDanio(60);
 	this->patadaVert->setDanio(60);
 	this->patadaAlta->setDanio(80);

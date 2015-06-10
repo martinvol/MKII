@@ -50,13 +50,15 @@ class ControladorGrilla{
 	public:
 		bool arriba, abajo, enter, en_boton;
 		Grilla* menu;
+		int joystickEsc;
 
-ControladorGrilla(Grilla* menu){
+ControladorGrilla(Grilla* menu, int joystickEsc){
 	abajo = false;
 	arriba = false;
 	enter = false;
 	this->menu = menu;
 	en_boton = false;
+	this->joystickEsc = joystickEsc;
 }
 
 bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTextBox* cont2){
@@ -68,7 +70,6 @@ bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTex
 		if (cont2 != NULL) cont2->procesarEvento(evento);
 		switch (evento->type){
 			case SDL_JOYAXISMOTION:
-
 			    /* If Up-Down movement */
 				if( evento->jaxis.axis == 1){
 					int y_Joystick = evento->jaxis.value;
@@ -115,6 +116,9 @@ bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTex
 			case SDL_JOYBUTTONDOWN:
 				if (evento->jbutton.button == 0){
 					enter = true;
+				}
+				if ((evento->jdevice.which == 0) && (evento->jbutton.button == joystickEsc)){
+					return true;
 				}
 				break;
 			case SDL_MOUSEMOTION:
@@ -164,7 +168,7 @@ int Grilla::obtenerUbicacion(int x, int y) {
 	return x + CANT_ANCHO*y;	
 }
 
-Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
+Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana, int joystickEsc) {
 	this->ren = renderer;
 	
 	this->paths.push_back(PATH1);
@@ -227,6 +231,7 @@ Grilla::Grilla(SDL_Renderer* renderer, int anchoVentana, int altoVentana) {
 	int y2 = h;
 	this->textbox2 = new TextBox(x2, y2, ancho_textbox, alto_textbox, PATH_FONT_TEXTBOX, ren);
 	
+	this->joystickEsc = joystickEsc;
 }
 
 void Grilla::Dibujarse(){ 
@@ -374,7 +379,7 @@ bool Grilla::open(Uint32 idVentana) {
 	this->idVentana = idVentana;
 	SDL_Event evento;
 	this->Dibujarse();
-	ControladorGrilla* controlador = new ControladorGrilla(this);
+	ControladorGrilla* controlador = new ControladorGrilla(this, joystickEsc);
 	ControladorTextBox* cont_textbox1 = new ControladorTextBox(textbox1, idVentana);
 	ControladorTextBox* cont_textbox2 = new ControladorTextBox(textbox2, idVentana);
 	while (!(this->eligio[0] && this->eligio[1])) {

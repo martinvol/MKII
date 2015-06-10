@@ -14,7 +14,13 @@ Gancho::Gancho(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, flo
 	rectangulos->push_back(new Rectangulo(0, 70, 20, 30, true, false)); // piña
 	rectangulos->push_back(new Rectangulo(20, 0, 30, 80, false, false)); // torso
 	rectangulos->push_back(new Rectangulo(49, 10, 50, 70, false, false)); // piernas
+	iniciarSonido();
 };
+
+void Gancho::iniciarSonido(){
+	sonido = Mix_LoadWAV("resources/music/gancho.wav");
+}
+
 ///ESTO HACE QUE SOLO LO HAGA UNA VEZ NO IMPORTA QUE TANTO APRIETEN EL BOTON!
 void Gancho::cambiarModoInversamente(){
 	if (this->modoActual==0){

@@ -9,6 +9,7 @@
 #include "Estado.hpp"
 #include "../Personaje/Acciones/Accion.hpp"
 #include "../Personaje/Acciones/Arrojable.hpp"
+#include "Acciones/Latigo.hpp"
 #include "../Coordenadas/CoordenadaLogica.hpp"
 #include "../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "../Parser/Parser.hpp"
@@ -35,6 +36,8 @@ class Personaje {
 		float ancho;
 		float alto;
 		
+		Latigo* latigo;
+
 		/* Para escalar imagen */
 		int _h, _w;
 		int ancho_fisico, alto_fisico;
@@ -95,6 +98,8 @@ class Personaje {
 		/* Sólo espejan o no espejan. */
 		void mirarParaDerecha();
 		void mirarParaIzquierda();
+		
+		void tirarLatigo();
 		
 		/* Sólo te dicen a que acción te están pidiendo que cambies.
 		 * Sólo lo debés hacer si es válido interrumpir tu acción

@@ -5,16 +5,22 @@
 ************************************************************/
 BotonMenu::BotonMenu(modo mode, int ancho_fisico, int alto_fisico, int x, int y, SDL_Renderer* renderer){
 	this->renderer = renderer;
+	//~ fondo = IMG_LoadTexture(renderer, "resources/menu/fondo_boton.png");
+	fuente = TTF_OpenFont("resources/miscelaneo/Mk3.ttf", 35);
+	color = {245, 208, 51, 10};
+	SDL_Surface* superficie;
 	if (mode == Pelea){
-		boton = IMG_LoadTexture(renderer, "resources/menu/Pelea.png");
+		superficie = TTF_RenderText_Solid(fuente, "2 jugadores", color);
 	} else
 	if (mode == Practica){
-		boton = IMG_LoadTexture(renderer, "resources/menu/Practica.png");
+		superficie = TTF_RenderText_Solid(fuente, "Practica", color);
 	} else
 	//if (mode == CPU)
 	{
-		boton = IMG_LoadTexture(renderer, "resources/menu/CPU.png");
+		superficie = TTF_RenderText_Solid(fuente, "Jugador vs CPU", color);
 	}
+	texto = SDL_CreateTextureFromSurface(renderer, superficie);	
+	SDL_FreeSurface(superficie);	
 	
 	this->destino.x = x;
 	this->destino.y = y;
@@ -23,11 +29,13 @@ BotonMenu::BotonMenu(modo mode, int ancho_fisico, int alto_fisico, int x, int y,
 }
 
 BotonMenu::~BotonMenu(){
-	SDL_DestroyTexture(boton);
+	//~ SDL_DestroyTexture(fondo);
+	SDL_DestroyTexture(texto);
 }
 
 void BotonMenu::Dibujarse(SDL_Texture* seleccion){
-	SDL_RenderCopy(renderer, boton, NULL, &destino);
+	//~ SDL_RenderCopy(renderer, fondo, NULL, &destino);
+	SDL_RenderCopy(renderer, texto, NULL, &destino);
 	if (seleccion != NULL){
 		SDL_RenderCopy(renderer, seleccion, NULL, &destino);
 	}

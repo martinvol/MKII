@@ -9,6 +9,7 @@ class RecibirGolpeAgachado: public Accion{
 		CoordenadaLogica* execute(CoordenadaLogica* coord_personaje);	
 		bool permiteAccion(accion_posible nuevaAccion);
 		void cambiarModo();
+		void iniciarSonido();
 };
 
 
