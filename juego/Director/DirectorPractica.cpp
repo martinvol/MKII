@@ -448,10 +448,12 @@ void DirectorPractica::verificar_movimientos(){
 					string result;ostringstream convert;convert << danio;result = convert.str(); 
 					Logger::instance()->log_debug(string("Personaje recibe daño: ") +  result);
 					/// jugadores[(i+1)%2]->barra->Lastimar(danio);
+					CoordenadaLogica* punta = jugadores[i]->obtenerPersonaje()->latigo->obtenerPunta(this->conversor);
 					CoordenadaLogica* mover =  jugadores[(i+1)%2]->obtenerSiguienteCoordenadaIzqInf();
-					mover->x -=10;
+					mover->x = punta->x;
 					jugadores[(i+1)%2]->moverseAIzqInf(mover);
 					delete mover;
+					delete punta;
 				}
 			}
 		}

@@ -8,6 +8,7 @@
 #include <string>
 #include <SDL2/SDL_image.h>
 #include "../../Coordenadas/CoordenadaLogica.hpp"
+#include "../../Coordenadas/CoordenadaFisica.hpp"
 #include "../../Coordenadas/ConversorDeCoordenadas.hpp"
 #include "Rectangulo.hpp"
 
@@ -25,6 +26,7 @@ class Latigo{
 		
 		void tirar(CoordenadaLogica *coord, float velocidad_arma, float alto_personaje, float ancho_personaje);
 		void dibujar(ConversorDeCoordenadas* conv);
+		CoordenadaLogica* obtenerPunta(ConversorDeCoordenadas *conv);
 		/*void tirar(float velocidad_arma);
 		
 

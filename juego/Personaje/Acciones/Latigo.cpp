@@ -89,3 +89,26 @@ void Latigo::dibujar(ConversorDeCoordenadas *conv){
 	}
 
 }
+
+CoordenadaLogica* Latigo::obtenerPunta(ConversorDeCoordenadas *conv){
+	int x;
+	CoordenadaFisica* coord1_fis = conv->aFisica(this->coord);
+
+	if (this->espejado){
+		// mirar derecha
+		// destino.x += ancho_original;
+		x = coord1_fis->x_fisico +ancho_original + nuevo_ancho;
+	} else {
+		// mirar izquierda
+		/*destino.x -= ancho_original;
+		destino.x -= destino.w;*/
+		x = ancho_original - ancho_original - nuevo_ancho;
+	}
+	CoordenadaFisica* temp = new CoordenadaFisica(x ,0);
+
+	CoordenadaLogica* out = conv->aLogica(temp);
+	
+	delete temp;
+	delete coord1_fis;
+	return out;
+}
