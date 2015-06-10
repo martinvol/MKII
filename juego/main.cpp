@@ -592,7 +592,8 @@ void pelear(SDL_Event* evento){
 				personajeJuego1->activarAccion(MORIR);
 			}
 		}else{ //Si se puede hacer fatality----> dizzy + libre
-			if (this->fatality1 != NULL) HaciendoFatality = this->fatality1->execute();
+			if (this->fatality1 != NULL && this->personajeJuego1->ejecutar_fatality) HaciendoFatality = this->fatality1->execute();
+			if (this->fatality2 != NULL && this->personajeJuego2->ejecutar_fatality) HaciendoFatality = this->fatality2->execute();
 			if (!HaciendoFatality){
 				if (GanoEl_1)
 					personajeJuego1->activarAccion(DIZZY);
@@ -787,6 +788,9 @@ void crear_personajes(){
     
     cout << this->pathPersonaje1 << endl; ///
     
+    this->personajeJuego1->otro_personaje = this->personajeJuego2;
+	this->personajeJuego2->otro_personaje = this->personajeJuego1;
+    
     if (this->pathPersonaje1 == "resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
     if (this->pathPersonaje2 == "resources/jugador/SubZero/") this->fatality2 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
 
@@ -840,6 +844,9 @@ void crear_personajes_practica(){
 	
 	this->personajeJuego1->otro_personaje = this->personajeJuego2;
 	this->personajeJuego2->otro_personaje = this->personajeJuego1;
+	
+	if (this->pathPersonaje1 == "resources/jugador/SubZero/") this->fatality1 = new Fatality(this->personajeJuego1, this->personajeJuego2, this->pathPersonaje1);
+    if (this->pathPersonaje2 == "resources/jugador/SubZero/") this->fatality2 = new Fatality(this->personajeJuego2, this->personajeJuego1, this->pathPersonaje2);
 	
 	cout << "Nombre1: " << nombrePersonaje1 << endl; ///
 	cout << "Nombre2: " << nombrePersonaje2 << endl; ///
