@@ -206,7 +206,8 @@ void Personaje::activarAccion(accion_posible accion){
 				break;			
 				case GANAR:
 				case MORIR:
-				case DIZZY:				
+				case DIZZY:
+				case DESAPARECER:				
 					break;
 				case PARARSE:				
 					if(this->accionActual->modoActual == 0){
@@ -226,9 +227,6 @@ void Personaje::activarAccion(accion_posible accion){
 		}
 
 		this->imagenActual = this->accionActual->getImagenActual(mirarDerecha);	
-		
-		//~ calcularAnchoYAltoImagen();
-		//~ calcularDatosDibujables();
 	} else {
 		if (SDL_GetTicks() - tiempoCongelado > 3000){
 			estoyCongelado = false;
@@ -505,6 +503,9 @@ void Personaje::cambiarAccionA(accion_posible nroAccion){
 			break;
 		case DIZZY:
 			this->accionActual = this->estado->dizzy;
+			break;
+		case DESAPARECER:
+			this->accionActual = this->estado->desaparecer;
 			break;
 		default: // case SALTARDIAGONAL_IZQ:
 			this->accionActual = this->estado->saltardiagonal;
