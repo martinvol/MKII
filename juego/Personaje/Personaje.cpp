@@ -75,6 +75,14 @@ Personaje::~Personaje(){
 	Mix_FreeChunk(this->sonido_congelamiento);
 }
 
+
+void Personaje::Resetear(){
+	
+	this->nroAccionActual = QUIETO;
+	this->accionActual = this->estado->	quieto;
+}
+
+//~ void Personaje::Arrojar(){
 void Personaje::congelarse(){
 	estoyCongelado  = true;
 	tiempoCongelado = SDL_GetTicks();
@@ -173,58 +181,59 @@ void Personaje::activarAccion(accion_posible accion){
 						delete siguiente;
 						siguiente = coord;
 					}
-					break;			
+					break;						
 				
-				case GANCHO:
-				case PATADAALTAAGACHADO:
-				case PATADABAJAAGACHADO:	
-				case PINIAAGACHADO:			
-					if (this->accionActual->ciclos == 1){		
-						cambiarAccionA(AGACHARSE);	
-						this->accionActual->setModoActual(this->accionActual->cantModos-1);
-					}				
-					break;
-				case CAERPORTRABA:
-					if (this->accionActual->ciclos == 1){
-						cambiarAccionA(LEVANTARSEDELATRABA);
-					}
+			
+			case GANCHO:
+			case PATADAALTAAGACHADO:
+			case PATADABAJAAGACHADO:	
+			case PINIAAGACHADO:			
+				if (this->accionActual->ciclos == 1){		
+					cambiarAccionA(AGACHARSE);	
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);
+				}				
 				break;
-				case RECIBIRGOLPEALTO: ///		
-				case RECIBIRGOLPEBAJO:
-				case RECIBIRGOLPEAGACHADO:
-				case PATADAALTA:
-				case PATADABAJA:
-				case ARROJARARMA:
-				case PINIABAJA:
-				//~ case PINIAAGACHADO:
-				case PINIAALTA:			
-				case TRABA:
-				case ROUNDKICK:
-				case LEVANTARSEDELGANCHO:
-				case LEVANTARSEDELATRABA:				
-					if (this->accionActual->ciclos == 1){
-						cambiarAccionA(QUIETO);
-					}
-				break;			
-				case GANAR:
-				case MORIR:
-				case DIZZY:
-				case DESAPARECER:				
-					break;
-				case PARARSE:				
-					if(this->accionActual->modoActual == 0){
-						cambiarAccionA(QUIETO);	
-					}
+			case CAERPORTRABA:
+				if (this->accionActual->ciclos == 1){
+					cambiarAccionA(LEVANTARSEDELATRABA);
+				}
+			break;
+			case RECIBIRGOLPEALTO: ///		
+			case RECIBIRGOLPEBAJO:
+			case RECIBIRGOLPEAGACHADO:
+			case PATADAALTA:
+			case PATADABAJA:
+			case ARROJARARMA:
+			case PINIABAJA:
+			//~ case PINIAAGACHADO:
+			case PINIAALTA:			
+			case TRABA:
+			case ROUNDKICK:
+			case LEVANTARSEDELGANCHO:
+			case LEVANTARSEDELATRABA:				
+				if (this->accionActual->ciclos == 1){
+					cambiarAccionA(QUIETO);
+				}
+			break;		
+			case GANAR:
+			case MORIR:
+			case DIZZY:
+			case DESAPARECER:				
 				break;
-				case AGACHARSE:	
-					if(accion == PINIAAGACHADO){
-						cambiarAccionA(PINIAAGACHADO);
-					}
-																
-				case CUBRIRBAJO:
-					break;	
-				default:
-					break;
+			case PARARSE:				
+				if(this->accionActual->modoActual == 0){
+					cambiarAccionA(QUIETO);	
+				}
+			break;
+			case AGACHARSE:	
+				if(accion == PINIAAGACHADO){
+					cambiarAccionA(PINIAAGACHADO);
+				}
+															
+			case CUBRIRBAJO:
+				break;	
+			default:
+				break;
 			}
 		}
 
@@ -606,6 +615,12 @@ void Personaje::Dibujarse(){
 				// acá se activan las tomas
 				puts("tiro congelando");
 				this->Arrojar(true);
+			}
+		}
+		if (tomas->at(3)){
+			if (panel->checkToma(tomas->at(3)->convinacion, tomas->at(3)->nombre)){
+				this->activarAccion(TRABA);
+				this->PatadaBaja = false;
 			}
 		}
 	}

@@ -17,10 +17,15 @@ Morir::Morir(string ruta, SDL_Renderer* ren, float despl_x, float despl_y, float
 };
 
 CoordenadaLogica* Morir::execute(CoordenadaLogica* coord_personaje){
-	Accion::cambiarModo();
-	return new CoordenadaLogica(coord_personaje);
+	if (Accion::esUltimoModo()){
+		return new CoordenadaLogica(coord_personaje);		
+	}
+	else{
+		Accion::cambiarModo();		
+		return new CoordenadaLogica(coord_personaje);
+	}	
 };
 
 bool Morir::permiteAccion(accion_posible nuevaAccion){
-	return true;
+	return false;
 }

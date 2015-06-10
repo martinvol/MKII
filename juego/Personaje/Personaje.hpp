@@ -75,10 +75,13 @@ class Personaje {
 		BarraDeVida* barraDeVida;
 		Personaje(CoordenadaLogica* coordenada,BarraDeVida* barra, string nombre,SDL_Renderer* ren, float alto, float ancho, Estado* estado, Parser* conf);
 		~Personaje();
+		//~ void Arrojar();	
+
 		void Arrojar(bool congelar);
+		void Resetear();
 		bool estoyCongelado = false;
 		Uint32 tiempoCongelado;
-
+		
 		// Funciones internas
 		void cambiarAccionA(accion_posible nroAccion);
 

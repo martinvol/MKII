@@ -86,7 +86,18 @@ SDL_Texture* loadTexture(const string &file, SDL_Renderer *ren){
 
 class Juego{
 public:
+	float tiempoDeGraciaActual;
+	//Para ver acciones Morir y Ganar entre rounds
+	bool GanoEl_1 = false;
+
+	//Solo en el fin del segundo round y con las condiciones dadas.
+	bool HabilitarFatality = false;
 	
+	//Para que no corte en medio de la animacion.
+	bool HaciendoFatality = false;
+	
+	bool tiempoDeGracia = false;
+	bool pasoEltiempoDeGracia = false;
 	float tiempoTotal; // EN SEGUNDOS.
 	float tiempoUnidad;
 	float tiempoActual;
@@ -424,36 +435,71 @@ void pelear(SDL_Event* evento){
             SDL_Delay((1.*1000./CONST_MAXI_DELAY)-timerFps);
         }
 
-		if (director->seMurio(0)){
+	
+	if(!tiempoDeGracia){
+		if (director->seMurio(0)){			
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje2_nombre + string("!!!"));
             director->GanoRound(1); 
+            //tiempo para accion Ganar
+            // + inicio el contador
+            if (!tiempoDeGracia && !pasoEltiempoDeGracia && !Personaje_1_GanoRound){
+					GanoEl_1 = false;					
+					personajeJuego2->activarAccion(GANAR);
+					personajeJuego1->activarAccion(MORIR);					
+					tiempoDeGracia= true;	
+					tiempoDeGraciaActual = SDL_GetTicks();				
+					continue;
+			}
             modo_actual = Pelea;
             
             //Si ya tenia ganado un round, ahora gano el segundo
             if (Personaje_1_GanoRound){
 				Personaje_1_Gano_2_Round = true;
+				GanoEl_1 = true;
+				HabilitarFatality = true;
+				tiempoDeGracia= true;
+				tiempoDeGraciaActual = SDL_GetTicks();				
 				logger->log_debug(string("Ganó la PARTIDA el jugador: ") + parser->personaje2_nombre + string("!!!"));
-				salir_pelea = true;
+				//~ salir_pelea = true;
 			}else{
 				Personaje_1_GanoRound = true;	
-			}			
-			ArmarRound();
+			}
+			
+			if (!HabilitarFatality)			
+				ArmarRound();
             
             
-        } if (director->seMurio(1)){
+        } if (director->seMurio(1)){			
             logger->log_debug(string("Ganó el jugador: ") + parser->personaje1_nombre + string("!!!"));
             director->GanoRound(0);
+            //tiempo para accion Ganar
+            // + inicio el contador
+            if (!tiempoDeGracia && !pasoEltiempoDeGracia && !Personaje_2_GanoRound){
+					GanoEl_1 = true;					
+					personajeJuego1->activarAccion(GANAR);
+					personajeJuego2->activarAccion(MORIR);					
+					
+					tiempoDeGracia= true;
+					tiempoDeGraciaActual = SDL_GetTicks();
+					continue;
+			}
             modo_actual = Pelea;     
             
             //Si ya tenia ganado un round, ahora gano el segundo
             if (Personaje_2_GanoRound){
 				Personaje_2_Gano_2_Round = true;
+				GanoEl_1 = false;
+				HabilitarFatality = true;
+				tiempoDeGracia= true;
+				tiempoDeGraciaActual = SDL_GetTicks();
+				
 				logger->log_debug(string("Ganó LA PARTIDA el jugador: ") + parser->personaje1_nombre + string("!!!"));
-				salir_pelea = true;
+				//~ salir_pelea = true;
 			}else{
 				Personaje_2_GanoRound = true;	
-			}            
-			ArmarRound();   
+			}  
+			if (!HabilitarFatality)          
+				ArmarRound();   
         }
         
         //Si no se murio ninguno, pero se acabo el tiempo, gana el que pego mas.
@@ -513,11 +559,46 @@ void pelear(SDL_Event* evento){
 			timer->reset(tiempoActual);
 			ArmarRound();   						
 		}
+	//--------------------------------------
+	//----------TIEMPO DE GRACIA------------
+	//--------------------------------------
+	}else{// si Estoy en tiempo de gracia.
+		float tiempoDeGraciaAuxiliar = SDL_GetTicks();
+		//si pasan 3 segundos, corto.
+		if (tiempoDeGraciaAuxiliar > (tiempoDeGraciaActual +3000) && (HaciendoFatality==false)){
+			tiempoDeGracia = false;
+			pasoEltiempoDeGracia = true;
+			
+			//Si pasa el tiempo y paso el ultimo round. salgo de la pelea
+			if (HabilitarFatality){
+				salir_pelea = true;
+			}
+		}
+		if (!HabilitarFatality){			
+			//Si no se puede hacer fatality---> GANAR + MORIR
+			if (GanoEl_1){				
+				personajeJuego1->activarAccion(GANAR);
+				personajeJuego2->activarAccion(MORIR);
+			}else{				
+				personajeJuego2->activarAccion(GANAR);
+				personajeJuego1->activarAccion(MORIR);
+			}
+		}else{ //Si se puede hacer fatality----> dizzy + libre
+			if (!HaciendoFatality){
+				if (GanoEl_1)
+					personajeJuego1->activarAccion(DIZZY);
+				else
+					personajeJuego2->activarAccion(DIZZY);			
+			}
+		}
+	}
         
-    }    
+    }//loop    
         
     Personaje_1_GanoRound = Personaje_2_GanoRound = false;
 	Personaje_1_Gano_2_Round = Personaje_2_Gano_2_Round = false;
+	pasoEltiempoDeGracia = false;
+	HabilitarFatality = false;	
 }
 
 //--------------------------------------------
@@ -528,6 +609,7 @@ void ArmarRound(){
 	this->personajeJuego1->y_inicial = parser->escenario_ypiso;
 	this->personajeJuego1->coordenada = new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso);
 	this->personajeJuego1->siguiente = new CoordenadaLogica(x_logico_personaje, parser->escenario_ypiso);
+	personajeJuego1->Resetear();			
 	
 	//Reinicio posicion PJ2
 	delete this->personajeJuego2->coordenada;
@@ -535,6 +617,7 @@ void ArmarRound(){
 	this->personajeJuego2->y_inicial = parser->escenario_ypiso;
 	this->personajeJuego2->coordenada = new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso);
 	this->personajeJuego2->siguiente = new CoordenadaLogica(x_logico_personaje2, parser->escenario_ypiso);
+	personajeJuego2->Resetear();			
 	
 	//Reestablezco vidas
 	this->barraDeVida1->Resetear();
@@ -543,6 +626,9 @@ void ArmarRound(){
 	//Reinicio timer
 	tiempoActual = SDL_GetTicks();
 	timer->reset(tiempoActual);
+	
+	//reinicio tiempo de Dizzy/Gracia
+	pasoEltiempoDeGracia = false;
 	
 }
 //-------------------------------------------    
@@ -1039,10 +1125,10 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(AGACHARSE);			
 		}
 		//+PATADA BAJA+MIRA DERECHA = TRABA
-		else if (personaje->PatadaBaja && !personaje->mirarDerecha){			
+/*		else if (personaje->PatadaBaja && !personaje->mirarDerecha){			
 			personaje->activarAccion(TRABA);
 			personaje->PatadaBaja = false;			
-		}
+		}*/
 		else if (personaje->PatadaAlta && !personaje->mirarDerecha){
 			personaje->activarAccion(ROUNDKICK);
 		//CAMINAR DERECHA
@@ -1065,11 +1151,11 @@ void ActualizarModelo(Personaje* personaje){
 			}else{				
 				personaje->activarAccion(SALTARDIAGONAL_IZQ);					
 			}
-		}		
+		/*}		
 		//+PATADA BAJA+MIRA DERECHA = TRABA
 		else if (personaje->PatadaBaja && personaje->mirarDerecha){
 			personaje->activarAccion(TRABA);
-			personaje->PatadaBaja = false;			
+			personaje->PatadaBaja = false;			*/
 		}else if (personaje->PatadaAlta && personaje->mirarDerecha){
 			personaje->activarAccion(ROUNDKICK);
 			personaje->PatadaAlta = false;			
@@ -1117,7 +1203,7 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(PINIAAGACHADO);
 			personaje->PiniaBaja = false;
 		}else{			
-			personaje->activarAccion(AGACHARSE);			
+			personaje->activarAccion(AGACHARSE);						
 		}
 		
 	}
@@ -1156,7 +1242,7 @@ void ActualizarModelo(Personaje* personaje){
 	//PATADA ALTA
 	}else if (personaje->PatadaAlta){		
 	personaje->activarAccion(PATADAALTA);
-	personaje->PatadaAlta = false;			
+	personaje->PatadaAlta = false;	
 	///MAXI QUE ES ESTO?
 	/// MAGIA.	
 	}	
