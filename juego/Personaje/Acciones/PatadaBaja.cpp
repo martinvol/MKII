@@ -48,5 +48,8 @@ CoordenadaLogica* PatadaBaja::execute(CoordenadaLogica* coord_personaje){
 };
 
 bool PatadaBaja::permiteAccion(accion_posible nuevaAccion){
+	if (nuevaAccion == TRABA){
+		return true;
+	}
 	return false;
 }		
