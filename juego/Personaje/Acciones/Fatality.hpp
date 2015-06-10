@@ -18,6 +18,8 @@ class Fatality {
 		bool execute();
 		Fatality(Personaje* victimario, Personaje* victima, string path);
 		~Fatality();
+		int anchoVictima, altoVictima;
+		int x, y;
 };
 
 #endif
