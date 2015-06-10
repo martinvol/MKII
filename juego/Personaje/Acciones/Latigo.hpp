@@ -34,15 +34,15 @@ class Latigo{
 
 		Rectangulo * rectangulo;
 		bool pego=false;
+		CoordenadaLogica *coord=NULL;
+		bool volver = false;
+		bool espejado;
 	private:
 		SDL_Texture* imagen;
 		SDL_Renderer* ren;
 		int alto, ancho, alto_original, ancho_original;
 		int nuevo_ancho;
-		bool volver = false;
-		CoordenadaLogica *coord=NULL;
 		float vel_horizontal;
-		bool espejado;
 };
 
 

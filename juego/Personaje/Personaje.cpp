@@ -75,6 +75,7 @@ Personaje::~Personaje(){
 	delete this->coordenada;
 	delete this->estado;	// Esto elimina la acción y sus imágenes.
 	delete this->siguiente;
+	delete this->latigo;
 	Mix_FreeChunk(this->sonido_congelamiento);
 }
 
@@ -166,10 +167,12 @@ void Personaje::tirarLatigo(){
 
 void Personaje::mirarParaDerecha(){
 	mirarDerecha = true;
+	this->latigo->espejado = true;
 }
 
 void Personaje::mirarParaIzquierda(){
 	mirarDerecha = false;
+	this->latigo->espejado = false;
 }
 
 void Personaje::activarAccion(accion_posible accion){

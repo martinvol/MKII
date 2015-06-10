@@ -43,26 +43,28 @@ void Latigo::dibujar(ConversorDeCoordenadas *conv){
 		destino.w = this->ancho;
 		destino.h = this->alto;*/
 
+		//destino.w = 100;
+		destino.h = 100;
+
 		destino.w = nuevo_ancho;
-		destino.h = alto;
+		//destino.h = alto;
 
 		SDL_Point point = {destino.w/2, destino.h};
 
 		int rotar = 0;
 		int multiplicar = 1;
-
-		if (this->espejado){
-			multiplicar = -1;
-		}
 		
 		if (this->espejado){
 			// mirar derecha
-			destino.x -= 2*ancho;
-			SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
-			this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
-		} else {
+			puts("mirar derecha");
 			destino.x += ancho_original;
-			this->rectangulo->generar_rectanguloSDL(destino.x + this->vel_horizontal, destino.y, destino.w + abs(this->vel_horizontal), destino.h, this->ren, false);
+			this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w + this->vel_horizontal, destino.h, this->ren, false);
+			SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_HORIZONTAL);
+		} else {
+			puts("mirar izquierda");
+			destino.x -= ancho_original;
+			destino.x -= destino.w;
+			this->rectangulo->generar_rectanguloSDL(destino.x, destino.y, destino.w + this->vel_horizontal, destino.h, this->ren, false);
 			SDL_RenderCopyEx(this->ren, this->imagen, NULL, &destino,rotar,&point,SDL_FLIP_NONE);
 		}
 		
@@ -70,15 +72,16 @@ void Latigo::dibujar(ConversorDeCoordenadas *conv){
 	    delete coord1_fis;
 
 	    if (!volver){
-	    	this->nuevo_ancho += this->vel_horizontal*3;
+	    	this->nuevo_ancho += this->vel_horizontal*4;
 	    	if (nuevo_ancho>ancho){
 	    		volver = true;
 	    	}
 	    } else {
-	    	this->nuevo_ancho -= this->vel_horizontal*2;
+	    	this->nuevo_ancho -= this->vel_horizontal*4;
 	    	if (this->nuevo_ancho<0){
 	    		delete coord;
 	    		coord = NULL;
+	    		pego = false;
 	    	}
 	    }
 	    

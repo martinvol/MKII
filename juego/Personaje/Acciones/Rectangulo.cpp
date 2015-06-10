@@ -1,5 +1,5 @@
 #include "Rectangulo.hpp"
-#define MOSTRAR_RECTANGULOS false
+#define MOSTRAR_RECTANGULOS true
 
 using namespace std;
 
