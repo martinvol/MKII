@@ -565,7 +565,7 @@ void pelear(SDL_Event* evento){
 	}else{// si Estoy en tiempo de gracia.
 		float tiempoDeGraciaAuxiliar = SDL_GetTicks();
 		//si pasan 3 segundos, corto.
-		if (tiempoDeGraciaAuxiliar > (tiempoDeGraciaActual +3000) && !HaciendoFatality){
+		if (tiempoDeGraciaAuxiliar > (tiempoDeGraciaActual +3000) && (HaciendoFatality==false)){
 			tiempoDeGracia = false;
 			pasoEltiempoDeGracia = true;
 			
@@ -1203,8 +1203,7 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(PINIAAGACHADO);
 			personaje->PiniaBaja = false;
 		}else{			
-			personaje->activarAccion(AGACHARSE);			
-			HaciendoFatality = true;			
+			personaje->activarAccion(AGACHARSE);						
 		}
 		
 	}
