@@ -1125,10 +1125,10 @@ void ActualizarModelo(Personaje* personaje){
 			personaje->activarAccion(AGACHARSE);			
 		}
 		//+PATADA BAJA+MIRA DERECHA = TRABA
-		else if (personaje->PatadaBaja && !personaje->mirarDerecha){			
+/*		else if (personaje->PatadaBaja && !personaje->mirarDerecha){			
 			personaje->activarAccion(TRABA);
 			personaje->PatadaBaja = false;			
-		}
+		}*/
 		else if (personaje->PatadaAlta && !personaje->mirarDerecha){
 			personaje->activarAccion(ROUNDKICK);
 		//CAMINAR DERECHA
@@ -1151,11 +1151,11 @@ void ActualizarModelo(Personaje* personaje){
 			}else{				
 				personaje->activarAccion(SALTARDIAGONAL_IZQ);					
 			}
-		}		
+		/*}		
 		//+PATADA BAJA+MIRA DERECHA = TRABA
 		else if (personaje->PatadaBaja && personaje->mirarDerecha){
 			personaje->activarAccion(TRABA);
-			personaje->PatadaBaja = false;			
+			personaje->PatadaBaja = false;			*/
 		}else if (personaje->PatadaAlta && personaje->mirarDerecha){
 			personaje->activarAccion(ROUNDKICK);
 			personaje->PatadaAlta = false;			

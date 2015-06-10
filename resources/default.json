@@ -61,6 +61,10 @@
                  {
                   "convinacion":"002",
                   "nombre": "Congelar"
+                 },
+                 {
+                  "convinacion":"rl2",
+                  "nombre": "traba"
                  }
       ],
       "tiempoTotal": 100

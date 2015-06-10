@@ -616,6 +616,12 @@ void Personaje::Dibujarse(){
 				this->Arrojar(true);
 			}
 		}
+		if (tomas->at(3)){
+			if (panel->checkToma(tomas->at(3)->convinacion, tomas->at(3)->nombre)){
+				this->activarAccion(TRABA);
+				this->PatadaBaja = false;
+			}
+		}
 	}
 }
 
