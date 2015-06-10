@@ -73,6 +73,14 @@ Personaje::~Personaje(){
 	Mix_FreeChunk(this->pinia_sonido);
 }
 
+
+void Personaje::Resetear(){
+	
+	this->nroAccionActual = QUIETO;
+	this->accionActual = this->estado->	quieto;
+}
+
+//~ void Personaje::Arrojar(){
 void Personaje::congelarse(){
 	estoyCongelado  = true;
 	tiempoCongelado = SDL_GetTicks();
@@ -171,58 +179,59 @@ void Personaje::activarAccion(accion_posible accion){
 						delete siguiente;
 						siguiente = coord;
 					}
-					break;			
+					break;						
 				
-				case GANCHO:
-				case PATADAALTAAGACHADO:
-				case PATADABAJAAGACHADO:	
-				case PINIAAGACHADO:			
-					if (this->accionActual->ciclos == 1){		
-						cambiarAccionA(AGACHARSE);	
-						this->accionActual->setModoActual(this->accionActual->cantModos-1);
-					}				
-					break;
-				case CAERPORTRABA:
-					if (this->accionActual->ciclos == 1){
-						cambiarAccionA(LEVANTARSEDELATRABA);
-					}
+			
+			case GANCHO:
+			case PATADAALTAAGACHADO:
+			case PATADABAJAAGACHADO:	
+			case PINIAAGACHADO:			
+				if (this->accionActual->ciclos == 1){		
+					cambiarAccionA(AGACHARSE);	
+					this->accionActual->setModoActual(this->accionActual->cantModos-1);
+				}				
 				break;
-				case RECIBIRGOLPEALTO: ///		
-				case RECIBIRGOLPEBAJO:
-				case RECIBIRGOLPEAGACHADO:
-				case PATADAALTA:
-				case PATADABAJA:
-				case ARROJARARMA:
-				case PINIABAJA:
-				//~ case PINIAAGACHADO:
-				case PINIAALTA:			
-				case TRABA:
-				case ROUNDKICK:
-				case LEVANTARSEDELGANCHO:
-				case LEVANTARSEDELATRABA:				
-					if (this->accionActual->ciclos == 1){
-						cambiarAccionA(QUIETO);
-					}
-				break;			
-				case GANAR:
-				case MORIR:
-				case DIZZY:
-				case DESAPARECER:				
-					break;
-				case PARARSE:				
-					if(this->accionActual->modoActual == 0){
-						cambiarAccionA(QUIETO);	
-					}
+			case CAERPORTRABA:
+				if (this->accionActual->ciclos == 1){
+					cambiarAccionA(LEVANTARSEDELATRABA);
+				}
+			break;
+			case RECIBIRGOLPEALTO: ///		
+			case RECIBIRGOLPEBAJO:
+			case RECIBIRGOLPEAGACHADO:
+			case PATADAALTA:
+			case PATADABAJA:
+			case ARROJARARMA:
+			case PINIABAJA:
+			//~ case PINIAAGACHADO:
+			case PINIAALTA:			
+			case TRABA:
+			case ROUNDKICK:
+			case LEVANTARSEDELGANCHO:
+			case LEVANTARSEDELATRABA:				
+				if (this->accionActual->ciclos == 1){
+					cambiarAccionA(QUIETO);
+				}
+			break;		
+			case GANAR:
+			case MORIR:
+			case DIZZY:
+			case DESAPARECER:				
 				break;
-				case AGACHARSE:	
-					if(accion == PINIAAGACHADO){
-						cambiarAccionA(PINIAAGACHADO);
-					}
-																
-				case CUBRIRBAJO:
-					break;	
-				default:
-					break;
+			case PARARSE:				
+				if(this->accionActual->modoActual == 0){
+					cambiarAccionA(QUIETO);	
+				}
+			break;
+			case AGACHARSE:	
+				if(accion == PINIAAGACHADO){
+					cambiarAccionA(PINIAAGACHADO);
+				}
+															
+			case CUBRIRBAJO:
+				break;	
+			default:
+				break;
 			}
 		}
 
@@ -607,6 +616,12 @@ void Personaje::Dibujarse(){
 				this->Arrojar(true);
 			}
 		}
+		if (tomas->at(3)){
+			if (panel->checkToma(tomas->at(3)->convinacion, tomas->at(3)->nombre)){
+				this->activarAccion(TRABA);
+				this->PatadaBaja = false;
+			}
+		}
 	}
 }
 
@@ -637,8 +652,10 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 				/* Left-right movement code goes here */
 				int x_Joystick = evento->jaxis.value;
 				if( x_Joystick < -JOYSTICK_DEAD_ZONE ){		//  x = -1;		
+					panel->AgregarBotones('l');
 					Izquierda = true;		
 				}else if( x_Joystick > JOYSTICK_DEAD_ZONE ){//  x =  1;		
+					panel->AgregarBotones('r');
 					Derecha = true;			
 				}else{	//  x = 0;				
 					Izquierda = false;
@@ -649,9 +666,11 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 			if( evento->jaxis.axis == 1){
 				int y_Joystick = evento->jaxis.value;
             /* Up-Down movement code goes here */
-				if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;		
+				if( y_Joystick < -JOYSTICK_DEAD_ZONE ){ //  y = -1;
+					panel->AgregarBotones('u');
 					Arriba = true;		
-				}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;		
+				}else if( y_Joystick > JOYSTICK_DEAD_ZONE ){ //y =  1;
+					panel->AgregarBotones('d');
 					Abajo = true;		
 				}else{ //yDir = 0;		
 					Arriba = false;
@@ -695,7 +714,7 @@ void Personaje::dibujar_botones(Parser* conf, bool debo_dibujar){
 
 			}
 			if (panel){
-				panel->AgregarBotones(i);
+				panel->AgregarBotones(i + '0');
 			}
 			break;
 		case SDL_JOYBUTTONUP:
