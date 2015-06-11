@@ -66,8 +66,12 @@ ControladorGrilla(Grilla* menu, int joystickEsc){
 bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTextBox* cont2){
 	
 	SDL_JoystickID numeroJoystick = (evento->jdevice.which);
+//	if (numeroJoystick != 0 && numeroJoystick != 1) return true; ///
 	int jugador = int(numeroJoystick) % 2;
+	//int jugador =3;
 	while(SDL_PollEvent(evento)) {
+	jugador = (evento->jdevice.which);
+		
 		if (cont1 != NULL) cont1->procesarEvento(evento);
 		if (cont2 != NULL) cont2->procesarEvento(evento);
 		switch (evento->type){
@@ -101,7 +105,7 @@ bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTex
 					abajo = true;
 				}
 				if (evento->key.keysym.sym == SDLK_RETURN){
-					enter = true;
+					menu->seleccionarOpcion(jugador);
 				}
 				break;
 			case SDL_KEYUP:
@@ -117,7 +121,7 @@ bool procesarEvento(SDL_Event* evento, ControladorTextBox* cont1, ControladorTex
 				break;
 			case SDL_JOYBUTTONDOWN:
 				if (evento->jbutton.button == 0){
-					enter = true;
+					menu->seleccionarOpcion(jugador);
 				}
 				if ((evento->jdevice.which == 0) && (evento->jbutton.button == joystickEsc)){
 					return true;

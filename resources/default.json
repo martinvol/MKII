@@ -29,7 +29,7 @@
       },
       {
          "imagen_fondo":"resources/background/p_1.png",
-         // "imagen_fondo":"resources/background/rp.jpg",
+         //"imagen_fondo":"resources/background/rp.jpg",
          "anchoLogico":1216
       }
    ],
@@ -49,7 +49,7 @@
       "offset": 40,
       "tiempo_max_boton": 5, // en segundos
       "maximos_botones": 9,
-      "errores_maximo": 1,
+      "errores_maximo": 0,
       "tomas": [
                  {
                   "combinacion":"123",
